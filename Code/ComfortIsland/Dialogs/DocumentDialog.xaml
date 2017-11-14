@@ -15,16 +15,16 @@
 			<ColumnDefinition Width="200" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
-		<TextBlock Grid.Row="0" Grid.Column="0" Text="Код" />
-		<TextBlock Grid.Row="1" Grid.Column="0" Text="Наименование" />
-		<TextBlock Grid.Row="2" Grid.Column="0" Text="Ед. изм." />
-		<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Path=Code, Mode=TwoWay}" />
-		<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Path=Name, Mode=TwoWay}" />
-		<ComboBox Grid.Row="2" Grid.Column="1" Margin="2" SelectedValue="{Binding Path=UnitID, Mode=TwoWay}" IsEditable="True" Name="comboBoxUnit" DisplayMemberPath="Name" SelectedValuePath="ID" />
-		<GroupBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="2" Header="Части:">
-			<DataGrid IsReadOnly="False" AutoGenerateColumns="False" ItemsSource="{Binding Path=BindingChildren, Mode=OneTime}">
+		<TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="5,0,5,0" Text="Номер" />
+		<TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="5,0,5,0" Text="Дата" />
+		<TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="5,0,5,0" Text="Тип документа" />
+		<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Path=Number, Mode=TwoWay}" />
+		<DatePicker Grid.Row="1" Grid.Column="1" Margin="2" SelectedDate="{Binding Path=Date, Mode=TwoWay}" />
+		<TextBox Grid.Row="2" Grid.Column="1" Margin="2" Text="{Binding Path=TypeName, Mode=OneWay}" IsReadOnly="True" />
+		<GroupBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="2" Header="Товары:">
+			<DataGrid IsReadOnly="False" AutoGenerateColumns="False" ItemsSource="{Binding Path=BindingPositions, Mode=OneTime}">
 				<DataGrid.Columns>
-					<DataGridComboBoxColumn Header="Товар" SelectedValueBinding="{Binding Path=Id, Mode=TwoWay}" MinWidth="100" DisplayMemberPath="DisplayMember" SelectedValuePath="ID" x:Name="comboBoxProducts" />
+					<DataGridComboBoxColumn Header="Товар" SelectedValueBinding="{Binding Path=ProductId, Mode=TwoWay}" MinWidth="200" DisplayMemberPath="DisplayMember" SelectedValuePath="ID" x:Name="comboBoxProducts" />
 					<DataGridTextColumn Header="Количество" Binding="{Binding Path=Count, Mode=TwoWay}" MinWidth="50"/>
 				</DataGrid.Columns>
 			</DataGrid>

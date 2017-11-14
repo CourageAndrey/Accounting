@@ -19,14 +19,13 @@ using System.Xml.Serialization;
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
 
-[assembly: EdmRelationshipAttribute("ComfortIslandModel", "FK_Balance_Price", "Price", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ComfortIsland.Database.Price), "Balance", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ComfortIsland.Database.Balance), true)]
 [assembly: EdmRelationshipAttribute("ComfortIslandModel", "FK_Document_DocumentType", "DocumentType", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ComfortIsland.Database.DocumentType), "Document", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ComfortIsland.Database.Document), true)]
 [assembly: EdmRelationshipAttribute("ComfortIslandModel", "FK_Position_Document", "Document", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ComfortIsland.Database.Document), "Position", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ComfortIsland.Database.Position), true)]
 [assembly: EdmRelationshipAttribute("ComfortIslandModel", "FK_IsPartOf_Product", "Product", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ComfortIsland.Database.Product), "IsPartOf", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ComfortIsland.Database.IsPartOf), true)]
 [assembly: EdmRelationshipAttribute("ComfortIslandModel", "FK_IsPartOf_Product1", "Product", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ComfortIsland.Database.Product), "IsPartOf", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ComfortIsland.Database.IsPartOf), true)]
-[assembly: EdmRelationshipAttribute("ComfortIslandModel", "FK_Position_Price", "Price", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ComfortIsland.Database.Price), "Position", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ComfortIsland.Database.Position), true)]
-[assembly: EdmRelationshipAttribute("ComfortIslandModel", "FK_Price_Product", "Product", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ComfortIsland.Database.Product), "Price", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ComfortIsland.Database.Price), true)]
 [assembly: EdmRelationshipAttribute("ComfortIslandModel", "FK_Product_Unit", "Unit", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ComfortIsland.Database.Unit), "Product", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ComfortIsland.Database.Product), true)]
+[assembly: EdmRelationshipAttribute("ComfortIslandModel", "FK_Balance_Product", "Product", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ComfortIsland.Database.Product), "Balance", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ComfortIsland.Database.Balance), true)]
+[assembly: EdmRelationshipAttribute("ComfortIslandModel", "FK_Position_Product", "Product", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ComfortIsland.Database.Product), "Position", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ComfortIsland.Database.Position), true)]
 
 #endregion
 
@@ -161,22 +160,6 @@ namespace ComfortIsland.Database
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<Price> Price
-        {
-            get
-            {
-                if ((_Price == null))
-                {
-                    _Price = base.CreateObjectSet<Price>("Price");
-                }
-                return _Price;
-            }
-        }
-        private ObjectSet<Price> _Price;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         public ObjectSet<Product> Product
         {
             get
@@ -251,14 +234,6 @@ namespace ComfortIsland.Database
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the Price EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToPrice(Price price)
-        {
-            base.AddObject("Price", price);
-        }
-    
-        /// <summary>
         /// Deprecated Method for adding a new object to the Product EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
         public void AddToProduct(Product product)
@@ -295,46 +270,19 @@ namespace ComfortIsland.Database
         /// <summary>
         /// Create a new Balance object.
         /// </summary>
-        /// <param name="priceID">Initial value of the PriceID property.</param>
         /// <param name="count">Initial value of the Count property.</param>
-        public static Balance CreateBalance(global::System.Int64 priceID, global::System.Int64 count)
+        /// <param name="productID">Initial value of the ProductID property.</param>
+        public static Balance CreateBalance(global::System.Int64 count, global::System.Int64 productID)
         {
             Balance balance = new Balance();
-            balance.PriceID = priceID;
             balance.Count = count;
+            balance.ProductID = productID;
             return balance;
         }
 
         #endregion
 
         #region Simple Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int64 PriceID
-        {
-            get
-            {
-                return _PriceID;
-            }
-            set
-            {
-                if (_PriceID != value)
-                {
-                    OnPriceIDChanging(value);
-                    ReportPropertyChanging("PriceID");
-                    _PriceID = StructuralObject.SetValidValue(value, "PriceID");
-                    ReportPropertyChanged("PriceID");
-                    OnPriceIDChanged();
-                }
-            }
-        }
-        private global::System.Int64 _PriceID;
-        partial void OnPriceIDChanging(global::System.Int64 value);
-        partial void OnPriceIDChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -359,6 +307,33 @@ namespace ComfortIsland.Database
         private global::System.Int64 _Count;
         partial void OnCountChanging(global::System.Int64 value);
         partial void OnCountChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int64 ProductID
+        {
+            get
+            {
+                return _ProductID;
+            }
+            set
+            {
+                if (_ProductID != value)
+                {
+                    OnProductIDChanging(value);
+                    ReportPropertyChanging("ProductID");
+                    _ProductID = StructuralObject.SetValidValue(value, "ProductID");
+                    ReportPropertyChanged("ProductID");
+                    OnProductIDChanged();
+                }
+            }
+        }
+        private global::System.Int64 _ProductID;
+        partial void OnProductIDChanging(global::System.Int64 value);
+        partial void OnProductIDChanged();
 
         #endregion
 
@@ -370,16 +345,16 @@ namespace ComfortIsland.Database
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("ComfortIslandModel", "FK_Balance_Price", "Price")]
-        public Price Price
+        [EdmRelationshipNavigationPropertyAttribute("ComfortIslandModel", "FK_Balance_Product", "Product")]
+        public Product Product
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Price>("ComfortIslandModel.FK_Balance_Price", "Price").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Product>("ComfortIslandModel.FK_Balance_Product", "Product").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Price>("ComfortIslandModel.FK_Balance_Price", "Price").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Product>("ComfortIslandModel.FK_Balance_Product", "Product").Value = value;
             }
         }
         /// <summary>
@@ -387,17 +362,17 @@ namespace ComfortIsland.Database
         /// </summary>
         [BrowsableAttribute(false)]
         [DataMemberAttribute()]
-        public EntityReference<Price> PriceReference
+        public EntityReference<Product> ProductReference
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Price>("ComfortIslandModel.FK_Balance_Price", "Price");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Product>("ComfortIslandModel.FK_Balance_Product", "Product");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Price>("ComfortIslandModel.FK_Balance_Price", "Price", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Product>("ComfortIslandModel.FK_Balance_Product", "Product", value);
                 }
             }
         }
@@ -885,14 +860,14 @@ namespace ComfortIsland.Database
         /// Create a new Position object.
         /// </summary>
         /// <param name="documentID">Initial value of the DocumentID property.</param>
-        /// <param name="priceID">Initial value of the PriceID property.</param>
         /// <param name="count">Initial value of the Count property.</param>
-        public static Position CreatePosition(global::System.Int64 documentID, global::System.Int64 priceID, global::System.Int64 count)
+        /// <param name="productID">Initial value of the ProductID property.</param>
+        public static Position CreatePosition(global::System.Int64 documentID, global::System.Int64 count, global::System.Int64 productID)
         {
             Position position = new Position();
             position.DocumentID = documentID;
-            position.PriceID = priceID;
             position.Count = count;
+            position.ProductID = productID;
             return position;
         }
 
@@ -930,33 +905,6 @@ namespace ComfortIsland.Database
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int64 PriceID
-        {
-            get
-            {
-                return _PriceID;
-            }
-            set
-            {
-                if (_PriceID != value)
-                {
-                    OnPriceIDChanging(value);
-                    ReportPropertyChanging("PriceID");
-                    _PriceID = StructuralObject.SetValidValue(value, "PriceID");
-                    ReportPropertyChanged("PriceID");
-                    OnPriceIDChanged();
-                }
-            }
-        }
-        private global::System.Int64 _PriceID;
-        partial void OnPriceIDChanging(global::System.Int64 value);
-        partial void OnPriceIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.Int64 Count
@@ -977,6 +925,33 @@ namespace ComfortIsland.Database
         private global::System.Int64 _Count;
         partial void OnCountChanging(global::System.Int64 value);
         partial void OnCountChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int64 ProductID
+        {
+            get
+            {
+                return _ProductID;
+            }
+            set
+            {
+                if (_ProductID != value)
+                {
+                    OnProductIDChanging(value);
+                    ReportPropertyChanging("ProductID");
+                    _ProductID = StructuralObject.SetValidValue(value, "ProductID");
+                    ReportPropertyChanged("ProductID");
+                    OnProductIDChanged();
+                }
+            }
+        }
+        private global::System.Int64 _ProductID;
+        partial void OnProductIDChanging(global::System.Int64 value);
+        partial void OnProductIDChanged();
 
         #endregion
 
@@ -1026,204 +1001,16 @@ namespace ComfortIsland.Database
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("ComfortIslandModel", "FK_Position_Price", "Price")]
-        public Price Price
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Price>("ComfortIslandModel.FK_Position_Price", "Price").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Price>("ComfortIslandModel.FK_Position_Price", "Price").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Price> PriceReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Price>("ComfortIslandModel.FK_Position_Price", "Price");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Price>("ComfortIslandModel.FK_Position_Price", "Price", value);
-                }
-            }
-        }
-
-        #endregion
-
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="ComfortIslandModel", Name="Price")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class Price : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new Price object.
-        /// </summary>
-        /// <param name="id">Initial value of the ID property.</param>
-        /// <param name="productID">Initial value of the ProductID property.</param>
-        /// <param name="value">Initial value of the Value property.</param>
-        public static Price CreatePrice(global::System.Int64 id, global::System.Int64 productID, global::System.Decimal value)
-        {
-            Price price = new Price();
-            price.ID = id;
-            price.ProductID = productID;
-            price.Value = value;
-            return price;
-        }
-
-        #endregion
-
-        #region Simple Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int64 ID
-        {
-            get
-            {
-                return _ID;
-            }
-            set
-            {
-                if (_ID != value)
-                {
-                    OnIDChanging(value);
-                    ReportPropertyChanging("ID");
-                    _ID = StructuralObject.SetValidValue(value, "ID");
-                    ReportPropertyChanged("ID");
-                    OnIDChanged();
-                }
-            }
-        }
-        private global::System.Int64 _ID;
-        partial void OnIDChanging(global::System.Int64 value);
-        partial void OnIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int64 ProductID
-        {
-            get
-            {
-                return _ProductID;
-            }
-            set
-            {
-                OnProductIDChanging(value);
-                ReportPropertyChanging("ProductID");
-                _ProductID = StructuralObject.SetValidValue(value, "ProductID");
-                ReportPropertyChanged("ProductID");
-                OnProductIDChanged();
-            }
-        }
-        private global::System.Int64 _ProductID;
-        partial void OnProductIDChanging(global::System.Int64 value);
-        partial void OnProductIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Decimal Value
-        {
-            get
-            {
-                return _Value;
-            }
-            set
-            {
-                OnValueChanging(value);
-                ReportPropertyChanging("Value");
-                _Value = StructuralObject.SetValidValue(value, "Value");
-                ReportPropertyChanged("Value");
-                OnValueChanged();
-            }
-        }
-        private global::System.Decimal _Value;
-        partial void OnValueChanging(global::System.Decimal value);
-        partial void OnValueChanged();
-
-        #endregion
-
-        #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("ComfortIslandModel", "FK_Balance_Price", "Balance")]
-        public Balance Balance
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Balance>("ComfortIslandModel.FK_Balance_Price", "Balance").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Balance>("ComfortIslandModel.FK_Balance_Price", "Balance").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Balance> BalanceReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Balance>("ComfortIslandModel.FK_Balance_Price", "Balance");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Balance>("ComfortIslandModel.FK_Balance_Price", "Balance", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("ComfortIslandModel", "FK_Price_Product", "Product")]
+        [EdmRelationshipNavigationPropertyAttribute("ComfortIslandModel", "FK_Position_Product", "Product")]
         public Product Product
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Product>("ComfortIslandModel.FK_Price_Product", "Product").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Product>("ComfortIslandModel.FK_Position_Product", "Product").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Product>("ComfortIslandModel.FK_Price_Product", "Product").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Product>("ComfortIslandModel.FK_Position_Product", "Product").Value = value;
             }
         }
         /// <summary>
@@ -1235,13 +1022,13 @@ namespace ComfortIsland.Database
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Product>("ComfortIslandModel.FK_Price_Product", "Product");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Product>("ComfortIslandModel.FK_Position_Product", "Product");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Product>("ComfortIslandModel.FK_Price_Product", "Product", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Product>("ComfortIslandModel.FK_Position_Product", "Product", value);
                 }
             }
         }
@@ -1432,28 +1219,6 @@ namespace ComfortIsland.Database
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("ComfortIslandModel", "FK_Price_Product", "Price")]
-        public EntityCollection<Price> Prices
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Price>("ComfortIslandModel.FK_Price_Product", "Price");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Price>("ComfortIslandModel.FK_Price_Product", "Price", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("ComfortIslandModel", "FK_Product_Unit", "Unit")]
         public Unit Unit
         {
@@ -1482,6 +1247,66 @@ namespace ComfortIsland.Database
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Unit>("ComfortIslandModel.FK_Product_Unit", "Unit", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ComfortIslandModel", "FK_Balance_Product", "Balance")]
+        public Balance Balance
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Balance>("ComfortIslandModel.FK_Balance_Product", "Balance").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Balance>("ComfortIslandModel.FK_Balance_Product", "Balance").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Balance> BalanceReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Balance>("ComfortIslandModel.FK_Balance_Product", "Balance");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Balance>("ComfortIslandModel.FK_Balance_Product", "Balance", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ComfortIslandModel", "FK_Position_Product", "Position")]
+        public EntityCollection<Position> Position
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Position>("ComfortIslandModel.FK_Position_Product", "Position");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Position>("ComfortIslandModel.FK_Position_Product", "Position", value);
                 }
             }
         }

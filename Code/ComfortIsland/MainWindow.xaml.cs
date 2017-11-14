@@ -25,16 +25,14 @@ namespace ComfortIsland
 				// документы
 				documentsGrid.ItemsSource = database.Document.Execute(MergeOption.NoTracking).Select(d => d.PrepareToDisplay(database));
 				// остатки
-				balanceGrid.ItemsSource = database.Balance.Execute(MergeOption.NoTracking);
+				balanceGrid.ItemsSource = database.Balance.Execute(MergeOption.NoTracking).Select(b => b.PrepareToDisplay(database));
 				// справочники
 				productsGrid.ItemsSource = database.Product.Execute(MergeOption.NoTracking).Select(p => p.PrepareToDisplay(database));
-				pricesGrid.ItemsSource = database.Price.Execute(MergeOption.NoTracking).Select(p => p.PrepareToDisplay(database));
 				unitsGrid.ItemsSource = database.Unit.Execute(MergeOption.NoTracking).Select(u => u.PrepareToDisplay(database));
 				documentTypesGrid.ItemsSource = database.DocumentType.Execute(MergeOption.NoTracking);
 			}
 
 			updateButtonsAvailability(productsGrid, buttonEditProduct, buttonDeleteProduct);
-			updateButtonsAvailability(pricesGrid, buttonEditPrice, buttonDeletePrice);
 			updateButtonsAvailability(unitsGrid, buttonEditUnit, buttonDeleteUnit);
 		}
 
@@ -44,22 +42,74 @@ namespace ComfortIsland
 
 		private void incomeClick(object sender, RoutedEventArgs e)
 		{
-			addItem<Document, DocumentDialog>(
-				documentsGrid,
-				database => database.Document,
-				(table, item) => item.ID = table.Execute(MergeOption.NoTracking).Count() + 1,
-				(database, item) => database.AddToDocument(item),
-				() => new Document { DocumentTypeEnum = DocumentTypeEnum.Income });
+			createDocument(DocumentTypeEnum.Income, (database, document) =>
+			{
+				foreach (var position in document.BindingPositions)
+				{
+					position.IncreaseBalance(database);
+				}
+				return true;
+			});
 		}
 
 		private void outcomeClick(object sender, RoutedEventArgs e)
+		{
+			createDocument(DocumentTypeEnum.Outcome, (database, document) =>
+			{
+				foreach (var position in document.BindingPositions)
+				{
+					position.DecreaseBalance(database);
+				}
+				return true;
+			});
+		}
+
+		private void produceClick(object sender, RoutedEventArgs e)
+		{
+			createDocument(DocumentTypeEnum.Produce, (database, document) =>
+			{
+				foreach (var position in document.BindingPositions)
+				{
+					position.IncreaseBalance(database);
+					var product = database.Product.Execute(MergeOption.NoTracking).First(p => p.ID == position.ProductId);
+					if (!product.Children.IsLoaded)
+					{
+						product.Children.Load(MergeOption.NoTracking);
+					}
+					foreach (var child in product.Children)
+					{
+						new DocumentPosition
+						{
+							ProductId = child.ChildID,
+							Count = position.Count * child.Count,
+						}.DecreaseBalance(database);
+					}
+				}
+				return true;
+			});
+		}
+
+		private void createDocument(DocumentTypeEnum type, Func<ComfortIslandDatabase, Document, bool> processFunction)
 		{
 			addItem<Document, DocumentDialog>(
 				documentsGrid,
 				database => database.Document,
 				(table, item) => item.ID = table.Execute(MergeOption.NoTracking).Count() + 1,
-				(database, item) => database.AddToDocument(item),
-				() => new Document { DocumentTypeEnum = DocumentTypeEnum.Outcome });
+				(database, item) =>
+				{
+					database.AddToDocument(item);
+					return processFunction(database, item);
+				},
+				database => new Document
+				{
+					Date = DateTime.Now,
+					DocumentTypeEnum = type,
+					TypeName = database.DocumentType.Execute(MergeOption.NoTracking).First(t => t.ID == (short) type).Name,
+				},
+				(database, document) =>
+				{
+					balanceGrid.ItemsSource = database.Balance.Execute(MergeOption.NoTracking).Select(b => b.PrepareToDisplay(database));
+				});
 		}
 
 		#endregion
@@ -74,7 +124,11 @@ namespace ComfortIsland
 				productsGrid,
 				database => database.Product,
 				(table, item) => item.ID = table.Execute(MergeOption.NoTracking).Count() + 1,
-				(database, item) => database.AddToProduct(item));
+				(database, item) =>
+				{
+					database.AddToProduct(item);
+					return true;
+				});
 		}
 
 		private void productEditClick(object sender, RoutedEventArgs e)
@@ -94,34 +148,6 @@ namespace ComfortIsland
 
 		#endregion
 
-		#region Цены
-
-		private void priceAddClick(object sender, RoutedEventArgs e)
-		{
-			addItem<Price, PriceDialog>(
-				pricesGrid,
-				database => database.Price,
-				(table, item) => item.ID = table.Execute(MergeOption.NoTracking).Count() + 1,
-				(database, item) => database.AddToPrice(item));
-		}
-
-		private void priceEditClick(object sender, RoutedEventArgs e)
-		{
-			editItem<Price, PriceDialog>(pricesGrid, database => database.Price, (table, item) => table.FirstOrDefault(o => o.ID == item.ID));
-		}
-
-		private void priceDeleteClick(object sender, RoutedEventArgs e)
-		{
-			deleteItem(pricesGrid, database => database.Price, (table, item) => table.FirstOrDefault(o => o.ID == item.ID));
-		}
-
-		private void selectedPricesChanged(object sender, SelectionChangedEventArgs e)
-		{
-			updateButtonsAvailability(pricesGrid, buttonEditPrice, buttonDeletePrice);
-		}
-
-		#endregion
-
 		#region Единицы измерения
 
 		private void unitAddClick(object sender, RoutedEventArgs e)
@@ -130,7 +156,11 @@ namespace ComfortIsland
 				unitsGrid,
 				database => database.Unit,
 				(table, item) => item.ID = (short)(table.Execute(MergeOption.NoTracking).Count() + 1),
-				(database, item) => database.AddToUnit(item));
+				(database, item) =>
+				{
+					database.AddToUnit(item);
+					return true;
+				});
 		}
 
 		private void unitEditClick(object sender, RoutedEventArgs e)
@@ -158,16 +188,17 @@ namespace ComfortIsland
 			DataGrid grid,
 			Func<ComfortIslandDatabase, ObjectSet<ItemT>> tableSelector,
 			Action<ObjectSet<ItemT>, ItemT> updateIdMethod,
-			Action<ComfortIslandDatabase, ItemT> addMethod,
-			Func<ItemT> createItem = null)
+			Func<ComfortIslandDatabase, ItemT, bool> addMethod,
+			Func<ComfortIslandDatabase, ItemT> createItem = null,
+			Action<ComfortIslandDatabase, ItemT> performAfterUpdate = null)
 			where ItemT : class, IEditable<ItemT>, new()
 			where DialogT : Window, IEditDialog<ItemT>, new()
 		{
-			var newItem = createItem != null
-				? createItem()
-				: new ItemT();
 			using (var database = new ComfortIslandDatabase())
 			{
+				var newItem = createItem != null
+					? createItem(database)
+					: new ItemT();
 				var dialog = new DialogT();
 				dialog.Initialize(database);
 				dialog.EditValue = newItem;
@@ -178,9 +209,15 @@ namespace ComfortIsland
 						var table = tableSelector(database);
 						updateIdMethod(table, newItem);
 						newItem.PrepareToSave(database);
-						addMethod(database, newItem);
-						database.SaveChanges();
-						grid.ItemsSource = table.Execute(MergeOption.NoTracking).Select(p => p.PrepareToDisplay(database));
+						if (addMethod(database, newItem))
+						{
+							database.SaveChanges();
+							grid.ItemsSource = table.Execute(MergeOption.NoTracking).Select(p => p.PrepareToDisplay(database));
+						}
+						if (performAfterUpdate != null)
+						{
+							performAfterUpdate(database, newItem);
+						}
 					}
 					catch (Exception error)
 					{

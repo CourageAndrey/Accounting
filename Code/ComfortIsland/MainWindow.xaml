@@ -7,8 +7,9 @@
 		<TabItem Header="Документы" Height="24" VerticalAlignment="Top">
 			<DockPanel LastChildFill="True">
 				<StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
-					<Button Content="Новый приход" Margin="5" Padding="5,2,5,2" Click="incomeClick" />
-					<Button Content="Новый расход" Margin="5" Padding="5,2,5,2" Click="outcomeClick" />
+					<Button Content="Приход на склад" Margin="5" Padding="5,2,5,2" Click="incomeClick" />
+					<Button Content="Продажа со склада" Margin="5" Padding="5,2,5,2" Click="outcomeClick" />
+					<Button Content="Производство" Margin="5" Padding="5,2,5,2" Click="produceClick" />
 				</StackPanel>
 				<DataGrid Name="documentsGrid" IsReadOnly="True" AutoGenerateColumns="False">
 					<DataGrid.Columns>
@@ -22,9 +23,10 @@
 		<TabItem Header="Складские остатки">
 			<DataGrid Name="balanceGrid" IsReadOnly="True" AutoGenerateColumns="False">
 				<DataGrid.Columns>
-					<DataGridTextColumn Header="Товар" Binding="{Binding Path=Price.Product.Name, Mode=OneTime}" MinWidth="300"/>
-					<DataGridTextColumn Header="Ед/изм" Binding="{Binding Path=Price.Product.Unit.ShortName, Mode=OneTime}" MinWidth="50"/>
-					<DataGridTextColumn Header="Цена" Binding="{Binding Path=Price.Value, Mode=OneTime}" MinWidth="100"/>
+					<DataGridTextColumn Header="Код" Binding="{Binding Path=ProductCode, Mode=OneTime}" MinWidth="100"/>
+					<DataGridTextColumn Header="Товар" Binding="{Binding Path=ProductName, Mode=OneTime}" MinWidth="300"/>
+					<DataGridTextColumn Header="Ед/изм" Binding="{Binding Path=ProductUnit, Mode=OneTime}" MinWidth="50"/>
+					<DataGridTextColumn Header="Цена" Binding="{Binding Path=PriceValue, Mode=OneTime}" MinWidth="100"/>
 					<DataGridTextColumn Header="Остатки" Binding="{Binding Path=Count, Mode=OneTime}" MinWidth="100"/>
 				</DataGrid.Columns>
 			</DataGrid>
@@ -43,23 +45,6 @@
 								<DataGridTextColumn Header="Код" Binding="{Binding Path=Code, Mode=OneTime}" MinWidth="100"/>
 								<DataGridTextColumn Header="Наименование" Binding="{Binding Path=Name, Mode=OneTime}" MinWidth="300"/>
 								<DataGridTextColumn Header="Ед/изм" Binding="{Binding Path=UnitName, Mode=OneTime}" MinWidth="50"/>
-							</DataGrid.Columns>
-						</DataGrid>
-					</DockPanel>
-				</TabItem>
-				<TabItem Header="Цены">
-					<DockPanel LastChildFill="True">
-						<StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
-							<Button Content="Добавить" Name="buttonAddPrice" Margin="5" Padding="5,2,5,2" Click="priceAddClick" />
-							<Button Content="Редактировать" Name="buttonEditPrice" Margin="5" Padding="5,2,5,2" Click="priceEditClick" />
-							<Button Content="Удалить" Name="buttonDeletePrice" Margin="5" Padding="5,2,5,2" Click="priceDeleteClick" />
-						</StackPanel>
-						<DataGrid Name="pricesGrid" IsReadOnly="True" AutoGenerateColumns="False" SelectionChanged="selectedPricesChanged">
-							<DataGrid.Columns>
-								<DataGridTextColumn Header="Код" Binding="{Binding Path=ProductCode, Mode=OneTime}" MinWidth="100"/>
-								<DataGridTextColumn Header="Товар" Binding="{Binding Path=ProductName, Mode=OneTime}" MinWidth="300"/>
-								<DataGridTextColumn Header="Ед/изм" Binding="{Binding Path=ProductUnit, Mode=OneTime}" MinWidth="50"/>
-								<DataGridTextColumn Header="Цена" Binding="{Binding Path=Value, Mode=OneTime}" MinWidth="100"/>
 							</DataGrid.Columns>
 						</DataGrid>
 					</DockPanel>

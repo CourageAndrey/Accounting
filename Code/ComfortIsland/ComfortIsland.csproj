@@ -65,10 +65,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dialogs\PriceDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Dialogs\ProductDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -85,6 +81,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Database\Balance.cs" />
     <Compile Include="Database\Database.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -92,15 +89,11 @@
     </Compile>
     <Compile Include="Database\Document.cs" />
     <Compile Include="Database\DocumentTypeEnum.cs" />
-    <Compile Include="Database\Price.cs" />
     <Compile Include="Database\Product.cs" />
     <Compile Include="Database\Unit.cs" />
     <Compile Include="Database\UnitEnum.cs" />
     <Compile Include="Dialogs\DocumentDialog.xaml.cs">
       <DependentUpon>DocumentDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\PriceDialog.xaml.cs">
-      <DependentUpon>PriceDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\ProductDialog.xaml.cs">
       <DependentUpon>ProductDialog.xaml</DependentUpon>

@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Data.Objects;
+using System.Linq;
+using System.Text;
 using System.Windows;
 
 using ComfortIsland.Database;
@@ -17,6 +19,7 @@ namespace ComfortIsland.Dialogs
 		public void Initialize(ComfortIslandDatabase database)
 		{
 			this.database = database;
+			comboBoxProducts.ItemsSource = database.Product.Execute(MergeOption.NoTracking).Select(u => u.PrepareToDisplay(database));
 		}
 
 		public Document EditValue
