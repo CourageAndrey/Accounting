@@ -1,0 +1,533 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ComfortIslandModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="ComfortIslandModelStoreContainer">
+          <EntitySet Name="Balance" EntityType="ComfortIslandModel.Store.Balance" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Document" EntityType="ComfortIslandModel.Store.Document" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="DocumentType" EntityType="ComfortIslandModel.Store.DocumentType" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="IsPartOf" EntityType="ComfortIslandModel.Store.IsPartOf" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Position" EntityType="ComfortIslandModel.Store.Position" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Price" EntityType="ComfortIslandModel.Store.Price" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Product" EntityType="ComfortIslandModel.Store.Product" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Unit" EntityType="ComfortIslandModel.Store.Unit" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Balance_Price" Association="ComfortIslandModel.Store.FK_Balance_Price">
+            <End Role="Price" EntitySet="Price" />
+            <End Role="Balance" EntitySet="Balance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Document_DocumentType" Association="ComfortIslandModel.Store.FK_Document_DocumentType">
+            <End Role="DocumentType" EntitySet="DocumentType" />
+            <End Role="Document" EntitySet="Document" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IsPartOf_Product" Association="ComfortIslandModel.Store.FK_IsPartOf_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="IsPartOf" EntitySet="IsPartOf" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IsPartOf_Product1" Association="ComfortIslandModel.Store.FK_IsPartOf_Product1">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="IsPartOf" EntitySet="IsPartOf" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Position_Document" Association="ComfortIslandModel.Store.FK_Position_Document">
+            <End Role="Document" EntitySet="Document" />
+            <End Role="Position" EntitySet="Position" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Position_Price" Association="ComfortIslandModel.Store.FK_Position_Price">
+            <End Role="Price" EntitySet="Price" />
+            <End Role="Position" EntitySet="Position" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Price_Product" Association="ComfortIslandModel.Store.FK_Price_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Price" EntitySet="Price" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Unit" Association="ComfortIslandModel.Store.FK_Product_Unit">
+            <End Role="Unit" EntitySet="Unit" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Balance">
+          <Key>
+            <PropertyRef Name="PriceID" />
+          </Key>
+          <Property Name="PriceID" Type="bigint" Nullable="false" />
+          <Property Name="Count" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Document">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" />
+          <Property Name="Number" Type="nvarchar" MaxLength="64" />
+          <Property Name="Date" Type="datetime" />
+          <Property Name="TypeID" Type="smallint" />
+        </EntityType>
+        <EntityType Name="DocumentType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="smallint" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="64" />
+        </EntityType>
+        <EntityType Name="IsPartOf">
+          <Key>
+            <PropertyRef Name="ParentID" />
+            <PropertyRef Name="ChildID" />
+          </Key>
+          <Property Name="ParentID" Type="bigint" Nullable="false" />
+          <Property Name="ChildID" Type="bigint" Nullable="false" />
+          <Property Name="Count" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="DocumentID" />
+            <PropertyRef Name="PriceID" />
+          </Key>
+          <Property Name="DocumentID" Type="bigint" Nullable="false" />
+          <Property Name="PriceID" Type="bigint" Nullable="false" />
+          <Property Name="Count" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Price">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" />
+          <Property Name="ProductID" Type="bigint" Nullable="false" />
+          <Property Name="Price" Type="decimal" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="32" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="512" />
+          <Property Name="UnitID" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Unit">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="smallint" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="32" />
+          <Property Name="ShortName" Type="nvarchar" Nullable="false" MaxLength="8" />
+        </EntityType>
+        <Association Name="FK_Balance_Price">
+          <End Role="Price" Type="ComfortIslandModel.Store.Price" Multiplicity="1" />
+          <End Role="Balance" Type="ComfortIslandModel.Store.Balance" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Price">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Balance">
+              <PropertyRef Name="PriceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Document_DocumentType">
+          <End Role="DocumentType" Type="ComfortIslandModel.Store.DocumentType" Multiplicity="0..1" />
+          <End Role="Document" Type="ComfortIslandModel.Store.Document" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DocumentType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Document">
+              <PropertyRef Name="TypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IsPartOf_Product">
+          <End Role="Product" Type="ComfortIslandModel.Store.Product" Multiplicity="1" />
+          <End Role="IsPartOf" Type="ComfortIslandModel.Store.IsPartOf" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="IsPartOf">
+              <PropertyRef Name="ParentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IsPartOf_Product1">
+          <End Role="Product" Type="ComfortIslandModel.Store.Product" Multiplicity="1" />
+          <End Role="IsPartOf" Type="ComfortIslandModel.Store.IsPartOf" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="IsPartOf">
+              <PropertyRef Name="ChildID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Position_Document">
+          <End Role="Document" Type="ComfortIslandModel.Store.Document" Multiplicity="1" />
+          <End Role="Position" Type="ComfortIslandModel.Store.Position" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Document">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Position">
+              <PropertyRef Name="DocumentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Position_Price">
+          <End Role="Price" Type="ComfortIslandModel.Store.Price" Multiplicity="1" />
+          <End Role="Position" Type="ComfortIslandModel.Store.Position" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Price">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Position">
+              <PropertyRef Name="PriceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Price_Product">
+          <End Role="Product" Type="ComfortIslandModel.Store.Product" Multiplicity="1" />
+          <End Role="Price" Type="ComfortIslandModel.Store.Price" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Price">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Unit">
+          <End Role="Unit" Type="ComfortIslandModel.Store.Unit" Multiplicity="1" />
+          <End Role="Product" Type="ComfortIslandModel.Store.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Unit">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="UnitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ComfortIslandModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ComfortIslandDatabase" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Balance" EntityType="ComfortIslandModel.Balance" />
+          <EntitySet Name="Document" EntityType="ComfortIslandModel.Document" />
+          <EntitySet Name="DocumentType" EntityType="ComfortIslandModel.DocumentType" />
+          <EntitySet Name="IsPartOf" EntityType="ComfortIslandModel.IsPartOf" />
+          <EntitySet Name="Position" EntityType="ComfortIslandModel.Position" />
+          <EntitySet Name="Price" EntityType="ComfortIslandModel.Price" />
+          <EntitySet Name="Product" EntityType="ComfortIslandModel.Product" />
+          <EntitySet Name="Unit" EntityType="ComfortIslandModel.Unit" />
+          <AssociationSet Name="FK_Balance_Price" Association="ComfortIslandModel.FK_Balance_Price">
+            <End Role="Price" EntitySet="Price" />
+            <End Role="Balance" EntitySet="Balance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Document_DocumentType" Association="ComfortIslandModel.FK_Document_DocumentType">
+            <End Role="DocumentType" EntitySet="DocumentType" />
+            <End Role="Document" EntitySet="Document" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Position_Document" Association="ComfortIslandModel.FK_Position_Document">
+            <End Role="Document" EntitySet="Document" />
+            <End Role="Position" EntitySet="Position" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IsPartOf_Product" Association="ComfortIslandModel.FK_IsPartOf_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="IsPartOf" EntitySet="IsPartOf" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IsPartOf_Product1" Association="ComfortIslandModel.FK_IsPartOf_Product1">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="IsPartOf" EntitySet="IsPartOf" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Position_Price" Association="ComfortIslandModel.FK_Position_Price">
+            <End Role="Price" EntitySet="Price" />
+            <End Role="Position" EntitySet="Position" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Price_Product" Association="ComfortIslandModel.FK_Price_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Price" EntitySet="Price" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Unit" Association="ComfortIslandModel.FK_Product_Unit">
+            <End Role="Unit" EntitySet="Unit" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Balance">
+          <Key>
+            <PropertyRef Name="PriceID" />
+          </Key>
+          <Property Name="PriceID" Type="Int64" Nullable="false" />
+          <Property Name="Count" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Price" Relationship="ComfortIslandModel.FK_Balance_Price" FromRole="Balance" ToRole="Price" />
+        </EntityType>
+        <EntityType Name="Document">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="Number" Type="String" MaxLength="64" Unicode="true" FixedLength="false" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="TypeID" Type="Int16" />
+          <NavigationProperty Name="Type" Relationship="ComfortIslandModel.FK_Document_DocumentType" FromRole="Document" ToRole="DocumentType" />
+          <NavigationProperty Name="Positions" Relationship="ComfortIslandModel.FK_Position_Document" FromRole="Document" ToRole="Position" />
+        </EntityType>
+        <EntityType Name="DocumentType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int16" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="64" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="IsPartOf">
+          <Key>
+            <PropertyRef Name="ParentID" />
+            <PropertyRef Name="ChildID" />
+          </Key>
+          <Property Name="ParentID" Type="Int64" Nullable="false" />
+          <Property Name="ChildID" Type="Int64" Nullable="false" />
+          <Property Name="Count" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Parent" Relationship="ComfortIslandModel.FK_IsPartOf_Product" FromRole="IsPartOf" ToRole="Product" />
+          <NavigationProperty Name="Child" Relationship="ComfortIslandModel.FK_IsPartOf_Product1" FromRole="IsPartOf" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="DocumentID" />
+            <PropertyRef Name="PriceID" />
+          </Key>
+          <Property Name="DocumentID" Type="Int64" Nullable="false" />
+          <Property Name="PriceID" Type="Int64" Nullable="false" />
+          <Property Name="Count" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Document" Relationship="ComfortIslandModel.FK_Position_Document" FromRole="Position" ToRole="Document" />
+          <NavigationProperty Name="Price" Relationship="ComfortIslandModel.FK_Position_Price" FromRole="Position" ToRole="Price" />
+        </EntityType>
+        <EntityType Name="Price">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="ProductID" Type="Int64" Nullable="false" />
+          <Property Name="Value" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <NavigationProperty Name="Balance" Relationship="ComfortIslandModel.FK_Balance_Price" FromRole="Price" ToRole="Balance" />
+          <NavigationProperty Name="Product" Relationship="ComfortIslandModel.FK_Price_Product" FromRole="Price" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="512" Unicode="true" FixedLength="false" />
+          <Property Name="UnitID" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="Children" Relationship="ComfortIslandModel.FK_IsPartOf_Product" FromRole="Product" ToRole="IsPartOf" />
+          <NavigationProperty Name="Parents" Relationship="ComfortIslandModel.FK_IsPartOf_Product1" FromRole="Product" ToRole="IsPartOf" />
+          <NavigationProperty Name="Prices" Relationship="ComfortIslandModel.FK_Price_Product" FromRole="Product" ToRole="Price" />
+          <NavigationProperty Name="Unit" Relationship="ComfortIslandModel.FK_Product_Unit" FromRole="Product" ToRole="Unit" />
+          <Property Type="String" Name="Code" MaxLength="32" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Unit">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int16" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Name="ShortName" Type="String" Nullable="false" MaxLength="8" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_Balance_Price">
+          <End Role="Price" Type="ComfortIslandModel.Price" Multiplicity="1" />
+          <End Role="Balance" Type="ComfortIslandModel.Balance" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Price">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Balance">
+              <PropertyRef Name="PriceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Document_DocumentType">
+          <End Role="DocumentType" Type="ComfortIslandModel.DocumentType" Multiplicity="0..1" />
+          <End Role="Document" Type="ComfortIslandModel.Document" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DocumentType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Document">
+              <PropertyRef Name="TypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Position_Document">
+          <End Role="Document" Type="ComfortIslandModel.Document" Multiplicity="1" />
+          <End Role="Position" Type="ComfortIslandModel.Position" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Document">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Position">
+              <PropertyRef Name="DocumentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IsPartOf_Product">
+          <End Role="Product" Type="ComfortIslandModel.Product" Multiplicity="1" />
+          <End Role="IsPartOf" Type="ComfortIslandModel.IsPartOf" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="IsPartOf">
+              <PropertyRef Name="ParentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IsPartOf_Product1">
+          <End Role="Product" Type="ComfortIslandModel.Product" Multiplicity="1" />
+          <End Role="IsPartOf" Type="ComfortIslandModel.IsPartOf" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="IsPartOf">
+              <PropertyRef Name="ChildID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Position_Price">
+          <End Role="Price" Type="ComfortIslandModel.Price" Multiplicity="1" />
+          <End Role="Position" Type="ComfortIslandModel.Position" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Price">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Position">
+              <PropertyRef Name="PriceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Price_Product">
+          <End Role="Product" Type="ComfortIslandModel.Product" Multiplicity="1" />
+          <End Role="Price" Type="ComfortIslandModel.Price" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Price">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Unit">
+          <End Role="Unit" Type="ComfortIslandModel.Unit" Multiplicity="1" />
+          <End Role="Product" Type="ComfortIslandModel.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Unit">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="UnitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ComfortIslandModelStoreContainer" CdmEntityContainer="ComfortIslandDatabase">
+          <EntitySetMapping Name="Balance">
+            <EntityTypeMapping TypeName="ComfortIslandModel.Balance">
+              <MappingFragment StoreEntitySet="Balance">
+                <ScalarProperty Name="PriceID" ColumnName="PriceID" />
+                <ScalarProperty Name="Count" ColumnName="Count" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Document">
+            <EntityTypeMapping TypeName="ComfortIslandModel.Document">
+              <MappingFragment StoreEntitySet="Document">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocumentType">
+            <EntityTypeMapping TypeName="ComfortIslandModel.DocumentType">
+              <MappingFragment StoreEntitySet="DocumentType">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IsPartOf">
+            <EntityTypeMapping TypeName="ComfortIslandModel.IsPartOf">
+              <MappingFragment StoreEntitySet="IsPartOf">
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="ChildID" ColumnName="ChildID" />
+                <ScalarProperty Name="Count" ColumnName="Count" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Position">
+            <EntityTypeMapping TypeName="ComfortIslandModel.Position">
+              <MappingFragment StoreEntitySet="Position">
+                <ScalarProperty Name="DocumentID" ColumnName="DocumentID" />
+                <ScalarProperty Name="PriceID" ColumnName="PriceID" />
+                <ScalarProperty Name="Count" ColumnName="Count" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Price">
+            <EntityTypeMapping TypeName="ComfortIslandModel.Price">
+              <MappingFragment StoreEntitySet="Price">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="Value" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product">
+            <EntityTypeMapping TypeName="ComfortIslandModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UnitID" ColumnName="UnitID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Unit">
+            <EntityTypeMapping TypeName="ComfortIslandModel.Unit">
+              <MappingFragment StoreEntitySet="Unit">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Default" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

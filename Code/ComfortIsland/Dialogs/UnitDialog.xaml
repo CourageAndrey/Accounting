@@ -1,0 +1,25 @@
+﻿<Window x:Class="ComfortIsland.Dialogs.UnitDialog"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		Title="Единица измерения" SizeToContent="WidthAndHeight">
+	<Grid Name="contextControl" Margin="5">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="200" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+		<TextBlock Grid.Row="0" Grid.Column="0" Text="Наименование" />
+		<TextBlock Grid.Row="1" Grid.Column="0" Text="Сокращение" />
+		<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Path=Name, Mode=TwoWay}" />
+		<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Path=ShortName, Mode=TwoWay}" />
+		<StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="2" Orientation="Horizontal">
+			<Button Padding="5,2,5,2" Margin="2" Content="OK" Click="okClick"/>
+			<Button Padding="5,2,5,2" Margin="2" Content="Отмена" Click="cancelClick"/>
+		</StackPanel>
+	</Grid>
+</Window>

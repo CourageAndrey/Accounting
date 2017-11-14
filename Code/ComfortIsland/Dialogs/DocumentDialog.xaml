@@ -1,0 +1,37 @@
+﻿<Window x:Class="ComfortIsland.Dialogs.DocumentDialog"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		Title="Документ" SizeToContent="WidthAndHeight">
+	<Grid Name="contextControl" Margin="5">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" MinHeight="100" MaxHeight="500" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="200" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+		<TextBlock Grid.Row="0" Grid.Column="0" Text="Код" />
+		<TextBlock Grid.Row="1" Grid.Column="0" Text="Наименование" />
+		<TextBlock Grid.Row="2" Grid.Column="0" Text="Ед. изм." />
+		<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Path=Code, Mode=TwoWay}" />
+		<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Path=Name, Mode=TwoWay}" />
+		<ComboBox Grid.Row="2" Grid.Column="1" Margin="2" SelectedValue="{Binding Path=UnitID, Mode=TwoWay}" IsEditable="True" Name="comboBoxUnit" DisplayMemberPath="Name" SelectedValuePath="ID" />
+		<GroupBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="2" Header="Части:">
+			<DataGrid IsReadOnly="False" AutoGenerateColumns="False" ItemsSource="{Binding Path=BindingChildren, Mode=OneTime}">
+				<DataGrid.Columns>
+					<DataGridComboBoxColumn Header="Товар" SelectedValueBinding="{Binding Path=Id, Mode=TwoWay}" MinWidth="100" DisplayMemberPath="DisplayMember" SelectedValuePath="ID" x:Name="comboBoxProducts" />
+					<DataGridTextColumn Header="Количество" Binding="{Binding Path=Count, Mode=TwoWay}" MinWidth="50"/>
+				</DataGrid.Columns>
+			</DataGrid>
+		</GroupBox>
+		<StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="2" Orientation="Horizontal">
+			<Button Padding="5,2,5,2" Margin="2" Content="OK" Click="okClick"/>
+			<Button Padding="5,2,5,2" Margin="2" Content="Отмена" Click="cancelClick"/>
+		</StackPanel>
+	</Grid>
+</Window>
