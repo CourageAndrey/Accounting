@@ -1,31 +1,57 @@
 ﻿using System.Collections.Generic;
-using System.Data.Objects;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace ComfortIsland.Database
 {
-	partial class Product : IEditable<Product>
+	public class Product : IEntity, IEditable<Product>
 	{
-		public UnitEnum UnitEnum
-		{
-			get { return (UnitEnum) UnitID; }
-			set { UnitID = (short) value; }
-		}
+		#region Properties
 
+		[XmlAttribute]
+		public long ID
+		{ get; set; }
+
+		[XmlAttribute]
+		public string Code
+		{ get; set; }
+
+		[XmlAttribute]
+		public string Name
+		{ get; set; }
+
+		[XmlIgnore]
+		public Unit Unit
+		{ get; set; }
+
+		[XmlAttribute]
+		public long UnitID
+		{ get; set; }
+
+		[XmlIgnore]
 		public string UnitName
-		{ get; private set; }
+		{ get { return Unit.Name; } }
 
+		[XmlIgnore]
 		public string DisplayMember
 		{ get { return string.Format(CultureInfo.InvariantCulture, "{0} {1} ({2})", Code, Name, UnitName); } }
 
-		public List<ProductChild> BindingChildren
+		[XmlIgnore]
+		public Dictionary<Product, long> Children
 		{ get; private set; }
+
+		[XmlArray("Children"), XmlArrayItem("Product")]
+		public List<Position> ChildrenToSerialize
+		{ get; set; }
+
+		#endregion
 
 		public Product()
 		{
-			BindingChildren = new List<ProductChild>();
+			Children = new Dictionary<Product, long>();
+			ChildrenToSerialize = new List<Position>();
 		}
 
 		public void Update(Product other)
@@ -33,88 +59,72 @@ namespace ComfortIsland.Database
 			this.ID = other.ID;
 			this.Name = other.Name;
 			this.Code = other.Code;
-			this.UnitID = other.UnitID;
-			this.BindingChildren = new List<ProductChild>(other.BindingChildren);
+			this.Unit = other.Unit;
+			this.Children = new Dictionary<Product, long>(other.Children);
+			this.ChildrenToSerialize = other.ChildrenToSerialize.Select(c => new Position(c)).ToList();
 		}
 
-		public bool Validate(ComfortIslandDatabase database, out StringBuilder errors)
+		public bool Validate(out StringBuilder errors)
 		{
 			errors = new StringBuilder();
 			if (string.IsNullOrEmpty(Name))
 			{
 				errors.AppendLine("Наименование не может быть пустой строкой.");
 			}
-			if (UnitID <= 0)
+			if (Unit == null)
 			{
 				errors.AppendLine("Не выбрана единица измерения.");
 			}
-			if (BindingChildren.Any(c => c.IsOrHasChild(ID, database)))
+			var products = Database.Instance.Products;
+			if (ChildrenToSerialize.Any(c => products.First(p => p.ID == c.ID).IsOrHasChild(ID)))
 			{
 				errors.AppendLine("Товар не может быть частью себя или содержать другие товары, частью которых является.");
 			}
-			if (BindingChildren.Any(c => c.Count <= 0))
+			if (ChildrenToSerialize.Any(c => c.Count <= 0))
 			{
 				errors.AppendLine("Для каждого из вложенных товаров количество должно быть строго больше ноля.");
+			}
+			var ids = ChildrenToSerialize.Select(c => c.ID).ToList();
+			if (ids.Count > ids.Distinct().Count())
+			{
+				errors.AppendLine("Некоторые товары включены как части несколько раз.");
 			}
 			return errors.Length == 0;
 		}
 
-		public Product PrepareToDisplay(ComfortIslandDatabase database)
+		public bool IsOrHasChild(long id)
 		{
-			UnitName = Unit.ShortName;
-			if (!Children.IsLoaded)
-			{
-				Children.Load(MergeOption.NoTracking);
-			}
-			BindingChildren = Children.Select(c => new ProductChild(c)).ToList();
-			return this;
+			return ID == id || Children.Keys.Any(c => c.IsOrHasChild(id));
 		}
 
-		public void PrepareToSave(ComfortIslandDatabase database)
+		#region [De]Serialization
+
+		public void BeforeSerialization()
 		{
-			var oldParts = database.IsPartOf.Where(p => p.ParentID == ID).ToList();
-			foreach (var part in oldParts)
-			{
-				if (BindingChildren.All(c => c.Id != part.ChildID))
-				{
-					database.DeleteObject(part);
-				}
-			}
-			foreach (var child in BindingChildren)
-			{
-				if (oldParts.All(p => p.ChildID != child.Id))
-				{
-					database.AddToIsPartOf(new IsPartOf
-					{
-						ParentID = ID,
-						ChildID = child.Id,
-						Count = child.Count,
-					});
-				}
-			}
-		}
-	}
-
-	public class ProductChild
-	{
-		public long Id
-		{ get; set; }
-
-		public long Count
-		{ get; set; }
-
-		public ProductChild()
-		{ }
-
-		public ProductChild(IsPartOf child)
-		{
-			Id = child.ChildID;
-			Count = child.Count;
+			UnitID = Unit.ID;
+			BeforeEdit();
 		}
 
-		public bool IsOrHasChild(long id, ComfortIslandDatabase database)
+		public void AfterDeserialization()
 		{
-			return Id == id || database.IsPartOf.Execute(MergeOption.NoTracking).Where(p => p.ParentID == Id).Select(p => new ProductChild(p)).Any(c => c.IsOrHasChild(id, database));
+			Unit = Database.Instance.Units.First(u => u.ID == UnitID);
+			AfterEdit();
+		}
+
+		#endregion
+
+		public void BeforeEdit()
+		{
+			ChildrenToSerialize = Children.Select(kvp => new Position(kvp.Key.ID, kvp.Value)).ToList();
+		}
+
+		public void AfterEdit()
+		{
+			Children.Clear();
+			foreach (var child in ChildrenToSerialize)
+			{
+				Children[Database.Instance.Products.First(p => p.ID == child.ID)] = child.Count;
+			}
 		}
 	}
 }

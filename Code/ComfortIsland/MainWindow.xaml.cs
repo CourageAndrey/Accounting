@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Data.Objects;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,17 +20,17 @@ namespace ComfortIsland
 
 		private void formLoaded(object sender, RoutedEventArgs e)
 		{
-			using (var database = new ComfortIslandDatabase())
-			{
-				// документы
-				documentsGrid.ItemsSource = database.Document.Execute(MergeOption.NoTracking).Select(d => d.PrepareToDisplay(database));
-				// остатки
-				balanceGrid.ItemsSource = database.Balance.Execute(MergeOption.NoTracking).Select(b => b.PrepareToDisplay(database));
-				// справочники
-				productsGrid.ItemsSource = database.Product.Execute(MergeOption.NoTracking).Select(p => p.PrepareToDisplay(database));
-				unitsGrid.ItemsSource = database.Unit.Execute(MergeOption.NoTracking).Select(u => u.PrepareToDisplay(database));
-				documentTypesGrid.ItemsSource = database.DocumentType.Execute(MergeOption.NoTracking);
-			}
+			// вычитка базы данных
+			var database = Database.Database.TryLoad();
+
+			// документы
+			documentsGrid.ItemsSource = database.Documents;
+			// остатки
+			balanceGrid.ItemsSource = database.Balance;
+			// справочники
+			productsGrid.ItemsSource = database.Products;
+			unitsGrid.ItemsSource = database.Units;
+			documentTypesGrid.ItemsSource = DocumentTypeHelper.AllTypes;
 
 			updateButtonsAvailability(productsGrid, buttonEditProduct, buttonDeleteProduct);
 			updateButtonsAvailability(unitsGrid, buttonEditUnit, buttonDeleteUnit);
@@ -42,73 +42,79 @@ namespace ComfortIsland
 
 		private void incomeClick(object sender, RoutedEventArgs e)
 		{
-			createDocument(DocumentTypeEnum.Income, (database, document) =>
+			createDocument(DocumentType.Income, document =>
 			{
-				foreach (var position in document.BindingPositions)
+				var balanceTable = Database.Database.Instance.Balance;
+				foreach (var position in document.Positions)
 				{
-					position.IncreaseBalance(database);
+					var balance = balanceTable.FirstOrDefault(b => b.ProductId == position.Key.ID);
+					if (balance != null)
+					{
+						balance.Count += position.Value;
+					}
+					else
+					{
+						balanceTable.Add(new Balance(position.Key, position.Value));
+					}
 				}
-				return true;
 			});
 		}
 
 		private void outcomeClick(object sender, RoutedEventArgs e)
 		{
-			createDocument(DocumentTypeEnum.Outcome, (database, document) =>
+			createDocument(DocumentType.Outcome, document =>
 			{
-				foreach (var position in document.BindingPositions)
+				var balanceTable = Database.Database.Instance.Balance;
+				foreach (var position in document.Positions)
 				{
-					position.DecreaseBalance(database);
+					var balance = balanceTable.First(b => b.ProductId == position.Key.ID);
+					balance.Count -= position.Value;
 				}
-				return true;
 			});
 		}
 
 		private void produceClick(object sender, RoutedEventArgs e)
 		{
-			createDocument(DocumentTypeEnum.Produce, (database, document) =>
+			createDocument(DocumentType.Produce, document =>
 			{
-				foreach (var position in document.BindingPositions)
+				var database = Database.Database.Instance;
+				var balanceTable = database.Balance;
+				foreach (var position in document.Positions)
 				{
-					position.IncreaseBalance(database);
-					var product = database.Product.Execute(MergeOption.NoTracking).First(p => p.ID == position.ProductId);
-					if (!product.Children.IsLoaded)
+					var product = position.Key;
+
+					// increase balance
+					var balance = balanceTable.FirstOrDefault(b => b.ProductId == product.ID);
+					if (balance != null)
 					{
-						product.Children.Load(MergeOption.NoTracking);
+						balance.Count += position.Value;
 					}
+					else
+					{
+						balanceTable.Add(new Balance(position.Key, position.Value));
+					}
+
+					// decrease balance
 					foreach (var child in product.Children)
 					{
-						new DocumentPosition
-						{
-							ProductId = child.ChildID,
-							Count = position.Count * child.Count,
-						}.DecreaseBalance(database);
+						balance = balanceTable.First(b => b.ProductId == child.Key.ID);
+						balance.Count -= (position.Value * child.Value);
 					}
 				}
-				return true;
 			});
 		}
 
-		private void createDocument(DocumentTypeEnum type, Func<ComfortIslandDatabase, Document, bool> processFunction)
+		private void createDocument(DocumentType type, Action<Document> processFunction)
 		{
 			addItem<Document, DocumentDialog>(
 				documentsGrid,
-				database => database.Document,
-				(table, item) => item.ID = table.Execute(MergeOption.NoTracking).Count() + 1,
-				(database, item) =>
+				Database.Database.Instance.Documents,
+				() => new Document { Date = DateTime.Now, Type = type, },
+				processFunction,
+				item =>
 				{
-					database.AddToDocument(item);
-					return processFunction(database, item);
-				},
-				database => new Document
-				{
-					Date = DateTime.Now,
-					DocumentTypeEnum = type,
-					TypeName = database.DocumentType.Execute(MergeOption.NoTracking).First(t => t.ID == (short) type).Name,
-				},
-				(database, document) =>
-				{
-					balanceGrid.ItemsSource = database.Balance.Execute(MergeOption.NoTracking).Select(b => b.PrepareToDisplay(database));
+					balanceGrid.ItemsSource = null;
+					balanceGrid.ItemsSource = Database.Database.Instance.Balance;
 				});
 		}
 
@@ -120,25 +126,17 @@ namespace ComfortIsland
 
 		private void productAddClick(object sender, RoutedEventArgs e)
 		{
-			addItem<Product, ProductDialog>(
-				productsGrid,
-				database => database.Product,
-				(table, item) => item.ID = table.Execute(MergeOption.NoTracking).Count() + 1,
-				(database, item) =>
-				{
-					database.AddToProduct(item);
-					return true;
-				});
+			addItem<Product, ProductDialog>(productsGrid, Database.Database.Instance.Products);
 		}
 
 		private void productEditClick(object sender, RoutedEventArgs e)
 		{
-			editItem<Product, ProductDialog>(productsGrid, database => database.Product, (table, item) => table.FirstOrDefault(o => o.ID == item.ID));
+			editItem<Product, ProductDialog>(productsGrid, Database.Database.Instance.Products);
 		}
 
 		private void productDeleteClick(object sender, RoutedEventArgs e)
 		{
-			deleteItem(productsGrid, database => database.Product, (table, item) => table.FirstOrDefault(o => o.ID == item.ID));
+			deleteItem(productsGrid, Database.Database.Instance.Products);
 		}
 
 		private void selectedProductsChanged(object sender, SelectionChangedEventArgs e)
@@ -152,25 +150,17 @@ namespace ComfortIsland
 
 		private void unitAddClick(object sender, RoutedEventArgs e)
 		{
-			addItem<Unit, UnitDialog>(
-				unitsGrid,
-				database => database.Unit,
-				(table, item) => item.ID = (short)(table.Execute(MergeOption.NoTracking).Count() + 1),
-				(database, item) =>
-				{
-					database.AddToUnit(item);
-					return true;
-				});
+			addItem<Unit, UnitDialog>(unitsGrid, Database.Database.Instance.Units);
 		}
 
 		private void unitEditClick(object sender, RoutedEventArgs e)
 		{
-			editItem<Unit, UnitDialog>(unitsGrid, database => database.Unit, (table, item) => table.FirstOrDefault(o => o.ID == item.ID));
+			editItem<Unit, UnitDialog>(unitsGrid, Database.Database.Instance.Units);
 		}
 
 		private void unitDeleteClick(object sender, RoutedEventArgs e)
 		{
-			deleteItem(unitsGrid, database => database.Unit, (table, item) => table.FirstOrDefault(o => o.ID == item.ID));
+			deleteItem(unitsGrid, Database.Database.Instance.Units);
 		}
 
 		private void selectedUnitsChanged(object sender, SelectionChangedEventArgs e)
@@ -186,38 +176,66 @@ namespace ComfortIsland
 
 		private void addItem<ItemT, DialogT>(
 			DataGrid grid,
-			Func<ComfortIslandDatabase, ObjectSet<ItemT>> tableSelector,
-			Action<ObjectSet<ItemT>, ItemT> updateIdMethod,
-			Func<ComfortIslandDatabase, ItemT, bool> addMethod,
-			Func<ComfortIslandDatabase, ItemT> createItem = null,
-			Action<ComfortIslandDatabase, ItemT> performAfterUpdate = null)
-			where ItemT : class, IEditable<ItemT>, new()
+			List<ItemT> table,
+			Func<ItemT> createItem = null,
+			Action<ItemT> beforeSave = null,
+			Action<ItemT> afterSave = null)
+			where ItemT : IEntity,  IEditable<ItemT>, new()
 			where DialogT : Window, IEditDialog<ItemT>, new()
 		{
-			using (var database = new ComfortIslandDatabase())
+			var newItem = createItem != null
+				? createItem()
+				: new ItemT();
+			var dialog = new DialogT { EditValue = newItem };
+			if (dialog.ShowDialog() == true)
 			{
-				var newItem = createItem != null
-					? createItem(database)
-					: new ItemT();
-				var dialog = new DialogT();
-				dialog.Initialize(database);
-				dialog.EditValue = newItem;
+				try
+				{
+					newItem.ID = table.Count + 1;
+					newItem.AfterEdit();
+					table.Add(newItem);
+					if (beforeSave != null)
+					{
+						beforeSave(newItem);
+					}
+					Database.Database.Save();
+					grid.ItemsSource = null;
+					grid.ItemsSource = table;
+					if (afterSave != null)
+					{
+						afterSave(newItem);
+					}
+				}
+				catch (Exception error)
+				{
+					MessageBox.Show(error.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
+			}
+		}
+
+		private void editItem<ItemT, DialogT>(
+			DataGrid grid,
+			IEnumerable<ItemT> table)
+			where ItemT : IEditable<ItemT>, new()
+			where DialogT : Window, IEditDialog<ItemT>, new()
+		{
+			var selectedItems = grid.SelectedItems.OfType<ItemT>().ToList();
+			if (selectedItems.Count > 0)
+			{
+				var editItem = selectedItems[0];
+				var copyItem = new ItemT();
+				copyItem.Update(editItem);
+				copyItem.BeforeEdit();
+				var dialog = new DialogT { EditValue = copyItem };
 				if (dialog.ShowDialog() == true)
 				{
 					try
 					{
-						var table = tableSelector(database);
-						updateIdMethod(table, newItem);
-						newItem.PrepareToSave(database);
-						if (addMethod(database, newItem))
-						{
-							database.SaveChanges();
-							grid.ItemsSource = table.Execute(MergeOption.NoTracking).Select(p => p.PrepareToDisplay(database));
-						}
-						if (performAfterUpdate != null)
-						{
-							performAfterUpdate(database, newItem);
-						}
+						copyItem.AfterEdit();
+						editItem.Update(copyItem);
+						Database.Database.Save();
+						grid.ItemsSource = null;
+						grid.ItemsSource = table;
 					}
 					catch (Exception error)
 					{
@@ -227,64 +245,22 @@ namespace ComfortIsland
 			}
 		}
 
-		private void editItem<ItemT, DialogT>(
-			DataGrid grid,
-			Func<ComfortIslandDatabase, ObjectSet<ItemT>> tableSelector,
-			Func<ObjectSet<ItemT>, ItemT, ItemT> itemSelector)
-			where ItemT : class, IEditable<ItemT>, new()
-			where DialogT : Window, IEditDialog<ItemT>, new()
-		{
-			var selectedItems = grid.SelectedItems.OfType<ItemT>().ToList();
-			if (selectedItems.Count > 0)
-			{
-				using (var database = new ComfortIslandDatabase())
-				{
-					var editItem = new ItemT();
-					editItem.Update(selectedItems[0]);
-					var dialog = new DialogT();
-					dialog.Initialize(database);
-					dialog.EditValue = editItem;
-					if (dialog.ShowDialog() == true)
-					{
-						try
-						{
-							var table = tableSelector(database);
-							var dbItem = itemSelector(table, editItem);
-							dbItem.Update(editItem);
-							dbItem.PrepareToSave(database);
-							database.SaveChanges();
-							grid.ItemsSource = table.Execute(MergeOption.NoTracking).Select(p => p.PrepareToDisplay(database));
-						}
-						catch (Exception error)
-						{
-							MessageBox.Show(error.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-						}
-					}
-				}
-			}
-		}
-
 		private void deleteItem<ItemT>(
 			DataGrid grid,
-			Func<ComfortIslandDatabase, ObjectSet<ItemT>> tableSelector,
-			Func<ObjectSet<ItemT>, ItemT, ItemT> itemSelector)
-			where ItemT : class, IEditable<ItemT>
+			List<ItemT> table)
 		{
 			var selectedItems = grid.SelectedItems.OfType<ItemT>().ToList();
 			if (selectedItems.Count > 0)
 			{
 				try
 				{
-					using (var database = new ComfortIslandDatabase())
+					foreach (var item in selectedItems)
 					{
-						var table = tableSelector(database);
-						foreach (var item in selectedItems)
-						{
-							table.DeleteObject(itemSelector(table, item));
-						}
-						database.SaveChanges();
-						grid.ItemsSource = table.Execute(MergeOption.NoTracking).Select(p => p.PrepareToDisplay(database));
+						table.Remove(item);
 					}
+					Database.Database.Save();
+					grid.ItemsSource = null;
+					grid.ItemsSource = table;
 				}
 				catch (Exception error)
 				{

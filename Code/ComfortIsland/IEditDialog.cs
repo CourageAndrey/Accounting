@@ -1,11 +1,7 @@
-﻿using ComfortIsland.Database;
-
-namespace ComfortIsland
+﻿namespace ComfortIsland
 {
 	interface IEditDialog<T>
 	{
 		T EditValue { get; set; }
-
-		void Initialize(ComfortIslandDatabase database);
 	}
 }

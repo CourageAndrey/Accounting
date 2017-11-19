@@ -1,49 +1,70 @@
-﻿using System;
-using System.Data.Objects;
-using System.Text;
+﻿using System.Linq;
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace ComfortIsland.Database
 {
-	partial class Balance : IEditable<Balance>
+	[XmlType]
+	public class Balance
 	{
+		#region Properties
+
+		[XmlAttribute("Product")]
+		public long ProductId
+		{ get; set; }
+
+		[XmlAttribute]
+		public long Count
+		{ get; set; }
+
+		[XmlIgnore]
 		public string ProductCode
 		{ get; private set; }
 
+		[XmlIgnore]
 		public string ProductName
 		{ get; private set; }
 
+		[XmlIgnore]
 		public string ProductUnit
 		{ get; private set; }
 
-		public void Update(Balance other)
+		#endregion
+
+		#region Constructors
+
+		public Balance()
+		{ }
+
+		public Balance(Product product, long count)
 		{
-			throw new NotSupportedException();
+			ProductId = product.ID;
+			Count = count;
+			initializeProduct(product);
 		}
 
-		public bool Validate(ComfortIslandDatabase database, out StringBuilder errors)
+		#endregion
+
+		private void initializeProduct(Product product)
 		{
-			throw new NotSupportedException();
+			ProductCode = product.Code;
+			ProductName = product.Name;
+			ProductUnit = product.Unit.Name;
 		}
 
-		public Balance PrepareToDisplay(ComfortIslandDatabase database)
+		#region [De]Serialization
+
+		[OnSerialized]
+		private void afterDeserialization(StreamingContext context)
 		{
-			if (!ProductReference.IsLoaded)
-			{
-				ProductReference.Load(MergeOption.NoTracking);
-			}
-			if (!Product.UnitReference.IsLoaded)
-			{
-				Product.UnitReference.Load(MergeOption.NoTracking);
-			}
-			ProductCode = Product.Code;
-			ProductName = Product.Name;
-			ProductUnit = Product.Unit.ShortName;
-			return this;
+			
 		}
 
-		public void PrepareToSave(ComfortIslandDatabase database)
+		#endregion
+
+		public void AfterDeserialization()
 		{
-			throw new NotSupportedException();
+			initializeProduct(Database.Instance.Products.First(p => p.ID == ProductId));
 		}
 	}
 }

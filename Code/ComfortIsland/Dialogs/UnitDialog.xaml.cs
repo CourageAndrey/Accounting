@@ -12,13 +12,6 @@ namespace ComfortIsland.Dialogs
 			InitializeComponent();
 		}
 
-		private ComfortIslandDatabase database;
-
-		public void Initialize(ComfortIslandDatabase database)
-		{
-			this.database = database;
-		}
-
 		public Unit EditValue
 		{
 			get { return (Unit) contextControl.DataContext; }
@@ -28,7 +21,7 @@ namespace ComfortIsland.Dialogs
 		private void okClick(object sender, RoutedEventArgs e)
 		{
 			StringBuilder errors;
-			if (EditValue.Validate(database, out errors))
+			if (EditValue.Validate(out errors))
 			{
 				DialogResult = true;
 			}

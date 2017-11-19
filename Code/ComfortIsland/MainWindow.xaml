@@ -15,7 +15,7 @@
 					<DataGrid.Columns>
 						<DataGridTextColumn Header="Дата" Binding="{Binding Path=Date, Mode=OneTime}" MinWidth="100"/>
 						<DataGridTextColumn Header="Номер" Binding="{Binding Path=Number, Mode=OneTime}" MinWidth="150" />
-						<DataGridTextColumn Header="Тип" Binding="{Binding Path=Type.Name, Mode=OneTime}" MinWidth="100"/>
+						<DataGridTextColumn Header="Тип" Binding="{Binding Path=TypeName, Mode=OneTime}" MinWidth="100"/>
 					</DataGrid.Columns>
 				</DataGrid>
 			</DockPanel>
@@ -26,7 +26,6 @@
 					<DataGridTextColumn Header="Код" Binding="{Binding Path=ProductCode, Mode=OneTime}" MinWidth="100"/>
 					<DataGridTextColumn Header="Товар" Binding="{Binding Path=ProductName, Mode=OneTime}" MinWidth="300"/>
 					<DataGridTextColumn Header="Ед/изм" Binding="{Binding Path=ProductUnit, Mode=OneTime}" MinWidth="50"/>
-					<DataGridTextColumn Header="Цена" Binding="{Binding Path=PriceValue, Mode=OneTime}" MinWidth="100"/>
 					<DataGridTextColumn Header="Остатки" Binding="{Binding Path=Count, Mode=OneTime}" MinWidth="100"/>
 				</DataGrid.Columns>
 			</DataGrid>
@@ -67,7 +66,7 @@
 				<TabItem Header="Типы документов">
 					<DataGrid Name="documentTypesGrid" IsReadOnly="True" AutoGenerateColumns="False">
 						<DataGrid.Columns>
-							<DataGridTextColumn Header="Название" Binding="{Binding Path=Name, Mode=OneTime}" MinWidth="200"/>
+							<DataGridTextColumn Header="Название" Binding="{Binding Path=Value, Mode=OneTime}" MinWidth="200"/>
 						</DataGrid.Columns>
 					</DataGrid>
 				</TabItem>

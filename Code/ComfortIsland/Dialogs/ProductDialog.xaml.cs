@@ -1,6 +1,4 @@
-﻿using System.Data.Objects;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 using System.Windows;
 
 using ComfortIsland.Database;
@@ -14,15 +12,6 @@ namespace ComfortIsland.Dialogs
 			InitializeComponent();
 		}
 
-		private ComfortIslandDatabase database;
-
-		public void Initialize(ComfortIslandDatabase database)
-		{
-			this.database = database;
-			comboBoxUnit.ItemsSource = database.Unit.Execute(MergeOption.NoTracking).Select(u => u.PrepareToDisplay(database));
-			comboBoxProducts.ItemsSource = database.Product.Execute(MergeOption.NoTracking).Select(u => u.PrepareToDisplay(database));
-		}
-
 		public Product EditValue
 		{
 			get { return (Product) contextControl.DataContext; }
@@ -32,7 +21,7 @@ namespace ComfortIsland.Dialogs
 		private void okClick(object sender, RoutedEventArgs e)
 		{
 			StringBuilder errors;
-			if (EditValue.Validate(database, out errors))
+			if (EditValue.Validate(out errors))
 			{
 				DialogResult = true;
 			}
@@ -45,6 +34,12 @@ namespace ComfortIsland.Dialogs
 		private void cancelClick(object sender, RoutedEventArgs e)
 		{
 			DialogResult = false;
+		}
+
+		private void dialogLoaded(object sender, RoutedEventArgs e)
+		{
+			comboBoxUnit.ItemsSource = Database.Database.Instance.Units;
+			comboBoxProducts.ItemsSource = Database.Database.Instance.Products;
 		}
 	}
 }

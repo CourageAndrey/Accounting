@@ -1,77 +1,106 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Objects;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace ComfortIsland.Database
 {
-	partial class Document : IEditable<Document>
+	[XmlType]
+	public  class Document : IEntity, IEditable<Document>
 	{
-		public DocumentTypeEnum DocumentTypeEnum
-		{
-			get { return (DocumentTypeEnum) TypeID; }
-			set { TypeID = (short) value; }
-		}
+		#region Properties
 
-		public List<DocumentPosition> BindingPositions
+		[XmlAttribute]
+		public long ID
+		{ get; set; }
+
+		[XmlAttribute]
+		public string Number
+		{ get; set; }
+
+		[XmlAttribute]
+		public DateTime Date
+		{ get; set; }
+
+		[XmlAttribute]
+		public DocumentType Type
+		{ get; set; }
+
+		[XmlIgnore]
+		public string TypeName
+		{ get { return Type.ToStringRepresentation(); } }
+
+		[XmlIgnore]
+		public Dictionary<Product, long> Positions
 		{ get; private set; }
 
-		public string TypeName
-		{ get; internal set; }
+		[XmlArray("Positions"), XmlArrayItem("Product")]
+		public List<Position> PositionsToSerialize
+		{ get; set; }
+
+		#endregion
 
 		public Document()
 		{
-			BindingPositions = new List<DocumentPosition>();
+			Positions = new Dictionary<Product, long>();
+			PositionsToSerialize = new List<Position>();
 		}
 
 		public void Update(Document other)
 		{
 			this.ID = other.ID;
-			this.TypeID = other.TypeID;
 			this.Number = other.Number;
 			this.Date = other.Date;
-			this.BindingPositions = new List<DocumentPosition>(other.BindingPositions);
+			this.Type = other.Type;
+			this.Positions = new Dictionary<Product, long>(other.Positions);
+			this.PositionsToSerialize = other.PositionsToSerialize.Select(p => new Position(p)).ToList();
 		}
 
-		public bool Validate(ComfortIslandDatabase database, out StringBuilder errors)
+		public bool Validate(out StringBuilder errors)
 		{
 			errors = new StringBuilder();
 			if (string.IsNullOrEmpty(Number))
 			{
 				errors.AppendLine("Номер не может быть пустой строкой.");
 			}
-			if (BindingPositions.Count <= 0)
+			if (PositionsToSerialize.Count <= 0)
 			{
 				errors.AppendLine("В документе не выбрано ни одного продукта.");
 			}
-			List<DocumentPosition> positionsToCheck;
-			if (DocumentTypeEnum == DocumentTypeEnum.Income)
+			var products = Database.Instance.Products;
+			List<Position> positionsToCheck;
+			if (Type == DocumentType.Income)
 			{
-				positionsToCheck = new List<DocumentPosition>();
+				positionsToCheck = new List<Position>();
 			}
-			else if (DocumentTypeEnum == DocumentTypeEnum.Outcome)
+			else if (Type == DocumentType.Outcome)
 			{
-				positionsToCheck = BindingPositions;
+				positionsToCheck = PositionsToSerialize;
 			}
-			else if (DocumentTypeEnum == DocumentTypeEnum.Produce)
+			else if (Type == DocumentType.Produce)
 			{
-				positionsToCheck = new List<DocumentPosition>();
-				foreach (var position in positionsToCheck)
+				positionsToCheck = new List<Position>();
+				foreach (var position in PositionsToSerialize)
 				{
-					var product = database.Product.Execute(MergeOption.NoTracking).First(p => p.ID == position.ProductId);
-					if (!product.Children.IsLoaded)
+					var product = products.First(p => p.ID == position.ID);
+					if (product.Children.Count == 0)
 					{
-						product.Children.Load(MergeOption.NoTracking);
+						errors.AppendLine(string.Format(CultureInfo.InvariantCulture, "Товар {0} не может быть произведён, так как ни из чего не состоит.", product.DisplayMember));
 					}
 					foreach (var child in product.Children)
 					{
-						positionsToCheck.Add(new DocumentPosition
+						var existing = positionsToCheck.FirstOrDefault(p => p.ID == position.ID);
+						if (existing != null)
 						{
-							ProductId = child.ChildID,
-							Count = position.Count * child.Count,
-						});
+							existing.Count += (position.Count * child.Value);
+						}
+						else
+						{
+							positionsToCheck.Add(new Position(position.ID, position.Count * child.Value));
+						}
 					}
 				}
 			}
@@ -79,129 +108,65 @@ namespace ComfortIsland.Database
 			{
 				throw new NotSupportedException();
 			}
+			var allBalance = Database.Instance.Balance;
 			foreach (var position in positionsToCheck)
 			{
-				var balance = database.Balance.Execute(MergeOption.NoTracking).FirstOrDefault(b => b.ProductID == position.ProductId);
+				var balance = allBalance.FirstOrDefault(b => b.ProductId == position.ID);
 				long count = balance != null ? balance.Count : 0;
 				if (count < position.Count)
 				{
 					errors.AppendLine(string.Format(
 						CultureInfo.InvariantCulture,
-						DocumentPosition.InsufficientProductsCount,
-						database.Product.Execute(MergeOption.NoTracking).First(p => p.ID == position.ProductId).PrepareToDisplay(database).DisplayMember,
+						InsufficientProductsCount,
+						products.First(p => p.ID == position.ID).DisplayMember,
 						count,
 						position.Count));
 				}
 			}
-			foreach (var position in BindingPositions)
+			foreach (var position in PositionsToSerialize)
 			{
 				if (position.Count <= 0)
 				{
-					errors.AppendLine(countMustBePositive);
+					errors.AppendLine(CountMustBePositive);
 				}
 			}
-			var products = BindingPositions.Select(p => p.ProductId).ToList();
-			if (products.Count > products.Distinct().Count())
+			var ids = PositionsToSerialize.Select(p => p.ID).ToList();
+			if (ids.Count > ids.Distinct().Count())
 			{
 				errors.Append("Дублирование позиций в документе");
 			}
 			return errors.Length == 0;
 		}
 
-		private const string countMustBePositive = "Количество товара во всех позициях должно быть строго больше ноля.";
+		private const string CountMustBePositive = "Количество товара во всех позициях должно быть строго больше ноля.";
+		private const string InsufficientProductsCount = "Недостаточно товара \"{0}\". Имеется по факту: {1}, требуется {2}.";
 
-		public Document PrepareToDisplay(ComfortIslandDatabase database)
+		#region [De]Serialization
+
+		public void BeforeSerialization()
 		{
-			if (!TypeReference.IsLoaded)
-			{
-				TypeReference.Load(MergeOption.NoTracking);
-			}
-			TypeName = Type.Name;
-			if (!Positions.IsLoaded)
-			{
-				Positions.Load(MergeOption.NoTracking);
-			}
-			BindingPositions = Positions.Select(p => new DocumentPosition(p)).ToList();
-			return this;
+			BeforeEdit();
 		}
 
-		public void PrepareToSave(ComfortIslandDatabase database)
+		public void AfterDeserialization()
 		{
-			var oldPositions = database.Position.Where(p => p.DocumentID == ID).ToList();
-			foreach (var position in oldPositions)
-			{
-				var newPosition = BindingPositions.FirstOrDefault(p => p.ProductId != position.ProductID);
-				if (newPosition == null)
-				{
-					database.DeleteObject(position);
-				}
-				else
-				{
-					position.Count = newPosition.Count;
-				}
-			}
-			foreach (var position in BindingPositions)
-			{
-				if (oldPositions.All(p => p.ProductID != position.ProductId))
-				{
-					database.AddToPosition(new Position
-					{
-						DocumentID = ID,
-						ProductID = position.ProductId,
-						Count = position.Count,
-					});
-				}
-			}
-		}
-	}
-
-	public class DocumentPosition
-	{
-		public long ProductId
-		{ get; set; }
-
-		public long Count
-		{ get; set; }
-
-		public DocumentPosition()
-		{ }
-
-		public DocumentPosition(Position position)
-		{
-			ProductId = position.ProductID;
-			Count = position.Count;
+			AfterEdit();
 		}
 
-		public void IncreaseBalance(ComfortIslandDatabase database)
+		#endregion
+
+		public void BeforeEdit()
 		{
-			var balance = database.Balance.FirstOrDefault(b => b.ProductID == ProductId);
-			if (balance == null)
-			{
-				balance = new Balance { ProductID = ProductId };
-				database.AddToBalance(balance);
-			}
-			balance.Count += Count;
+			PositionsToSerialize = Positions.Select(kvp => new Position(kvp.Key.ID, kvp.Value)).ToList();
 		}
 
-		public void DecreaseBalance(ComfortIslandDatabase database)
+		public void AfterEdit()
 		{
-			var balance = database.Balance.FirstOrDefault(b => b.ProductID == ProductId);
-			long count = balance != null ? balance.Count : 0;
-			if (count >= Count)
+			Positions.Clear();
+			foreach (var position in PositionsToSerialize)
 			{
-				balance.Count -= Count;
-			}
-			else
-			{
-				throw new Exception(string.Format(
-					CultureInfo.InvariantCulture,
-					InsufficientProductsCount,
-					database.Product.Execute(MergeOption.NoTracking).First(p => p.ID == ProductId).PrepareToDisplay(database).DisplayMember,
-					count,
-					Count));
+				Positions[Database.Instance.Products.First(p => p.ID == position.ID)] = position.Count;
 			}
 		}
-
-		internal const string InsufficientProductsCount = "Недостаточно товара \"{0}\". Имеется по факту: {1}, требуется {2}.";
 	}
 }

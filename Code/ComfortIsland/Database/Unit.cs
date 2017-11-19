@@ -1,9 +1,27 @@
 ﻿using System.Text;
+using System.Xml.Serialization;
 
 namespace ComfortIsland.Database
 {
-	partial class Unit : IEditable<Unit>
+	[XmlType]
+	public class Unit : IEntity, IEditable<Unit>
 	{
+		#region Properties
+
+		[XmlAttribute]
+		public long ID
+		{ get; set; }
+
+		[XmlAttribute]
+		public string Name
+		{ get; set; }
+
+		[XmlAttribute]
+		public string ShortName
+		{ get; set; }
+
+		#endregion
+
 		public void Update(Unit other)
 		{
 			this.ID = other.ID;
@@ -11,7 +29,7 @@ namespace ComfortIsland.Database
 			this.ShortName = other.ShortName;
 		}
 
-		public bool Validate(ComfortIslandDatabase database, out StringBuilder errors)
+		public bool Validate(out StringBuilder errors)
 		{
 			errors = new StringBuilder();
 			if (string.IsNullOrEmpty(Name))
@@ -25,12 +43,20 @@ namespace ComfortIsland.Database
 			return errors.Length == 0;
 		}
 
-		public Unit PrepareToDisplay(ComfortIslandDatabase database)
-		{
-			return this;
-		}
+		#region [De]Serialization
 
-		public void PrepareToSave(ComfortIslandDatabase database)
+		public void BeforeSerialization()
+		{ }
+
+		public void AfterDeserialization()
+		{ }
+
+		#endregion
+
+		public void BeforeEdit()
+		{ }
+
+		public void AfterEdit()
 		{ }
 	}
 }

@@ -82,16 +82,13 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Database\Balance.cs" />
-    <Compile Include="Database\Database.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Database.edmx</DependentUpon>
-    </Compile>
+    <Compile Include="Database\Database.cs" />
     <Compile Include="Database\Document.cs" />
-    <Compile Include="Database\DocumentTypeEnum.cs" />
+    <Compile Include="Database\DocumentType.cs" />
+    <Compile Include="Database\Interfaces.cs" />
+    <Compile Include="Database\Position.cs" />
     <Compile Include="Database\Product.cs" />
     <Compile Include="Database\Unit.cs" />
-    <Compile Include="Database\UnitEnum.cs" />
     <Compile Include="Dialogs\DocumentDialog.xaml.cs">
       <DependentUpon>DocumentDialog.xaml</DependentUpon>
     </Compile>
@@ -101,7 +98,6 @@
     <Compile Include="Dialogs\UnitDialog.xaml.cs">
       <DependentUpon>UnitDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="IEditable.cs" />
     <Compile Include="IEditDialog.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -126,10 +122,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="Database\Database.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Database.Designer.cs</LastGenOutput>
-    </EntityDeploy>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
