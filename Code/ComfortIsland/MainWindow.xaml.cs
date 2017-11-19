@@ -6,6 +6,7 @@ using System.Windows.Controls;
 
 using ComfortIsland.Database;
 using ComfortIsland.Dialogs;
+using ComfortIsland.Reports;
 
 namespace ComfortIsland
 {
@@ -26,7 +27,7 @@ namespace ComfortIsland
 			// документы
 			documentsGrid.ItemsSource = database.Documents;
 			// остатки
-			balanceGrid.ItemsSource = database.Balance;
+			balanceGrid.ItemsSource = new BalanceReport(DateTime.Now).Items;
 			// справочники
 			productsGrid.ItemsSource = database.Products;
 			unitsGrid.ItemsSource = database.Units;

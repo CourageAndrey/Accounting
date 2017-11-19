@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections;
+using System.Text;
 
 namespace ComfortIsland
 {
@@ -25,5 +26,10 @@ namespace ComfortIsland
 	interface IEditDialog<T>
 	{
 		T EditValue { get; set; }
+	}
+
+	interface IReport
+	{
+		IEnumerable Items { get; }
 	}
 }
