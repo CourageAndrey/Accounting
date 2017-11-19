@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-
+using System.Windows.Input;
 using ComfortIsland.Database;
 using ComfortIsland.Dialogs;
 using ComfortIsland.Reports;
@@ -26,8 +26,8 @@ namespace ComfortIsland
 
 			// документы
 			documentsGrid.ItemsSource = database.Documents;
-			// остатки
-			balanceGrid.ItemsSource = new BalanceReport(DateTime.Now).Items;
+			// отчёты
+			listReports.ItemsSource = ReportDescriptor.All;//new BalanceReport(DateTime.Now).Items
 			// справочники
 			productsGrid.ItemsSource = database.Products;
 			unitsGrid.ItemsSource = database.Units;
@@ -65,8 +65,8 @@ namespace ComfortIsland
 				document => DocumentTypeImplementation.AllTypes[type].Process(document),
 				item =>
 				{
-					balanceGrid.ItemsSource = null;
-					balanceGrid.ItemsSource = Database.Database.Instance.Balance;
+					reportHeader.Text = string.Empty;
+					reportGrid.ItemsSource = null;
 				});
 		}
 
@@ -228,6 +228,28 @@ namespace ComfortIsland
 				: (grid.SelectedItem != null ? 1 : 0);
 			editButton.IsEnabled = itemsCount == 1;
 			deleteButton.IsEnabled = itemsCount > 0;
+		}
+
+		#endregion
+
+		#region Отчёты
+
+		private void newReportClick(object sender, MouseButtonEventArgs e)
+		{
+			var reportDescriptor = listReports.SelectedItem as ReportDescriptor;
+			if (reportDescriptor != null)
+			{
+				var report = reportDescriptor.CreateReport();
+				reportGrid.ItemsSource = null;
+				reportGrid.Columns.Clear();
+				reportHeader.Text = report.Title;
+				foreach (var column in reportDescriptor.GetColumns())
+				{
+					reportGrid.Columns.Add(column);
+				}
+				reportGrid.ItemsSource = report.Items;
+				
+			}
 		}
 
 		#endregion

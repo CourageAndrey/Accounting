@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Text;
 
+using ComfortIsland.Reports;
+
 namespace ComfortIsland
 {
 	public interface IEntity
@@ -23,13 +25,17 @@ namespace ComfortIsland
 		void AfterEdit();
 	}
 
-	interface IEditDialog<T>
+	public interface IEditDialog<T>
 	{
 		T EditValue { get; set; }
 	}
 
-	interface IReport
+	public interface IReport
 	{
 		IEnumerable Items { get; }
+
+		string Title { get; }
+
+		ReportDescriptor Descriptor { get; }
 	}
 }

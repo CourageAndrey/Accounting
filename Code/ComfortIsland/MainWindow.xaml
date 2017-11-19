@@ -20,15 +20,14 @@
 				</DataGrid>
 			</DockPanel>
 		</TabItem>
-		<TabItem Header="Складские остатки">
-			<DataGrid Name="balanceGrid" IsReadOnly="True" AutoGenerateColumns="False">
-				<DataGrid.Columns>
-					<DataGridTextColumn Header="Код" Binding="{Binding Path=ProductCode, Mode=OneTime}" MinWidth="100"/>
-					<DataGridTextColumn Header="Товар" Binding="{Binding Path=ProductName, Mode=OneTime}" MinWidth="300"/>
-					<DataGridTextColumn Header="Ед/изм" Binding="{Binding Path=ProductUnit, Mode=OneTime}" MinWidth="50"/>
-					<DataGridTextColumn Header="Остатки" Binding="{Binding Path=Count, Mode=OneTime}" MinWidth="100"/>
-				</DataGrid.Columns>
-			</DataGrid>
+		<TabItem Header="Отчёты">
+			<DockPanel LastChildFill="True">
+				<GroupBox DockPanel.Dock="Left" Header="Список отчётов" Width="200">
+					<ListBox Name="listReports" DisplayMemberPath="Title" MouseDoubleClick="newReportClick" />
+				</GroupBox>
+				<TextBlock DockPanel.Dock="Top" Margin="0,10,0,10" FontWeight="Bold" Name="reportHeader" TextAlignment="Center" Text="&lt; ЗАГОЛОВОК ОТЧЁТА &gt;" />
+				<DataGrid Name="reportGrid" IsReadOnly="True" AutoGenerateColumns="False" />
+			</DockPanel>
 		</TabItem>
 		<TabItem Header="Справочники">
 			<TabControl TabStripPlacement="Left">
