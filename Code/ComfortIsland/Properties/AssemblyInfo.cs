@@ -7,12 +7,12 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ComfortIsland")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Остров Комфорта")]
+[assembly: AssemblyDescription("Учётная система для \"Остров Комфорта\"")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ComfortIsland")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyCompany("Андрей Бычко")]
+[assembly: AssemblyProduct("Остров Комфорта")]
+[assembly: AssemblyCopyright("Copyright © Андрей Бычко 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
