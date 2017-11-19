@@ -30,7 +30,7 @@ namespace ComfortIsland
 			// справочники
 			productsGrid.ItemsSource = database.Products;
 			unitsGrid.ItemsSource = database.Units;
-			documentTypesGrid.ItemsSource = DocumentTypeHelper.AllTypes;
+			documentTypesGrid.ItemsSource = DocumentTypeImplementation.AllTypes;
 
 			updateButtonsAvailability(productsGrid, buttonEditProduct, buttonDeleteProduct);
 			updateButtonsAvailability(unitsGrid, buttonEditUnit, buttonDeleteUnit);
@@ -42,75 +42,26 @@ namespace ComfortIsland
 
 		private void incomeClick(object sender, RoutedEventArgs e)
 		{
-			createDocument(DocumentType.Income, document =>
-			{
-				var balanceTable = Database.Database.Instance.Balance;
-				foreach (var position in document.Positions)
-				{
-					var balance = balanceTable.FirstOrDefault(b => b.ProductId == position.Key.ID);
-					if (balance != null)
-					{
-						balance.Count += position.Value;
-					}
-					else
-					{
-						balanceTable.Add(new Balance(position.Key, position.Value));
-					}
-				}
-			});
+			createDocument(DocumentType.Income);
 		}
 
 		private void outcomeClick(object sender, RoutedEventArgs e)
 		{
-			createDocument(DocumentType.Outcome, document =>
-			{
-				var balanceTable = Database.Database.Instance.Balance;
-				foreach (var position in document.Positions)
-				{
-					var balance = balanceTable.First(b => b.ProductId == position.Key.ID);
-					balance.Count -= position.Value;
-				}
-			});
+			createDocument(DocumentType.Outcome);
 		}
 
 		private void produceClick(object sender, RoutedEventArgs e)
 		{
-			createDocument(DocumentType.Produce, document =>
-			{
-				var database = Database.Database.Instance;
-				var balanceTable = database.Balance;
-				foreach (var position in document.Positions)
-				{
-					var product = position.Key;
-
-					// increase balance
-					var balance = balanceTable.FirstOrDefault(b => b.ProductId == product.ID);
-					if (balance != null)
-					{
-						balance.Count += position.Value;
-					}
-					else
-					{
-						balanceTable.Add(new Balance(position.Key, position.Value));
-					}
-
-					// decrease balance
-					foreach (var child in product.Children)
-					{
-						balance = balanceTable.First(b => b.ProductId == child.Key.ID);
-						balance.Count -= (position.Value * child.Value);
-					}
-				}
-			});
+			createDocument(DocumentType.Produce);
 		}
 
-		private void createDocument(DocumentType type, Action<Document> processFunction)
+		private void createDocument(DocumentType type)
 		{
 			addItem<Document, DocumentDialog>(
 				documentsGrid,
 				Database.Database.Instance.Documents,
 				() => new Document { Date = DateTime.Now, Type = type, },
-				processFunction,
+				document => DocumentTypeImplementation.AllTypes[type].Process(document),
 				item =>
 				{
 					balanceGrid.ItemsSource = null;

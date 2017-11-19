@@ -31,7 +31,7 @@ namespace ComfortIsland.Database
 
 		[XmlIgnore]
 		public string TypeName
-		{ get { return Type.ToStringRepresentation(); } }
+		{ get { return DocumentTypeImplementation.AllTypes[Type].Name; } }
 
 		[XmlIgnore]
 		public Dictionary<Product, long> Positions
@@ -70,64 +70,12 @@ namespace ComfortIsland.Database
 			{
 				errors.AppendLine("В документе не выбрано ни одного продукта.");
 			}
-			var products = Database.Instance.Products;
-			List<Position> positionsToCheck;
-			if (Type == DocumentType.Income)
-			{
-				positionsToCheck = new List<Position>();
-			}
-			else if (Type == DocumentType.Outcome)
-			{
-				positionsToCheck = PositionsToSerialize;
-			}
-			else if (Type == DocumentType.Produce)
-			{
-				positionsToCheck = new List<Position>();
-				foreach (var position in PositionsToSerialize)
-				{
-					var product = products.First(p => p.ID == position.ID);
-					if (product.Children.Count == 0)
-					{
-						errors.AppendLine(string.Format(CultureInfo.InvariantCulture, "Товар {0} не может быть произведён, так как ни из чего не состоит.", product.DisplayMember));
-					}
-					foreach (var child in product.Children)
-					{
-						var existing = positionsToCheck.FirstOrDefault(p => p.ID == position.ID);
-						if (existing != null)
-						{
-							existing.Count += (position.Count * child.Value);
-						}
-						else
-						{
-							positionsToCheck.Add(new Position(position.ID, position.Count * child.Value));
-						}
-					}
-				}
-			}
-			else
-			{
-				throw new NotSupportedException();
-			}
-			var allBalance = Database.Instance.Balance;
-			foreach (var position in positionsToCheck)
-			{
-				var balance = allBalance.FirstOrDefault(b => b.ProductId == position.ID);
-				long count = balance != null ? balance.Count : 0;
-				if (count < position.Count)
-				{
-					errors.AppendLine(string.Format(
-						CultureInfo.InvariantCulture,
-						InsufficientProductsCount,
-						products.First(p => p.ID == position.ID).DisplayMember,
-						count,
-						position.Count));
-				}
-			}
+			DocumentTypeImplementation.AllTypes[Type].Validate(this, errors);
 			foreach (var position in PositionsToSerialize)
 			{
 				if (position.Count <= 0)
 				{
-					errors.AppendLine(CountMustBePositive);
+					errors.AppendLine("Количество товара во всех позициях должно быть строго больше ноля.");
 				}
 			}
 			var ids = PositionsToSerialize.Select(p => p.ID).ToList();
@@ -137,9 +85,6 @@ namespace ComfortIsland.Database
 			}
 			return errors.Length == 0;
 		}
-
-		private const string CountMustBePositive = "Количество товара во всех позициях должно быть строго больше ноля.";
-		private const string InsufficientProductsCount = "Недостаточно товара \"{0}\". Имеется по факту: {1}, требуется {2}.";
 
 		#region [De]Serialization
 
