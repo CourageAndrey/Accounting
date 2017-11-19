@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace ComfortIsland.Database
+namespace ComfortIsland
 {
 	public interface IEntity
 	{
@@ -20,5 +20,10 @@ namespace ComfortIsland.Database
 		void BeforeEdit();
 
 		void AfterEdit();
+	}
+
+	interface IEditDialog<T>
+	{
+		T EditValue { get; set; }
 	}
 }
