@@ -29,9 +29,16 @@ namespace ComfortIsland.Reports
 
 		public BalanceReport(DateTime date)
 		{
-			Date = date.AddDays(1).AddSeconds(-1).Date;
-#warning Реализовать правильный откат документов по конкретным датам.
-			BalanceItems = Database.Database.Instance.Balance.ToList();
+			Date = date.Date.AddDays(1).AddMilliseconds(-1);
+			var database = Database.Database.Instance;
+			var balanceList = database.Balance.Select(b => new Balance(b)).ToList();
+
+			foreach (var document in database.Documents.Where(d => d.Date > Date).OrderByDescending(d => d.Date))
+			{
+				DocumentTypeImplementation.AllTypes[document.Type].ProcessBack(document, balanceList);
+			}
+
+			BalanceItems = balanceList;
 		}
 	}
 }

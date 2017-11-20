@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
 namespace ComfortIsland.Database
@@ -36,6 +35,15 @@ namespace ComfortIsland.Database
 		public Balance()
 		{ }
 
+		public Balance(Balance other)
+		{
+			ProductId = other.ProductId;
+			Count = other.Count;
+			ProductCode = other.ProductCode;
+			ProductName = other.ProductName;
+			ProductUnit = other.ProductUnit;
+		}
+
 		public Balance(Product product, long count)
 		{
 			ProductId = product.ID;
@@ -51,16 +59,6 @@ namespace ComfortIsland.Database
 			ProductName = product.Name;
 			ProductUnit = product.Unit.Name;
 		}
-
-		#region [De]Serialization
-
-		[OnSerialized]
-		private void afterDeserialization(StreamingContext context)
-		{
-			
-		}
-
-		#endregion
 
 		public void AfterDeserialization()
 		{
