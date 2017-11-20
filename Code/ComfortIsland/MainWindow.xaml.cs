@@ -32,7 +32,7 @@ namespace ComfortIsland
 			// справочники
 			productsGrid.ItemsSource = database.Products;
 			unitsGrid.ItemsSource = database.Units;
-			documentTypesGrid.ItemsSource = DocumentTypeImplementation.AllTypes;
+			documentTypesGrid.ItemsSource = DocumentTypeImplementation.AllTypes.Values;
 
 			updateButtonsAvailability(productsGrid, buttonEditProduct, buttonDeleteProduct);
 			updateButtonsAvailability(unitsGrid, buttonEditUnit, buttonDeleteUnit);
