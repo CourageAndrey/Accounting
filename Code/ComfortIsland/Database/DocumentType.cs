@@ -33,14 +33,18 @@ namespace ComfortIsland.Database
 		public ProcessDocumentDelegate Process
 		{ get; private set; }
 
+		public ProcessDocumentDelegate ProcessBack
+		{ get; private set; }
+
 		#endregion
 
-		private DocumentTypeImplementation(DocumentType type, string name, ValidateDocumentDelegate validate, ProcessDocumentDelegate process)
+		private DocumentTypeImplementation(DocumentType type, string name, ValidateDocumentDelegate validate, ProcessDocumentDelegate process, ProcessDocumentDelegate processBack)
 		{
 			Type = type;
 			Name = name;
 			Validate = validate;
 			Process = process;
+			ProcessBack = processBack;
 		}
 
 		#region List
@@ -57,9 +61,9 @@ namespace ComfortIsland.Database
 
 		static DocumentTypeImplementation()
 		{
-			Income = new DocumentTypeImplementation(DocumentType.Income, "приход", validateIncome, processIncome);
-			Outcome = new DocumentTypeImplementation(DocumentType.Outcome, "продажа", validateOutcome, processOutcome);
-			Produce = new DocumentTypeImplementation(DocumentType.Produce, "производство", validateProduce, processProduce);
+			Income = new DocumentTypeImplementation(DocumentType.Income, "приход", validateIncome, processIncome, processIncomeBack);
+			Outcome = new DocumentTypeImplementation(DocumentType.Outcome, "продажа", validateOutcome, processOutcome, processOutcomeBack);
+			Produce = new DocumentTypeImplementation(DocumentType.Produce, "производство", validateProduce, processProduce, processProduceBack);
 			AllTypes = new ReadOnlyDictionary<DocumentType, DocumentTypeImplementation>(new Dictionary<DocumentType, DocumentTypeImplementation>
 			{
 				{ DocumentType.Income, Income },
@@ -177,6 +181,47 @@ namespace ComfortIsland.Database
 				{
 					balance = balanceTable.First(b => b.ProductId == child.Key.ID);
 					balance.Count -= (position.Value * child.Value);
+				}
+			}
+		}
+
+		#endregion
+
+		#region ProcessBack-methods
+
+		private static void processIncomeBack(Document document, IList<Balance> balanceTable)
+		{
+			foreach (var position in document.Positions)
+			{
+				var balance = balanceTable.First(b => b.ProductId == position.Key.ID);
+				balance.Count -= position.Value;
+			}
+		}
+
+		private static void processOutcomeBack(Document document, IList<Balance> balanceTable)
+		{
+			foreach (var position in document.Positions)
+			{
+				var balance = balanceTable.First(b => b.ProductId == position.Key.ID);
+				balance.Count += position.Value;
+			}
+		}
+
+		private static void processProduceBack(Document document, IList<Balance> balanceTable)
+		{
+			foreach (var position in document.Positions)
+			{
+				var product = position.Key;
+
+				// decrease balance
+				var balance = balanceTable.First(b => b.ProductId == product.ID);
+				balance.Count -= position.Value;
+
+				// increase balance
+				foreach (var child in product.Children)
+				{
+					balance = balanceTable.First(b => b.ProductId == child.Key.ID);
+					balance.Count += (position.Value * child.Value);
 				}
 			}
 		}
