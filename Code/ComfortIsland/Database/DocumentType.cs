@@ -15,7 +15,7 @@ namespace ComfortIsland.Database
 
 	public delegate void ValidateDocumentDelegate(Document document, StringBuilder errors);
 
-	public delegate void ProcessDocumentDelegate(Document document);
+	public delegate void ProcessDocumentDelegate(Document document, IList<Balance> balanceTable);
 
 	public class DocumentTypeImplementation
 	{
@@ -130,9 +130,8 @@ namespace ComfortIsland.Database
 
 		#region Process-methods
 
-		private static void processIncome(Document document)
+		private static void processIncome(Document document, IList<Balance> balanceTable)
 		{
-			var balanceTable = Database.Instance.Balance;
 			foreach (var position in document.Positions)
 			{
 				var balance = balanceTable.FirstOrDefault(b => b.ProductId == position.Key.ID);
@@ -147,9 +146,8 @@ namespace ComfortIsland.Database
 			}
 		}
 
-		private static void processOutcome(Document document)
+		private static void processOutcome(Document document, IList<Balance> balanceTable)
 		{
-			var balanceTable = Database.Instance.Balance;
 			foreach (var position in document.Positions)
 			{
 				var balance = balanceTable.First(b => b.ProductId == position.Key.ID);
@@ -157,9 +155,8 @@ namespace ComfortIsland.Database
 			}
 		}
 
-		private static void processProduce(Document document)
+		private static void processProduce(Document document, IList<Balance> balanceTable)
 		{
-			var balanceTable = Database.Instance.Balance;
 			foreach (var position in document.Positions)
 			{
 				var product = position.Key;
