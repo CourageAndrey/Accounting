@@ -240,15 +240,18 @@ namespace ComfortIsland
 			var reportDescriptor = listReports.SelectedItem as ReportDescriptor;
 			if (reportDescriptor != null)
 			{
-				var report = reportDescriptor.CreateReport();
-				reportGrid.ItemsSource = null;
-				reportGrid.Columns.Clear();
-				reportHeader.Text = report.Title;
-				foreach (var column in reportDescriptor.GetColumns())
+				IReport report;
+				if (reportDescriptor.CreateReport(out report))
 				{
-					reportGrid.Columns.Add(column);
+					reportGrid.ItemsSource = null;
+					reportGrid.Columns.Clear();
+					reportHeader.Text = report.Title;
+					foreach (var column in reportDescriptor.GetColumns())
+					{
+						reportGrid.Columns.Add(column);
+					}
+					reportGrid.ItemsSource = report.Items;
 				}
-				reportGrid.ItemsSource = report.Items;
 				
 			}
 		}

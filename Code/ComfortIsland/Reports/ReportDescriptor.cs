@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using ComfortIsland.Dialogs;
 
 namespace ComfortIsland.Reports
 {
@@ -15,11 +16,12 @@ namespace ComfortIsland.Reports
 		{ get; private set; }
 
 		private readonly Func<IEnumerable<DataGridColumn>> columnsGetter;
-		private readonly Func<IReport> reportCreator;
+		private delegate bool ReportCreator(out IReport report);
+		private readonly ReportCreator reportCreator;
 
 		#endregion
 
-		public ReportDescriptor(string title, Func<IEnumerable<DataGridColumn>> columnsGetter, Func<IReport> reportCreator)
+		private ReportDescriptor(string title, Func<IEnumerable<DataGridColumn>> columnsGetter, ReportCreator reportCreator)
 		{
 			Title = title;
 			this.columnsGetter = columnsGetter;
@@ -31,9 +33,9 @@ namespace ComfortIsland.Reports
 			return columnsGetter();
 		}
 
-		public IReport CreateReport()
+		public bool CreateReport(out IReport report)
 		{
-			return reportCreator();
+			return reportCreator(out report);
 		}
 
 		#region Список
@@ -64,12 +66,28 @@ namespace ComfortIsland.Reports
 				Binding = new Binding { Path = new PropertyPath("Count"), Mode = BindingMode.OneTime },
 				MinWidth = 100,
 			},
-		}, () => new BalanceReport(DateTime.Now));
+		}, createBalanceReport);
 
 		public static readonly IEnumerable<ReportDescriptor> All = new ReadOnlyCollection<ReportDescriptor>(new List<ReportDescriptor>
 		{
 			Balance,
 		});
+
+		private static bool createBalanceReport(out IReport report)
+		{
+			var dialog = new SelectDateDialog { EditValue = DateTime.Now };
+			if (dialog.ShowDialog() == true)
+			{
+				report = new BalanceReport(dialog.EditValue);
+				return true;
+			}
+			else
+			{
+				report = null;
+				return false;
+			}
+			
+		}
 
 		#endregion
 	}
