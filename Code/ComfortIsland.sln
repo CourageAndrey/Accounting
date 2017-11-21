@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComfortIsland", "ComfortIsland\ComfortIsland.csproj", "{A3881C13-16C4-49D9-B8CF-D3E1AEAEA97F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{1BEA4FEF-0872-4BAD-8B4B-DF2C589347A1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{A3881C13-16C4-49D9-B8CF-D3E1AEAEA97F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3881C13-16C4-49D9-B8CF-D3E1AEAEA97F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3881C13-16C4-49D9-B8CF-D3E1AEAEA97F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BEA4FEF-0872-4BAD-8B4B-DF2C589347A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BEA4FEF-0872-4BAD-8B4B-DF2C589347A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BEA4FEF-0872-4BAD-8B4B-DF2C589347A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BEA4FEF-0872-4BAD-8B4B-DF2C589347A1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
