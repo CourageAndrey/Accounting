@@ -17,6 +17,8 @@ namespace ComfortIsland.Database
 
 	public delegate void ProcessDocumentDelegate(Document document, IList<Balance> balanceTable);
 
+	public delegate IDictionary<long, long> GetBalanceDeltaDelegate(Document document);
+
 	public class DocumentTypeImplementation
 	{
 		#region Properties
@@ -38,6 +40,16 @@ namespace ComfortIsland.Database
 
 		#endregion
 
+		#region Constructors
+
+		private DocumentTypeImplementation(DocumentType type, string name, GetBalanceDeltaDelegate getBalanceDelta)
+			: this(type,
+				   name,
+				   (document, errors) => validateDefault(getBalanceDelta(document), errors),
+				   (document, balanceTable) => processDefault(getBalanceDelta(document), balanceTable),
+				   (document, balanceTable) => processBackDefault(getBalanceDelta(document), balanceTable))
+		{ }
+
 		private DocumentTypeImplementation(DocumentType type, string name, ValidateDocumentDelegate validate, ProcessDocumentDelegate process, ProcessDocumentDelegate processBack)
 		{
 			Type = type;
@@ -46,6 +58,8 @@ namespace ComfortIsland.Database
 			Process = process;
 			ProcessBack = processBack;
 		}
+
+		#endregion
 
 		#region List
 
@@ -61,9 +75,12 @@ namespace ComfortIsland.Database
 
 		static DocumentTypeImplementation()
 		{
-			Income = new DocumentTypeImplementation(DocumentType.Income, "приход", validateIncome, processIncome, processIncomeBack);
-			Outcome = new DocumentTypeImplementation(DocumentType.Outcome, "продажа", validateOutcome, processOutcome, processOutcomeBack);
-			Produce = new DocumentTypeImplementation(DocumentType.Produce, "производство", validateProduce, processProduce, processProduceBack);
+			Income = new DocumentTypeImplementation(DocumentType.Income, "приход", getBalanceDeltaIncome);
+			Outcome = new DocumentTypeImplementation(DocumentType.Outcome, "продажа", getBalanceDeltaOutcome);
+			Produce = new DocumentTypeImplementation(DocumentType.Produce, "производство",
+				validateProduce,
+				(document, balanceTable) => processDefault(getBalanceDeltaProduce(document), balanceTable),
+				(document, balanceTable) => processBackDefault(getBalanceDeltaProduce(document), balanceTable));
 			AllTypes = new ReadOnlyDictionary<DocumentType, DocumentTypeImplementation>(new Dictionary<DocumentType, DocumentTypeImplementation>
 			{
 				{ DocumentType.Income, Income },
@@ -72,22 +89,31 @@ namespace ComfortIsland.Database
 			});
 		}
 
-		#region Validate-methods
+		#region Common default implementations
 
-		private static void validateIncome(Document document, StringBuilder errors)
+		private static void validateDefault(IDictionary<long, long> balanceDelta, StringBuilder errors)
 		{
-			validate(new Position[0], Database.Instance.Products, errors);
-		}
-
-		private static void validateOutcome(Document document, StringBuilder errors)
-		{
-			validate(document.PositionsToSerialize, Database.Instance.Products, errors);
+			var allBalance = Database.Instance.Balance;
+			var products = Database.Instance.Products;
+			foreach (var position in balanceDelta)
+			{
+				var balance = allBalance.FirstOrDefault(b => b.ProductId == position.Key);
+				long count = balance != null ? balance.Count : 0;
+				if ((count + position.Value) < 0)
+				{
+					errors.AppendLine(string.Format(
+						CultureInfo.InvariantCulture,
+						"Недостаточно товара \"{0}\". Имеется по факту {1}, требуется {2}.",
+						products.First(p => p.ID == position.Key).DisplayMember,
+						count,
+						-position.Value));
+				}
+			}
 		}
 
 		private static void validateProduce(Document document, StringBuilder errors)
 		{
 			var products = Database.Instance.Products;
-			var positionsToCheck = new List<Position>();
 			foreach (var position in document.PositionsToSerialize)
 			{
 				var product = products.First(p => p.ID == position.ID);
@@ -95,135 +121,71 @@ namespace ComfortIsland.Database
 				{
 					errors.AppendLine(string.Format(CultureInfo.InvariantCulture, "Товар {0} не может быть произведён, так как ни из чего не состоит.", product.DisplayMember));
 				}
-				foreach (var child in product.Children)
+			}
+			validateDefault(getBalanceDeltaProduce(document), errors);
+		}
+
+		private static void processDefault(IDictionary<long, long> balanceDelta, IList<Balance> balanceTable)
+		{
+			foreach (var position in balanceDelta)
+			{
+				var balance = balanceTable.FirstOrDefault(b => b.ProductId == position.Key);
+				if (balance != null)
 				{
-					var existing = positionsToCheck.FirstOrDefault(p => p.ID == child.Key.ID);
-					if (existing != null)
+					balance.Count += position.Value;
+				}
+				else
+				{
+					balanceTable.Add(new Balance(position.Key, position.Value));
+				}
+			}
+		}
+
+		private static void processBackDefault(IDictionary<long, long> balanceDelta, IList<Balance> balanceTable)
+		{
+			foreach (var position in balanceDelta)
+			{
+				var balance = balanceTable.First(b => b.ProductId == position.Key);
+				balance.Count -= position.Value;
+			}
+		}
+
+		#endregion
+
+		#region GetDelta-methods
+
+		private static IDictionary<long, long> getBalanceDeltaIncome(Document document)
+		{
+			return document.PositionsToSerialize.ToDictionary(p => p.ID, p => p.Count);
+		}
+
+		private static IDictionary<long, long> getBalanceDeltaOutcome(Document document)
+		{
+			return document.PositionsToSerialize.ToDictionary(p => p.ID, p => -p.Count);
+		}
+
+		private static IDictionary<long, long> getBalanceDeltaProduce(Document document)
+		{
+			var result = new Dictionary<long, long>();
+			var products = Database.Instance.Products;
+			foreach (var position in document.PositionsToSerialize)
+			{
+				result[position.ID] = position.Count;
+				foreach (var child in products.First(p => p.ID == position.ID).Children)
+				{
+					long count;
+					if (result.TryGetValue(child.Key.ID, out count))
 					{
-						existing.Count += (position.Count * child.Value);
+						count -= (position.Count * child.Value);
 					}
 					else
 					{
-						positionsToCheck.Add(new Position(child.Key.ID, position.Count * child.Value));
+						count = -(position.Count * child.Value);
 					}
+					result[child.Key.ID] = count;
 				}
 			}
-			validate(positionsToCheck, products, errors);
-		}
-
-		private static void validate(IEnumerable<Position> positionsToCheck, IEnumerable<Product> products, StringBuilder errors)
-		{
-			var allBalance = Database.Instance.Balance;
-			foreach (var position in positionsToCheck)
-			{
-				var balance = allBalance.FirstOrDefault(b => b.ProductId == position.ID);
-				long count = balance != null ? balance.Count : 0;
-				if (count < position.Count)
-				{
-					errors.AppendLine(string.Format(
-						CultureInfo.InvariantCulture,
-						"Недостаточно товара \"{0}\". Имеется по факту {1}, требуется {2}.",
-						products.First(p => p.ID == position.ID).DisplayMember,
-						count,
-						position.Count));
-				}
-			}
-		}
-
-		#endregion
-
-		#region Process-methods
-
-		private static void processIncome(Document document, IList<Balance> balanceTable)
-		{
-			foreach (var position in document.Positions)
-			{
-				var balance = balanceTable.FirstOrDefault(b => b.ProductId == position.Key.ID);
-				if (balance != null)
-				{
-					balance.Count += position.Value;
-				}
-				else
-				{
-					balanceTable.Add(new Balance(position.Key, position.Value));
-				}
-			}
-		}
-
-		private static void processOutcome(Document document, IList<Balance> balanceTable)
-		{
-			foreach (var position in document.Positions)
-			{
-				var balance = balanceTable.First(b => b.ProductId == position.Key.ID);
-				balance.Count -= position.Value;
-			}
-		}
-
-		private static void processProduce(Document document, IList<Balance> balanceTable)
-		{
-			foreach (var position in document.Positions)
-			{
-				var product = position.Key;
-
-				// increase balance
-				var balance = balanceTable.FirstOrDefault(b => b.ProductId == product.ID);
-				if (balance != null)
-				{
-					balance.Count += position.Value;
-				}
-				else
-				{
-					balanceTable.Add(new Balance(position.Key, position.Value));
-				}
-
-				// decrease balance
-				foreach (var child in product.Children)
-				{
-					balance = balanceTable.First(b => b.ProductId == child.Key.ID);
-					balance.Count -= (position.Value * child.Value);
-				}
-			}
-		}
-
-		#endregion
-
-		#region ProcessBack-methods
-
-		private static void processIncomeBack(Document document, IList<Balance> balanceTable)
-		{
-			foreach (var position in document.Positions)
-			{
-				var balance = balanceTable.First(b => b.ProductId == position.Key.ID);
-				balance.Count -= position.Value;
-			}
-		}
-
-		private static void processOutcomeBack(Document document, IList<Balance> balanceTable)
-		{
-			foreach (var position in document.Positions)
-			{
-				var balance = balanceTable.First(b => b.ProductId == position.Key.ID);
-				balance.Count += position.Value;
-			}
-		}
-
-		private static void processProduceBack(Document document, IList<Balance> balanceTable)
-		{
-			foreach (var position in document.Positions)
-			{
-				var product = position.Key;
-
-				// decrease balance
-				var balance = balanceTable.First(b => b.ProductId == product.ID);
-				balance.Count -= position.Value;
-
-				// increase balance
-				foreach (var child in product.Children)
-				{
-					balance = balanceTable.First(b => b.ProductId == child.Key.ID);
-					balance.Count += (position.Value * child.Value);
-				}
-			}
+			return result;
 		}
 
 		#endregion

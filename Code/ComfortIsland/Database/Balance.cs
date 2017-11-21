@@ -51,6 +51,10 @@ namespace ComfortIsland.Database
 			initializeProduct(product);
 		}
 
+		public Balance(long productId, long count)
+			: this(Database.Instance.Products.First(p => p.ID == productId), count)
+		{ }
+
 		#endregion
 
 		private void initializeProduct(Product product)
