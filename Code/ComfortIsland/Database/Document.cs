@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
@@ -61,10 +60,6 @@ namespace ComfortIsland.Database
 		public bool Validate(out StringBuilder errors)
 		{
 			errors = new StringBuilder();
-			if (string.IsNullOrEmpty(Number))
-			{
-				errors.AppendLine("Номер не может быть пустой строкой.");
-			}
 			if (PositionsToSerialize.Count <= 0)
 			{
 				errors.AppendLine("В документе не выбрано ни одного продукта.");
