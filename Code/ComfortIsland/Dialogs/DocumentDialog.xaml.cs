@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Windows;
 
 using ComfortIsland.Database;
@@ -17,6 +19,9 @@ namespace ComfortIsland.Dialogs
 			get { return (Document) contextControl.DataContext; }
 			set { contextControl.DataContext = value; }
 		}
+
+		public Func<IEnumerable<Product>> ProductsGetter
+		{ get; set; }
 
 		private void okClick(object sender, RoutedEventArgs e)
 		{
@@ -38,7 +43,7 @@ namespace ComfortIsland.Dialogs
 
 		private void dialogLoaded(object sender, RoutedEventArgs e)
 		{
-			comboBoxProducts.ItemsSource = Database.Database.Instance.Products;
+			comboBoxProducts.ItemsSource = (ProductsGetter ?? (() => Database.Database.Instance.Products))();
 		}
 	}
 }

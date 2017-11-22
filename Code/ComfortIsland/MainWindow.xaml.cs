@@ -54,10 +54,13 @@ namespace ComfortIsland
 
 		private void produceClick(object sender, RoutedEventArgs e)
 		{
-			createDocument(DocumentType.Produce);
+			createDocument(DocumentType.Produce, dialog =>
+			{
+				dialog.ProductsGetter = () => Database.Database.Instance.Products.Where(p => p.Children.Count > 0);
+			});
 		}
 
-		private void createDocument(DocumentType type)
+		private void createDocument(DocumentType type, Action<DocumentDialog> dialogSetup = null)
 		{
 			addItem<Document, DocumentDialog>(
 				documentsGrid,
@@ -68,7 +71,8 @@ namespace ComfortIsland
 				{
 					reportHeader.Text = string.Empty;
 					reportGrid.ItemsSource = null;
-				});
+				},
+				dialogSetup);
 		}
 
 		#endregion
@@ -132,14 +136,20 @@ namespace ComfortIsland
 			List<ItemT> table,
 			Func<ItemT> createItem = null,
 			Action<ItemT> beforeSave = null,
-			Action<ItemT> afterSave = null)
+			Action<ItemT> afterSave = null,
+			Action<DialogT> dialogSetup = null)
 			where ItemT : IEntity,  IEditable<ItemT>, new()
 			where DialogT : Window, IEditDialog<ItemT>, new()
 		{
 			var newItem = createItem != null
 				? createItem()
 				: new ItemT();
-			var dialog = new DialogT { EditValue = newItem };
+			var dialog = new DialogT();
+			if (dialogSetup != null)
+			{
+				dialogSetup(dialog);
+			}
+			dialog.EditValue = newItem;
 			if (dialog.ShowDialog() == true)
 			{
 				try
@@ -168,7 +178,8 @@ namespace ComfortIsland
 
 		private void editItem<ItemT, DialogT>(
 			DataGrid grid,
-			IEnumerable<ItemT> table)
+			IEnumerable<ItemT> table,
+			Action<DialogT> dialogSetup = null)
 			where ItemT : IEditable<ItemT>, new()
 			where DialogT : Window, IEditDialog<ItemT>, new()
 		{
@@ -179,7 +190,12 @@ namespace ComfortIsland
 				var copyItem = new ItemT();
 				copyItem.Update(editItem);
 				copyItem.BeforeEdit();
-				var dialog = new DialogT { EditValue = copyItem };
+				var dialog = new DialogT();
+				if (dialogSetup != null)
+				{
+					dialogSetup(dialog);
+				}
+				dialog.EditValue = copyItem;
 				if (dialog.ShowDialog() == true)
 				{
 					try
