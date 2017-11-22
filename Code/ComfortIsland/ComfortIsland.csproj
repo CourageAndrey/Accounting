@@ -60,6 +60,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Dialogs\SelectProductDialog.xaml.cs">
+      <DependentUpon>SelectProductDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\SelectPeriodDialog.xaml.cs">
       <DependentUpon>SelectPeriodDialog.xaml</DependentUpon>
     </Compile>
@@ -69,6 +72,10 @@
     <Compile Include="Reports\BalanceReport.cs" />
     <Compile Include="Reports\ReportDescriptor.cs" />
     <Compile Include="Reports\TradeReport.cs" />
+    <Page Include="Dialogs\SelectProductDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Dialogs\SelectPeriodDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

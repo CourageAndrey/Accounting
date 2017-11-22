@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -58,6 +60,52 @@ namespace ComfortIsland
 			{
 				dialog.ProductsGetter = () => Database.Database.Instance.Products.Where(p => p.Children.Count > 0);
 			});
+		}
+
+		private void checkBalanceClick(object sender, RoutedEventArgs e)
+		{
+			var dialog = new SelectProductDialog();
+			if (dialog.ShowDialog() == true)
+			{
+				var product = dialog.EditValue;
+				var balance = Database.Database.Instance.Balance;
+				var getBalance = new Func<Product, long>(p =>
+				{
+					var b = balance.FirstOrDefault(bb => bb.ProductId == p.ID);
+					return b != null ? b.Count : 0;
+				});
+
+				var message = new StringBuilder();
+				message.AppendLine("Имеется на складе: " + getBalance(product));
+
+				if (product.Children.Count > 0)
+				{
+					long minCount = long.MaxValue;
+					var children = new StringBuilder();
+					foreach (var child in product.Children)
+					{
+						long childBalance = getBalance(child.Key);
+						long canProduce = childBalance / child.Value;
+						minCount = Math.Min(minCount, canProduce);
+						children.AppendLine(string.Format(
+							CultureInfo.InvariantCulture,
+							"... {0} х \"{1}\", что хватит для производства {2} единиц товара",
+							childBalance,
+							child.Key.DisplayMember,
+							canProduce));
+					}
+					message.AppendLine("Может быть произведено: " + minCount);
+					message.AppendLine();
+					message.AppendLine("Комплектующие на складе:");
+					message.Append(children);
+				}
+
+				MessageBox.Show(
+					message.ToString(),
+					"Товар - " + product.DisplayMember,
+					MessageBoxButton.OK,
+					MessageBoxImage.Information);
+			}
 		}
 
 		private void createDocument(DocumentType type, Action<DocumentDialog> dialogSetup = null)

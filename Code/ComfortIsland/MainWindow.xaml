@@ -10,6 +10,7 @@
 					<Button Content="Приход на склад" Margin="5" Padding="5,2,5,2" Click="incomeClick" />
 					<Button Content="Продажа со склада" Margin="5" Padding="5,2,5,2" Click="outcomeClick" />
 					<Button Content="Производство" Margin="5" Padding="5,2,5,2" Click="produceClick" />
+					<Button Content="Проверить наличие товара" Margin="5" Padding="5,2,5,2" Click="checkBalanceClick" />
 				</StackPanel>
 				<DataGrid Name="documentsGrid" IsReadOnly="True" AutoGenerateColumns="False">
 					<DataGrid.Columns>
