@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
@@ -67,6 +68,10 @@ namespace ComfortIsland.Database
 			DocumentTypeImplementation.AllTypes[Type].Validate(this, errors);
 			foreach (var position in PositionsToSerialize)
 			{
+				if (Database.Instance.Products.FirstOrDefault(p => p.ID == position.ID) == null)
+				{
+					errors.AppendLine(string.Format(CultureInfo.InvariantCulture, "У {0}-й позиции в списке не выбран товар.", PositionsToSerialize.IndexOf(position) + 1));
+				}
 				if (position.Count <= 0)
 				{
 					errors.AppendLine("Количество товара во всех позициях должно быть строго больше ноля.");

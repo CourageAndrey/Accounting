@@ -24,7 +24,13 @@
 		<GroupBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="2" Header="Товары:">
 			<DataGrid IsReadOnly="False" AutoGenerateColumns="False" ItemsSource="{Binding Path=PositionsToSerialize, Mode=OneTime}">
 				<DataGrid.Columns>
-					<DataGridComboBoxColumn Header="Товар" SelectedValueBinding="{Binding Path=ID, Mode=TwoWay}" MinWidth="200" DisplayMemberPath="DisplayMember" SelectedValuePath="ID" x:Name="comboBoxProducts" />
+					<DataGridComboBoxColumn Header="Товар" SelectedValueBinding="{Binding Path=ID, Mode=TwoWay}" MinWidth="200" DisplayMemberPath="DisplayMember" SelectedValuePath="ID" x:Name="comboBoxProducts">
+						<DataGridComboBoxColumn.EditingElementStyle>
+							<Style TargetType="ComboBox">
+								<Setter Property="IsEditable" Value="True"/>
+							</Style>
+						</DataGridComboBoxColumn.EditingElementStyle>
+					</DataGridComboBoxColumn>
 					<DataGridTextColumn Header="Количество" Binding="{Binding Path=Count, Mode=TwoWay}" MinWidth="50"/>
 				</DataGrid.Columns>
 			</DataGrid>
