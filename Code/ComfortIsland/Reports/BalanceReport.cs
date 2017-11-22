@@ -35,7 +35,7 @@ namespace ComfortIsland.Reports
 
 			foreach (var document in database.Documents.Where(d => d.Date > Date).OrderByDescending(d => d.Date))
 			{
-				DocumentTypeImplementation.AllTypes[document.Type].ProcessBack(document, balanceList);
+				document.ProcessBack(balanceList);
 			}
 
 			BalanceItems = balanceList;

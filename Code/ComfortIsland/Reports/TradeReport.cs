@@ -42,7 +42,7 @@ namespace ComfortIsland.Reports
 			// открутили остатки на конец периода
 			foreach (var document in database.Documents.Where(d => d.Date > ToDate).OrderByDescending(d => d.Date))
 			{
-				DocumentTypeImplementation.AllTypes[document.Type].ProcessBack(document, balanceList);
+				document.ProcessBack(balanceList);
 			}
 			foreach (var balance in balanceList)
 			{
@@ -51,7 +51,7 @@ namespace ComfortIsland.Reports
 
 			foreach (var document in database.Documents.Where(d => d.Date <= ToDate && d.Date >= FromDate).OrderByDescending(d => d.Date))
 			{
-				DocumentTypeImplementation.AllTypes[document.Type].ProcessBack(document, balanceList);
+				document.ProcessBack(balanceList);
 				switch (document.Type)
 				{
 					case DocumentType.Income:

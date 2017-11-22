@@ -108,39 +108,32 @@ namespace UnitTests
 			outcome.BeforeEdit();
 			produce.BeforeEdit();
 
-			var incomeType = DocumentTypeImplementation.AllTypes[income.Type];
-			var outcomeType = DocumentTypeImplementation.AllTypes[outcome.Type];
-			var produceType = DocumentTypeImplementation.AllTypes[produce.Type];
-			Assert.AreEqual(DocumentType.Income, incomeType.Type);
-			Assert.AreEqual(DocumentType.Outcome, outcomeType.Type);
-			Assert.AreEqual(DocumentType.Produce, produceType.Type);
-
-			incomeType.Process(income, database.Balance);
+			income.Process(database.Balance);
 			Assert.AreEqual(20, database.Balance.First(b => b.ProductId == productChild1.ID).Count);
 			Assert.AreEqual(40, database.Balance.First(b => b.ProductId == productChild2.ID).Count);
 			Assert.AreEqual(1, database.Balance.First(b => b.ProductId == productParent.ID).Count);
 
-			produceType.Process(produce, database.Balance);
+			produce.Process(database.Balance);
 			Assert.AreEqual(5, database.Balance.First(b => b.ProductId == productChild1.ID).Count);
 			Assert.AreEqual(10, database.Balance.First(b => b.ProductId == productChild2.ID).Count);
 			Assert.AreEqual(16, database.Balance.First(b => b.ProductId == productParent.ID).Count);
 
-			outcomeType.Process(outcome, database.Balance);
+			outcome.Process(database.Balance);
 			Assert.AreEqual(0, database.Balance.First(b => b.ProductId == productChild1.ID).Count);
 			Assert.AreEqual(0, database.Balance.First(b => b.ProductId == productChild2.ID).Count);
 			Assert.AreEqual(15, database.Balance.First(b => b.ProductId == productParent.ID).Count);
 
-			outcomeType.ProcessBack(outcome, database.Balance);
+			outcome.ProcessBack(database.Balance);
 			Assert.AreEqual(5, database.Balance.First(b => b.ProductId == productChild1.ID).Count);
 			Assert.AreEqual(10, database.Balance.First(b => b.ProductId == productChild2.ID).Count);
 			Assert.AreEqual(16, database.Balance.First(b => b.ProductId == productParent.ID).Count);
 
-			produceType.ProcessBack(produce, database.Balance);
+			produce.ProcessBack(database.Balance);
 			Assert.AreEqual(20, database.Balance.First(b => b.ProductId == productChild1.ID).Count);
 			Assert.AreEqual(40, database.Balance.First(b => b.ProductId == productChild2.ID).Count);
 			Assert.AreEqual(1, database.Balance.First(b => b.ProductId == productParent.ID).Count);
 
-			incomeType.ProcessBack(income, database.Balance);
+			income.ProcessBack(database.Balance);
 			Assert.AreEqual(10, database.Balance.First(b => b.ProductId == productChild1.ID).Count);
 			Assert.AreEqual(20, database.Balance.First(b => b.ProductId == productChild2.ID).Count);
 			Assert.AreEqual(1, database.Balance.First(b => b.ProductId == productParent.ID).Count);

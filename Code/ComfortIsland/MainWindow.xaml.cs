@@ -63,7 +63,7 @@ namespace ComfortIsland
 				documentsGrid,
 				Database.Database.Instance.Documents,
 				() => new Document { Date = DateTime.Now, Type = type, },
-				document => DocumentTypeImplementation.AllTypes[type].Process(document, Database.Database.Instance.Balance),
+				document => document.Process(Database.Database.Instance.Balance),
 				item =>
 				{
 					reportHeader.Text = string.Empty;

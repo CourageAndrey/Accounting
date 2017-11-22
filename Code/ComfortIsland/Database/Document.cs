@@ -112,5 +112,24 @@ namespace ComfortIsland.Database
 				Positions[Database.Instance.Products.First(p => p.ID == position.ID)] = position.Count;
 			}
 		}
+
+		#region Workflow
+
+		public void Validate(StringBuilder errors)
+		{
+			DocumentTypeImplementation.AllTypes[Type].Validate(this, errors);
+		}
+
+		public void Process(IList<Balance> balanceTable)
+		{
+			DocumentTypeImplementation.AllTypes[Type].Process(this, balanceTable);
+		}
+
+		public void ProcessBack(IList<Balance> balanceTable)
+		{
+			DocumentTypeImplementation.AllTypes[Type].ProcessBack(this, balanceTable);
+		}
+
+		#endregion
 	}
 }

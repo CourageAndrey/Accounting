@@ -19,7 +19,7 @@ namespace ComfortIsland.Database
 
 	public delegate IDictionary<long, long> GetBalanceDeltaDelegate(Document document);
 
-	public class DocumentTypeImplementation
+	internal class DocumentTypeImplementation
 	{
 		#region Properties
 
