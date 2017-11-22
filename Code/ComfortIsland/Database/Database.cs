@@ -119,6 +119,11 @@ namespace ComfortIsland.Database
 			}
 		}
 
+		internal static void SetTestBase(Database database)
+		{
+			Instance = database;
+		}
+
 		#endregion
 	}
 }

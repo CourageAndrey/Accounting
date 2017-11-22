@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection;
+
 using ComfortIsland.Database;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -65,7 +65,7 @@ namespace UnitTests
 					new Balance(productParent, 1),
 				},
 			};
-			typeof(Database).GetFields(BindingFlags.Static | BindingFlags.NonPublic).OfType<FieldInfo>().First(f => f.FieldType == typeof(Database)).SetValue(null, database);
+			Database.SetTestBase(database);
 
 			// apply documents
 			var income = new Document
