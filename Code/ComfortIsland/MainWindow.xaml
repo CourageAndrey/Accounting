@@ -12,6 +12,14 @@
 					<Button Content="Производство" Margin="5" Padding="5,2,5,2" Click="produceClick" />
 					<Button Content="Проверить наличие товара" Margin="5" Padding="5,2,5,2" Click="checkBalanceClick" />
 				</StackPanel>
+				<GroupBox DockPanel.Dock="Bottom" Header="Список позиций:" DataContext="">
+					<DataGrid IsReadOnly="False" AutoGenerateColumns="False" Name="positionsGrid" Height="150" ItemsSource="{Binding ElementName=documentsGrid, Path=SelectedItem.Positions, Mode=OneWay}">
+						<DataGrid.Columns>
+							<DataGridTextColumn Header="Товар" Binding="{Binding Path=Key.DisplayMember, Mode=OneTime}" MinWidth="50"/>
+							<DataGridTextColumn Header="Количество" Binding="{Binding Path=Value, Mode=OneTime}" MinWidth="50"/>
+						</DataGrid.Columns>
+					</DataGrid>
+				</GroupBox>
 				<DataGrid Name="documentsGrid" IsReadOnly="True" AutoGenerateColumns="False">
 					<DataGrid.Columns>
 						<DataGridTextColumn Header="Дата" Binding="{Binding Path=Date, Mode=OneTime}" MinWidth="100"/>
