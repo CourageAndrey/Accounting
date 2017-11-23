@@ -17,7 +17,7 @@ namespace ComfortIsland.Database
 
 	public delegate void ProcessDocumentDelegate(Document document, IList<Balance> balanceTable);
 
-	public delegate IDictionary<long, long> GetBalanceDeltaDelegate(Document document);
+	public delegate IDictionary<long, double> GetBalanceDeltaDelegate(Document document);
 
 	internal class DocumentTypeImplementation
 	{
@@ -91,14 +91,14 @@ namespace ComfortIsland.Database
 
 		#region Common default implementations
 
-		private static void validateDefault(IDictionary<long, long> balanceDelta, StringBuilder errors)
+		private static void validateDefault(IDictionary<long, double> balanceDelta, StringBuilder errors)
 		{
 			var allBalance = Database.Instance.Balance;
 			var products = Database.Instance.Products;
 			foreach (var position in balanceDelta)
 			{
 				var balance = allBalance.FirstOrDefault(b => b.ProductId == position.Key);
-				long count = balance != null ? balance.Count : 0;
+				double count = balance != null ? balance.Count : 0;
 				if ((count + position.Value) < 0)
 				{
 					errors.AppendLine(string.Format(
@@ -125,7 +125,7 @@ namespace ComfortIsland.Database
 			validateDefault(getBalanceDeltaProduce(document), errors);
 		}
 
-		private static void processDefault(IDictionary<long, long> balanceDelta, IList<Balance> balanceTable)
+		private static void processDefault(IDictionary<long, double> balanceDelta, IList<Balance> balanceTable)
 		{
 			foreach (var position in balanceDelta)
 			{
@@ -141,7 +141,7 @@ namespace ComfortIsland.Database
 			}
 		}
 
-		private static void processBackDefault(IDictionary<long, long> balanceDelta, IList<Balance> balanceTable)
+		private static void processBackDefault(IDictionary<long, double> balanceDelta, IList<Balance> balanceTable)
 		{
 			foreach (var position in balanceDelta)
 			{
@@ -154,26 +154,26 @@ namespace ComfortIsland.Database
 
 		#region GetDelta-methods
 
-		private static IDictionary<long, long> getBalanceDeltaIncome(Document document)
+		private static IDictionary<long, double> getBalanceDeltaIncome(Document document)
 		{
 			return document.PositionsToSerialize.ToDictionary(p => p.ID, p => p.Count);
 		}
 
-		private static IDictionary<long, long> getBalanceDeltaOutcome(Document document)
+		private static IDictionary<long, double> getBalanceDeltaOutcome(Document document)
 		{
 			return document.PositionsToSerialize.ToDictionary(p => p.ID, p => -p.Count);
 		}
 
-		private static IDictionary<long, long> getBalanceDeltaProduce(Document document)
+		private static IDictionary<long, double> getBalanceDeltaProduce(Document document)
 		{
-			var result = new Dictionary<long, long>();
+			var result = new Dictionary<long, double>();
 			var products = Database.Instance.Products;
 			foreach (var position in document.PositionsToSerialize)
 			{
 				result[position.ID] = position.Count;
 				foreach (var child in products.First(p => p.ID == position.ID).Children)
 				{
-					long count;
+					double count;
 					if (result.TryGetValue(child.Key.ID, out count))
 					{
 						count -= (position.Count * child.Value);

@@ -12,7 +12,7 @@ namespace ComfortIsland.Database
 		{ get; set; }
 
 		[XmlAttribute]
-		public long Count
+		public double Count
 		{ get; set; }
 
 		#endregion
@@ -22,7 +22,7 @@ namespace ComfortIsland.Database
 		public Position()
 		{ }
 
-		public Position(long id, long count)
+		public Position(long id, double count)
 		{
 			ID = id;
 			Count = count;

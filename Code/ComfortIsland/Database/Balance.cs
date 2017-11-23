@@ -13,7 +13,7 @@ namespace ComfortIsland.Database
 		{ get; set; }
 
 		[XmlAttribute]
-		public long Count
+		public double Count
 		{ get; set; }
 
 		[XmlIgnore]
@@ -44,14 +44,14 @@ namespace ComfortIsland.Database
 			ProductUnit = other.ProductUnit;
 		}
 
-		public Balance(Product product, long count)
+		public Balance(Product product, double count)
 		{
 			ProductId = product.ID;
 			Count = count;
 			initializeProduct(product);
 		}
 
-		public Balance(long productId, long count)
+		public Balance(long productId, double count)
 			: this(Database.Instance.Products.First(p => p.ID == productId), count)
 		{ }
 

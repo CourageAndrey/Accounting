@@ -39,7 +39,7 @@ namespace ComfortIsland.Database
 		{ get { return string.Format(CultureInfo.InvariantCulture, "{0} {1} ({2})", Code, Name, UnitName); } }
 
 		[XmlIgnore]
-		public Dictionary<Product, long> Children
+		public Dictionary<Product, double> Children
 		{ get; private set; }
 
 		[XmlArray("Children"), XmlArrayItem("Product")]
@@ -50,7 +50,7 @@ namespace ComfortIsland.Database
 
 		public Product()
 		{
-			Children = new Dictionary<Product, long>();
+			Children = new Dictionary<Product, double>();
 			ChildrenToSerialize = new List<Position>();
 		}
 
@@ -60,7 +60,7 @@ namespace ComfortIsland.Database
 			this.Name = other.Name;
 			this.Code = other.Code;
 			this.Unit = other.Unit;
-			this.Children = new Dictionary<Product, long>(other.Children);
+			this.Children = new Dictionary<Product, double>(other.Children);
 			this.ChildrenToSerialize = other.ChildrenToSerialize.Select(c => new Position(c)).ToList();
 		}
 

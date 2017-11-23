@@ -33,7 +33,7 @@ namespace ComfortIsland.Database
 		{ get { return DocumentTypeImplementation.AllTypes[Type].Name; } }
 
 		[XmlIgnore]
-		public Dictionary<Product, long> Positions
+		public Dictionary<Product, double> Positions
 		{ get; private set; }
 
 		[XmlArray("Positions"), XmlArrayItem("Product")]
@@ -44,7 +44,7 @@ namespace ComfortIsland.Database
 
 		public Document()
 		{
-			Positions = new Dictionary<Product, long>();
+			Positions = new Dictionary<Product, double>();
 			PositionsToSerialize = new List<Position>();
 		}
 
@@ -54,7 +54,7 @@ namespace ComfortIsland.Database
 			this.Number = other.Number;
 			this.Date = other.Date;
 			this.Type = other.Type;
-			this.Positions = new Dictionary<Product, long>(other.Positions);
+			this.Positions = new Dictionary<Product, double>(other.Positions);
 			this.PositionsToSerialize = other.PositionsToSerialize.Select(p => new Position(p)).ToList();
 		}
 
