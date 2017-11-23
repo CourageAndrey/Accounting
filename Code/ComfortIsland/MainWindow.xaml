@@ -56,6 +56,23 @@
 						</DataGrid>
 					</DockPanel>
 				</TabItem>
+				<TabItem Header="Производимая продукция">
+					<TreeView Name="treeViewComplexProducts">
+						<TreeView.ItemContainerStyle>
+							<Style TargetType="{x:Type TreeViewItem}">
+								<Setter Property="IsExpanded" Value="True" />
+							</Style>
+						</TreeView.ItemContainerStyle>
+						<TreeView.ItemTemplate>
+							<HierarchicalDataTemplate>
+								<TextBlock Text="{Binding Path=DisplayMember, Mode=OneWay}"/>
+								<HierarchicalDataTemplate.ItemsSource>
+									<Binding Path="Children.Keys" />
+								</HierarchicalDataTemplate.ItemsSource>
+							</HierarchicalDataTemplate>
+						</TreeView.ItemTemplate>
+					</TreeView>
+				</TabItem>
 				<TabItem Header="Единицы измерения">
 					<DockPanel LastChildFill="True">
 						<StackPanel Orientation="Horizontal" DockPanel.Dock="Top">

@@ -33,6 +33,7 @@ namespace ComfortIsland
 			listReports.ItemsSource = ReportDescriptor.All;//new BalanceReport(DateTime.Now).Items
 			// справочники
 			productsGrid.ItemsSource = database.Products;
+			treeViewComplexProducts.ItemsSource = database.Products.Where(p => p.Children.Count > 0);
 			unitsGrid.ItemsSource = database.Units;
 			documentTypesGrid.ItemsSource = DocumentTypeImplementation.AllTypes.Values;
 
