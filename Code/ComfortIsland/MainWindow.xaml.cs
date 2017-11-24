@@ -137,12 +137,98 @@ namespace ComfortIsland
 
 		private void productEditClick(object sender, RoutedEventArgs e)
 		{
-			editItem<Product, ProductDialog>(productsGrid, Database.Database.Instance.Products);
+			editItem<Product, ProductDialog>(productsGrid, Database.Database.Instance.Products, product =>
+			{
+				var documents = Database.Database.Instance.Documents.Where(d => DocumentTypeImplementation.AllTypes[d.Type].GetBalanceDelta(d).Keys.Contains(product.ID)).ToList();
+				var parentProducts = Database.Database.Instance.Products.Where(p => p.Children.Keys.Contains(product)).ToList();
+				if (documents.Count == 0 && parentProducts.Count == 0)
+				{
+					return true;
+				}
+				else
+				{
+					var message = new StringBuilder();
+					if (documents.Count > 0)
+					{
+						message.AppendLine("Данный товар используется в следующих документах:");
+						message.AppendLine();
+						foreach (var document in documents)
+						{
+							message.AppendLine(string.Format(CultureInfo.InvariantCulture, "... {0} {1} от {2}",
+								document.TypeName,
+								!string.IsNullOrEmpty(document.Number) ? "\"" + document.Number + "\"" : string.Empty,
+								document.Date.ToShortDateString()));
+						}
+						message.AppendLine();
+					}
+					if (parentProducts.Count > 0)
+					{
+						message.AppendLine("Данный товар используется как составная часть в следующих товарах:");
+						message.AppendLine();
+						foreach (var parent in parentProducts)
+						{
+							message.AppendLine(string.Format(CultureInfo.InvariantCulture, "... {0}", parent.DisplayMember));
+						}
+						message.AppendLine();
+					}
+					message.AppendLine("После изменения выбранного товара все они будут содержать новую исправленную версию. Продолжить редактирование?");
+					return MessageBox.Show(
+						message.ToString(),
+						"Внимание",
+						MessageBoxButton.YesNo,
+						MessageBoxImage.Question) == MessageBoxResult.Yes;
+				}
+			});
 		}
 
 		private void productDeleteClick(object sender, RoutedEventArgs e)
 		{
-			deleteItem(productsGrid, Database.Database.Instance.Products);
+			deleteItem(productsGrid, Database.Database.Instance.Products, products =>
+			{
+				var checkIds = products.Select(u => u.ID).ToList();
+				var documents = Database.Database.Instance.Documents.Where(d => DocumentTypeImplementation.AllTypes[d.Type].GetBalanceDelta(d).Keys.Any(id => checkIds.Contains(id))).ToList();
+				var parentProducts = Database.Database.Instance.Products.Where(p => p.Children.Keys.Any(pp => checkIds.Contains(pp.ID))).ToList();
+				if (documents.Count == 0 && parentProducts.Count == 0)
+				{
+					return true;
+				}
+				else
+				{
+					var message = new StringBuilder();
+					if (documents.Count > 0)
+					{
+						message.AppendLine("Выбранные товары используются в следующих документах и не могут быть удалены:");
+						message.AppendLine();
+						foreach (var document in documents)
+						{
+							message.AppendLine(string.Format(CultureInfo.InvariantCulture, "... {0} {1} от {2}",
+								document.TypeName,
+								!string.IsNullOrEmpty(document.Number) ? "\"" + document.Number + "\"" : string.Empty,
+								document.Date.ToShortDateString()));
+						}
+						message.AppendLine();
+					}
+					if (parentProducts.Count > 0)
+					{
+						message.AppendLine("Выбранные товары используются как составные части в других товарах:");
+						message.AppendLine();
+						foreach (var parent in parentProducts)
+						{
+							foreach (var child in parent.Children.Keys.Where(p => checkIds.Contains(p.ID)))
+							{
+								message.AppendLine(string.Format(CultureInfo.InvariantCulture, "... \"{0}\" содержит \"{1}\"", parent.DisplayMember, child.DisplayMember));
+							}
+						}
+						message.AppendLine();
+					}
+					MessageBox.Show(
+						message.ToString(),
+						"Невозможно удалить выбранные записи",
+						MessageBoxButton.OK,
+						MessageBoxImage.Warning);
+					return false;
+				}
+			});
 		}
 
 		private void selectedProductsChanged(object sender, SelectionChangedEventArgs e)
@@ -161,12 +247,59 @@ namespace ComfortIsland
 
 		private void unitEditClick(object sender, RoutedEventArgs e)
 		{
-			editItem<Unit, UnitDialog>(unitsGrid, Database.Database.Instance.Units);
+			editItem<Unit, UnitDialog>(unitsGrid, Database.Database.Instance.Units, unit =>
+			{
+				var products = Database.Database.Instance.Products.Where(p => p.Unit.ID == unit.ID).ToList();
+				if (products.Count == 0)
+				{
+					return true;
+				}
+				else
+				{
+					var message = new StringBuilder();
+					message.AppendLine("Следующие товары содержат ссылку на данную единицу измерения:");
+					message.AppendLine();
+					foreach (var product in products)
+					{
+						message.AppendLine(string.Format(CultureInfo.InvariantCulture, "... {0}", product.Name));
+					}
+					message.AppendLine("После её изменения они будут содержать новую исправленную версию. Продолжить редактирование?");
+					return MessageBox.Show(
+						message.ToString(),
+						"Внимание",
+						MessageBoxButton.YesNo,
+						MessageBoxImage.Question) == MessageBoxResult.Yes;
+				}
+			});
 		}
 
 		private void unitDeleteClick(object sender, RoutedEventArgs e)
 		{
-			deleteItem(unitsGrid, Database.Database.Instance.Units);
+			deleteItem(unitsGrid, Database.Database.Instance.Units, units =>
+			{
+				var checkIds = units.Select(u => u.ID).ToList();
+				var products = Database.Database.Instance.Products.Where(p => checkIds.Contains(p.Unit.ID)).ToList();
+				if (products.Count == 0)
+				{
+					return true;
+				}
+				else
+				{
+					var message = new StringBuilder();
+					message.AppendLine("Выбранные единицы измерения используются в товарах и не могут быть удалены:");
+					message.AppendLine();
+					foreach (var product in products)
+					{
+						message.AppendLine(string.Format(CultureInfo.InvariantCulture, "... \"{1}\" является единицей измерения \"{0}\"", product.Name, product.Unit.Name ?? product.Unit.ShortName));
+					}
+					MessageBox.Show(
+						message.ToString(),
+						"Невозможно удалить выбранные записи",
+						MessageBoxButton.OK,
+						MessageBoxImage.Warning);
+					return false;
+				}
+			});
 		}
 
 		private void selectedUnitsChanged(object sender, SelectionChangedEventArgs e)
@@ -228,6 +361,7 @@ namespace ComfortIsland
 		private void editItem<ItemT, DialogT>(
 			DataGrid grid,
 			IEnumerable<ItemT> table,
+			Func<ItemT, bool> beforeEdit = null,
 			Action<DialogT> dialogSetup = null)
 			where ItemT : IEditable<ItemT>, new()
 			where DialogT : Window, IEditDialog<ItemT>, new()
@@ -236,6 +370,10 @@ namespace ComfortIsland
 			if (selectedItems.Count > 0)
 			{
 				var editItem = selectedItems[0];
+				if (beforeEdit != null && !beforeEdit(editItem))
+				{
+					return;
+				}
 				var copyItem = new ItemT();
 				copyItem.Update(editItem);
 				copyItem.BeforeEdit();
@@ -265,9 +403,14 @@ namespace ComfortIsland
 
 		private void deleteItem<ItemT>(
 			DataGrid grid,
-			List<ItemT> table)
+			List<ItemT> table,
+			Func<List<ItemT>, bool> beforeDelete = null)
 		{
 			var selectedItems = grid.SelectedItems.OfType<ItemT>().ToList();
+			if (beforeDelete != null && !beforeDelete(selectedItems))
+			{
+				return;
+			}
 			if (selectedItems.Count > 0)
 			{
 				try
