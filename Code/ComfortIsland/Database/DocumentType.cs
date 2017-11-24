@@ -29,6 +29,9 @@ namespace ComfortIsland.Database
 		public string Name
 		{ get; private set; }
 
+		public GetBalanceDeltaDelegate GetBalanceDelta
+		{ get; private set; }
+
 		public ValidateDocumentDelegate Validate
 		{ get; private set; }
 
@@ -40,26 +43,21 @@ namespace ComfortIsland.Database
 
 		#endregion
 
-		#region Constructors
-
-		private DocumentTypeImplementation(DocumentType type, string name, GetBalanceDeltaDelegate getBalanceDelta)
-			: this(type,
-				   name,
-				   (document, errors) => validateDefault(getBalanceDelta(document), errors),
-				   (document, balanceTable) => processDefault(getBalanceDelta(document), balanceTable),
-				   (document, balanceTable) => processBackDefault(getBalanceDelta(document), balanceTable))
-		{ }
-
-		private DocumentTypeImplementation(DocumentType type, string name, ValidateDocumentDelegate validate, ProcessDocumentDelegate process, ProcessDocumentDelegate processBack)
+		private DocumentTypeImplementation(
+			DocumentType type,
+			string name,
+			GetBalanceDeltaDelegate getBalanceDelta,
+			ValidateDocumentDelegate validate = null,
+			ProcessDocumentDelegate process = null,
+			ProcessDocumentDelegate processBack = null)
 		{
 			Type = type;
 			Name = name;
-			Validate = validate;
-			Process = process;
-			ProcessBack = processBack;
+			GetBalanceDelta = getBalanceDelta;
+			Validate = validate ?? validateDefault;
+			Process = process ?? processDefault;
+			ProcessBack = processBack ?? processBackDefault;
 		}
-
-		#endregion
 
 		#region List
 
@@ -77,10 +75,7 @@ namespace ComfortIsland.Database
 		{
 			Income = new DocumentTypeImplementation(DocumentType.Income, "приход", getBalanceDeltaIncome);
 			Outcome = new DocumentTypeImplementation(DocumentType.Outcome, "продажа", getBalanceDeltaOutcome);
-			Produce = new DocumentTypeImplementation(DocumentType.Produce, "производство",
-				validateProduce,
-				(document, balanceTable) => processDefault(getBalanceDeltaProduce(document), balanceTable),
-				(document, balanceTable) => processBackDefault(getBalanceDeltaProduce(document), balanceTable));
+			Produce = new DocumentTypeImplementation(DocumentType.Produce, "производство", getBalanceDeltaProduce, validateProduce);
 			AllTypes = new ReadOnlyDictionary<DocumentType, DocumentTypeImplementation>(new Dictionary<DocumentType, DocumentTypeImplementation>
 			{
 				{ DocumentType.Income, Income },
@@ -91,11 +86,11 @@ namespace ComfortIsland.Database
 
 		#region Common default implementations
 
-		private static void validateDefault(IDictionary<long, double> balanceDelta, StringBuilder errors)
+		private static void validateDefault(Document document, StringBuilder errors)
 		{
 			var allBalance = Database.Instance.Balance;
 			var products = Database.Instance.Products;
-			foreach (var position in balanceDelta)
+			foreach (var position in AllTypes[document.Type].GetBalanceDelta(document))
 			{
 				var balance = allBalance.FirstOrDefault(b => b.ProductId == position.Key);
 				double count = balance != null ? balance.Count : 0;
@@ -122,12 +117,12 @@ namespace ComfortIsland.Database
 					errors.AppendLine(string.Format(CultureInfo.InvariantCulture, "Товар {0} не может быть произведён, так как ни из чего не состоит.", product.DisplayMember));
 				}
 			}
-			validateDefault(getBalanceDeltaProduce(document), errors);
+			validateDefault(document, errors);
 		}
 
-		private static void processDefault(IDictionary<long, double> balanceDelta, IList<Balance> balanceTable)
+		private static void processDefault(Document document, IList<Balance> balanceTable)
 		{
-			foreach (var position in balanceDelta)
+			foreach (var position in AllTypes[document.Type].GetBalanceDelta(document))
 			{
 				var balance = balanceTable.FirstOrDefault(b => b.ProductId == position.Key);
 				if (balance != null)
@@ -141,9 +136,9 @@ namespace ComfortIsland.Database
 			}
 		}
 
-		private static void processBackDefault(IDictionary<long, double> balanceDelta, IList<Balance> balanceTable)
+		private static void processBackDefault(Document document, IList<Balance> balanceTable)
 		{
-			foreach (var position in balanceDelta)
+			foreach (var position in AllTypes[document.Type].GetBalanceDelta(document))
 			{
 				var balance = balanceTable.First(b => b.ProductId == position.Key);
 				balance.Count -= position.Value;
