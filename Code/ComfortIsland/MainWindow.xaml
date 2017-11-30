@@ -59,7 +59,10 @@
 				<GroupBox DockPanel.Dock="Left" Header="Список отчётов" Width="200">
 					<ListBox Name="listReports" DisplayMemberPath="Title" MouseDoubleClick="newReportClick" />
 				</GroupBox>
-				<TextBlock DockPanel.Dock="Top" Margin="0,10,0,10" FontWeight="Bold" Name="reportHeader" TextAlignment="Center" Text="&lt; ЗАГОЛОВОК ОТЧЁТА &gt;" />
+				<DockPanel LastChildFill="True" DockPanel.Dock="Top">
+					<Button DockPanel.Dock="Left" Margin="5" Padding="5,2,5,2" Content="Печать" IsEnabled="False" Name="buttonPrintReport" Click="printReportClick" />
+					<TextBlock  Margin="0,10,0,10" FontWeight="Bold" Name="reportHeader" TextAlignment="Center" Text="&lt; ЗАГОЛОВОК ОТЧЁТА &gt;" />
+				</DockPanel>
 				<DataGrid Name="reportGrid" IsReadOnly="True" AutoGenerateColumns="False" />
 			</DockPanel>
 		</TabItem>

@@ -9,7 +9,12 @@ using System.Windows.Input;
 
 using ComfortIsland.Database;
 using ComfortIsland.Dialogs;
+using ComfortIsland.Helpers;
 using ComfortIsland.Reports;
+
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace ComfortIsland
 {
@@ -161,6 +166,7 @@ namespace ComfortIsland
 			documentStateFilterChecked(this, null);
 			reportHeader.Text = string.Empty;
 			reportGrid.ItemsSource = null;
+			buttonPrintReport.IsEnabled = false;
 		}
 
 		private void editDocumentClick(object sender, RoutedEventArgs e)
@@ -257,6 +263,7 @@ namespace ComfortIsland
 				documentStateFilterChecked(this, null);
 				reportHeader.Text = string.Empty;
 				reportGrid.ItemsSource = null;
+				buttonPrintReport.IsEnabled = false;
 			}
 		}
 
@@ -278,6 +285,7 @@ namespace ComfortIsland
 				{
 					reportHeader.Text = string.Empty;
 					reportGrid.ItemsSource = null;
+					buttonPrintReport.IsEnabled = false;
 				},
 				dialogSetup,
 				() =>
@@ -675,7 +683,22 @@ namespace ComfortIsland
 						reportGrid.Columns.Add(column);
 					}
 					reportGrid.ItemsSource = report.Items;
+					buttonPrintReport.IsEnabled = true;
 				}
+			}
+		}
+
+		private static readonly Microsoft.Win32.SaveFileDialog saveDocumentDialog = ExcelHelper.CreateSaveDialog();
+
+		private void printReportClick(object sender, RoutedEventArgs e)
+		{
+			if (saveDocumentDialog.ShowDialog() == true)
+			{
+				using (SpreadsheetDocument spreadsheet = SpreadsheetDocument.Create(saveDocumentDialog.FileName, SpreadsheetDocumentType.Workbook))
+				{
+					ExcelHelper.ExportReport(spreadsheet, reportHeader.Text, reportGrid);
+				}
+				saveDocumentDialog.FileName.ShellOpen();
 			}
 		}
 
