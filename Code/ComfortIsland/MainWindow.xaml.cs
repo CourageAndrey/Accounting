@@ -124,6 +124,19 @@ namespace ComfortIsland
 				dialogSetup);
 		}
 
+		private void documentsGridDoubleClick(object sender, MouseButtonEventArgs e)
+		{
+			var selectedItem = documentsGrid.SelectedItems.OfType<Document>().FirstOrDefault();
+			if (selectedItem != null)
+			{
+				selectedItem.BeforeEdit();
+				var dialog = new DocumentDialog();
+				dialog.SetReadOnly();
+				dialog.EditValue = selectedItem;
+				dialog.ShowDialog();
+			}
+		}
+
 		#endregion
 
 		#region Работа со справочниками

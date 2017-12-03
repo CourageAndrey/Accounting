@@ -20,7 +20,7 @@
 						</DataGrid.Columns>
 					</DataGrid>
 				</GroupBox>
-				<DataGrid Name="documentsGrid" IsReadOnly="True" AutoGenerateColumns="False">
+				<DataGrid Name="documentsGrid" IsReadOnly="True" AutoGenerateColumns="False" MouseDoubleClick="documentsGridDoubleClick">
 					<DataGrid.Columns>
 						<DataGridTextColumn Header="Дата" Binding="{Binding Path=Date, Mode=OneTime}" MinWidth="100"/>
 						<DataGridTextColumn Header="Номер" Binding="{Binding Path=Number, Mode=OneTime}" MinWidth="150" />

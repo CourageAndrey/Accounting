@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 
 using ComfortIsland.Database;
 
@@ -44,6 +46,30 @@ namespace ComfortIsland.Dialogs
 		private void dialogLoaded(object sender, RoutedEventArgs e)
 		{
 			comboBoxProducts.ItemsSource = (ProductsGetter ?? (() => Database.Database.Instance.Products))();
+		}
+
+		public void SetReadOnly()
+		{
+			foreach (var child in contextControl.Children)
+			{
+				if (child is TextBox)
+				{
+					(child as TextBox).IsReadOnly = true;
+				}
+				else if (child is DatePicker)
+				{
+					(child as DatePicker).IsEnabled = false;
+				}
+				else if (child is GroupBox)
+				{
+					var grid = (child as GroupBox).Content as DataGrid;
+					if (grid != null)
+					{
+						grid.IsReadOnly = true;
+					}
+				}
+			}
+			buttonOk.Visibility = Visibility.Hidden;
 		}
 	}
 }
