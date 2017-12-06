@@ -1,4 +1,5 @@
-﻿using System.Xml.Serialization;
+﻿using System.Linq;
+using System.Xml.Serialization;
 
 namespace ComfortIsland.Database
 {
@@ -14,6 +15,10 @@ namespace ComfortIsland.Database
 		[XmlAttribute]
 		public double Count
 		{ get; set; }
+
+		[XmlIgnore]
+		public Product BoundProduct
+		{ get; private set; }
 
 		#endregion
 
@@ -35,5 +40,10 @@ namespace ComfortIsland.Database
 		}
 
 		#endregion
+
+		internal void SetProduct()
+		{
+			BoundProduct = Database.Instance.Products.First(p => p.ID == ID);
+		}
 	}
 }

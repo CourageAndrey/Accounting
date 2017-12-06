@@ -33,7 +33,7 @@ namespace ComfortIsland
 			listReports.ItemsSource = ReportDescriptor.All;
 			// справочники
 			productsGrid.ItemsSource = database.Products;
-			treeViewComplexProducts.ItemsSource = database.Products.Where(p => p.Children.Count > 0);
+			reloadComplexProducts();
 			unitsGrid.ItemsSource = database.Units;
 			documentTypesGrid.ItemsSource = DocumentTypeImplementation.AllTypes.Values;
 
@@ -143,9 +143,24 @@ namespace ComfortIsland
 
 		#region Товары
 
+		private void reloadComplexProducts()
+		{
+			var complexProducts = Database.Database.Instance.Products.Where(p => p.Children.Count > 0).ToList();
+			foreach (var product in complexProducts)
+			{
+				product.BeforeEdit();
+				foreach (var position in product.ChildrenToSerialize)
+				{
+					position.SetProduct();
+				}
+			}
+			treeViewComplexProducts.ItemsSource = complexProducts;
+		}
+
 		private void productAddClick(object sender, RoutedEventArgs e)
 		{
 			addItem<Product, ProductDialog>(productsGrid, Database.Database.Instance.Products);
+			reloadComplexProducts();
 		}
 
 		private void productEditClick(object sender, RoutedEventArgs e)
@@ -192,6 +207,7 @@ namespace ComfortIsland
 						MessageBoxImage.Question) == MessageBoxResult.Yes;
 				}
 			});
+			reloadComplexProducts();
 		}
 
 		private void productDeleteClick(object sender, RoutedEventArgs e)
@@ -242,6 +258,7 @@ namespace ComfortIsland
 					return false;
 				}
 			});
+			reloadComplexProducts();
 		}
 
 		private void selectedProductsChanged(object sender, SelectionChangedEventArgs e)
