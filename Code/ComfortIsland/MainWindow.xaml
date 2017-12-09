@@ -20,6 +20,7 @@
 				<TextBlock Text="{Binding Path=BoundProduct.Name, Mode=OneWay}" Margin="5,0,0,0" />
 			</StackPanel>
 		</DataTemplate>
+		<comfortIsland:DateConverter x:Key="dateConverter" />
 	</Window.Resources>
 	<TabControl>
 		<TabItem Header="Документы" Height="24" VerticalAlignment="Top">
@@ -40,7 +41,7 @@
 				</GroupBox>
 				<DataGrid Name="documentsGrid" IsReadOnly="True" AutoGenerateColumns="False" MouseDoubleClick="documentsGridDoubleClick">
 					<DataGrid.Columns>
-						<DataGridTextColumn Header="Дата" Binding="{Binding Path=Date, Mode=OneTime}" MinWidth="100"/>
+						<DataGridTextColumn Header="Дата" Binding="{Binding Path=Date, Mode=OneTime, Converter={StaticResource dateConverter}}" MinWidth="100"/>
 						<DataGridTextColumn Header="Номер" Binding="{Binding Path=Number, Mode=OneTime}" MinWidth="150" />
 						<DataGridTextColumn Header="Тип" Binding="{Binding Path=TypeName, Mode=OneTime}" MinWidth="100"/>
 					</DataGrid.Columns>
