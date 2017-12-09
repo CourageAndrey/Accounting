@@ -12,7 +12,7 @@ namespace ComfortIsland.Reports
 		#region Properties
 
 		public string Title
-		{ get { return string.Format(CultureInfo.InvariantCulture, "Товарный отчёт с {0:D} по {1:D}", FromDate, ToDate); } }
+		{ get { return string.Format(CultureInfo.InvariantCulture, "Товарный отчёт с {0} по {1}", FromDate.ToLongDateString(), ToDate.ToLongDateString()); } }
 
 		public ReportDescriptor Descriptor
 		{ get { return ReportDescriptor.Trade; } }
