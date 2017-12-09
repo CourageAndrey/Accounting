@@ -72,6 +72,7 @@
     <Compile Include="Reports\BalanceReport.cs" />
     <Compile Include="Reports\ReportDescriptor.cs" />
     <Compile Include="Reports\TradeReport.cs" />
+    <Compile Include="Settings.cs" />
     <Page Include="Dialogs\SelectProductDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -2,8 +2,10 @@
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:database="clr-namespace:ComfortIsland.Database"
+		xmlns:comfortIsland="clr-namespace:ComfortIsland"
 		Title="Остров комфорта - Учёт" Width="800" Height="600"
-		Loaded="formLoaded" Icon="Icon.ico">
+		Loaded="formLoaded" Icon="Icon.ico"
+		FontSize="{x:Static comfortIsland:Settings.FontSize}">
 	<Window.Resources>
 		<HierarchicalDataTemplate DataType="{x:Type database:Product}">
 			<TextBlock Text="{Binding Path=DisplayMember, Mode=OneWay}"/>

@@ -1,7 +1,9 @@
 ﻿<Window x:Class="ComfortIsland.Dialogs.DocumentDialog"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		Title="Документ" SizeToContent="WidthAndHeight" Loaded="dialogLoaded">
+		xmlns:comfortIsland="clr-namespace:ComfortIsland"
+		Title="Документ" SizeToContent="WidthAndHeight" Loaded="dialogLoaded"
+		FontSize="{x:Static comfortIsland:Settings.FontSize}">
 	<Grid Name="contextControl" Margin="5">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
