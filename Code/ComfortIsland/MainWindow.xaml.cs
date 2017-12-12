@@ -114,7 +114,7 @@ namespace ComfortIsland
 			addItem<Document, DocumentDialog>(
 				documentsGrid,
 				Database.Database.Instance.Documents,
-				() => new Document { Date = DateTime.Now, Type = type, },
+				() => new Document { Date = DateTime.Now, Type = type, State = DocumentState.Active },
 				document => document.Process(Database.Database.Instance.Balance),
 				item =>
 				{

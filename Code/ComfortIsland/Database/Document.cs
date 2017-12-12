@@ -28,6 +28,10 @@ namespace ComfortIsland.Database
 		public DocumentType Type
 		{ get; set; }
 
+		[XmlAttribute]
+		public DocumentState State
+		{ get; set; }
+
 		[XmlIgnore]
 		public string TypeName
 		{ get { return DocumentTypeImplementation.AllTypes[Type].Name; } }

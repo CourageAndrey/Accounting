@@ -60,6 +60,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Database\DocumentState.cs" />
     <Compile Include="DateConverter.cs" />
     <Compile Include="Dialogs\SelectProductDialog.xaml.cs">
       <DependentUpon>SelectProductDialog.xaml</DependentUpon>
