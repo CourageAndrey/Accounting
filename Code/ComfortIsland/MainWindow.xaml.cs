@@ -181,349 +181,379 @@ namespace ComfortIsland
 		}
 
 		private void selectedDocumentsChanged(object sender, SelectionChangedEventArgs e)
-	{
-		var documents = documentsGrid.SelectedItems.OfType<Document>().ToList();
-		deleteDocumentsButton.IsEnabled = documents.Count > 0 && documents.All(d => d.State == DocumentState.Active);
-	}
-
-	private void createDocument(DocumentType type, Action<DocumentDialog> dialogSetup = null)
-	{
-		addItem<Document, DocumentDialog>(
-			documentsGrid,
-			Database.Database.Instance.Documents,
-			() => new Document { Date = DateTime.Now, Type = type, State = DocumentState.Active },
-			document => document.Process(Database.Database.Instance.Balance),
-			item =>
-			{
-				reportHeader.Text = string.Empty;
-				reportGrid.ItemsSource = null;
-			},
-			dialogSetup,
-			() =>
-			{
-				documentStateFilterChecked(this, null);
-			});
-	}
-
-	private void documentsGridDoubleClick(object sender, MouseButtonEventArgs e)
-	{
-		var selectedItem = documentsGrid.SelectedItems.OfType<Document>().FirstOrDefault();
-		if (selectedItem != null)
 		{
-			selectedItem.BeforeEdit();
-			var dialog = new DocumentDialog();
-			dialog.SetReadOnly();
-			dialog.EditValue = selectedItem;
-			dialog.ShowDialog();
+			var documents = documentsGrid.SelectedItems.OfType<Document>().ToList();
+			deleteDocumentsButton.IsEnabled = documents.Count > 0 && documents.All(d => d.State == DocumentState.Active);
 		}
-	}
 
-	private void documentStateFilterChecked(object sender, RoutedEventArgs e)
-	{
-		var database = Database.Database.Instance;
-		documentsGrid.ItemsSource = null;
-		if (checkBoxShowObsoleteDocuments.IsChecked == true)
+		private void createDocument(DocumentType type, Action<DocumentDialog> dialogSetup = null)
 		{
-			stateColumn.Visibility = Visibility.Visible;
-			documentsGrid.ItemsSource = database.Documents;
+			addItem<Document, DocumentDialog>(
+				documentsGrid,
+				Database.Database.Instance.Documents,
+				() => new Document { Date = DateTime.Now, Type = type, State = DocumentState.Active },
+				document => document.Process(Database.Database.Instance.Balance),
+				item =>
+				{
+					reportHeader.Text = string.Empty;
+					reportGrid.ItemsSource = null;
+				},
+				dialogSetup,
+				() =>
+				{
+					documentStateFilterChecked(this, null);
+				});
 		}
-		else
+
+		private void documentsGridDoubleClick(object sender, MouseButtonEventArgs e)
 		{
-			stateColumn.Visibility = Visibility.Collapsed;
-			documentsGrid.ItemsSource = database.Documents.Where(d => d.State == DocumentState.Active);
-		}
-	}
-
-	#endregion
-
-	#region Работа со справочниками
-
-	#region Товары
-
-	private void reloadComplexProducts()
-	{
-		var complexProducts = Database.Database.Instance.Products.Where(p => p.Children.Count > 0).ToList();
-		foreach (var product in complexProducts)
-		{
-			product.BeforeEdit();
-			foreach (var position in product.ChildrenToSerialize)
+			var selectedItem = documentsGrid.SelectedItems.OfType<Document>().FirstOrDefault();
+			if (selectedItem != null)
 			{
-				position.SetProduct();
+				selectedItem.BeforeEdit();
+				var dialog = new DocumentDialog();
+				dialog.SetReadOnly();
+				dialog.EditValue = selectedItem;
+				dialog.ShowDialog();
 			}
 		}
-		treeViewComplexProducts.ItemsSource = complexProducts;
-	}
 
-	private void productAddClick(object sender, RoutedEventArgs e)
-	{
-		addItem<Product, ProductDialog>(productsGrid, Database.Database.Instance.Products);
-		reloadComplexProducts();
-	}
-
-	private void productEditClick(object sender, RoutedEventArgs e)
-	{
-		editItem<Product, ProductDialog>(productsGrid, Database.Database.Instance.Products, product =>
+		private void documentStateFilterChecked(object sender, RoutedEventArgs e)
 		{
-			var documents = Database.Database.Instance.Documents.Where(d => DocumentTypeImplementation.AllTypes[d.Type].GetBalanceDelta(d).Keys.Contains(product.ID)).ToList();
-			var parentProducts = Database.Database.Instance.Products.Where(p => p.Children.Keys.Contains(product)).ToList();
-			if (documents.Count == 0 && parentProducts.Count == 0)
+			var database = Database.Database.Instance;
+			documentsGrid.ItemsSource = null;
+			if (checkBoxShowObsoleteDocuments.IsChecked == true)
 			{
-				return true;
+				stateColumn.Visibility = Visibility.Visible;
+				documentsGrid.ItemsSource = database.Documents;
 			}
 			else
 			{
-				var message = new StringBuilder();
-				if (documents.Count > 0)
-				{
-					message.AppendLine("Данный товар используется в следующих документах:");
-					message.AppendLine();
-					foreach (var document in documents)
-					{
-						message.AppendLine(string.Format(CultureInfo.InvariantCulture, "... {0} {1} от {2}",
-							document.TypeName,
-							!string.IsNullOrEmpty(document.Number) ? "\"" + document.Number + "\"" : string.Empty,
-							document.Date.ToShortDateString()));
-					}
-					message.AppendLine();
-				}
-				if (parentProducts.Count > 0)
-				{
-					message.AppendLine("Данный товар используется как составная часть в следующих товарах:");
-					message.AppendLine();
-					foreach (var parent in parentProducts)
-					{
-						message.AppendLine(string.Format(CultureInfo.InvariantCulture, "... {0}", parent.DisplayMember));
-					}
-					message.AppendLine();
-				}
-				message.AppendLine("После изменения выбранного товара все они будут содержать новую исправленную версию. Продолжить редактирование?");
-				return MessageBox.Show(
-					message.ToString(),
-					"Внимание",
-					MessageBoxButton.YesNo,
-					MessageBoxImage.Question) == MessageBoxResult.Yes;
+				stateColumn.Visibility = Visibility.Collapsed;
+				documentsGrid.ItemsSource = database.Documents.Where(d => d.State == DocumentState.Active);
 			}
-		});
-		reloadComplexProducts();
-	}
+		}
 
-	private void productDeleteClick(object sender, RoutedEventArgs e)
-	{
-		deleteItem(productsGrid, Database.Database.Instance.Products, products =>
+		#endregion
+
+		#region Работа со справочниками
+
+		#region Товары
+
+		private void reloadComplexProducts()
 		{
-			var checkIds = products.Select(u => u.ID).ToList();
-			var documents = Database.Database.Instance.Documents.Where(d => DocumentTypeImplementation.AllTypes[d.Type].GetBalanceDelta(d).Keys.Any(id => checkIds.Contains(id))).ToList();
-			var parentProducts = Database.Database.Instance.Products.Where(p => p.Children.Keys.Any(pp => checkIds.Contains(pp.ID))).ToList();
-			if (documents.Count == 0 && parentProducts.Count == 0)
+			var complexProducts = Database.Database.Instance.Products.Where(p => p.Children.Count > 0).ToList();
+			foreach (var product in complexProducts)
 			{
-				return true;
-			}
-			else
-			{
-				var message = new StringBuilder();
-				if (documents.Count > 0)
+				product.BeforeEdit();
+				foreach (var position in product.ChildrenToSerialize)
 				{
-					message.AppendLine("Выбранные товары используются в следующих документах и не могут быть удалены:");
-					message.AppendLine();
-					foreach (var document in documents)
-					{
-						message.AppendLine(string.Format(CultureInfo.InvariantCulture, "... {0} {1} от {2}",
-							document.TypeName,
-							!string.IsNullOrEmpty(document.Number) ? "\"" + document.Number + "\"" : string.Empty,
-							document.Date.ToShortDateString()));
-					}
-					message.AppendLine();
+					position.SetProduct();
 				}
-				if (parentProducts.Count > 0)
+			}
+			treeViewComplexProducts.ItemsSource = complexProducts;
+		}
+
+		private void productAddClick(object sender, RoutedEventArgs e)
+		{
+			addItem<Product, ProductDialog>(productsGrid, Database.Database.Instance.Products);
+			reloadComplexProducts();
+		}
+
+		private void productEditClick(object sender, RoutedEventArgs e)
+		{
+			editItem<Product, ProductDialog>(productsGrid, Database.Database.Instance.Products, product =>
+			{
+				var documents = Database.Database.Instance.Documents.Where(d => DocumentTypeImplementation.AllTypes[d.Type].GetBalanceDelta(d).Keys.Contains(product.ID)).ToList();
+				var parentProducts = Database.Database.Instance.Products.Where(p => p.Children.Keys.Contains(product)).ToList();
+				if (documents.Count == 0 && parentProducts.Count == 0)
 				{
-					message.AppendLine("Выбранные товары используются как составные части в других товарах:");
-					message.AppendLine();
-					foreach (var parent in parentProducts)
+					return true;
+				}
+				else
+				{
+					var message = new StringBuilder();
+					if (documents.Count > 0)
 					{
-						foreach (var child in parent.Children.Keys.Where(p => checkIds.Contains(p.ID)))
+						message.AppendLine("Данный товар используется в следующих документах:");
+						message.AppendLine();
+						foreach (var document in documents)
 						{
-							message.AppendLine(string.Format(CultureInfo.InvariantCulture, "... \"{0}\" содержит \"{1}\"", parent.DisplayMember, child.DisplayMember));
+							message.AppendLine(string.Format(CultureInfo.InvariantCulture, "... {0} {1} от {2}",
+								document.TypeName,
+								!string.IsNullOrEmpty(document.Number) ? "\"" + document.Number + "\"" : string.Empty,
+								document.Date.ToShortDateString()));
 						}
+						message.AppendLine();
 					}
-					message.AppendLine();
-				}
-				MessageBox.Show(
-					message.ToString(),
-					"Невозможно удалить выбранные записи",
-					MessageBoxButton.OK,
-					MessageBoxImage.Warning);
-				return false;
-			}
-		});
-		reloadComplexProducts();
-	}
-
-	private void selectedProductsChanged(object sender, SelectionChangedEventArgs e)
-	{
-		updateButtonsAvailability(productsGrid, buttonEditProduct, buttonDeleteProduct);
-	}
-
-	#endregion
-
-	#region Единицы измерения
-
-	private void unitAddClick(object sender, RoutedEventArgs e)
-	{
-		addItem<Unit, UnitDialog>(unitsGrid, Database.Database.Instance.Units);
-	}
-
-	private void unitEditClick(object sender, RoutedEventArgs e)
-	{
-		editItem<Unit, UnitDialog>(unitsGrid, Database.Database.Instance.Units, unit =>
-		{
-			var products = Database.Database.Instance.Products.Where(p => p.Unit.ID == unit.ID).ToList();
-			if (products.Count == 0)
-			{
-				return true;
-			}
-			else
-			{
-				var message = new StringBuilder();
-				message.AppendLine("Следующие товары содержат ссылку на данную единицу измерения:");
-				message.AppendLine();
-				foreach (var product in products)
-				{
-					message.AppendLine(string.Format(CultureInfo.InvariantCulture, "... {0}", product.Name));
-				}
-				message.AppendLine("После её изменения они будут содержать новую исправленную версию. Продолжить редактирование?");
-				return MessageBox.Show(
-					message.ToString(),
-					"Внимание",
-					MessageBoxButton.YesNo,
-					MessageBoxImage.Question) == MessageBoxResult.Yes;
-			}
-		});
-	}
-
-	private void unitDeleteClick(object sender, RoutedEventArgs e)
-	{
-		deleteItem(unitsGrid, Database.Database.Instance.Units, units =>
-		{
-			var checkIds = units.Select(u => u.ID).ToList();
-			var products = Database.Database.Instance.Products.Where(p => checkIds.Contains(p.Unit.ID)).ToList();
-			if (products.Count == 0)
-			{
-				return true;
-			}
-			else
-			{
-				var message = new StringBuilder();
-				message.AppendLine("Выбранные единицы измерения используются в товарах и не могут быть удалены:");
-				message.AppendLine();
-				foreach (var product in products)
-				{
-					message.AppendLine(string.Format(CultureInfo.InvariantCulture, "... \"{1}\" является единицей измерения \"{0}\"", product.Name, product.Unit.Name ?? product.Unit.ShortName));
-				}
-				MessageBox.Show(
-					message.ToString(),
-					"Невозможно удалить выбранные записи",
-					MessageBoxButton.OK,
-					MessageBoxImage.Warning);
-				return false;
-			}
-		});
-	}
-
-	private void selectedUnitsChanged(object sender, SelectionChangedEventArgs e)
-	{
-		updateButtonsAvailability(unitsGrid, buttonEditUnit, buttonDeleteUnit);
-	}
-
-	#endregion
-
-	#endregion
-
-	#region Helpers
-
-	private void addItem<ItemT, DialogT>(
-		DataGrid grid,
-		List<ItemT> table,
-		Func<ItemT> createItem = null,
-		Action<ItemT> beforeSave = null,
-		Action<ItemT> afterSave = null,
-		Action<DialogT> dialogSetup = null,
-		Action updateGrid = null)
-		where ItemT : IEntity,  IEditable<ItemT>, new()
-		where DialogT : Window, IEditDialog<ItemT>, new()
-	{
-		var newItem = createItem != null
-			? createItem()
-			: new ItemT();
-		var dialog = new DialogT();
-		if (dialogSetup != null)
-		{
-			dialogSetup(dialog);
-		}
-		dialog.EditValue = newItem;
-		if (dialog.ShowDialog() == true)
-		{
-			try
-			{
-				newItem.ID = table.Count + 1;
-				newItem.AfterEdit();
-				table.Add(newItem);
-				if (beforeSave != null)
-				{
-					beforeSave(newItem);
-				}
-				Database.Database.Save();
-				if (updateGrid == null)
-				{
-					updateGrid = () =>
+					if (parentProducts.Count > 0)
 					{
-						grid.ItemsSource = null;
-						grid.ItemsSource = table;
-					};
+						message.AppendLine("Данный товар используется как составная часть в следующих товарах:");
+						message.AppendLine();
+						foreach (var parent in parentProducts)
+						{
+							message.AppendLine(string.Format(CultureInfo.InvariantCulture, "... {0}", parent.DisplayMember));
+						}
+						message.AppendLine();
+					}
+					message.AppendLine("После изменения выбранного товара все они будут содержать новую исправленную версию. Продолжить редактирование?");
+					return MessageBox.Show(
+						message.ToString(),
+						"Внимание",
+						MessageBoxButton.YesNo,
+						MessageBoxImage.Question) == MessageBoxResult.Yes;
 				}
-				updateGrid();
-				if (afterSave != null)
-				{
-					afterSave(newItem);
-				}
-			}
-			catch (Exception error)
-			{
-				MessageBox.Show(error.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-			}
+			});
+			reloadComplexProducts();
 		}
-	}
 
-	private void editItem<ItemT, DialogT>(
-		DataGrid grid,
-		IEnumerable<ItemT> table,
-		Func<ItemT, bool> beforeEdit = null,
-		Action<DialogT> dialogSetup = null)
-		where ItemT : IEditable<ItemT>, new()
-		where DialogT : Window, IEditDialog<ItemT>, new()
-	{
-		var selectedItems = grid.SelectedItems.OfType<ItemT>().ToList();
-		if (selectedItems.Count > 0)
+		private void productDeleteClick(object sender, RoutedEventArgs e)
 		{
-			var editItem = selectedItems[0];
-			if (beforeEdit != null && !beforeEdit(editItem))
+			deleteItem(productsGrid, Database.Database.Instance.Products, products =>
 			{
-				return;
-			}
-			var copyItem = new ItemT();
-			copyItem.Update(editItem);
-			copyItem.BeforeEdit();
+				var checkIds = products.Select(u => u.ID).ToList();
+				var documents = Database.Database.Instance.Documents.Where(d => DocumentTypeImplementation.AllTypes[d.Type].GetBalanceDelta(d).Keys.Any(id => checkIds.Contains(id))).ToList();
+				var parentProducts = Database.Database.Instance.Products.Where(p => p.Children.Keys.Any(pp => checkIds.Contains(pp.ID))).ToList();
+				if (documents.Count == 0 && parentProducts.Count == 0)
+				{
+					return true;
+				}
+				else
+				{
+					var message = new StringBuilder();
+					if (documents.Count > 0)
+					{
+						message.AppendLine("Выбранные товары используются в следующих документах и не могут быть удалены:");
+						message.AppendLine();
+						foreach (var document in documents)
+						{
+							message.AppendLine(string.Format(CultureInfo.InvariantCulture, "... {0} {1} от {2}",
+								document.TypeName,
+								!string.IsNullOrEmpty(document.Number) ? "\"" + document.Number + "\"" : string.Empty,
+								document.Date.ToShortDateString()));
+						}
+						message.AppendLine();
+					}
+					if (parentProducts.Count > 0)
+					{
+						message.AppendLine("Выбранные товары используются как составные части в других товарах:");
+						message.AppendLine();
+						foreach (var parent in parentProducts)
+						{
+							foreach (var child in parent.Children.Keys.Where(p => checkIds.Contains(p.ID)))
+							{
+								message.AppendLine(string.Format(CultureInfo.InvariantCulture, "... \"{0}\" содержит \"{1}\"", parent.DisplayMember, child.DisplayMember));
+							}
+						}
+						message.AppendLine();
+					}
+					MessageBox.Show(
+						message.ToString(),
+						"Невозможно удалить выбранные записи",
+						MessageBoxButton.OK,
+						MessageBoxImage.Warning);
+					return false;
+				}
+			});
+			reloadComplexProducts();
+		}
+
+		private void selectedProductsChanged(object sender, SelectionChangedEventArgs e)
+		{
+			updateButtonsAvailability(productsGrid, buttonEditProduct, buttonDeleteProduct);
+		}
+
+		#endregion
+
+		#region Единицы измерения
+
+		private void unitAddClick(object sender, RoutedEventArgs e)
+		{
+			addItem<Unit, UnitDialog>(unitsGrid, Database.Database.Instance.Units);
+		}
+
+		private void unitEditClick(object sender, RoutedEventArgs e)
+		{
+			editItem<Unit, UnitDialog>(unitsGrid, Database.Database.Instance.Units, unit =>
+			{
+				var products = Database.Database.Instance.Products.Where(p => p.Unit.ID == unit.ID).ToList();
+				if (products.Count == 0)
+				{
+					return true;
+				}
+				else
+				{
+					var message = new StringBuilder();
+					message.AppendLine("Следующие товары содержат ссылку на данную единицу измерения:");
+					message.AppendLine();
+					foreach (var product in products)
+					{
+						message.AppendLine(string.Format(CultureInfo.InvariantCulture, "... {0}", product.Name));
+					}
+					message.AppendLine("После её изменения они будут содержать новую исправленную версию. Продолжить редактирование?");
+					return MessageBox.Show(
+						message.ToString(),
+						"Внимание",
+						MessageBoxButton.YesNo,
+						MessageBoxImage.Question) == MessageBoxResult.Yes;
+				}
+			});
+		}
+
+		private void unitDeleteClick(object sender, RoutedEventArgs e)
+		{
+			deleteItem(unitsGrid, Database.Database.Instance.Units, units =>
+			{
+				var checkIds = units.Select(u => u.ID).ToList();
+				var products = Database.Database.Instance.Products.Where(p => checkIds.Contains(p.Unit.ID)).ToList();
+				if (products.Count == 0)
+				{
+					return true;
+				}
+				else
+				{
+					var message = new StringBuilder();
+					message.AppendLine("Выбранные единицы измерения используются в товарах и не могут быть удалены:");
+					message.AppendLine();
+					foreach (var product in products)
+					{
+						message.AppendLine(string.Format(CultureInfo.InvariantCulture, "... \"{1}\" является единицей измерения \"{0}\"", product.Name, product.Unit.Name ?? product.Unit.ShortName));
+					}
+					MessageBox.Show(
+						message.ToString(),
+						"Невозможно удалить выбранные записи",
+						MessageBoxButton.OK,
+						MessageBoxImage.Warning);
+					return false;
+				}
+			});
+		}
+
+		private void selectedUnitsChanged(object sender, SelectionChangedEventArgs e)
+		{
+			updateButtonsAvailability(unitsGrid, buttonEditUnit, buttonDeleteUnit);
+		}
+
+		#endregion
+
+		#endregion
+
+		#region Helpers
+
+		private void addItem<ItemT, DialogT>(
+			DataGrid grid,
+			List<ItemT> table,
+			Func<ItemT> createItem = null,
+			Action<ItemT> beforeSave = null,
+			Action<ItemT> afterSave = null,
+			Action<DialogT> dialogSetup = null,
+			Action updateGrid = null)
+			where ItemT : IEntity,  IEditable<ItemT>, new()
+			where DialogT : Window, IEditDialog<ItemT>, new()
+		{
+			var newItem = createItem != null
+				? createItem()
+				: new ItemT();
 			var dialog = new DialogT();
 			if (dialogSetup != null)
 			{
 				dialogSetup(dialog);
 			}
-			dialog.EditValue = copyItem;
+			dialog.EditValue = newItem;
 			if (dialog.ShowDialog() == true)
 			{
 				try
 				{
-					copyItem.AfterEdit();
-					editItem.Update(copyItem);
+					newItem.ID = table.Count + 1;
+					newItem.AfterEdit();
+					table.Add(newItem);
+					if (beforeSave != null)
+					{
+						beforeSave(newItem);
+					}
+					Database.Database.Save();
+					if (updateGrid == null)
+					{
+						updateGrid = () =>
+						{
+							grid.ItemsSource = null;
+							grid.ItemsSource = table;
+						};
+					}
+					updateGrid();
+					if (afterSave != null)
+					{
+						afterSave(newItem);
+					}
+				}
+				catch (Exception error)
+				{
+					MessageBox.Show(error.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
+			}
+		}
+
+		private void editItem<ItemT, DialogT>(
+			DataGrid grid,
+			IEnumerable<ItemT> table,
+			Func<ItemT, bool> beforeEdit = null,
+			Action<DialogT> dialogSetup = null)
+			where ItemT : IEditable<ItemT>, new()
+			where DialogT : Window, IEditDialog<ItemT>, new()
+		{
+			var selectedItems = grid.SelectedItems.OfType<ItemT>().ToList();
+			if (selectedItems.Count > 0)
+			{
+				var editItem = selectedItems[0];
+				if (beforeEdit != null && !beforeEdit(editItem))
+				{
+					return;
+				}
+				var copyItem = new ItemT();
+				copyItem.Update(editItem);
+				copyItem.BeforeEdit();
+				var dialog = new DialogT();
+				if (dialogSetup != null)
+				{
+					dialogSetup(dialog);
+				}
+				dialog.EditValue = copyItem;
+				if (dialog.ShowDialog() == true)
+				{
+					try
+					{
+						copyItem.AfterEdit();
+						editItem.Update(copyItem);
+						Database.Database.Save();
+						grid.ItemsSource = null;
+						grid.ItemsSource = table;
+					}
+					catch (Exception error)
+					{
+						MessageBox.Show(error.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+					}
+				}
+			}
+		}
+
+		private void deleteItem<ItemT>(
+			DataGrid grid,
+			List<ItemT> table,
+			Func<List<ItemT>, bool> beforeDelete = null)
+		{
+			var selectedItems = grid.SelectedItems.OfType<ItemT>().ToList();
+			if (beforeDelete != null && !beforeDelete(selectedItems))
+			{
+				return;
+			}
+			if (selectedItems.Count > 0)
+			{
+				try
+				{
+					foreach (var item in selectedItems)
+					{
+						table.Remove(item);
+					}
 					Database.Database.Save();
 					grid.ItemsSource = null;
 					grid.ItemsSource = table;
@@ -534,71 +564,40 @@ namespace ComfortIsland
 				}
 			}
 		}
-	}
 
-	private void deleteItem<ItemT>(
-		DataGrid grid,
-		List<ItemT> table,
-		Func<List<ItemT>, bool> beforeDelete = null)
-	{
-		var selectedItems = grid.SelectedItems.OfType<ItemT>().ToList();
-		if (beforeDelete != null && !beforeDelete(selectedItems))
+		private void updateButtonsAvailability(DataGrid grid, Button editButton, Button deleteButton)
 		{
-			return;
+			int itemsCount = grid.SelectedItems != null
+				? grid.SelectedItems.Count
+				: (grid.SelectedItem != null ? 1 : 0);
+			editButton.IsEnabled = itemsCount == 1;
+			deleteButton.IsEnabled = itemsCount > 0;
 		}
-		if (selectedItems.Count > 0)
+
+		#endregion
+
+		#region Отчёты
+
+		private void newReportClick(object sender, MouseButtonEventArgs e)
 		{
-			try
+			var reportDescriptor = listReports.SelectedItem as ReportDescriptor;
+			if (reportDescriptor != null)
 			{
-				foreach (var item in selectedItems)
+				IReport report;
+				if (reportDescriptor.CreateReport(out report))
 				{
-					table.Remove(item);
+					reportGrid.ItemsSource = null;
+					reportGrid.Columns.Clear();
+					reportHeader.Text = report.Title;
+					foreach (var column in reportDescriptor.GetColumns())
+					{
+						reportGrid.Columns.Add(column);
+					}
+					reportGrid.ItemsSource = report.Items;
 				}
-				Database.Database.Save();
-				grid.ItemsSource = null;
-				grid.ItemsSource = table;
-			}
-			catch (Exception error)
-			{
-				MessageBox.Show(error.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 		}
+
+		#endregion
 	}
-
-	private void updateButtonsAvailability(DataGrid grid, Button editButton, Button deleteButton)
-	{
-		int itemsCount = grid.SelectedItems != null
-			? grid.SelectedItems.Count
-			: (grid.SelectedItem != null ? 1 : 0);
-		editButton.IsEnabled = itemsCount == 1;
-		deleteButton.IsEnabled = itemsCount > 0;
-	}
-
-	#endregion
-
-	#region Отчёты
-
-	private void newReportClick(object sender, MouseButtonEventArgs e)
-	{
-		var reportDescriptor = listReports.SelectedItem as ReportDescriptor;
-		if (reportDescriptor != null)
-		{
-			IReport report;
-			if (reportDescriptor.CreateReport(out report))
-			{
-				reportGrid.ItemsSource = null;
-				reportGrid.Columns.Clear();
-				reportHeader.Text = report.Title;
-				foreach (var column in reportDescriptor.GetColumns())
-				{
-					reportGrid.Columns.Add(column);
-				}
-				reportGrid.ItemsSource = report.Items;
-			}
-
-		}
-	}
-
-	#endregion
-}
 }
