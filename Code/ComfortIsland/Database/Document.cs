@@ -37,6 +37,10 @@ namespace ComfortIsland.Database
 		{ get { return DocumentTypeImplementation.AllTypes[Type].Name; } }
 
 		[XmlIgnore]
+		public string StateName
+		{ get { return State.StateToString(); } }
+
+		[XmlIgnore]
 		public Dictionary<Product, double> Positions
 		{ get; private set; }
 

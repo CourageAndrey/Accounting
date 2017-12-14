@@ -31,6 +31,9 @@
 					<Button Content="Производство" Margin="5" Padding="5,2,5,2" Click="produceClick" />
 					<Button Content="Проверить наличие товара" Margin="5" Padding="5,2,5,2" Click="checkBalanceClick" />
 				</StackPanel>
+				<Expander DockPanel.Dock="Top" Header="Фильтр документов">
+					<CheckBox Margin="5" Content="Отображать удалённые и отредактированные" Name="checkBoxShowObsoleteDocuments" Checked="documentStateFilterChecked" Unchecked="documentStateFilterChecked" />
+				</Expander>
 				<GroupBox DockPanel.Dock="Bottom" Header="Список позиций:" DataContext="">
 					<DataGrid IsReadOnly="False" AutoGenerateColumns="False" Name="positionsGrid" Height="150" ItemsSource="{Binding ElementName=documentsGrid, Path=SelectedItem.Positions, Mode=OneWay}">
 						<DataGrid.Columns>
@@ -44,6 +47,7 @@
 						<DataGridTextColumn Header="Дата" Binding="{Binding Path=Date, Mode=OneTime, Converter={StaticResource dateConverter}}" MinWidth="100"/>
 						<DataGridTextColumn Header="Номер" Binding="{Binding Path=Number, Mode=OneTime}" MinWidth="150" />
 						<DataGridTextColumn Header="Тип" Binding="{Binding Path=TypeName, Mode=OneTime}" MinWidth="100"/>
+						<DataGridTextColumn Header="Состояние" Binding="{Binding Path=StateName, Mode=OneTime}" MinWidth="100" x:Name="stateColumn" />
 					</DataGrid.Columns>
 				</DataGrid>
 			</DockPanel>

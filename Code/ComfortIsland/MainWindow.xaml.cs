@@ -28,7 +28,7 @@ namespace ComfortIsland
 			var database = Database.Database.TryLoad();
 
 			// документы
-			documentsGrid.ItemsSource = database.Documents;
+			documentStateFilterChecked(this, null);
 			// отчёты
 			listReports.ItemsSource = ReportDescriptor.All;
 			// справочники
@@ -121,7 +121,11 @@ namespace ComfortIsland
 					reportHeader.Text = string.Empty;
 					reportGrid.ItemsSource = null;
 				},
-				dialogSetup);
+				dialogSetup,
+				() =>
+				{
+					documentStateFilterChecked(this, null);
+				});
 		}
 
 		private void documentsGridDoubleClick(object sender, MouseButtonEventArgs e)
@@ -134,6 +138,22 @@ namespace ComfortIsland
 				dialog.SetReadOnly();
 				dialog.EditValue = selectedItem;
 				dialog.ShowDialog();
+			}
+		}
+
+		private void documentStateFilterChecked(object sender, RoutedEventArgs e)
+		{
+			var database = Database.Database.Instance;
+			documentsGrid.ItemsSource = null;
+			if (checkBoxShowObsoleteDocuments.IsChecked == true)
+			{
+				stateColumn.Visibility = Visibility.Visible;
+				documentsGrid.ItemsSource = database.Documents;
+			}
+			else
+			{
+				stateColumn.Visibility = Visibility.Collapsed;
+				documentsGrid.ItemsSource = database.Documents.Where(d => d.State == DocumentState.Active);
 			}
 		}
 
@@ -349,7 +369,8 @@ namespace ComfortIsland
 			Func<ItemT> createItem = null,
 			Action<ItemT> beforeSave = null,
 			Action<ItemT> afterSave = null,
-			Action<DialogT> dialogSetup = null)
+			Action<DialogT> dialogSetup = null,
+			Action updateGrid = null)
 			where ItemT : IEntity,  IEditable<ItemT>, new()
 			where DialogT : Window, IEditDialog<ItemT>, new()
 		{
@@ -374,8 +395,15 @@ namespace ComfortIsland
 						beforeSave(newItem);
 					}
 					Database.Database.Save();
-					grid.ItemsSource = null;
-					grid.ItemsSource = table;
+					if (updateGrid == null)
+					{
+						updateGrid = () =>
+						{
+							grid.ItemsSource = null;
+							grid.ItemsSource = table;
+						};
+					}
+					updateGrid();
 					if (afterSave != null)
 					{
 						afterSave(newItem);
