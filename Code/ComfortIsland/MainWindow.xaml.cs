@@ -180,10 +180,89 @@ namespace ComfortIsland
 			reportGrid.ItemsSource = null;
 		}
 
+		private void editDocumentClick(object sender, RoutedEventArgs e)
+		{
+			var database = Database.Database.Instance;
+			var originalDocument = documentsGrid.SelectedItems.OfType<Document>().Single();
+			var editedDocument = new Document();
+			editedDocument.Update(originalDocument);
+			editedDocument.ID = database.Documents.Count + 1;
+			editedDocument.PreviousVersionId = originalDocument.ID;
+			editedDocument.BeforeEdit();
+			var dialog = new DocumentDialog();
+			if (originalDocument.Type == DocumentType.Produce)
+			{
+				dialog.ProductsGetter = () => Database.Database.Instance.Products.Where(p => p.Children.Count > 0);
+			}
+			dialog.EditValue = editedDocument;
+			if (dialog.ShowDialog() == true)
+			{
+				editedDocument.AfterEdit();
+				var balanceTable = database.Balance.Select(b => new Balance(b)).ToList();
+				IList<long> wrongPositions;
+				var documentsToApplyAgain = new Stack<Document>();
+
+				// последовательный откат документов
+				foreach (var document in database.Documents.Where(d => d.State == DocumentState.Active).OrderByDescending(d => d.Date).Where(d => d.Date > editedDocument.Date))
+				{
+					document.ProcessBack(balanceTable);
+					documentsToApplyAgain.Push(document);
+					if (document == editedDocument) break;
+				}
+
+				// применение отредактированной версии документа
+				editedDocument.Process(balanceTable);
+				if (!editedDocument.CheckBalance(balanceTable, out wrongPositions))
+				{
+					var text = new StringBuilder("При применении отредактированного документа остатки следующих товаров принимают отрицательные значения:");
+					text.AppendLine();
+					foreach (long id in wrongPositions)
+					{
+						var product = database.Products.First(p => p.ID == id);
+						text.AppendLine(product.DisplayMember);
+					}
+					MessageBox.Show(text.ToString(), "Ошибка: невозможно редактировать выбранный документ", MessageBoxButton.OK, MessageBoxImage.Error);
+					return;
+				}
+
+				// накат неудалённых документов обратно
+				while (documentsToApplyAgain.Count > 0)
+				{
+					var document = documentsToApplyAgain.Pop();
+					document.Process(balanceTable);
+					if (!document.CheckBalance(balanceTable, out wrongPositions))
+					{
+						var text = new StringBuilder(string.Format(CultureInfo.InvariantCulture, "При применении документа №{0} от {1} остатки следующих товаров принимают отрицательные значения:", document.Number, document.Date));
+						text.AppendLine();
+						foreach (long id in wrongPositions)
+						{
+							var product = database.Products.First(p => p.ID == id);
+							text.AppendLine(product.DisplayMember);
+						}
+						MessageBox.Show(text.ToString(), "Ошибка: невозможно редактировать выбранный документ", MessageBoxButton.OK, MessageBoxImage.Error);
+						return;
+					}
+				}
+
+				// если всё хорошо - применяем изменения в БД и на экране
+				if (originalDocument.State == DocumentState.Active)
+				{
+					originalDocument.State = DocumentState.Edited;
+				}
+				database.Documents.Add(editedDocument);
+				database.Balance = balanceTable;
+				Database.Database.Save();
+				documentStateFilterChecked(this, null);
+				reportHeader.Text = string.Empty;
+				reportGrid.ItemsSource = null;
+			}
+		}
+
 		private void selectedDocumentsChanged(object sender, SelectionChangedEventArgs e)
 		{
 			var documents = documentsGrid.SelectedItems.OfType<Document>().ToList();
 			deleteDocumentsButton.IsEnabled = documents.Count > 0 && documents.All(d => d.State == DocumentState.Active);
+			editDocumentButton.IsEnabled = documents.Count == 1;
 		}
 
 		private void createDocument(DocumentType type, Action<DocumentDialog> dialogSetup = null)

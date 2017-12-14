@@ -16,6 +16,17 @@ namespace ComfortIsland.Database
 		public long ID
 		{ get; set; }
 
+		[XmlIgnore]
+		public long? PreviousVersionId
+		{ get; set; }
+
+		[XmlAttribute]
+		private string PreviousVersionIdXml
+		{
+			get { return PreviousVersionId.ToString(); }
+			set { PreviousVersionId = !string.IsNullOrEmpty(value) ? (long?) long.Parse(value) : null; }
+		}
+
 		[XmlAttribute]
 		public string Number
 		{ get; set; }
