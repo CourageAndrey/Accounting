@@ -180,6 +180,8 @@ namespace ComfortIsland
 			reportGrid.ItemsSource = null;
 		}
 
+#warning Должно корректно обрабатываться применение документов задним числом и редактирование с изменением даты документа. Также должно быть нельзя создать документ с будущей датой.
+
 		private void editDocumentClick(object sender, RoutedEventArgs e)
 		{
 			var database = Database.Database.Instance;
