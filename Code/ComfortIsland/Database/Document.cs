@@ -138,6 +138,24 @@ namespace ComfortIsland.Database
 			DocumentTypeImplementation.AllTypes[Type].ProcessBack(this, balanceTable);
 		}
 
+		public IDictionary<long, double> GetBalanceDelta()
+		{
+			return DocumentTypeImplementation.AllTypes[Type].GetBalanceDelta(this);
+		}
+
+		public bool CheckBalance(IList<Balance> balanceTable, out IList<long> wrongPositions)
+		{
+			wrongPositions = new List<long>();
+			foreach (long productId in GetBalanceDelta().Keys)
+			{
+				if (balanceTable.First(b => b.ProductId == productId).Count < 0)
+				{
+					wrongPositions.Add(productId);
+				}
+			}
+			return wrongPositions.Count == 0;
+		}
+
 		#endregion
 	}
 }

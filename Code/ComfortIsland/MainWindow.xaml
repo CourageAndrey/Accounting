@@ -30,6 +30,7 @@
 					<Button Content="Продажа со склада" Margin="5" Padding="5,2,5,2" Click="outcomeClick" />
 					<Button Content="Производство" Margin="5" Padding="5,2,5,2" Click="produceClick" />
 					<Button Content="Проверить наличие товара" Margin="5" Padding="5,2,5,2" Click="checkBalanceClick" />
+					<Button Content="Удалить" Margin="5" Padding="5,2,5,2" Click="deleteDocumentsClick" Name="deleteDocumentsButton" />
 				</StackPanel>
 				<Expander DockPanel.Dock="Top" Header="Фильтр документов">
 					<CheckBox Margin="5" Content="Отображать удалённые и отредактированные" Name="checkBoxShowObsoleteDocuments" Checked="documentStateFilterChecked" Unchecked="documentStateFilterChecked" />
@@ -42,7 +43,7 @@
 						</DataGrid.Columns>
 					</DataGrid>
 				</GroupBox>
-				<DataGrid Name="documentsGrid" IsReadOnly="True" AutoGenerateColumns="False" MouseDoubleClick="documentsGridDoubleClick">
+				<DataGrid Name="documentsGrid" IsReadOnly="True" AutoGenerateColumns="False" MouseDoubleClick="documentsGridDoubleClick" SelectionChanged="selectedDocumentsChanged">
 					<DataGrid.Columns>
 						<DataGridTextColumn Header="Дата" Binding="{Binding Path=Date, Mode=OneTime, Converter={StaticResource dateConverter}}" MinWidth="100"/>
 						<DataGridTextColumn Header="Номер" Binding="{Binding Path=Number, Mode=OneTime}" MinWidth="150" />
