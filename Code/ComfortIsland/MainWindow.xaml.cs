@@ -123,23 +123,14 @@ namespace ComfortIsland
 			var firstDocumentToDelete = documentsToDelete.Last();
 			var database = Database.Database.Instance;
 			var balanceTable = database.Balance.Select(b => new Balance(b)).ToList();
-			IList<long> wrongPositions;
 			var documentsToApplyAgain = new Stack<Document>();
 
 			// последовательный откат документов
 			foreach (var document in database.Documents.Where(d => d.State == DocumentState.Active).OrderByDescending(d => d.Date))
 			{
 				document.ProcessBack(balanceTable);
-				if (!document.CheckBalance(balanceTable, out wrongPositions))
+				if (!document.CheckBalance(balanceTable, "удалении", "удалить"))
 				{
-					var text = new StringBuilder(string.Format(CultureInfo.InvariantCulture, "При удалении документа №{0} от {1} остатки следующих товаров принимают отрицательные значения:", document.Number, document.Date));
-					text.AppendLine();
-					foreach (long id in wrongPositions)
-					{
-						var product = database.Products.First(p => p.ID == id);
-						text.AppendLine(product.DisplayMember);
-					}
-					MessageBox.Show(text.ToString(), "Ошибка: невозможно удалить выбранные документы", MessageBoxButton.OK, MessageBoxImage.Error);
 					return;
 				}
 				if (!documentsToDelete.Contains(document))
@@ -154,16 +145,8 @@ namespace ComfortIsland
 			{
 				var document = documentsToApplyAgain.Pop();
 				document.Process(balanceTable);
-				if (!document.CheckBalance(balanceTable, out wrongPositions))
+				if (!document.CheckBalance(balanceTable, "применении", "удалить"))
 				{
-					var text = new StringBuilder(string.Format(CultureInfo.InvariantCulture, "При применении документа №{0} от {1} остатки следующих товаров принимают отрицательные значения:", document.Number, document.Date));
-					text.AppendLine();
-					foreach (long id in wrongPositions)
-					{
-						var product = database.Products.First(p => p.ID == id);
-						text.AppendLine(product.DisplayMember);
-					}
-					MessageBox.Show(text.ToString(), "Ошибка: невозможно удалить выбранные документы", MessageBoxButton.OK, MessageBoxImage.Error);
 					return;
 				}
 			}
@@ -179,8 +162,6 @@ namespace ComfortIsland
 			reportHeader.Text = string.Empty;
 			reportGrid.ItemsSource = null;
 		}
-
-#warning Должно корректно обрабатываться применение документов задним числом и редактирование с изменением даты документа. Также должно быть нельзя создать документ с будущей датой.
 
 		private void editDocumentClick(object sender, RoutedEventArgs e)
 		{
@@ -201,7 +182,6 @@ namespace ComfortIsland
 			{
 				editedDocument.AfterEdit();
 				var balanceTable = database.Balance.Select(b => new Balance(b)).ToList();
-				IList<long> wrongPositions;
 				var documentsToApplyAgain = new Stack<Document>();
 
 				// последовательный откат документов
@@ -210,16 +190,8 @@ namespace ComfortIsland
 				foreach (var document in database.Documents.Where(d => d.State == DocumentState.Active).OrderByDescending(d => d.Date).Where(d => d.Date >= minDocDate))
 				{
 					document.ProcessBack(balanceTable);
-					if (!document.CheckBalance(balanceTable, out wrongPositions))
+					if (!document.CheckBalance(balanceTable, "удалении", "редактировать"))
 					{
-						var text = new StringBuilder(string.Format(CultureInfo.InvariantCulture, "При удалении документа №{0} от {1} остатки следующих товаров принимают отрицательные значения:", document.Number, document.Date));
-						text.AppendLine();
-						foreach (long id in wrongPositions)
-						{
-							var product = database.Products.First(p => p.ID == id);
-							text.AppendLine(product.DisplayMember);
-						}
-						MessageBox.Show(text.ToString(), "Ошибка: невозможно редактировать выбранный документ", MessageBoxButton.OK, MessageBoxImage.Error);
 						return;
 					}
 					
@@ -237,16 +209,8 @@ namespace ComfortIsland
 				if (!originalDeleted)
 				{
 					originalDocument.ProcessBack(balanceTable);
-					if (!originalDocument.CheckBalance(balanceTable, out wrongPositions))
+					if (!originalDocument.CheckBalance(balanceTable, "отмене старой версии отредактированного", "редактировать"))
 					{
-						var text = new StringBuilder("При отмене старой версии отредактированного документа остатки следующих товаров принимают отрицательные значения:");
-						text.AppendLine();
-						foreach (long id in wrongPositions)
-						{
-							var product = database.Products.First(p => p.ID == id);
-							text.AppendLine(product.DisplayMember);
-						}
-						MessageBox.Show(text.ToString(), "Ошибка: невозможно редактировать выбранный документ", MessageBoxButton.OK, MessageBoxImage.Error);
 						return;
 					}
 				}
@@ -260,30 +224,14 @@ namespace ComfortIsland
 					{ // применение отредактированной версии документа
 						editedApplied = true;
 						editedDocument.Process(balanceTable);
-						if (!editedDocument.CheckBalance(balanceTable, out wrongPositions))
+						if (!editedDocument.CheckBalance(balanceTable, "применении новой версии отредактированного", "редактировать"))
 						{
-							var text = new StringBuilder("При применении новой версии отредактированного документа остатки следующих товаров принимают отрицательные значения:");
-							text.AppendLine();
-							foreach (long id in wrongPositions)
-							{
-								var product = database.Products.First(p => p.ID == id);
-								text.AppendLine(product.DisplayMember);
-							}
-							MessageBox.Show(text.ToString(), "Ошибка: невозможно редактировать выбранный документ", MessageBoxButton.OK, MessageBoxImage.Error);
 							return;
 						}
 					}
 					document.Process(balanceTable);
-					if (!document.CheckBalance(balanceTable, out wrongPositions))
+					if (!document.CheckBalance(balanceTable, "применении", "редактировать"))
 					{
-						var text = new StringBuilder(string.Format(CultureInfo.InvariantCulture, "При применении документа №{0} от {1} остатки следующих товаров принимают отрицательные значения:", document.Number, document.Date));
-						text.AppendLine();
-						foreach (long id in wrongPositions)
-						{
-							var product = database.Products.First(p => p.ID == id);
-							text.AppendLine(product.DisplayMember);
-						}
-						MessageBox.Show(text.ToString(), "Ошибка: невозможно редактировать выбранный документ", MessageBoxButton.OK, MessageBoxImage.Error);
 						return;
 					}
 				}
@@ -292,16 +240,8 @@ namespace ComfortIsland
 				if (!editedApplied)
 				{ 
 					editedDocument.Process(balanceTable);
-					if (!editedDocument.CheckBalance(balanceTable, out wrongPositions))
+					if (!editedDocument.CheckBalance(balanceTable, "применении новой версии отредактированного", "редактировать"))
 					{
-						var text = new StringBuilder("При применении новой версии отредактированного документа остатки следующих товаров принимают отрицательные значения:");
-						text.AppendLine();
-						foreach (long id in wrongPositions)
-						{
-							var product = database.Products.First(p => p.ID == id);
-							text.AppendLine(product.DisplayMember);
-						}
-						MessageBox.Show(text.ToString(), "Ошибка: невозможно редактировать выбранный документ", MessageBoxButton.OK, MessageBoxImage.Error);
 						return;
 					}
 				}

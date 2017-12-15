@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using System.Xml.Serialization;
 
 namespace ComfortIsland.Database
@@ -154,9 +155,9 @@ namespace ComfortIsland.Database
 			return DocumentTypeImplementation.AllTypes[Type].GetBalanceDelta(this);
 		}
 
-		public bool CheckBalance(IList<Balance> balanceTable, out IList<long> wrongPositions)
+		public bool CheckBalance(IList<Balance> balanceTable, string operationNoun, string operationVerb)
 		{
-			wrongPositions = new List<long>();
+			var wrongPositions = new List<long>();
 			foreach (long productId in GetBalanceDelta().Keys)
 			{
 				if (balanceTable.First(b => b.ProductId == productId).Count < 0)
@@ -164,7 +165,32 @@ namespace ComfortIsland.Database
 					wrongPositions.Add(productId);
 				}
 			}
-			return wrongPositions.Count == 0;
+			if (wrongPositions.Count > 0)
+			{
+				var text = new StringBuilder(string.Format(
+					CultureInfo.InvariantCulture,
+					"При {0} документа №{1} от {2} остатки следующих товаров принимают отрицательные значения:",
+					operationNoun,
+					Number,
+					Date));
+				text.AppendLine();
+				var database = Database.Instance;
+				foreach (long id in wrongPositions)
+				{
+					var product = database.Products.First(p => p.ID == id);
+					text.AppendLine(product.DisplayMember);
+				}
+				MessageBox.Show(
+					text.ToString(),
+					string.Format(CultureInfo.InvariantCulture, "Ошибка: невозможно {0} выбранные документы", operationVerb),
+					MessageBoxButton.OK,
+					MessageBoxImage.Error);
+				return false;
+			}
+			else
+			{
+				return true;
+			}
 		}
 
 		#endregion
