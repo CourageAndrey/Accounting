@@ -205,36 +205,96 @@ namespace ComfortIsland
 				var documentsToApplyAgain = new Stack<Document>();
 
 				// последовательный откат документов
-				foreach (var document in database.Documents.Where(d => d.State == DocumentState.Active).OrderByDescending(d => d.Date).Where(d => d.Date > editedDocument.Date))
+				DateTime minDocDate = editedDocument.Date > originalDocument.Date ? originalDocument.Date : editedDocument.Date;
+				bool originalDeleted = false;
+				foreach (var document in database.Documents.Where(d => d.State == DocumentState.Active).OrderByDescending(d => d.Date).Where(d => d.Date >= minDocDate))
 				{
 					document.ProcessBack(balanceTable);
-					documentsToApplyAgain.Push(document);
-					if (document == editedDocument) break;
-				}
-
-				// применение отредактированной версии документа
-				editedDocument.Process(balanceTable);
-				if (!editedDocument.CheckBalance(balanceTable, out wrongPositions))
-				{
-					var text = new StringBuilder("При применении отредактированного документа остатки следующих товаров принимают отрицательные значения:");
-					text.AppendLine();
-					foreach (long id in wrongPositions)
+					if (!document.CheckBalance(balanceTable, out wrongPositions))
 					{
-						var product = database.Products.First(p => p.ID == id);
-						text.AppendLine(product.DisplayMember);
+						var text = new StringBuilder(string.Format(CultureInfo.InvariantCulture, "При удалении документа №{0} от {1} остатки следующих товаров принимают отрицательные значения:", document.Number, document.Date));
+						text.AppendLine();
+						foreach (long id in wrongPositions)
+						{
+							var product = database.Products.First(p => p.ID == id);
+							text.AppendLine(product.DisplayMember);
+						}
+						MessageBox.Show(text.ToString(), "Ошибка: невозможно редактировать выбранный документ", MessageBoxButton.OK, MessageBoxImage.Error);
+						return;
 					}
-					MessageBox.Show(text.ToString(), "Ошибка: невозможно редактировать выбранный документ", MessageBoxButton.OK, MessageBoxImage.Error);
-					return;
+					
+					if (document != originalDocument)
+					{
+						documentsToApplyAgain.Push(document);
+					}
+					else
+					{
+						originalDeleted = true;
+					}
 				}
 
-				// накат неудалённых документов обратно
+				// если нужно - откат оригинала
+				if (!originalDeleted)
+				{
+					originalDocument.ProcessBack(balanceTable);
+					if (!originalDocument.CheckBalance(balanceTable, out wrongPositions))
+					{
+						var text = new StringBuilder("При отмене старой версии отредактированного документа остатки следующих товаров принимают отрицательные значения:");
+						text.AppendLine();
+						foreach (long id in wrongPositions)
+						{
+							var product = database.Products.First(p => p.ID == id);
+							text.AppendLine(product.DisplayMember);
+						}
+						MessageBox.Show(text.ToString(), "Ошибка: невозможно редактировать выбранный документ", MessageBoxButton.OK, MessageBoxImage.Error);
+						return;
+					}
+				}
+
+				// накат неудалённых документов и отредактированной версии обратно
+				bool editedApplied = false;
 				while (documentsToApplyAgain.Count > 0)
 				{
 					var document = documentsToApplyAgain.Pop();
+					if (!editedApplied && document.Date > editedDocument.Date)
+					{ // применение отредактированной версии документа
+						editedApplied = true;
+						editedDocument.Process(balanceTable);
+						if (!editedDocument.CheckBalance(balanceTable, out wrongPositions))
+						{
+							var text = new StringBuilder("При применении новой версии отредактированного документа остатки следующих товаров принимают отрицательные значения:");
+							text.AppendLine();
+							foreach (long id in wrongPositions)
+							{
+								var product = database.Products.First(p => p.ID == id);
+								text.AppendLine(product.DisplayMember);
+							}
+							MessageBox.Show(text.ToString(), "Ошибка: невозможно редактировать выбранный документ", MessageBoxButton.OK, MessageBoxImage.Error);
+							return;
+						}
+					}
 					document.Process(balanceTable);
 					if (!document.CheckBalance(balanceTable, out wrongPositions))
 					{
 						var text = new StringBuilder(string.Format(CultureInfo.InvariantCulture, "При применении документа №{0} от {1} остатки следующих товаров принимают отрицательные значения:", document.Number, document.Date));
+						text.AppendLine();
+						foreach (long id in wrongPositions)
+						{
+							var product = database.Products.First(p => p.ID == id);
+							text.AppendLine(product.DisplayMember);
+						}
+						MessageBox.Show(text.ToString(), "Ошибка: невозможно редактировать выбранный документ", MessageBoxButton.OK, MessageBoxImage.Error);
+						return;
+					}
+				}
+
+				// применение отредактированной версии документа, если она ещё не была применена
+				if (!editedApplied)
+				{ 
+					editedDocument.Process(balanceTable);
+					if (!editedDocument.CheckBalance(balanceTable, out wrongPositions))
+					{
+						var text = new StringBuilder("При применении новой версии отредактированного документа остатки следующих товаров принимают отрицательные значения:");
 						text.AppendLine();
 						foreach (long id in wrongPositions)
 						{
