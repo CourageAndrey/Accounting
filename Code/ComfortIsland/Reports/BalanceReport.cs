@@ -32,8 +32,9 @@ namespace ComfortIsland.Reports
 			Date = date.Date.AddDays(1).AddMilliseconds(-1);
 			var database = Database.Database.Instance;
 			var balanceList = database.Balance.Select(b => new Balance(b)).ToList();
+			var activeDocuments = database.Documents.Where(d => d.State == DocumentState.Active).OrderByDescending(d => d.Date).ToList();
 
-			foreach (var document in database.Documents.Where(d => d.Date > Date).OrderByDescending(d => d.Date))
+			foreach (var document in activeDocuments.Where(d => d.Date > Date))
 			{
 				document.ProcessBack(balanceList);
 			}

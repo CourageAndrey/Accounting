@@ -38,9 +38,10 @@ namespace ComfortIsland.Reports
 			var database = Database.Database.Instance;
 			var items = database.Products.ToDictionary(p => p.ID, p => new TradeItem(p));
 			var balanceList = database.Balance.Select(b => new Balance(b)).ToList();
+			var activeDocuments = database.Documents.Where(d => d.State == DocumentState.Active).OrderByDescending(d => d.Date).ToList();
 
 			// открутили остатки на конец периода
-			foreach (var document in database.Documents.Where(d => d.Date > ToDate).OrderByDescending(d => d.Date))
+			foreach (var document in activeDocuments.Where(d => d.Date > ToDate))
 			{
 				document.ProcessBack(balanceList);
 			}
@@ -49,7 +50,7 @@ namespace ComfortIsland.Reports
 				items[balance.ProductId].FinalBalance = balance.Count;
 			}
 
-			foreach (var document in database.Documents.Where(d => d.Date <= ToDate && d.Date >= FromDate).OrderByDescending(d => d.Date))
+			foreach (var document in activeDocuments.Where(d => d.Date <= ToDate && d.Date >= FromDate))
 			{
 				document.ProcessBack(balanceList);
 				switch (document.Type)
