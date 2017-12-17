@@ -45,7 +45,11 @@ namespace ComfortIsland
 			updateButtonsAvailability(productsGrid, buttonEditProduct, buttonDeleteProduct);
 			updateButtonsAvailability(unitsGrid, buttonEditUnit, buttonDeleteUnit);
 
-			selectedDocumentsChanged(this, null);
+			suppressDocumentChangeFilter = true;
+			documentsFromDatePicker.SelectedDate = DateTime.Today.AddYears(-1);
+			documentsToDatePicker.SelectedDate = DateTime.Today.AddDays(1).AddMilliseconds(-1);
+			suppressDocumentChangeFilter = false;
+			refreshDocuments();
 		}
 
 		#endregion
@@ -309,18 +313,60 @@ namespace ComfortIsland
 
 		private void documentStateFilterChecked(object sender, RoutedEventArgs e)
 		{
-			var database = Database.Database.Instance;
+			stateColumn.Visibility = checkBoxShowObsoleteDocuments.IsChecked == true
+				? Visibility.Visible
+				: Visibility.Collapsed;
+			refreshDocuments();
+		}
+
+		private void documentsDateFilterChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (!suppressDocumentChangeFilter)
+			{
+				refreshDocuments();
+			}
+		}
+
+		private bool suppressDocumentChangeFilter;
+
+		private void refreshDocuments()
+		{
 			documentsGrid.ItemsSource = null;
-			if (checkBoxShowObsoleteDocuments.IsChecked == true)
+			IEnumerable<Document> documents = Database.Database.Instance.Documents;
+			if (checkBoxShowObsoleteDocuments.IsChecked == false)
 			{
-				stateColumn.Visibility = Visibility.Visible;
-				documentsGrid.ItemsSource = database.Documents;
+				documents = documents.Where(d => d.State == DocumentState.Active);
 			}
-			else
-			{
-				stateColumn.Visibility = Visibility.Collapsed;
-				documentsGrid.ItemsSource = database.Documents.Where(d => d.State == DocumentState.Active);
-			}
+			documents = documents.Where(d => d.Date >= documentsFromDatePicker.SelectedDate);
+			documents = documents.Where(d => d.Date <= documentsToDatePicker.SelectedDate);
+			documentsGrid.ItemsSource = documents.ToList();
+		}
+
+		private void documentsTodayClick(object sender, RoutedEventArgs e)
+		{
+			suppressDocumentChangeFilter = true;
+			documentsFromDatePicker.SelectedDate = DateTime.Today;
+			documentsToDatePicker.SelectedDate = DateTime.Today.AddDays(1).AddMilliseconds(-1);
+			suppressDocumentChangeFilter = false;
+			refreshDocuments();
+		}
+
+		private void documentsWeekClick(object sender, RoutedEventArgs e)
+		{
+			suppressDocumentChangeFilter = true;
+			documentsFromDatePicker.SelectedDate = DateTime.Today.AddDays(-7);
+			documentsToDatePicker.SelectedDate = DateTime.Today.AddDays(1).AddMilliseconds(-1);
+			suppressDocumentChangeFilter = false;
+			refreshDocuments();
+		}
+
+		private void documentsMonthClick(object sender, RoutedEventArgs e)
+		{
+			suppressDocumentChangeFilter = true;
+			documentsFromDatePicker.SelectedDate = DateTime.Today.AddMonths(-1);
+			documentsToDatePicker.SelectedDate = DateTime.Today.AddDays(1).AddMilliseconds(-1);
+			suppressDocumentChangeFilter = false;
+			refreshDocuments();
 		}
 
 		#endregion

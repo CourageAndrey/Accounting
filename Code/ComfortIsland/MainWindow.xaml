@@ -34,7 +34,18 @@
 					<Button Content="Редактировать" Margin="5" Padding="5,2,5,2" Click="editDocumentClick" Name="editDocumentButton" />
 				</StackPanel>
 				<Expander DockPanel.Dock="Top" Header="Фильтр документов">
-					<CheckBox Margin="5" Content="Отображать удалённые и отредактированные" Name="checkBoxShowObsoleteDocuments" Checked="documentStateFilterChecked" Unchecked="documentStateFilterChecked" />
+					<StackPanel Orientation="Vertical">
+						<CheckBox Margin="5" Content="Отображать удалённые и отредактированные" Name="checkBoxShowObsoleteDocuments" Checked="documentStateFilterChecked" Unchecked="documentStateFilterChecked" />
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Margin="5" Text="С:" VerticalAlignment="Center" />
+							<DatePicker Name="documentsFromDatePicker" Margin="2" SelectedDateChanged="documentsDateFilterChanged" />
+							<TextBlock Margin="5" Text="ПО:" VerticalAlignment="Center" />
+							<DatePicker Name="documentsToDatePicker" Margin="2" SelectedDateChanged="documentsDateFilterChanged" />
+							<Button Content="За сегодня" Margin="5" Padding="5,2,5,2" Click="documentsTodayClick" />
+							<Button Content="За неделю" Margin="5" Padding="5,2,5,2" Click="documentsWeekClick" />
+							<Button Content="За месяц" Margin="5" Padding="5,2,5,2" Click="documentsMonthClick" />
+						</StackPanel>
+					</StackPanel>
 				</Expander>
 				<GroupBox DockPanel.Dock="Bottom" Header="Список позиций:" DataContext="">
 					<DataGrid IsReadOnly="False" AutoGenerateColumns="False" Name="positionsGrid" Height="150" ItemsSource="{Binding ElementName=documentsGrid, Path=SelectedItem.Positions, Mode=OneWay}">
