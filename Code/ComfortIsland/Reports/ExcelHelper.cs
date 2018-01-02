@@ -906,7 +906,8 @@ namespace ComfortIsland.Reports
 				{
 					Cell cell = new Cell { CellReference = (char)('B' + c) + (5 + r).ToString(), StyleIndex = 1U, DataType = CellValues.String };
 					var cellContent = table.Columns[c].GetCellContent(items[(int) r]);
-					cell.Append(new CellValue { Text = (cellContent as TextBlock).Text });
+					var cellTextBlock = cellContent as TextBlock;
+					cell.Append(new CellValue { Text = cellTextBlock != null ? cellTextBlock.Text : string.Empty });
 					row.Append(cell);
 				}
 				sheetData1.Append(row);
