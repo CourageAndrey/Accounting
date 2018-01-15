@@ -46,7 +46,7 @@ namespace ComfortIsland
 			updateButtonsAvailability(unitsGrid, buttonEditUnit, buttonDeleteUnit);
 
 			suppressDocumentChangeFilter = true;
-			documentsFromDatePicker.SelectedDate = DateTime.Today.AddYears(-1);
+			documentsFromDatePicker.SelectedDate = DateTime.Today.AddDays(-7);
 			documentsToDatePicker.SelectedDate = DateTime.Today.AddDays(1).AddMilliseconds(-1);
 			suppressDocumentChangeFilter = false;
 			refreshDocuments();
