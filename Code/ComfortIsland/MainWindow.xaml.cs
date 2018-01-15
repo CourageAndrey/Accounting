@@ -375,6 +375,15 @@ namespace ComfortIsland
 			refreshDocuments();
 		}
 
+		private void documentsYearClick(object sender, RoutedEventArgs e)
+		{
+			suppressDocumentChangeFilter = true;
+			documentsFromDatePicker.SelectedDate = DateTime.Today.AddYears(-1);
+			documentsToDatePicker.SelectedDate = DateTime.Today.AddDays(1).AddMilliseconds(-1);
+			suppressDocumentChangeFilter = false;
+			refreshDocuments();
+		}
+
 		#endregion
 
 		#region Работа со справочниками

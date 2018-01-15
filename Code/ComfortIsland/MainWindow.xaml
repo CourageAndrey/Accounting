@@ -44,6 +44,7 @@
 							<Button Content="За сегодня" Margin="5" Padding="5,2,5,2" Click="documentsTodayClick" />
 							<Button Content="За неделю" Margin="5" Padding="5,2,5,2" Click="documentsWeekClick" />
 							<Button Content="За месяц" Margin="5" Padding="5,2,5,2" Click="documentsMonthClick" />
+							<Button Content="За год" Margin="5" Padding="5,2,5,2" Click="documentsYearClick" />
 						</StackPanel>
 					</StackPanel>
 				</Expander>
