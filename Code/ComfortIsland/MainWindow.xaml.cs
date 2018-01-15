@@ -337,8 +337,14 @@ namespace ComfortIsland
 			{
 				documents = documents.Where(d => d.State == DocumentState.Active);
 			}
-			documents = documents.Where(d => d.Date >= documentsFromDatePicker.SelectedDate);
-			documents = documents.Where(d => d.Date <= documentsToDatePicker.SelectedDate);
+			if (documentsFromDatePicker.SelectedDate.HasValue)
+			{
+				documents = documents.Where(d => d.Date >= documentsFromDatePicker.SelectedDate.Value.Date);
+			}
+			if (documentsToDatePicker.SelectedDate.HasValue)
+			{
+				documents = documents.Where(d => d.Date < documentsToDatePicker.SelectedDate.Value.Date.AddDays(1));
+			}
 			documentsGrid.ItemsSource = documents.ToList();
 		}
 
