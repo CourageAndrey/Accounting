@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using ComfortIsland.Dialogs;
+using ComfortIsland.Helpers;
 
 namespace ComfortIsland.Reports
 {
@@ -63,7 +64,7 @@ namespace ComfortIsland.Reports
 			new DataGridTextColumn
 			{
 				Header = "Остатки",
-				Binding = new Binding { Path = new PropertyPath("Count"), Mode = BindingMode.OneTime },
+				Binding = new Binding { Path = new PropertyPath("Count"), Mode = BindingMode.OneTime, Converter = DigitRoundingConverter.Instance },
 				MinWidth = 100,
 			},
 		}, createBalanceReport);
@@ -91,37 +92,37 @@ namespace ComfortIsland.Reports
 			new DataGridTextColumn
 			{
 				Header = "На начало периода",
-				Binding = new Binding { Path = new PropertyPath("InitialBalance"), Mode = BindingMode.OneTime },
+				Binding = new Binding { Path = new PropertyPath("InitialBalance"), Mode = BindingMode.OneTime, Converter = DigitRoundingConverter.Instance },
 				MinWidth = 100,
 			},
 			new DataGridTextColumn
 			{
 				Header = "Приобретено",
-				Binding = new Binding { Path = new PropertyPath("Income"), Mode = BindingMode.OneTime },
+				Binding = new Binding { Path = new PropertyPath("Income"), Mode = BindingMode.OneTime, Converter = DigitRoundingConverter.Instance },
 				MinWidth = 100,
 			},
 			new DataGridTextColumn
 			{
 				Header = "Произведено",
-				Binding = new Binding { Path = new PropertyPath("Produced"), Mode = BindingMode.OneTime },
+				Binding = new Binding { Path = new PropertyPath("Produced"), Mode = BindingMode.OneTime, Converter = DigitRoundingConverter.Instance },
 				MinWidth = 100,
 			},
 			new DataGridTextColumn
 			{
 				Header = "Продано",
-				Binding = new Binding { Path = new PropertyPath("Selled"), Mode = BindingMode.OneTime },
+				Binding = new Binding { Path = new PropertyPath("Selled"), Mode = BindingMode.OneTime, Converter = DigitRoundingConverter.Instance },
 				MinWidth = 100,
 			},
 			new DataGridTextColumn
 			{
 				Header = "Израсходовано",
-				Binding = new Binding { Path = new PropertyPath("UsedToProduce"), Mode = BindingMode.OneTime },
+				Binding = new Binding { Path = new PropertyPath("UsedToProduce"), Mode = BindingMode.OneTime, Converter = DigitRoundingConverter.Instance },
 				MinWidth = 100,
 			},
 			new DataGridTextColumn
 			{
 				Header = "На конец периода",
-				Binding = new Binding { Path = new PropertyPath("FinalBalance"), Mode = BindingMode.OneTime },
+				Binding = new Binding { Path = new PropertyPath("FinalBalance"), Mode = BindingMode.OneTime, Converter = DigitRoundingConverter.Instance },
 				MinWidth = 100,
 			},
 		}, createTradeReport);

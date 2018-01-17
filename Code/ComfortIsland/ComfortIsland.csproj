@@ -75,6 +75,7 @@
     <Compile Include="Dialogs\SelectDateDialog.xaml.cs">
       <DependentUpon>SelectDateDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\DigitRoundingConverter.cs" />
     <Compile Include="Helpers\FileSystemHelper.cs" />
     <Compile Include="Reports\BalanceReport.cs" />
     <Compile Include="Reports\ExcelHelper.cs" />
