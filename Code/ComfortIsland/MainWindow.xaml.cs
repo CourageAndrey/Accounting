@@ -333,7 +333,7 @@ namespace ComfortIsland
 		{
 			documentsGrid.ItemsSource = null;
 			IEnumerable<Document> documents = Database.Database.Instance.Documents;
-			if (checkBoxShowObsoleteDocuments.IsChecked == false)
+			if (checkBoxShowObsoleteDocuments.IsChecked != true)
 			{
 				documents = documents.Where(d => d.State == DocumentState.Active);
 			}
