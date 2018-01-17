@@ -185,6 +185,7 @@ namespace ComfortIsland
 				dialog.ProductsGetter = () => Database.Database.Instance.Products.Where(p => p.Children.Count > 0);
 			}
 			dialog.EditValue = editedDocument;
+			dialog.IgnoreValidation = true;
 			if (dialog.ShowDialog() == true)
 			{
 				editedDocument.AfterEdit();
@@ -197,10 +198,11 @@ namespace ComfortIsland
 				foreach (var document in database.Documents.Where(d => d.State == DocumentState.Active).OrderByDescending(d => d.Date).Where(d => d.Date >= minDocDate))
 				{
 					document.ProcessBack(balanceTable);
+					/* удалено, так как в настоящей базе есть реальные ошибки
 					if (!document.CheckBalance(balanceTable, "удалении", "редактировать"))
 					{
 						return;
-					}
+					}*/
 					
 					if (document != originalDocument)
 					{
