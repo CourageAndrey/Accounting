@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,6 @@ using ComfortIsland.Reports;
 
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace ComfortIsland
 {
@@ -33,7 +33,10 @@ namespace ComfortIsland
 			var database = Database.Database.TryLoad();
 
 			// документы
-			documentStateFilterChecked(this, null);
+			stateColumn.Visibility = checkBoxShowObsoleteDocuments.IsChecked == true ? Visibility.Visible : Visibility.Collapsed;
+			documentsGrid.Columns[0].SortDirection = ListSortDirection.Ascending;
+			documentsGrid.Items.SortDescriptions.Add(new SortDescription("Date", ListSortDirection.Ascending));
+			documentsWeekClick(null, null);
 			// отчёты
 			listReports.ItemsSource = ReportDescriptor.All;
 			// справочники
@@ -44,12 +47,6 @@ namespace ComfortIsland
 
 			updateButtonsAvailability(productsGrid, buttonEditProduct, buttonDeleteProduct);
 			updateButtonsAvailability(unitsGrid, buttonEditUnit, buttonDeleteUnit);
-
-			suppressDocumentChangeFilter = true;
-			documentsFromDatePicker.SelectedDate = DateTime.Today.AddDays(-7);
-			documentsToDatePicker.SelectedDate = DateTime.Today.AddDays(1).AddMilliseconds(-1);
-			suppressDocumentChangeFilter = false;
-			refreshDocuments();
 		}
 
 		#endregion
@@ -331,6 +328,9 @@ namespace ComfortIsland
 
 		private void refreshDocuments()
 		{
+			var sortDescriptors = documentsGrid.Items.SortDescriptions.ToList();
+			var sortColumns = documentsGrid.Columns.Select(c => c.SortDirection).ToList();
+
 			documentsGrid.ItemsSource = null;
 			IEnumerable<Document> documents = Database.Database.Instance.Documents;
 			if (checkBoxShowObsoleteDocuments.IsChecked != true)
@@ -346,6 +346,15 @@ namespace ComfortIsland
 				documents = documents.Where(d => d.Date < documentsToDatePicker.SelectedDate.Value.Date.AddDays(1));
 			}
 			documentsGrid.ItemsSource = documents.ToList();
+
+			foreach (var sortDescription in sortDescriptors)
+			{
+				documentsGrid.Items.SortDescriptions.Add(sortDescription);
+			}
+			for (int c = 0; c < sortColumns.Count; c++)
+			{
+				documentsGrid.Columns[c].SortDirection = sortColumns[c];
+			}
 		}
 
 		private void documentsTodayClick(object sender, RoutedEventArgs e)
