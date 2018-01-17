@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 
 using ComfortIsland.Database;
 
@@ -25,16 +24,26 @@ namespace ComfortIsland.Dialogs
 		public Func<IEnumerable<Product>> ProductsGetter
 		{ get; set; }
 
+		public bool IgnoreValidation
+		{ get; set; }
+
 		private void okClick(object sender, RoutedEventArgs e)
 		{
-			StringBuilder errors;
-			if (EditValue.Validate(out errors))
+			if (IgnoreValidation)
 			{
 				DialogResult = true;
 			}
 			else
 			{
-				MessageBox.Show(errors.ToString(), "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+				StringBuilder errors;
+				if (EditValue.Validate(out errors))
+				{
+					DialogResult = true;
+				}
+				else
+				{
+					MessageBox.Show(errors.ToString(), "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+				}
 			}
 		}
 
