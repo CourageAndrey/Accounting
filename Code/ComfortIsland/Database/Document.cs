@@ -172,7 +172,7 @@ namespace ComfortIsland.Database
 					"При {0} документа №{1} от {2} остатки следующих товаров принимают отрицательные значения:",
 					operationNoun,
 					Number,
-					Date));
+					Date.ToLongDateString()));
 				text.AppendLine();
 				var database = Database.Instance;
 				foreach (long id in wrongPositions)
