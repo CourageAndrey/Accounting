@@ -351,8 +351,7 @@ namespace ComfortIsland
 		private void documentsTodayClick(object sender, RoutedEventArgs e)
 		{
 			suppressDocumentChangeFilter = true;
-			documentsFromDatePicker.SelectedDate = DateTime.Today;
-			documentsToDatePicker.SelectedDate = DateTime.Today.AddDays(1).AddMilliseconds(-1);
+			documentsToDatePicker.SelectedDate = documentsFromDatePicker.SelectedDate = DateTime.Now;
 			suppressDocumentChangeFilter = false;
 			refreshDocuments();
 		}
@@ -360,8 +359,34 @@ namespace ComfortIsland
 		private void documentsWeekClick(object sender, RoutedEventArgs e)
 		{
 			suppressDocumentChangeFilter = true;
-			documentsFromDatePicker.SelectedDate = DateTime.Today.AddDays(-7);
-			documentsToDatePicker.SelectedDate = DateTime.Today.AddDays(1).AddMilliseconds(-1);
+			var beginDate = DateTime.Now;
+			switch (beginDate.DayOfWeek)
+			{
+				case DayOfWeek.Monday:
+					break;
+				case DayOfWeek.Tuesday:
+					beginDate = beginDate.AddDays(-1);
+					break;
+				case DayOfWeek.Wednesday:
+					beginDate = beginDate.AddDays(-2);
+					break;
+				case DayOfWeek.Thursday:
+					beginDate = beginDate.AddDays(-3);
+					break;
+				case DayOfWeek.Friday:
+					beginDate = beginDate.AddDays(-4);
+					break;
+				case DayOfWeek.Saturday:
+					beginDate = beginDate.AddDays(-5);
+					break;
+				case DayOfWeek.Sunday:
+					beginDate = beginDate.AddDays(-6);
+					break;
+				default:
+					throw new Exception("Ошибка календаря: сегодня неизвестный день недели.");
+			}
+			documentsFromDatePicker.SelectedDate = beginDate;
+			documentsToDatePicker.SelectedDate = beginDate.AddDays(6);
 			suppressDocumentChangeFilter = false;
 			refreshDocuments();
 		}
@@ -369,8 +394,10 @@ namespace ComfortIsland
 		private void documentsMonthClick(object sender, RoutedEventArgs e)
 		{
 			suppressDocumentChangeFilter = true;
-			documentsFromDatePicker.SelectedDate = DateTime.Today.AddMonths(-1);
-			documentsToDatePicker.SelectedDate = DateTime.Today.AddDays(1).AddMilliseconds(-1);
+			var beginDate = DateTime.Now;
+			beginDate = new DateTime(beginDate.Year, beginDate.Month, 1);
+			documentsFromDatePicker.SelectedDate = beginDate;
+			documentsToDatePicker.SelectedDate = beginDate.AddMonths(1).AddSeconds(-1);
 			suppressDocumentChangeFilter = false;
 			refreshDocuments();
 		}
@@ -378,8 +405,10 @@ namespace ComfortIsland
 		private void documentsYearClick(object sender, RoutedEventArgs e)
 		{
 			suppressDocumentChangeFilter = true;
-			documentsFromDatePicker.SelectedDate = DateTime.Today.AddYears(-1);
-			documentsToDatePicker.SelectedDate = DateTime.Today.AddDays(1).AddMilliseconds(-1);
+			var beginDate = DateTime.Now;
+			beginDate = new DateTime(beginDate.Year, 1, 1);
+			documentsFromDatePicker.SelectedDate = beginDate;
+			documentsToDatePicker.SelectedDate = beginDate.AddYears(1).AddSeconds(-1);
 			suppressDocumentChangeFilter = false;
 			refreshDocuments();
 		}
