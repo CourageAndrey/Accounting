@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+
 using ComfortIsland.Dialogs;
 using ComfortIsland.Helpers;
 
@@ -31,7 +33,20 @@ namespace ComfortIsland.Reports
 
 		public IEnumerable<DataGridColumn> GetColumns()
 		{
-			return columnsGetter();
+			var columns = columnsGetter().ToList();
+			foreach (var column in columns.OfType<DataGridTextColumn>())
+			{
+				var binding = column.Binding as Binding;
+				if (binding != null && binding.Converter == DigitRoundingConverter.Instance)
+				{
+					if (column.CellStyle == null)
+					{
+						column.CellStyle = new Style();
+					}
+					column.CellStyle.Setters.Add(new Setter(TextBlock.HorizontalAlignmentProperty, HorizontalAlignment.Right));
+				}
+			}
+			return columns;
 		}
 
 		public bool CreateReport(out IReport report)
@@ -126,6 +141,7 @@ namespace ComfortIsland.Reports
 				MinWidth = 100,
 			},
 		}, createTradeReport);
+
 
 		public static readonly IEnumerable<ReportDescriptor> All = new ReadOnlyCollection<ReportDescriptor>(new List<ReportDescriptor>
 		{
