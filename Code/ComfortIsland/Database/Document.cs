@@ -85,7 +85,7 @@ namespace ComfortIsland.Database
 			{
 				errors.AppendLine("В документе не выбрано ни одного продукта.");
 			}
-			DocumentTypeImplementation.AllTypes[Type].Validate(this, errors);
+			bool isValid = DocumentTypeImplementation.AllTypes[Type].Validate(this, errors);
 			foreach (var position in PositionsToSerialize)
 			{
 				if (Database.Instance.Products.FirstOrDefault(p => p.ID == position.ID) == null)
@@ -102,7 +102,7 @@ namespace ComfortIsland.Database
 			{
 				errors.Append("Дублирование позиций в документе");
 			}
-			return errors.Length == 0;
+			return isValid;
 		}
 
 		#region [De]Serialization
@@ -135,19 +135,19 @@ namespace ComfortIsland.Database
 
 		#region Workflow
 
-		public void Validate(StringBuilder errors)
+		public bool Validate(StringBuilder errors)
 		{
-			DocumentTypeImplementation.AllTypes[Type].Validate(this, errors);
+			return DocumentTypeImplementation.AllTypes[Type].Validate(this, errors);
 		}
 
-		public void Process(IList<Balance> balanceTable)
+		public IDictionary<long, double> Process(IList<Balance> balanceTable)
 		{
-			DocumentTypeImplementation.AllTypes[Type].Process(this, balanceTable);
+			return DocumentTypeImplementation.AllTypes[Type].Process(this, balanceTable);
 		}
 
-		public void ProcessBack(IList<Balance> balanceTable)
+		public IDictionary<long, double> ProcessBack(IList<Balance> balanceTable)
 		{
-			DocumentTypeImplementation.AllTypes[Type].ProcessBack(this, balanceTable);
+			return DocumentTypeImplementation.AllTypes[Type].ProcessBack(this, balanceTable);
 		}
 
 		public IDictionary<long, double> GetBalanceDelta()

@@ -13,9 +13,9 @@ namespace ComfortIsland.Database
 		Produce,
 	}
 
-	public delegate void ValidateDocumentDelegate(Document document, StringBuilder errors);
+	public delegate bool ValidateDocumentDelegate(Document document, StringBuilder errors);
 
-	public delegate void ProcessDocumentDelegate(Document document, IList<Balance> balanceTable);
+	public delegate IDictionary<long, double> ProcessDocumentDelegate(Document document, IList<Balance> balanceTable);
 
 	public delegate IDictionary<long, double> GetBalanceDeltaDelegate(Document document);
 
@@ -86,7 +86,7 @@ namespace ComfortIsland.Database
 
 		#region Common default implementations
 
-		private static void validateDefault(Document document, StringBuilder errors)
+		private static bool validateDefault(Document document, StringBuilder errors)
 		{
 			var allBalance = Database.Instance.Balance;
 			var products = Database.Instance.Products;
@@ -104,9 +104,10 @@ namespace ComfortIsland.Database
 						-position.Value));
 				}
 			}
+			return errors.Length == 0;
 		}
 
-		private static void validateProduce(Document document, StringBuilder errors)
+		private static bool validateProduce(Document document, StringBuilder errors)
 		{
 			var products = Database.Instance.Products;
 			foreach (var position in document.PositionsToSerialize)
@@ -118,12 +119,15 @@ namespace ComfortIsland.Database
 				}
 			}
 			validateDefault(document, errors);
+			return errors.Length == 0;
 		}
 
-		private static void processDefault(Document document, IList<Balance> balanceTable)
+		private static IDictionary<long, double> processDefault(Document document, IList<Balance> balanceTable)
 		{
-			foreach (var position in AllTypes[document.Type].GetBalanceDelta(document))
+			var delta = AllTypes[document.Type].GetBalanceDelta(document);
+			foreach (var position in delta)
 			{
+
 				var balance = balanceTable.FirstOrDefault(b => b.ProductId == position.Key);
 				if (balance != null)
 				{
@@ -134,15 +138,18 @@ namespace ComfortIsland.Database
 					balanceTable.Add(new Balance(position.Key, position.Value));
 				}
 			}
+			return delta;
 		}
 
-		private static void processBackDefault(Document document, IList<Balance> balanceTable)
+		private static IDictionary<long, double> processBackDefault(Document document, IList<Balance> balanceTable)
 		{
-			foreach (var position in AllTypes[document.Type].GetBalanceDelta(document))
+			var delta = AllTypes[document.Type].GetBalanceDelta(document);
+			foreach (var position in delta)
 			{
 				var balance = balanceTable.First(b => b.ProductId == position.Key);
 				balance.Count -= position.Value;
 			}
+			return delta;
 		}
 
 		#endregion
