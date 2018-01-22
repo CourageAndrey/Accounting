@@ -9,17 +9,21 @@ namespace ComfortIsland.Helpers
 	{
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			double v = (double) value;
-			string result = v.ToString(CultureInfo.CurrentCulture);
-			var numberFormat = CultureInfo.CurrentCulture.NumberFormat;
-			return result.Contains(numberFormat.CurrencyDecimalSeparator) || result.Contains(numberFormat.NumberDecimalSeparator)
-				? v.ToString("N1")
-				: v.ToString("N0");
+			return Simplify((double) value);
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			return double.Parse(value.ToString());
+		}
+
+		public static string Simplify(double value)
+		{
+			string result = value.ToString(CultureInfo.CurrentCulture);
+			var numberFormat = CultureInfo.CurrentCulture.NumberFormat;
+			return result.Contains(numberFormat.CurrencyDecimalSeparator) || result.Contains(numberFormat.NumberDecimalSeparator)
+				? value.ToString("N1")
+				: value.ToString("N0");
 		}
 
 		public static readonly DigitRoundingConverter Instance = new DigitRoundingConverter();
