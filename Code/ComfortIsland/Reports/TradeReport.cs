@@ -43,7 +43,7 @@ namespace ComfortIsland.Reports
 			// открутили остатки на конец периода
 			foreach (var document in activeDocuments.Where(d => d.Date > ToDate))
 			{
-				document.ProcessBack(balanceList);
+				document.Rollback(balanceList);
 			}
 			foreach (var balance in balanceList)
 			{
@@ -52,7 +52,7 @@ namespace ComfortIsland.Reports
 
 			foreach (var document in activeDocuments.Where(d => d.Date <= ToDate && d.Date >= FromDate))
 			{
-				document.ProcessBack(balanceList);
+				document.Rollback(balanceList);
 				switch (document.Type)
 				{
 					case DocumentType.Income:

@@ -140,14 +140,14 @@ namespace ComfortIsland.Database
 			return DocumentTypeImplementation.AllTypes[Type].Validate(this, errors);
 		}
 
-		public IDictionary<long, double> Process(IList<Balance> balanceTable)
+		public IDictionary<long, double> Apply(IList<Balance> balanceTable)
 		{
-			return DocumentTypeImplementation.AllTypes[Type].Process(this, balanceTable);
+			return DocumentTypeImplementation.AllTypes[Type].Apply(this, balanceTable);
 		}
 
-		public IDictionary<long, double> ProcessBack(IList<Balance> balanceTable)
+		public IDictionary<long, double> Rollback(IList<Balance> balanceTable)
 		{
-			return DocumentTypeImplementation.AllTypes[Type].ProcessBack(this, balanceTable);
+			return DocumentTypeImplementation.AllTypes[Type].Rollback(this, balanceTable);
 		}
 
 		public IDictionary<long, double> GetBalanceDelta()

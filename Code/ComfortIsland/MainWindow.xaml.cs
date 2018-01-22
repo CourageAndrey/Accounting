@@ -134,7 +134,7 @@ namespace ComfortIsland
 			// последовательный откат документов
 			foreach (var document in database.Documents.Where(d => d.State == DocumentState.Active).OrderByDescending(d => d.Date))
 			{
-				document.ProcessBack(balanceTable);
+				document.Rollback(balanceTable);
 				if (!document.CheckBalance(balanceTable, "удалении", "удалить"))
 				{
 					return;
@@ -150,7 +150,7 @@ namespace ComfortIsland
 			while (documentsToApplyAgain.Count > 0)
 			{
 				var document = documentsToApplyAgain.Pop();
-				document.Process(balanceTable);
+				document.Apply(balanceTable);
 				if (!document.CheckBalance(balanceTable, "применении", "удалить"))
 				{
 					return;
@@ -197,7 +197,7 @@ namespace ComfortIsland
 				bool originalDeleted = false;
 				foreach (var document in database.Documents.Where(d => d.State == DocumentState.Active).OrderByDescending(d => d.Date).Where(d => d.Date >= minDocDate))
 				{
-					document.ProcessBack(balanceTable);
+					document.Rollback(balanceTable);
 					/* удалено, так как в настоящей базе есть реальные ошибки
 					if (!document.CheckBalance(balanceTable, "удалении", "редактировать"))
 					{
@@ -217,7 +217,7 @@ namespace ComfortIsland
 				// если нужно - откат оригинала
 				if (!originalDeleted)
 				{
-					originalDocument.ProcessBack(balanceTable);
+					originalDocument.Rollback(balanceTable);
 					if (!originalDocument.CheckBalance(balanceTable, "отмене старой версии отредактированного", "редактировать"))
 					{
 						return;
@@ -232,13 +232,13 @@ namespace ComfortIsland
 					if (!editedApplied && document.Date > editedDocument.Date)
 					{ // применение отредактированной версии документа
 						editedApplied = true;
-						editedDocument.Process(balanceTable);
+						editedDocument.Apply(balanceTable);
 						if (!editedDocument.CheckBalance(balanceTable, "применении новой версии отредактированного", "редактировать"))
 						{
 							return;
 						}
 					}
-					document.Process(balanceTable);
+					document.Apply(balanceTable);
 					if (!document.CheckBalance(balanceTable, "применении", "редактировать"))
 					{
 						return;
@@ -248,7 +248,7 @@ namespace ComfortIsland
 				// применение отредактированной версии документа, если она ещё не была применена
 				if (!editedApplied)
 				{ 
-					editedDocument.Process(balanceTable);
+					editedDocument.Apply(balanceTable);
 					if (!editedDocument.CheckBalance(balanceTable, "применении новой версии отредактированного", "редактировать"))
 					{
 						return;
@@ -283,7 +283,7 @@ namespace ComfortIsland
 				documentsGrid,
 				Database.Database.Instance.Documents,
 				() => new Document { Date = DateTime.Now, Type = type, State = DocumentState.Active },
-				document => document.Process(Database.Database.Instance.Balance),
+				document => document.Apply(Database.Database.Instance.Balance),
 				item =>
 				{
 					reportHeader.Text = string.Empty;

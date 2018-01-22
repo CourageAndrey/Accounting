@@ -108,32 +108,32 @@ namespace UnitTests
 			outcome.BeforeEdit();
 			produce.BeforeEdit();
 
-			income.Process(database.Balance);
+			income.Apply(database.Balance);
 			Assert.AreEqual(20, database.Balance.First(b => b.ProductId == productChild1.ID).Count);
 			Assert.AreEqual(40, database.Balance.First(b => b.ProductId == productChild2.ID).Count);
 			Assert.AreEqual(1, database.Balance.First(b => b.ProductId == productParent.ID).Count);
 
-			produce.Process(database.Balance);
+			produce.Apply(database.Balance);
 			Assert.AreEqual(5, database.Balance.First(b => b.ProductId == productChild1.ID).Count);
 			Assert.AreEqual(10, database.Balance.First(b => b.ProductId == productChild2.ID).Count);
 			Assert.AreEqual(16, database.Balance.First(b => b.ProductId == productParent.ID).Count);
 
-			outcome.Process(database.Balance);
+			outcome.Apply(database.Balance);
 			Assert.AreEqual(0, database.Balance.First(b => b.ProductId == productChild1.ID).Count);
 			Assert.AreEqual(0, database.Balance.First(b => b.ProductId == productChild2.ID).Count);
 			Assert.AreEqual(15, database.Balance.First(b => b.ProductId == productParent.ID).Count);
 
-			outcome.ProcessBack(database.Balance);
+			outcome.Rollback(database.Balance);
 			Assert.AreEqual(5, database.Balance.First(b => b.ProductId == productChild1.ID).Count);
 			Assert.AreEqual(10, database.Balance.First(b => b.ProductId == productChild2.ID).Count);
 			Assert.AreEqual(16, database.Balance.First(b => b.ProductId == productParent.ID).Count);
 
-			produce.ProcessBack(database.Balance);
+			produce.Rollback(database.Balance);
 			Assert.AreEqual(20, database.Balance.First(b => b.ProductId == productChild1.ID).Count);
 			Assert.AreEqual(40, database.Balance.First(b => b.ProductId == productChild2.ID).Count);
 			Assert.AreEqual(1, database.Balance.First(b => b.ProductId == productParent.ID).Count);
 
-			income.ProcessBack(database.Balance);
+			income.Rollback(database.Balance);
 			Assert.AreEqual(10, database.Balance.First(b => b.ProductId == productChild1.ID).Count);
 			Assert.AreEqual(20, database.Balance.First(b => b.ProductId == productChild2.ID).Count);
 			Assert.AreEqual(1, database.Balance.First(b => b.ProductId == productParent.ID).Count);

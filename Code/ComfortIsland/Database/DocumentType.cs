@@ -35,10 +35,10 @@ namespace ComfortIsland.Database
 		public ValidateDocumentDelegate Validate
 		{ get; private set; }
 
-		public ProcessDocumentDelegate Process
+		public ProcessDocumentDelegate Apply
 		{ get; private set; }
 
-		public ProcessDocumentDelegate ProcessBack
+		public ProcessDocumentDelegate Rollback
 		{ get; private set; }
 
 		#endregion
@@ -48,15 +48,15 @@ namespace ComfortIsland.Database
 			string name,
 			GetBalanceDeltaDelegate getBalanceDelta,
 			ValidateDocumentDelegate validate = null,
-			ProcessDocumentDelegate process = null,
-			ProcessDocumentDelegate processBack = null)
+			ProcessDocumentDelegate apply = null,
+			ProcessDocumentDelegate rollback = null)
 		{
 			Type = type;
 			Name = name;
 			GetBalanceDelta = getBalanceDelta;
 			Validate = validate ?? validateDefault;
-			Process = process ?? processDefault;
-			ProcessBack = processBack ?? processBackDefault;
+			Apply = apply ?? applyDefault;
+			Rollback = rollback ?? rollbackDefault;
 		}
 
 		#region List
@@ -122,7 +122,7 @@ namespace ComfortIsland.Database
 			return errors.Length == 0;
 		}
 
-		private static IDictionary<long, double> processDefault(Document document, IList<Balance> balanceTable)
+		private static IDictionary<long, double> applyDefault(Document document, IList<Balance> balanceTable)
 		{
 			var delta = AllTypes[document.Type].GetBalanceDelta(document);
 			foreach (var position in delta)
@@ -141,7 +141,7 @@ namespace ComfortIsland.Database
 			return delta;
 		}
 
-		private static IDictionary<long, double> processBackDefault(Document document, IList<Balance> balanceTable)
+		private static IDictionary<long, double> rollbackDefault(Document document, IList<Balance> balanceTable)
 		{
 			var delta = AllTypes[document.Type].GetBalanceDelta(document);
 			foreach (var position in delta)

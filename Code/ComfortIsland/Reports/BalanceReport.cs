@@ -36,7 +36,7 @@ namespace ComfortIsland.Reports
 
 			foreach (var document in activeDocuments.Where(d => d.Date > Date))
 			{
-				document.ProcessBack(balanceList);
+				document.Rollback(balanceList);
 			}
 
 			BalanceItems = balanceList;
