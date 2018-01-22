@@ -3,7 +3,7 @@ using System.Globalization;
 
 using System.Windows.Data;
 
-namespace ComfortIsland
+namespace ComfortIsland.Helpers
 {
 	public class DateConverter : IValueConverter
 	{

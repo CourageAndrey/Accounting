@@ -3,6 +3,7 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:database="clr-namespace:ComfortIsland.Database"
 		xmlns:comfortIsland="clr-namespace:ComfortIsland"
+		xmlns:helpers="clr-namespace:ComfortIsland.Helpers"
 		Title="Остров комфорта - Учёт" Width="1000" Height="750"
 		Loaded="formLoaded" Icon="Icon.ico"
 		FontSize="{x:Static comfortIsland:Settings.FontSize}">
@@ -20,7 +21,7 @@
 				<TextBlock Text="{Binding Path=BoundProduct.Name, Mode=OneWay}" Margin="5,0,0,0" />
 			</StackPanel>
 		</DataTemplate>
-		<comfortIsland:DateConverter x:Key="dateConverter" />
+		<helpers:DateConverter x:Key="dateConverter" />
 	</Window.Resources>
 	<TabControl>
 		<TabItem Header="Документы" Height="24" VerticalAlignment="Top">
