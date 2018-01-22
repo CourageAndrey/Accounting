@@ -6,6 +6,8 @@ using System.Text;
 using System.Windows;
 using System.Xml.Serialization;
 
+using ComfortIsland.Helpers;
+
 namespace ComfortIsland.Database
 {
 	[XmlType]
@@ -135,6 +137,49 @@ namespace ComfortIsland.Database
 
 		#region Workflow
 
+		public static bool TryDelete(IList<Document> documentsToDelete, IList<Balance> balance)
+		{
+			// приготовление к отмене
+			if (documentsToDelete.Count == 0)
+			{
+				MessageBox.Show("Не выбрано ни одного активного документа.", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
+				return false;
+			}
+			if (MessageBox.Show(
+				string.Format(CultureInfo.InvariantCulture, "Действительно удалить {0} выбранных документов?", documentsToDelete.Count),
+				"Вопрос",
+				MessageBoxButton.YesNo,
+				MessageBoxImage.Question) != MessageBoxResult.Yes)
+			{
+				return false;
+			}
+
+			// последовательный откат документов
+			var products = new HashSet<long>();
+			foreach (var document in documentsToDelete)
+			{
+				foreach (long productId in document.Rollback(balance).Keys)
+				{
+					products.Add(productId);
+				}
+			}
+
+			// проверка итогового баланса
+			if (CheckBalance(balance, products))
+			{
+				// если всё хорошо - применяем изменения в БД
+				foreach (var document in documentsToDelete)
+				{
+					document.State = DocumentState.Deleted;
+				}
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
 		public bool Validate(StringBuilder errors)
 		{
 			return DocumentTypeImplementation.AllTypes[Type].Validate(this, errors);
@@ -157,34 +202,23 @@ namespace ComfortIsland.Database
 
 		public bool CheckBalance(IList<Balance> balanceTable, string operationNoun, string operationVerb)
 		{
-			var wrongPositions = new List<long>();
-			foreach (long productId in GetBalanceDelta().Keys)
-			{
-				if (balanceTable.First(b => b.ProductId == productId).Count < 0)
-				{
-					wrongPositions.Add(productId);
-				}
-			}
+			return CheckBalance(balanceTable, GetBalanceDelta().Keys);
+		}
+
+		public static bool CheckBalance(IList<Balance> balanceTable, IEnumerable<long> products)
+		{
+			var wrongPositions = balanceTable.Where(p => products.Contains(p.ProductId) && p.Count < 0).ToList();
 			if (wrongPositions.Count > 0)
 			{
-				var text = new StringBuilder(string.Format(
-					CultureInfo.InvariantCulture,
-					"При {0} документа №{1} от {2} остатки следующих товаров принимают отрицательные значения:",
-					operationNoun,
-					Number,
-					Date.ToLongDateString()));
+				var text = new StringBuilder("При выполнении данной операции остатки следующих товаров принимают отрицательные значения:");
 				text.AppendLine();
 				var database = Database.Instance;
-				foreach (long id in wrongPositions)
+				foreach (var position in wrongPositions)
 				{
-					var product = database.Products.First(p => p.ID == id);
-					text.AppendLine(product.DisplayMember);
+					var product = database.Products.First(p => p.ID == position.ProductId);
+					text.AppendLine(string.Format(" * {0} = {1}", product.DisplayMember, DigitRoundingConverter.Simplify(position.Count)));
 				}
-				MessageBox.Show(
-					text.ToString(),
-					string.Format(CultureInfo.InvariantCulture, "Ошибка: невозможно {0} выбранные документы", operationVerb),
-					MessageBoxButton.OK,
-					MessageBoxImage.Error);
+				MessageBox.Show(text.ToString(), "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
 				return false;
 			}
 			else

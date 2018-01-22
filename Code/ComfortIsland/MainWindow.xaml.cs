@@ -119,55 +119,17 @@ namespace ComfortIsland
 
 		private void deleteDocumentsClick(object sender, RoutedEventArgs e)
 		{
-			// приготовление к отмене
-			var documentsToDelete = documentsGrid.SelectedItems.OfType<Document>().Where(d => d.State == DocumentState.Active).OrderByDescending(d => d.Date).ToList();
-			if (MessageBox.Show(
-				string.Format(CultureInfo.InvariantCulture, "Действительно удалить {0} выбранных документов?", documentsToDelete.Count),
-				"Вопрос",
-				MessageBoxButton.YesNo,
-				MessageBoxImage.Question) != MessageBoxResult.Yes) return;
-			var firstDocumentToDelete = documentsToDelete.Last();
 			var database = Database.Database.Instance;
 			var balanceTable = database.Balance.Select(b => new Balance(b)).ToList();
-			var documentsToApplyAgain = new Stack<Document>();
-
-			// последовательный откат документов
-			foreach (var document in database.Documents.Where(d => d.State == DocumentState.Active).OrderByDescending(d => d.Date))
+			if (Document.TryDelete(documentsGrid.SelectedItems.OfType<Document>().ToList(), balanceTable))
 			{
-				document.Rollback(balanceTable);
-				if (!document.CheckBalance(balanceTable, "удалении", "удалить"))
-				{
-					return;
-				}
-				if (!documentsToDelete.Contains(document))
-				{
-					documentsToApplyAgain.Push(document);
-				}
-				if (document == firstDocumentToDelete) break;
+				database.Balance = balanceTable;
+				Database.Database.Save();
+				documentStateFilterChecked(this, null);
+				reportHeader.Text = string.Empty;
+				reportGrid.ItemsSource = null;
+				buttonPrintReport.IsEnabled = false;
 			}
-
-			// накат неудалённых документов обратно
-			while (documentsToApplyAgain.Count > 0)
-			{
-				var document = documentsToApplyAgain.Pop();
-				document.Apply(balanceTable);
-				if (!document.CheckBalance(balanceTable, "применении", "удалить"))
-				{
-					return;
-				}
-			}
-
-			// если всё хорошо - применяем изменения в БД и на экране
-			foreach (var document in documentsToDelete)
-			{
-				document.State = DocumentState.Deleted;
-			}
-			database.Balance = balanceTable;
-			Database.Database.Save();
-			documentStateFilterChecked(this, null);
-			reportHeader.Text = string.Empty;
-			reportGrid.ItemsSource = null;
-			buttonPrintReport.IsEnabled = false;
 		}
 
 		private void editDocumentClick(object sender, RoutedEventArgs e)
