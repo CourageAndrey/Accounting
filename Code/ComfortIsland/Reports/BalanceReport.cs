@@ -27,7 +27,7 @@ namespace ComfortIsland.Reports
 
 		#endregion
 
-		public BalanceReport(DateTime date)
+		public BalanceReport(DateTime date, bool showAllProducts)
 		{
 			Date = date.Date.AddDays(1).AddMilliseconds(-1);
 			var database = Database.Database.Instance;
@@ -37,6 +37,18 @@ namespace ComfortIsland.Reports
 			foreach (var document in activeDocuments.Where(d => d.Date > Date))
 			{
 				document.Rollback(balanceList);
+			}
+
+			if (showAllProducts)
+			{
+				var existingProducts = new HashSet<long>(balanceList.Select(item => item.ProductId));
+				foreach (var product in database.Products)
+				{
+					if (!existingProducts.Contains(product.ID))
+					{
+						balanceList.Add(new Balance(product, 0));
+					}
+				}
 			}
 
 			BalanceItems = balanceList;

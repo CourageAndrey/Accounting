@@ -16,6 +16,12 @@ namespace ComfortIsland.Dialogs
 			set { datePicker.SelectedDate = value; }
 		}
 
+		public bool IncludeAllProducts
+		{
+			get { return checkBox.IsChecked.Value; }
+			set { checkBox.IsChecked = value; }
+		}
+
 		private void okClick(object sender, RoutedEventArgs e)
 		{
 			if (datePicker.SelectedDate.HasValue)

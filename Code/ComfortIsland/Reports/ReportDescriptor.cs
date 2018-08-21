@@ -154,7 +154,7 @@ namespace ComfortIsland.Reports
 			var dialog = new SelectDateDialog { EditValue = DateTime.Now };
 			if (dialog.ShowDialog() == true)
 			{
-				report = new BalanceReport(dialog.EditValue);
+				report = new BalanceReport(dialog.EditValue, dialog.IncludeAllProducts);
 				return true;
 			}
 			else
