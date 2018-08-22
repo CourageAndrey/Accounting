@@ -138,7 +138,7 @@ namespace ComfortIsland
 			var originalDocument = documentsGrid.SelectedItems.OfType<Document>().Single();
 			var editedDocument = new Document();
 			editedDocument.Update(originalDocument);
-			editedDocument.ID = database.Documents.Count + 1;
+			editedDocument.ID = IdHelper.GenerateNewId(database.Documents);
 			editedDocument.PreviousVersionId = originalDocument.ID;
 			editedDocument.BeforeEdit();
 			var dialog = new DocumentDialog();
@@ -616,7 +616,7 @@ namespace ComfortIsland
 			{
 				try
 				{
-					newItem.ID = table.Count + 1;
+					newItem.ID = IdHelper.GenerateNewId(table);
 					newItem.AfterEdit();
 					table.Add(newItem);
 					if (beforeSave != null)
