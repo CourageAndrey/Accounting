@@ -39,19 +39,16 @@ namespace ComfortIsland.Reports
 				document.Rollback(balanceList);
 			}
 
-			if (showAllProducts)
+			var products = database.Products.ToDictionary(product => product.ID, product => (double?) null);
+			foreach (var balance in balanceList)
 			{
-				var existingProducts = new HashSet<long>(balanceList.Select(item => item.ProductId));
-				foreach (var product in database.Products)
-				{
-					if (!existingProducts.Contains(product.ID))
-					{
-						balanceList.Add(new Balance(product, 0));
-					}
-				}
+				products[balance.ProductId] = balance.Count;
 			}
 
-			BalanceItems = balanceList;
+			BalanceItems = products
+				.Where(item => showAllProducts || item.Value > 0)
+				.Select(item => new Balance(item.Key, item.Value.HasValue ? item.Value.Value : 0))
+				.ToList();
 		}
 	}
 }
