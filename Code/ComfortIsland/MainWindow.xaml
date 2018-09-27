@@ -4,7 +4,7 @@
 		xmlns:database="clr-namespace:ComfortIsland.Database"
 		xmlns:comfortIsland="clr-namespace:ComfortIsland"
 		xmlns:helpers="clr-namespace:ComfortIsland.Helpers"
-		Title="Остров комфорта - Учёт" Width="1000" Height="750"
+		Title="Остров комфорта - Учёт" Width="1100" Height="750"
 		Loaded="formLoaded" Icon="Icon.ico"
 		FontSize="{x:Static comfortIsland:Settings.FontSize}">
 	<Window.Resources>
@@ -30,6 +30,7 @@
 					<Button Content="Приход на склад" Margin="5" Padding="5,2,5,2" Click="incomeClick" />
 					<Button Content="Продажа со склада" Margin="5" Padding="5,2,5,2" Click="outcomeClick" />
 					<Button Content="Производство" Margin="5" Padding="5,2,5,2" Click="produceClick" />
+					<Button Content="Перемещение на склад" Margin="5" Padding="5,2,5,2" Click="toWarehouseClick" />
 					<Button Content="Проверить наличие товара" Margin="5" Padding="5,2,5,2" Click="checkBalanceClick" />
 					<Button Content="Удалить" Margin="5" Padding="5,2,5,2" Click="deleteDocumentsClick" Name="deleteDocumentsButton" />
 					<Button Content="Редактировать" Margin="5" Padding="5,2,5,2" Click="editDocumentClick" Name="editDocumentButton" />

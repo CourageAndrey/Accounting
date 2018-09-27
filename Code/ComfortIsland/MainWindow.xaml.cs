@@ -71,6 +71,11 @@ namespace ComfortIsland
 			});
 		}
 
+		private void toWarehouseClick(object sender, RoutedEventArgs e)
+		{
+			createDocument(DocumentType.ToWarehouse);
+		}
+
 		private void checkBalanceClick(object sender, RoutedEventArgs e)
 		{
 			var dialog = new SelectProductDialog();

@@ -11,6 +11,7 @@ namespace ComfortIsland.Database
 		Income,
 		Outcome,
 		Produce,
+		ToWarehouse,
 	}
 
 	public delegate bool ValidateDocumentDelegate(Document document, StringBuilder errors);
@@ -67,6 +68,8 @@ namespace ComfortIsland.Database
 
 		public static readonly DocumentTypeImplementation Produce;
 
+		public static readonly DocumentTypeImplementation ToWarehouse;
+
 		public static readonly IDictionary<DocumentType, DocumentTypeImplementation> AllTypes;
 
 		#endregion
@@ -76,11 +79,13 @@ namespace ComfortIsland.Database
 			Income = new DocumentTypeImplementation(DocumentType.Income, "приход", getBalanceDeltaIncome);
 			Outcome = new DocumentTypeImplementation(DocumentType.Outcome, "продажа", getBalanceDeltaOutcome);
 			Produce = new DocumentTypeImplementation(DocumentType.Produce, "производство", getBalanceDeltaProduce, validateProduce);
+			ToWarehouse = new DocumentTypeImplementation(DocumentType.ToWarehouse, "перемещение на склад", getBalanceDeltaOutcome);
 			AllTypes = new ReadOnlyDictionary<DocumentType, DocumentTypeImplementation>(new Dictionary<DocumentType, DocumentTypeImplementation>
 			{
 				{ DocumentType.Income, Income },
 				{ DocumentType.Outcome, Outcome },
 				{ DocumentType.Produce, Produce },
+				{ DocumentType.ToWarehouse, ToWarehouse },
 			});
 		}
 
