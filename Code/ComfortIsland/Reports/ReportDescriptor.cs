@@ -136,6 +136,12 @@ namespace ComfortIsland.Reports
 			},
 			new DataGridTextColumn
 			{
+				Header = "Отправлено на склад",
+				Binding = new Binding { Path = new PropertyPath("SentToWarehouse"), Mode = BindingMode.OneTime, Converter = DigitRoundingConverter.Instance },
+				MinWidth = 100,
+			},
+			new DataGridTextColumn
+			{
 				Header = "На конец периода",
 				Binding = new Binding { Path = new PropertyPath("FinalBalance"), Mode = BindingMode.OneTime, Converter = DigitRoundingConverter.Instance },
 				MinWidth = 100,

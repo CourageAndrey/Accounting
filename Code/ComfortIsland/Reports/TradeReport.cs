@@ -78,6 +78,12 @@ namespace ComfortIsland.Reports
 							}
 						}
 						break;
+					case DocumentType.ToWarehouse:
+						foreach (var position in document.Positions)
+						{
+							items[position.Key.ID].SentToWarehouse += position.Value;
+						}
+						break;
 					default:
 						throw new NotSupportedException();
 				}
@@ -122,6 +128,9 @@ namespace ComfortIsland.Reports
 		{ get; internal set; }
 
 		public double UsedToProduce
+		{ get; internal set; }
+
+		public double SentToWarehouse
 		{ get; internal set; }
 
 		public double FinalBalance
