@@ -6,6 +6,7 @@ using System.Xml.Serialization;
 
 namespace ComfortIsland.Database
 {
+	[XmlType]
 	public class Product : IEntity, IEditable<Product>
 	{
 		#region Properties
