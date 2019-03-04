@@ -57,7 +57,7 @@
 						</StackPanel>
 					</StackPanel>
 				</Expander>
-				<GroupBox Grid.Row="4" Header="Список позиций:" DataContext="">
+				<GroupBox Grid.Row="4" Header="Список позиций:">
 					<DataGrid IsReadOnly="False" AutoGenerateColumns="False" Name="positionsGrid" ItemsSource="{Binding ElementName=documentsGrid, Path=SelectedItem.Positions, Mode=OneWay}">
 						<DataGrid.Columns>
 							<DataGridTextColumn Header="Товар" Binding="{Binding Path=Key.DisplayMember, Mode=OneTime}" MinWidth="50"/>
