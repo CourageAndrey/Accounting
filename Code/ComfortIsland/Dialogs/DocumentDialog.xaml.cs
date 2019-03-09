@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 using ComfortIsland.Database;
+using ComfortIsland.Helpers;
 
 namespace ComfortIsland.Dialogs
 {
@@ -80,5 +82,24 @@ namespace ComfortIsland.Dialogs
 			}
 			buttonOk.Visibility = Visibility.Hidden;
 		}
+
+		#region ComboBox autocomplete
+
+		private void previewTextInput(object sender, TextCompositionEventArgs e)
+		{
+			AutoCompleteHelper.PreviewTextInput((ComboBox)sender, e);
+		}
+
+		private void pasting(object sender, DataObjectPastingEventArgs e)
+		{
+			AutoCompleteHelper.Pasting((ComboBox)sender, e);
+		}
+
+		private void previewKeyUp(object sender, KeyEventArgs e)
+		{
+			AutoCompleteHelper.PreviewKeyUp((ComboBox)sender, e);
+		}
+
+		#endregion
 	}
 }

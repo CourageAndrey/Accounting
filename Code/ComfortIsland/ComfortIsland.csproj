@@ -65,6 +65,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Database\DocumentState.cs" />
+    <Compile Include="Helpers\AutoCompleteHelper.cs" />
     <Compile Include="Helpers\DateConverter.cs" />
     <Compile Include="Dialogs\SelectProductDialog.xaml.cs">
       <DependentUpon>SelectProductDialog.xaml</DependentUpon>

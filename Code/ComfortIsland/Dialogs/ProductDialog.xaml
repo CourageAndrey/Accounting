@@ -21,7 +21,7 @@
 		<TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="5,0,5,0" Text="Ед. изм." />
 		<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Path=Code, Mode=TwoWay}" />
 		<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Path=Name, Mode=TwoWay}" />
-		<ComboBox Grid.Row="2" Grid.Column="1" Margin="2" SelectedValue="{Binding Path=Unit, Mode=TwoWay}" IsEditable="True" Name="comboBoxUnit" DisplayMemberPath="Name" />
+		<ComboBox Grid.Row="2" Grid.Column="1" Margin="2" SelectedValue="{Binding Path=Unit, Mode=TwoWay}" Name="comboBoxUnit" DisplayMemberPath="Name" />
 		<GroupBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="2" Header="Части:">
 			<DataGrid IsReadOnly="False" AutoGenerateColumns="False" ItemsSource="{Binding Path=ChildrenToSerialize, Mode=OneTime}">
 				<DataGrid.Columns>
@@ -29,6 +29,10 @@
 						<DataGridComboBoxColumn.EditingElementStyle>
 							<Style TargetType="ComboBox">
 								<Setter Property="IsEditable" Value="True"/>
+								<Setter Property="IsTextSearchEnabled" Value="False"/>
+								<EventSetter Event="PreviewTextInput" Handler="previewTextInput"/>
+								<EventSetter Event="PreviewKeyUp" Handler="previewKeyUp"/>
+								<EventSetter Event="DataObject.Pasting" Handler="pasting"/>
 							</Style>
 						</DataGridComboBoxColumn.EditingElementStyle>
 					</DataGridComboBoxColumn>

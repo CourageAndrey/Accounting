@@ -29,6 +29,10 @@
 						<DataGridComboBoxColumn.EditingElementStyle>
 							<Style TargetType="ComboBox">
 								<Setter Property="IsEditable" Value="True"/>
+								<Setter Property="IsTextSearchEnabled" Value="False"/>
+								<EventSetter Event="PreviewTextInput" Handler="previewTextInput"/>
+								<EventSetter Event="PreviewKeyUp" Handler="previewKeyUp"/>
+								<EventSetter Event="DataObject.Pasting" Handler="pasting"/>
 							</Style>
 						</DataGridComboBoxColumn.EditingElementStyle>
 					</DataGridComboBoxColumn>
