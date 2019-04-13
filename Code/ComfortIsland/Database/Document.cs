@@ -80,7 +80,7 @@ namespace ComfortIsland.Database
 			this.PositionsToSerialize = other.PositionsToSerialize.Select(p => new Position(p)).ToList();
 		}
 
-		public bool Validate(out StringBuilder errors)
+		public bool Validate(Database database, out StringBuilder errors)
 		{
 			errors = new StringBuilder();
 			if (PositionsToSerialize.Count <= 0)
@@ -90,7 +90,7 @@ namespace ComfortIsland.Database
 			bool isValid = DocumentTypeImplementation.AllTypes[Type].Validate(this, errors);
 			foreach (var position in PositionsToSerialize)
 			{
-				if (Database.Instance.Products.FirstOrDefault(p => p.ID == position.ID) == null)
+				if (database.Products.FirstOrDefault(p => p.ID == position.ID) == null)
 				{
 					errors.AppendLine(string.Format(CultureInfo.InvariantCulture, "У {0}-й позиции в списке не выбран товар.", PositionsToSerialize.IndexOf(position) + 1));
 				}

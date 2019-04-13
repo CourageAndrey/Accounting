@@ -21,7 +21,7 @@ namespace ComfortIsland.Dialogs
 		private void okClick(object sender, RoutedEventArgs e)
 		{
 			StringBuilder errors;
-			if (EditValue.Validate(out errors))
+			if (EditValue.Validate(Database.Database.Instance, out errors))
 			{
 				DialogResult = true;
 			}

@@ -29,7 +29,7 @@ namespace ComfortIsland.Database
 			this.ShortName = other.ShortName;
 		}
 
-		public bool Validate(out StringBuilder errors)
+		public bool Validate(Database database, out StringBuilder errors)
 		{
 			errors = new StringBuilder();
 			if (string.IsNullOrEmpty(Name))

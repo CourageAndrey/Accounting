@@ -65,7 +65,7 @@ namespace ComfortIsland.Database
 			this.ChildrenToSerialize = other.ChildrenToSerialize.Select(c => new Position(c)).ToList();
 		}
 
-		public bool Validate(out StringBuilder errors)
+		public bool Validate(Database database, out StringBuilder errors)
 		{
 			errors = new StringBuilder();
 			if (string.IsNullOrEmpty(Name))
@@ -76,7 +76,7 @@ namespace ComfortIsland.Database
 			{
 				errors.AppendLine("Не выбрана единица измерения.");
 			}
-			var products = Database.Instance.Products;
+			var products = database.Products;
 			if (ChildrenToSerialize.Any(c => products.First(p => p.ID == c.ID).IsOrHasChild(ID)))
 			{
 				errors.AppendLine("Товар не может быть частью себя или содержать другие товары, частью которых является.");

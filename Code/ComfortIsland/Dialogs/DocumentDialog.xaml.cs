@@ -38,7 +38,7 @@ namespace ComfortIsland.Dialogs
 			else
 			{
 				StringBuilder errors;
-				if (EditValue.Validate(out errors))
+				if (EditValue.Validate(Database.Database.Instance, out errors))
 				{
 					DialogResult = true;
 				}

@@ -14,7 +14,7 @@ namespace ComfortIsland
 	{
 		void Update(T other);
 
-		bool Validate(out StringBuilder errors);
+		bool Validate(Database.Database database, out StringBuilder errors);
 
 		void BeforeSerialization();
 
