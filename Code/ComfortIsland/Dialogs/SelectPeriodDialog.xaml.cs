@@ -20,6 +20,9 @@ namespace ComfortIsland.Dialogs
 			}
 		}
 
+		public void Initialize(Database.Database database)
+		{ }
+
 		private void okClick(object sender, RoutedEventArgs e)
 		{
 			if (fromDatePicker.SelectedDate.HasValue && toDatePicker.SelectedDate.HasValue)

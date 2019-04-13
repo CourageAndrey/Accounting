@@ -23,6 +23,16 @@ namespace ComfortIsland.Dialogs
 			set { contextControl.DataContext = value; }
 		}
 
+		private Database.Database database;
+
+		public void Initialize(Database.Database database)
+		{
+			this.database = database;
+			comboBoxProducts.ItemsSource = ProductsGetter != null
+				? ProductsGetter(database)
+				: database.Products;
+		}
+
 		public Func<Database.Database, IEnumerable<Product>> ProductsGetter
 		{ get; set; }
 
@@ -38,7 +48,7 @@ namespace ComfortIsland.Dialogs
 			else
 			{
 				StringBuilder errors;
-				if (EditValue.Validate(Database.Database.Instance, out errors))
+				if (EditValue.Validate(database, out errors))
 				{
 					DialogResult = true;
 				}
@@ -52,13 +62,6 @@ namespace ComfortIsland.Dialogs
 		private void cancelClick(object sender, RoutedEventArgs e)
 		{
 			DialogResult = false;
-		}
-
-		private void dialogLoaded(object sender, RoutedEventArgs e)
-		{
-			comboBoxProducts.ItemsSource = ProductsGetter != null
-				? ProductsGetter(Database.Database.Instance)
-				: Database.Database.Instance.Products;
 		}
 
 		public void SetReadOnly()

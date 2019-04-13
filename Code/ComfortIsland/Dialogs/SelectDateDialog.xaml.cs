@@ -16,6 +16,9 @@ namespace ComfortIsland.Dialogs
 			set { datePicker.SelectedDate = value; }
 		}
 
+		public void Initialize(Database.Database database)
+		{ }
+
 		public bool IncludeAllProducts
 		{
 			get { return checkBox.IsChecked.Value; }

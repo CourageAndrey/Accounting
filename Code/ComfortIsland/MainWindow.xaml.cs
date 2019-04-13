@@ -81,6 +81,7 @@ namespace ComfortIsland
 		private void checkBalanceClick(object sender, RoutedEventArgs e)
 		{
 			var dialog = new SelectProductDialog();
+			dialog.Initialize(database);
 			if (dialog.ShowDialog() == true)
 			{
 				var product = dialog.EditValue;
@@ -616,6 +617,7 @@ namespace ComfortIsland
 			{
 				dialogSetup(dialog);
 			}
+			dialog.Initialize(database);
 			dialog.EditValue = newItem;
 			if (dialog.ShowDialog() == true)
 			{
@@ -674,6 +676,7 @@ namespace ComfortIsland
 				{
 					dialogSetup(dialog);
 				}
+				dialog.Initialize(database);
 				dialog.EditValue = copyItem;
 				if (dialog.ShowDialog() == true)
 				{

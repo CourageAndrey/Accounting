@@ -28,6 +28,8 @@ namespace ComfortIsland
 	public interface IEditDialog<T>
 	{
 		T EditValue { get; set; }
+
+		void Initialize(Database.Database database);
 	}
 
 	public interface IReport

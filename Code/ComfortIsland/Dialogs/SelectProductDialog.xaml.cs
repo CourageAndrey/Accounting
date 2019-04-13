@@ -20,6 +20,11 @@ namespace ComfortIsland.Dialogs
 			set { productsList.SelectedItem = value; }
 		}
 
+		public void Initialize(Database.Database database)
+		{
+			productsList.ItemsSource = database.Products;
+		}
+
 		private void okClick(object sender, RoutedEventArgs e)
 		{
 			if (productsList.SelectedItem != null)
@@ -35,11 +40,6 @@ namespace ComfortIsland.Dialogs
 		private void cancelClick(object sender, RoutedEventArgs e)
 		{
 			DialogResult = false;
-		}
-
-		private void windowLoaded(object sender, RoutedEventArgs e)
-		{
-			productsList.ItemsSource = Database.Database.Instance.Products;
 		}
 
 		#region ComboBox autocomplete

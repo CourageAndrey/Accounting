@@ -18,10 +18,17 @@ namespace ComfortIsland.Dialogs
 			set { contextControl.DataContext = value; }
 		}
 
+		private Database.Database database;
+
+		public void Initialize(Database.Database database)
+		{
+			this.database = database;
+		}
+
 		private void okClick(object sender, RoutedEventArgs e)
 		{
 			StringBuilder errors;
-			if (EditValue.Validate(Database.Database.Instance, out errors))
+			if (EditValue.Validate(database, out errors))
 			{
 				DialogResult = true;
 			}
