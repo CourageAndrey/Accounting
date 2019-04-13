@@ -14,11 +14,11 @@ namespace ComfortIsland.Database
 		ToWarehouse,
 	}
 
-	public delegate bool ValidateDocumentDelegate(Document document, StringBuilder errors);
+	public delegate bool ValidateDocumentDelegate(Database database, Document document, StringBuilder errors);
 
-	public delegate IDictionary<long, double> ProcessDocumentDelegate(Document document, IList<Balance> balanceTable);
+	public delegate IDictionary<long, double> ProcessDocumentDelegate(Database database, Document document, IList<Balance> balanceTable);
 
-	public delegate IDictionary<long, double> GetBalanceDeltaDelegate(Document document);
+	public delegate IDictionary<long, double> GetBalanceDeltaDelegate(Database database, Document document);
 
 	internal class DocumentTypeImplementation
 	{
@@ -91,20 +91,18 @@ namespace ComfortIsland.Database
 
 		#region Common default implementations
 
-		private static bool validateDefault(Document document, StringBuilder errors)
+		private static bool validateDefault(Database database, Document document, StringBuilder errors)
 		{
-			var allBalance = Database.Instance.Balance;
-			var products = Database.Instance.Products;
-			foreach (var position in AllTypes[document.Type].GetBalanceDelta(document))
+			foreach (var position in AllTypes[document.Type].GetBalanceDelta(database, document))
 			{
-				var balance = allBalance.FirstOrDefault(b => b.ProductId == position.Key);
+				var balance = database.Balance.FirstOrDefault(b => b.ProductId == position.Key);
 				double count = balance != null ? balance.Count : 0;
 				if ((count + position.Value) < 0)
 				{
 					errors.AppendLine(string.Format(
 						CultureInfo.InvariantCulture,
 						"Недостаточно товара \"{0}\". Имеется по факту {1}, требуется {2}.",
-						products.First(p => p.ID == position.Key).DisplayMember,
+						database.Products.First(p => p.ID == position.Key).DisplayMember,
 						count,
 						-position.Value));
 				}
@@ -112,24 +110,23 @@ namespace ComfortIsland.Database
 			return errors.Length == 0;
 		}
 
-		private static bool validateProduce(Document document, StringBuilder errors)
+		private static bool validateProduce(Database database, Document document, StringBuilder errors)
 		{
-			var products = Database.Instance.Products;
 			foreach (var position in document.PositionsToSerialize)
 			{
-				var product = products.First(p => p.ID == position.ID);
+				var product = database.Products.First(p => p.ID == position.ID);
 				if (product.Children.Count == 0)
 				{
 					errors.AppendLine(string.Format(CultureInfo.InvariantCulture, "Товар {0} не может быть произведён, так как ни из чего не состоит.", product.DisplayMember));
 				}
 			}
-			validateDefault(document, errors);
+			validateDefault(database, document, errors);
 			return errors.Length == 0;
 		}
 
-		private static IDictionary<long, double> applyDefault(Document document, IList<Balance> balanceTable)
+		private static IDictionary<long, double> applyDefault(Database database, Document document, IList<Balance> balanceTable)
 		{
-			var delta = AllTypes[document.Type].GetBalanceDelta(document);
+			var delta = AllTypes[document.Type].GetBalanceDelta(database, document);
 			foreach (var position in delta)
 			{
 
@@ -140,15 +137,15 @@ namespace ComfortIsland.Database
 				}
 				else
 				{
-					balanceTable.Add(new Balance(Database.Instance, position.Key, position.Value));
+					balanceTable.Add(new Balance(database, position.Key, position.Value));
 				}
 			}
 			return delta;
 		}
 
-		private static IDictionary<long, double> rollbackDefault(Document document, IList<Balance> balanceTable)
+		private static IDictionary<long, double> rollbackDefault(Database database, Document document, IList<Balance> balanceTable)
 		{
-			var delta = AllTypes[document.Type].GetBalanceDelta(document);
+			var delta = AllTypes[document.Type].GetBalanceDelta(database, document);
 			foreach (var position in delta)
 			{
 				var balance = balanceTable.First(b => b.ProductId == position.Key);
@@ -161,24 +158,23 @@ namespace ComfortIsland.Database
 
 		#region GetDelta-methods
 
-		private static IDictionary<long, double> getBalanceDeltaIncome(Document document)
+		private static IDictionary<long, double> getBalanceDeltaIncome(Database database, Document document)
 		{
 			return document.PositionsToSerialize.ToDictionary(p => p.ID, p => p.Count);
 		}
 
-		private static IDictionary<long, double> getBalanceDeltaOutcome(Document document)
+		private static IDictionary<long, double> getBalanceDeltaOutcome(Database database, Document document)
 		{
 			return document.PositionsToSerialize.ToDictionary(p => p.ID, p => -p.Count);
 		}
 
-		private static IDictionary<long, double> getBalanceDeltaProduce(Document document)
+		private static IDictionary<long, double> getBalanceDeltaProduce(Database database, Document document)
 		{
 			var result = new Dictionary<long, double>();
-			var products = Database.Instance.Products;
 			foreach (var position in document.PositionsToSerialize)
 			{
 				result[position.ID] = position.Count;
-				foreach (var child in products.First(p => p.ID == position.ID).Children)
+				foreach (var child in database.Products.First(p => p.ID == position.ID).Children)
 				{
 					double count;
 					if (result.TryGetValue(child.Key.ID, out count))

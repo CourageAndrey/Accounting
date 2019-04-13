@@ -87,7 +87,7 @@ namespace ComfortIsland.Database
 			{
 				errors.AppendLine("В документе не выбрано ни одного продукта.");
 			}
-			bool isValid = DocumentTypeImplementation.AllTypes[Type].Validate(this, errors);
+			bool isValid = DocumentTypeImplementation.AllTypes[Type].Validate(database, this, errors);
 			foreach (var position in PositionsToSerialize)
 			{
 				if (database.Products.FirstOrDefault(p => p.ID == position.ID) == null)
@@ -158,7 +158,7 @@ namespace ComfortIsland.Database
 			var products = new HashSet<long>();
 			foreach (var document in documentsToDelete)
 			{
-				foreach (long productId in document.Rollback(balance).Keys)
+				foreach (long productId in document.Rollback(database, balance).Keys)
 				{
 					products.Add(productId);
 				}
@@ -180,29 +180,29 @@ namespace ComfortIsland.Database
 			}
 		}
 
-		public bool Validate(StringBuilder errors)
+		public bool Validate(Database database, StringBuilder errors)
 		{
-			return DocumentTypeImplementation.AllTypes[Type].Validate(this, errors);
+			return DocumentTypeImplementation.AllTypes[Type].Validate(database, this, errors);
 		}
 
-		public IDictionary<long, double> Apply(IList<Balance> balanceTable)
+		public IDictionary<long, double> Apply(Database database, IList<Balance> balanceTable)
 		{
-			return DocumentTypeImplementation.AllTypes[Type].Apply(this, balanceTable);
+			return DocumentTypeImplementation.AllTypes[Type].Apply(database, this, balanceTable);
 		}
 
-		public IDictionary<long, double> Rollback(IList<Balance> balanceTable)
+		public IDictionary<long, double> Rollback(Database database, IList<Balance> balanceTable)
 		{
-			return DocumentTypeImplementation.AllTypes[Type].Rollback(this, balanceTable);
+			return DocumentTypeImplementation.AllTypes[Type].Rollback(database, this, balanceTable);
 		}
 
-		public IDictionary<long, double> GetBalanceDelta()
+		public IDictionary<long, double> GetBalanceDelta(Database database)
 		{
-			return DocumentTypeImplementation.AllTypes[Type].GetBalanceDelta(this);
+			return DocumentTypeImplementation.AllTypes[Type].GetBalanceDelta(database, this);
 		}
 
 		public bool CheckBalance(Database database, IList<Balance> balanceTable, string operationNoun, string operationVerb)
 		{
-			return CheckBalance(database, balanceTable, GetBalanceDelta().Keys);
+			return CheckBalance(database, balanceTable, GetBalanceDelta(database).Keys);
 		}
 
 		public static bool CheckBalance(Database database, IList<Balance> balanceTable, IEnumerable<long> products)

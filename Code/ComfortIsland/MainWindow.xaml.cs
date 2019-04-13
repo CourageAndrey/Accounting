@@ -165,13 +165,13 @@ namespace ComfortIsland
 				bool originalDeleted = false;
 				foreach (var document in database.Documents.Where(d => d.State == DocumentState.Active).OrderByDescending(d => d.Date).Where(d => d.Date >= minDocDate))
 				{
-					document.Rollback(balanceTable);
+					document.Rollback(database, balanceTable);
 					/* удалено, так как в настоящей базе есть реальные ошибки
-					if (!document.CheckBalance(balanceTable, "удалении", "редактировать"))
+					if (!document.CheckBalance(database, balanceTable, "удалении", "редактировать"))
 					{
 						return;
 					}*/
-					
+
 					if (document != originalDocument)
 					{
 						documentsToApplyAgain.Push(document);
@@ -185,7 +185,7 @@ namespace ComfortIsland
 				// если нужно - откат оригинала
 				if (!originalDeleted)
 				{
-					originalDocument.Rollback(balanceTable);
+					originalDocument.Rollback(database, balanceTable);
 					if (!originalDocument.CheckBalance(database, balanceTable, "отмене старой версии отредактированного", "редактировать"))
 					{
 						return;
@@ -200,13 +200,13 @@ namespace ComfortIsland
 					if (!editedApplied && document.Date > editedDocument.Date)
 					{ // применение отредактированной версии документа
 						editedApplied = true;
-						editedDocument.Apply(balanceTable);
+						editedDocument.Apply(database, balanceTable);
 						if (!editedDocument.CheckBalance(database, balanceTable, "применении новой версии отредактированного", "редактировать"))
 						{
 							return;
 						}
 					}
-					document.Apply(balanceTable);
+					document.Apply(database, balanceTable);
 					if (!document.CheckBalance(database, balanceTable, "применении", "редактировать"))
 					{
 						return;
@@ -216,7 +216,7 @@ namespace ComfortIsland
 				// применение отредактированной версии документа, если она ещё не была применена
 				if (!editedApplied)
 				{ 
-					editedDocument.Apply(balanceTable);
+					editedDocument.Apply(database, balanceTable);
 					if (!editedDocument.CheckBalance(database, balanceTable, "применении новой версии отредактированного", "редактировать"))
 					{
 						return;
@@ -251,7 +251,7 @@ namespace ComfortIsland
 				documentsGrid,
 				database.Documents,
 				() => new Document { Date = DateTime.Now, Type = type, State = DocumentState.Active },
-				document => document.Apply(database.Balance),
+				document => document.Apply(database, database.Balance),
 				item =>
 				{
 					reportHeader.Text = string.Empty;
@@ -422,7 +422,7 @@ namespace ComfortIsland
 		{
 			editItem<Product, ProductDialog>(productsGrid, database.Products, product =>
 			{
-				var documents = database.Documents.Where(d => DocumentTypeImplementation.AllTypes[d.Type].GetBalanceDelta(d).Keys.Contains(product.ID)).ToList();
+				var documents = database.Documents.Where(d => DocumentTypeImplementation.AllTypes[d.Type].GetBalanceDelta(database, d).Keys.Contains(product.ID)).ToList();
 				var parentProducts = database.Products.Where(p => p.Children.Keys.Contains(product)).ToList();
 				if (documents.Count == 0 && parentProducts.Count == 0)
 				{
@@ -470,7 +470,7 @@ namespace ComfortIsland
 			deleteItem(productsGrid, database.Products, products =>
 			{
 				var checkIds = products.Select(u => u.ID).ToList();
-				var documents = database.Documents.Where(d => DocumentTypeImplementation.AllTypes[d.Type].GetBalanceDelta(d).Keys.Any(id => checkIds.Contains(id))).ToList();
+				var documents = database.Documents.Where(d => DocumentTypeImplementation.AllTypes[d.Type].GetBalanceDelta(database, d).Keys.Any(id => checkIds.Contains(id))).ToList();
 				var parentProducts = database.Products.Where(p => p.Children.Keys.Any(pp => checkIds.Contains(pp.ID))).ToList();
 				if (documents.Count == 0 && parentProducts.Count == 0)
 				{
