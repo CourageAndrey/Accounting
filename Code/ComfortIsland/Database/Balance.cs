@@ -51,8 +51,8 @@ namespace ComfortIsland.Database
 			initializeProduct(product);
 		}
 
-		public Balance(long productId, double count)
-			: this(Database.Instance.Products.First(p => p.ID == productId), count)
+		public Balance(Database database, long productId, double count)
+			: this(database.Products.First(p => p.ID == productId), count)
 		{ }
 
 		#endregion

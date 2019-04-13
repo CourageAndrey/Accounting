@@ -140,7 +140,7 @@ namespace ComfortIsland.Database
 				}
 				else
 				{
-					balanceTable.Add(new Balance(position.Key, position.Value));
+					balanceTable.Add(new Balance(Database.Instance, position.Key, position.Value));
 				}
 			}
 			return delta;

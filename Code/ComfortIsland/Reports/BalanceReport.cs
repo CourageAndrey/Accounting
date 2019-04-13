@@ -47,7 +47,7 @@ namespace ComfortIsland.Reports
 
 			BalanceItems = products
 				.Where(item => showAllProducts || item.Value > 0)
-				.Select(item => new Balance(item.Key, item.Value.HasValue ? item.Value.Value : 0))
+				.Select(item => new Balance(database, item.Key, item.Value.HasValue ? item.Value.Value : 0))
 				.ToList();
 		}
 	}
