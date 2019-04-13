@@ -27,10 +27,9 @@ namespace ComfortIsland.Reports
 
 		#endregion
 
-		public BalanceReport(DateTime date, bool showAllProducts)
+		public BalanceReport(Database.Database database, DateTime date, bool showAllProducts)
 		{
 			Date = date.Date.AddDays(1).AddMilliseconds(-1);
-			var database = Database.Database.Instance;
 			var balanceList = database.Balance.Select(b => new Balance(b)).ToList();
 			var activeDocuments = database.Documents.Where(d => d.State == DocumentState.Active).OrderByDescending(d => d.Date).ToList();
 

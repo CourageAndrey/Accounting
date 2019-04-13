@@ -741,7 +741,7 @@ namespace ComfortIsland
 			if (reportDescriptor != null)
 			{
 				IReport report;
-				if (reportDescriptor.CreateReport(out report))
+				if (reportDescriptor.CreateReport(database, out report))
 				{
 					reportGrid.ItemsSource = null;
 					reportGrid.Columns.Clear();

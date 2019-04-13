@@ -31,11 +31,10 @@ namespace ComfortIsland.Reports
 
 		#endregion
 
-		public TradeReport(DateTime fromDate, DateTime toDate)
+		public TradeReport(Database.Database database, DateTime fromDate, DateTime toDate)
 		{
 			FromDate = fromDate.Date;
 			ToDate = toDate.Date.AddDays(1).AddMilliseconds(-1);
-			var database = Database.Database.Instance;
 			var items = database.Products.ToDictionary(p => p.ID, p => new TradeItem(p));
 			var balanceList = database.Balance.Select(b => new Balance(b)).ToList();
 			var activeDocuments = database.Documents.Where(d => d.State == DocumentState.Active).OrderByDescending(d => d.Date).ToList();

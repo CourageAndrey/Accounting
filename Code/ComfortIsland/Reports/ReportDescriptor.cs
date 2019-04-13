@@ -19,7 +19,7 @@ namespace ComfortIsland.Reports
 		{ get; private set; }
 
 		private readonly Func<IEnumerable<DataGridColumn>> columnsGetter;
-		private delegate bool ReportCreator(out IReport report);
+		private delegate bool ReportCreator(Database.Database database, out IReport report);
 		private readonly ReportCreator reportCreator;
 
 		#endregion
@@ -49,9 +49,9 @@ namespace ComfortIsland.Reports
 			return columns;
 		}
 
-		public bool CreateReport(out IReport report)
+		public bool CreateReport(Database.Database database, out IReport report)
 		{
-			return reportCreator(out report);
+			return reportCreator(database, out report);
 		}
 
 		#region Список
@@ -155,12 +155,12 @@ namespace ComfortIsland.Reports
 			Trade,
 		});
 
-		private static bool createBalanceReport(out IReport report)
+		private static bool createBalanceReport(Database.Database database, out IReport report)
 		{
 			var dialog = new SelectDateDialog { EditValue = DateTime.Now };
 			if (dialog.ShowDialog() == true)
 			{
-				report = new BalanceReport(dialog.EditValue, dialog.IncludeAllProducts);
+				report = new BalanceReport(database, dialog.EditValue, dialog.IncludeAllProducts);
 				return true;
 			}
 			else
@@ -170,12 +170,12 @@ namespace ComfortIsland.Reports
 			}
 		}
 
-		private static bool createTradeReport(out IReport report)
+		private static bool createTradeReport(Database.Database database, out IReport report)
 		{
 			var dialog = new SelectPeriodDialog { EditValue = new Tuple<DateTime, DateTime>(DateTime.Now.AddDays(-7), DateTime.Now) };
 			if (dialog.ShowDialog() == true)
 			{
-				report = new TradeReport(dialog.EditValue.Item1, dialog.EditValue.Item2);
+				report = new TradeReport(database, dialog.EditValue.Item1, dialog.EditValue.Item2);
 				return true;
 			}
 			else
