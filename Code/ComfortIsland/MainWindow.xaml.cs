@@ -128,7 +128,7 @@ namespace ComfortIsland
 		private void deleteDocumentsClick(object sender, RoutedEventArgs e)
 		{
 			var balanceTable = database.Balance.Select(b => new Balance(b)).ToList();
-			if (Document.TryDelete(documentsGrid.SelectedItems.OfType<Document>().ToList(), balanceTable))
+			if (Document.TryDelete(database, documentsGrid.SelectedItems.OfType<Document>().ToList(), balanceTable))
 			{
 				database.Balance = balanceTable;
 				Database.Database.Save();
@@ -186,7 +186,7 @@ namespace ComfortIsland
 				if (!originalDeleted)
 				{
 					originalDocument.Rollback(balanceTable);
-					if (!originalDocument.CheckBalance(balanceTable, "отмене старой версии отредактированного", "редактировать"))
+					if (!originalDocument.CheckBalance(database, balanceTable, "отмене старой версии отредактированного", "редактировать"))
 					{
 						return;
 					}
@@ -201,13 +201,13 @@ namespace ComfortIsland
 					{ // применение отредактированной версии документа
 						editedApplied = true;
 						editedDocument.Apply(balanceTable);
-						if (!editedDocument.CheckBalance(balanceTable, "применении новой версии отредактированного", "редактировать"))
+						if (!editedDocument.CheckBalance(database, balanceTable, "применении новой версии отредактированного", "редактировать"))
 						{
 							return;
 						}
 					}
 					document.Apply(balanceTable);
-					if (!document.CheckBalance(balanceTable, "применении", "редактировать"))
+					if (!document.CheckBalance(database, balanceTable, "применении", "редактировать"))
 					{
 						return;
 					}
@@ -217,7 +217,7 @@ namespace ComfortIsland
 				if (!editedApplied)
 				{ 
 					editedDocument.Apply(balanceTable);
-					if (!editedDocument.CheckBalance(balanceTable, "применении новой версии отредактированного", "редактировать"))
+					if (!editedDocument.CheckBalance(database, balanceTable, "применении новой версии отредактированного", "редактировать"))
 					{
 						return;
 					}

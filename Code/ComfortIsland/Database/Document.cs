@@ -137,7 +137,7 @@ namespace ComfortIsland.Database
 
 		#region Workflow
 
-		public static bool TryDelete(IList<Document> documentsToDelete, IList<Balance> balance)
+		public static bool TryDelete(Database database, IList<Document> documentsToDelete, IList<Balance> balance)
 		{
 			// приготовление к отмене
 			if (documentsToDelete.Count == 0)
@@ -165,7 +165,7 @@ namespace ComfortIsland.Database
 			}
 
 			// проверка итогового баланса
-			if (CheckBalance(balance, products))
+			if (CheckBalance(database, balance, products))
 			{
 				// если всё хорошо - применяем изменения в БД
 				foreach (var document in documentsToDelete)
@@ -200,19 +200,18 @@ namespace ComfortIsland.Database
 			return DocumentTypeImplementation.AllTypes[Type].GetBalanceDelta(this);
 		}
 
-		public bool CheckBalance(IList<Balance> balanceTable, string operationNoun, string operationVerb)
+		public bool CheckBalance(Database database, IList<Balance> balanceTable, string operationNoun, string operationVerb)
 		{
-			return CheckBalance(balanceTable, GetBalanceDelta().Keys);
+			return CheckBalance(database, balanceTable, GetBalanceDelta().Keys);
 		}
 
-		public static bool CheckBalance(IList<Balance> balanceTable, IEnumerable<long> products)
+		public static bool CheckBalance(Database database, IList<Balance> balanceTable, IEnumerable<long> products)
 		{
 			var wrongPositions = balanceTable.Where(p => products.Contains(p.ProductId) && p.Count < 0).ToList();
 			if (wrongPositions.Count > 0)
 			{
 				var text = new StringBuilder("При выполнении данной операции остатки следующих товаров принимают отрицательные значения:");
 				text.AppendLine();
-				var database = Database.Instance;
 				foreach (var position in wrongPositions)
 				{
 					var product = database.Products.First(p => p.ID == position.ProductId);
