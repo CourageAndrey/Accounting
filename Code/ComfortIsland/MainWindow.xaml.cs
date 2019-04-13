@@ -131,7 +131,7 @@ namespace ComfortIsland
 			if (Document.TryDelete(database, documentsGrid.SelectedItems.OfType<Document>().ToList(), balanceTable))
 			{
 				database.Balance = balanceTable;
-				Database.Database.Save();
+				database.Save();
 				documentStateFilterChecked(this, null);
 				reportHeader.Text = string.Empty;
 				reportGrid.ItemsSource = null;
@@ -230,7 +230,7 @@ namespace ComfortIsland
 				}
 				database.Documents.Add(editedDocument);
 				database.Balance = balanceTable;
-				Database.Database.Save();
+				database.Save();
 				documentStateFilterChecked(this, null);
 				reportHeader.Text = string.Empty;
 				reportGrid.ItemsSource = null;
@@ -630,7 +630,7 @@ namespace ComfortIsland
 					{
 						beforeSave(newItem);
 					}
-					Database.Database.Save();
+					database.Save();
 					if (updateGrid == null)
 					{
 						updateGrid = () =>
@@ -684,7 +684,7 @@ namespace ComfortIsland
 					{
 						copyItem.AfterEdit(database);
 						editItem.Update(copyItem);
-						Database.Database.Save();
+						database.Save();
 						grid.ItemsSource = null;
 						grid.ItemsSource = table;
 					}
@@ -714,7 +714,7 @@ namespace ComfortIsland
 					{
 						table.Remove(item);
 					}
-					Database.Database.Save();
+					database.Save();
 					grid.ItemsSource = null;
 					grid.ItemsSource = table;
 				}

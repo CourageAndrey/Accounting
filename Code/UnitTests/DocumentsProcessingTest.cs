@@ -65,7 +65,6 @@ namespace UnitTests
 					new Balance(productParent, 1),
 				},
 			};
-			Database.SetTestBase(database);
 
 			// apply documents
 			var income = new Document

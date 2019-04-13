@@ -37,10 +37,6 @@ namespace ComfortIsland.Database
 			Units = new List<Unit>();
 		}
 
-		[XmlIgnore]
-		public static Database Instance
-		{ get; private set; }
-
 		#region [De]Serialization
 
 		[XmlIgnore]
@@ -56,17 +52,18 @@ namespace ComfortIsland.Database
 
 		public static Database TryLoad()
 		{
+			Database database;
 			if (File.Exists(filePath))
 			{
 				using (var xmlReader = XmlReader.Create(filePath))
 				{
-					Instance = (Database) xmlSerializer.Deserialize(xmlReader);
-					Instance.AfterDeserialization();
+					database = (Database) xmlSerializer.Deserialize(xmlReader);
+					database.AfterDeserialization();
 				}
 			}
 			else
 			{
-				Instance = new Database
+				database = new Database
 				{
 					Units =
 					{
@@ -74,18 +71,18 @@ namespace ComfortIsland.Database
 						new Unit{ ID = 2, Name = "метр погонный", ShortName = "м/пог" },
 					}
 				};
-				Save();
+				database.Save();
 			}
-			return Instance;
+			return database;
 		}
 
-		public static void Save()
+		public void Save()
 		{
-			Instance.BeforeSerialization();
+			BeforeSerialization();
 			var document = new XmlDocument();
 			using (var writer = new StringWriter())
 			{
-				xmlSerializer.Serialize(writer, Instance);
+				xmlSerializer.Serialize(writer, this);
 				document.LoadXml(writer.ToString());
 				document.Save(filePath);
 			}
@@ -117,11 +114,6 @@ namespace ComfortIsland.Database
 			{
 				balance.AfterDeserialization(this);
 			}
-		}
-
-		internal static void SetTestBase(Database database)
-		{
-			Instance = database;
 		}
 
 		#endregion
