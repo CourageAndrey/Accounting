@@ -69,7 +69,7 @@ namespace ComfortIsland
 		{
 			createDocument(DocumentType.Produce, dialog =>
 			{
-				dialog.ProductsGetter = () => database.Products.Where(p => p.Children.Count > 0);
+				dialog.ProductsGetter = db => db.Products.Where(p => p.Children.Count > 0);
 			});
 		}
 
@@ -149,7 +149,7 @@ namespace ComfortIsland
 			var dialog = new DocumentDialog();
 			if (originalDocument.Type == DocumentType.Produce)
 			{
-				dialog.ProductsGetter = () => database.Products.Where(p => p.Children.Count > 0);
+				dialog.ProductsGetter = db => db.Products.Where(p => p.Children.Count > 0);
 			}
 			dialog.EditValue = editedDocument;
 			dialog.IgnoreValidation = true;

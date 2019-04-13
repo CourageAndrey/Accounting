@@ -23,7 +23,7 @@ namespace ComfortIsland.Dialogs
 			set { contextControl.DataContext = value; }
 		}
 
-		public Func<IEnumerable<Product>> ProductsGetter
+		public Func<Database.Database, IEnumerable<Product>> ProductsGetter
 		{ get; set; }
 
 		public bool IgnoreValidation
@@ -56,7 +56,9 @@ namespace ComfortIsland.Dialogs
 
 		private void dialogLoaded(object sender, RoutedEventArgs e)
 		{
-			comboBoxProducts.ItemsSource = (ProductsGetter ?? (() => Database.Database.Instance.Products))();
+			comboBoxProducts.ItemsSource = ProductsGetter != null
+				? ProductsGetter(Database.Database.Instance)
+				: Database.Database.Instance.Products;
 		}
 
 		public void SetReadOnly()
