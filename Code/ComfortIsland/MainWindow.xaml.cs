@@ -27,10 +27,12 @@ namespace ComfortIsland
 			InitializeComponent();
 		}
 
+		private Database.Database database;
+
 		private void formLoaded(object sender, RoutedEventArgs e)
 		{
 			// вычитка базы данных
-			var database = Database.Database.TryLoad();
+			database = Database.Database.TryLoad();
 
 			// документы
 			stateColumn.Visibility = checkBoxShowObsoleteDocuments.IsChecked == true ? Visibility.Visible : Visibility.Collapsed;
@@ -67,7 +69,7 @@ namespace ComfortIsland
 		{
 			createDocument(DocumentType.Produce, dialog =>
 			{
-				dialog.ProductsGetter = () => Database.Database.Instance.Products.Where(p => p.Children.Count > 0);
+				dialog.ProductsGetter = () => database.Products.Where(p => p.Children.Count > 0);
 			});
 		}
 
@@ -82,7 +84,7 @@ namespace ComfortIsland
 			if (dialog.ShowDialog() == true)
 			{
 				var product = dialog.EditValue;
-				var balance = Database.Database.Instance.Balance;
+				var balance = database.Balance;
 				var getBalance = new Func<Product, double>(p =>
 				{
 					var b = balance.FirstOrDefault(bb => bb.ProductId == p.ID);
@@ -124,7 +126,6 @@ namespace ComfortIsland
 
 		private void deleteDocumentsClick(object sender, RoutedEventArgs e)
 		{
-			var database = Database.Database.Instance;
 			var balanceTable = database.Balance.Select(b => new Balance(b)).ToList();
 			if (Document.TryDelete(documentsGrid.SelectedItems.OfType<Document>().ToList(), balanceTable))
 			{
@@ -139,7 +140,6 @@ namespace ComfortIsland
 
 		private void editDocumentClick(object sender, RoutedEventArgs e)
 		{
-			var database = Database.Database.Instance;
 			var originalDocument = documentsGrid.SelectedItems.OfType<Document>().Single();
 			var editedDocument = new Document();
 			editedDocument.Update(originalDocument);
@@ -149,7 +149,7 @@ namespace ComfortIsland
 			var dialog = new DocumentDialog();
 			if (originalDocument.Type == DocumentType.Produce)
 			{
-				dialog.ProductsGetter = () => Database.Database.Instance.Products.Where(p => p.Children.Count > 0);
+				dialog.ProductsGetter = () => database.Products.Where(p => p.Children.Count > 0);
 			}
 			dialog.EditValue = editedDocument;
 			dialog.IgnoreValidation = true;
@@ -248,9 +248,9 @@ namespace ComfortIsland
 		{
 			addItem<Document, DocumentDialog>(
 				documentsGrid,
-				Database.Database.Instance.Documents,
+				database.Documents,
 				() => new Document { Date = DateTime.Now, Type = type, State = DocumentState.Active },
-				document => document.Apply(Database.Database.Instance.Balance),
+				document => document.Apply(database.Balance),
 				item =>
 				{
 					reportHeader.Text = string.Empty;
@@ -301,7 +301,7 @@ namespace ComfortIsland
 			var sortColumns = documentsGrid.Columns.Select(c => c.SortDirection).ToList();
 
 			documentsGrid.ItemsSource = null;
-			IEnumerable<Document> documents = Database.Database.Instance.Documents;
+			IEnumerable<Document> documents = database.Documents;
 			if (checkBoxShowObsoleteDocuments.IsChecked != true)
 			{
 				documents = documents.Where(d => d.State == DocumentState.Active);
@@ -399,7 +399,6 @@ namespace ComfortIsland
 
 		private void reloadComplexProducts()
 		{
-			var database = Database.Database.Instance;
 			var complexProducts = database.Products.Where(p => p.Children.Count > 0).ToList();
 			foreach (var product in complexProducts)
 			{
@@ -414,16 +413,16 @@ namespace ComfortIsland
 
 		private void productAddClick(object sender, RoutedEventArgs e)
 		{
-			addItem<Product, ProductDialog>(productsGrid, Database.Database.Instance.Products);
+			addItem<Product, ProductDialog>(productsGrid, database.Products);
 			reloadComplexProducts();
 		}
 
 		private void productEditClick(object sender, RoutedEventArgs e)
 		{
-			editItem<Product, ProductDialog>(productsGrid, Database.Database.Instance.Products, product =>
+			editItem<Product, ProductDialog>(productsGrid, database.Products, product =>
 			{
-				var documents = Database.Database.Instance.Documents.Where(d => DocumentTypeImplementation.AllTypes[d.Type].GetBalanceDelta(d).Keys.Contains(product.ID)).ToList();
-				var parentProducts = Database.Database.Instance.Products.Where(p => p.Children.Keys.Contains(product)).ToList();
+				var documents = database.Documents.Where(d => DocumentTypeImplementation.AllTypes[d.Type].GetBalanceDelta(d).Keys.Contains(product.ID)).ToList();
+				var parentProducts = database.Products.Where(p => p.Children.Keys.Contains(product)).ToList();
 				if (documents.Count == 0 && parentProducts.Count == 0)
 				{
 					return true;
@@ -467,11 +466,11 @@ namespace ComfortIsland
 
 		private void productDeleteClick(object sender, RoutedEventArgs e)
 		{
-			deleteItem(productsGrid, Database.Database.Instance.Products, products =>
+			deleteItem(productsGrid, database.Products, products =>
 			{
 				var checkIds = products.Select(u => u.ID).ToList();
-				var documents = Database.Database.Instance.Documents.Where(d => DocumentTypeImplementation.AllTypes[d.Type].GetBalanceDelta(d).Keys.Any(id => checkIds.Contains(id))).ToList();
-				var parentProducts = Database.Database.Instance.Products.Where(p => p.Children.Keys.Any(pp => checkIds.Contains(pp.ID))).ToList();
+				var documents = database.Documents.Where(d => DocumentTypeImplementation.AllTypes[d.Type].GetBalanceDelta(d).Keys.Any(id => checkIds.Contains(id))).ToList();
+				var parentProducts = database.Products.Where(p => p.Children.Keys.Any(pp => checkIds.Contains(pp.ID))).ToList();
 				if (documents.Count == 0 && parentProducts.Count == 0)
 				{
 					return true;
@@ -527,14 +526,14 @@ namespace ComfortIsland
 
 		private void unitAddClick(object sender, RoutedEventArgs e)
 		{
-			addItem<Unit, UnitDialog>(unitsGrid, Database.Database.Instance.Units);
+			addItem<Unit, UnitDialog>(unitsGrid, database.Units);
 		}
 
 		private void unitEditClick(object sender, RoutedEventArgs e)
 		{
-			editItem<Unit, UnitDialog>(unitsGrid, Database.Database.Instance.Units, unit =>
+			editItem<Unit, UnitDialog>(unitsGrid, database.Units, unit =>
 			{
-				var products = Database.Database.Instance.Products.Where(p => p.Unit.ID == unit.ID).ToList();
+				var products = database.Products.Where(p => p.Unit.ID == unit.ID).ToList();
 				if (products.Count == 0)
 				{
 					return true;
@@ -560,10 +559,10 @@ namespace ComfortIsland
 
 		private void unitDeleteClick(object sender, RoutedEventArgs e)
 		{
-			deleteItem(unitsGrid, Database.Database.Instance.Units, units =>
+			deleteItem(unitsGrid, database.Units, units =>
 			{
 				var checkIds = units.Select(u => u.ID).ToList();
-				var products = Database.Database.Instance.Products.Where(p => checkIds.Contains(p.Unit.ID)).ToList();
+				var products = database.Products.Where(p => checkIds.Contains(p.Unit.ID)).ToList();
 				if (products.Count == 0)
 				{
 					return true;
