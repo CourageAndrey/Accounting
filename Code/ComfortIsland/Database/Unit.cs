@@ -56,7 +56,7 @@ namespace ComfortIsland.Database
 		public void BeforeEdit()
 		{ }
 
-		public void AfterEdit()
+		public void AfterEdit(Database database)
 		{ }
 	}
 }

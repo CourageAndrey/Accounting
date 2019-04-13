@@ -22,7 +22,7 @@ namespace ComfortIsland
 
 		void BeforeEdit();
 
-		void AfterEdit();
+		void AfterEdit(Database.Database database);
 	}
 
 	public interface IEditDialog<T>

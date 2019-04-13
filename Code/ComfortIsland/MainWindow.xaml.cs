@@ -156,7 +156,7 @@ namespace ComfortIsland
 			dialog.IgnoreValidation = true;
 			if (dialog.ShowDialog() == true)
 			{
-				editedDocument.AfterEdit();
+				editedDocument.AfterEdit(database);
 				var balanceTable = database.Balance.Select(b => new Balance(b)).ToList();
 				var documentsToApplyAgain = new Stack<Document>();
 
@@ -624,7 +624,7 @@ namespace ComfortIsland
 				try
 				{
 					newItem.ID = IdHelper.GenerateNewId(table);
-					newItem.AfterEdit();
+					newItem.AfterEdit(database);
 					table.Add(newItem);
 					if (beforeSave != null)
 					{
@@ -682,7 +682,7 @@ namespace ComfortIsland
 				{
 					try
 					{
-						copyItem.AfterEdit();
+						copyItem.AfterEdit(database);
 						editItem.Update(copyItem);
 						Database.Database.Save();
 						grid.ItemsSource = null;

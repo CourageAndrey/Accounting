@@ -116,7 +116,7 @@ namespace ComfortIsland.Database
 
 		public void AfterDeserialization(Database database)
 		{
-			AfterEdit();
+			AfterEdit(database);
 		}
 
 		#endregion
@@ -126,12 +126,12 @@ namespace ComfortIsland.Database
 			PositionsToSerialize = Positions.Select(kvp => new Position(kvp.Key.ID, kvp.Value)).ToList();
 		}
 
-		public void AfterEdit()
+		public void AfterEdit(Database database)
 		{
 			Positions.Clear();
 			foreach (var position in PositionsToSerialize)
 			{
-				Positions[Database.Instance.Products.First(p => p.ID == position.ID)] = position.Count;
+				Positions[database.Products.First(p => p.ID == position.ID)] = position.Count;
 			}
 		}
 

@@ -109,7 +109,7 @@ namespace ComfortIsland.Database
 		public void AfterDeserialization(Database database)
 		{
 			Unit = database.Units.First(u => u.ID == UnitID);
-			AfterEdit();
+			AfterEdit(database);
 		}
 
 		#endregion
@@ -119,12 +119,12 @@ namespace ComfortIsland.Database
 			ChildrenToSerialize = Children.Select(kvp => new Position(kvp.Key.ID, kvp.Value)).ToList();
 		}
 
-		public void AfterEdit()
+		public void AfterEdit(Database database)
 		{
 			Children.Clear();
 			foreach (var child in ChildrenToSerialize)
 			{
-				Children[Database.Instance.Products.First(p => p.ID == child.ID)] = child.Count;
+				Children[database.Products.First(p => p.ID == child.ID)] = child.Count;
 			}
 		}
 	}
