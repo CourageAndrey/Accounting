@@ -114,7 +114,7 @@ namespace ComfortIsland.Database
 			BeforeEdit();
 		}
 
-		public void AfterDeserialization()
+		public void AfterDeserialization(Database database)
 		{
 			AfterEdit();
 		}

@@ -41,9 +41,9 @@ namespace ComfortIsland.Database
 
 		#endregion
 
-		internal void SetProduct()
+		internal void SetProduct(Database database)
 		{
-			BoundProduct = Database.Instance.Products.First(p => p.ID == ID);
+			BoundProduct = database.Products.First(p => p.ID == ID);
 		}
 	}
 }

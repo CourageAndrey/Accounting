@@ -399,13 +399,14 @@ namespace ComfortIsland
 
 		private void reloadComplexProducts()
 		{
-			var complexProducts = Database.Database.Instance.Products.Where(p => p.Children.Count > 0).ToList();
+			var database = Database.Database.Instance;
+			var complexProducts = database.Products.Where(p => p.Children.Count > 0).ToList();
 			foreach (var product in complexProducts)
 			{
 				product.BeforeEdit();
 				foreach (var position in product.ChildrenToSerialize)
 				{
-					position.SetProduct();
+					position.SetProduct(database);
 				}
 			}
 			treeViewComplexProducts.ItemsSource = complexProducts;

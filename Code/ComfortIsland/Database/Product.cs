@@ -106,9 +106,9 @@ namespace ComfortIsland.Database
 			BeforeEdit();
 		}
 
-		public void AfterDeserialization()
+		public void AfterDeserialization(Database database)
 		{
-			Unit = Database.Instance.Units.First(u => u.ID == UnitID);
+			Unit = database.Units.First(u => u.ID == UnitID);
 			AfterEdit();
 		}
 

@@ -107,15 +107,15 @@ namespace ComfortIsland.Database
 		{
 			foreach (var product in Products)
 			{
-				product.AfterDeserialization();
+				product.AfterDeserialization(this);
 			}
 			foreach (var document in Documents)
 			{
-				document.AfterDeserialization();
+				document.AfterDeserialization(this);
 			}
 			foreach (var balance in Balance)
 			{
-				balance.AfterDeserialization();
+				balance.AfterDeserialization(this);
 			}
 		}
 

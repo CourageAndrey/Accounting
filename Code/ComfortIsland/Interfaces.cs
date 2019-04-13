@@ -18,7 +18,7 @@ namespace ComfortIsland
 
 		void BeforeSerialization();
 
-		void AfterDeserialization();
+		void AfterDeserialization(Database.Database database);
 
 		void BeforeEdit();
 

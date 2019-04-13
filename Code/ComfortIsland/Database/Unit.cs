@@ -48,7 +48,7 @@ namespace ComfortIsland.Database
 		public void BeforeSerialization()
 		{ }
 
-		public void AfterDeserialization()
+		public void AfterDeserialization(Database database)
 		{ }
 
 		#endregion

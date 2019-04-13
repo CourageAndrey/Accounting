@@ -64,9 +64,9 @@ namespace ComfortIsland.Database
 			ProductUnit = product.Unit.Name;
 		}
 
-		public void AfterDeserialization()
+		public void AfterDeserialization(Database database)
 		{
-			initializeProduct(Database.Instance.Products.First(p => p.ID == ProductId));
+			initializeProduct(database.Products.First(p => p.ID == ProductId));
 		}
 	}
 }
