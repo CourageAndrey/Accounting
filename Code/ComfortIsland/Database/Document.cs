@@ -87,7 +87,7 @@ namespace ComfortIsland.Database
 			{
 				errors.AppendLine("В документе не выбрано ни одного продукта.");
 			}
-			bool isValid = DocumentTypeImplementation.AllTypes[Type].Validate(database, this, errors);
+			bool isValid = ValidateBalance(database, errors);
 			foreach (var position in PositionsToSerialize)
 			{
 				if (database.Products.FirstOrDefault(p => p.ID == position.ID) == null)
@@ -180,19 +180,63 @@ namespace ComfortIsland.Database
 			}
 		}
 
-		public bool Validate(Database database, StringBuilder errors)
+		private bool ValidateBalance(Database database, StringBuilder errors)
 		{
-			return DocumentTypeImplementation.AllTypes[Type].Validate(database, this, errors);
+			foreach (var position in GetBalanceDelta(database))
+			{
+				var balance = database.Balance.FirstOrDefault(b => b.ProductId == position.Key);
+				double count = balance != null ? balance.Count : 0;
+				if ((count + position.Value) < 0)
+				{
+					errors.AppendLine(string.Format(
+						CultureInfo.InvariantCulture,
+						"Недостаточно товара \"{0}\". Имеется по факту {1}, требуется {2}.",
+						database.Products.First(p => p.ID == position.Key).DisplayMember,
+						count,
+						-position.Value));
+				}
+			}
+			if (Type == DocumentType.Produce)
+			{
+				foreach (var position in PositionsToSerialize)
+				{
+					var product = database.Products.First(p => p.ID == position.ID);
+					if (product.Children.Count == 0)
+					{
+						errors.AppendLine(string.Format(CultureInfo.InvariantCulture, "Товар {0} не может быть произведён, так как ни из чего не состоит.", product.DisplayMember));
+					}
+				}
+			}
+			return errors.Length == 0;
 		}
 
 		public IDictionary<long, double> Apply(Database database, IList<Balance> balanceTable)
 		{
-			return DocumentTypeImplementation.AllTypes[Type].Apply(database, this, balanceTable);
+			var delta = GetBalanceDelta(database);
+			foreach (var position in delta)
+			{
+				var balance = balanceTable.FirstOrDefault(b => b.ProductId == position.Key);
+				if (balance != null)
+				{
+					balance.Count += position.Value;
+				}
+				else
+				{
+					balanceTable.Add(new Balance(database, position.Key, position.Value));
+				}
+			}
+			return delta;
 		}
 
 		public IDictionary<long, double> Rollback(Database database, IList<Balance> balanceTable)
 		{
-			return DocumentTypeImplementation.AllTypes[Type].Rollback(database, this, balanceTable);
+			var delta = GetBalanceDelta(database);
+			foreach (var position in delta)
+			{
+				var balance = balanceTable.First(b => b.ProductId == position.Key);
+				balance.Count -= position.Value;
+			}
+			return delta;
 		}
 
 		public IDictionary<long, double> GetBalanceDelta(Database database)
