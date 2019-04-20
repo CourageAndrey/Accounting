@@ -78,7 +78,7 @@ namespace ComfortIsland.Database
 		{
 			Income = new DocumentTypeImplementation(DocumentType.Income, "приход", getBalanceDeltaIncome);
 			Outcome = new DocumentTypeImplementation(DocumentType.Outcome, "продажа", getBalanceDeltaOutcome);
-			Produce = new DocumentTypeImplementation(DocumentType.Produce, "производство", getBalanceDeltaProduce, validateProduce);
+			Produce = new DocumentTypeImplementation(DocumentType.Produce, "производство", getBalanceDeltaProduce);
 			ToWarehouse = new DocumentTypeImplementation(DocumentType.ToWarehouse, "перемещение на склад", getBalanceDeltaOutcome);
 			AllTypes = new ReadOnlyDictionary<DocumentType, DocumentTypeImplementation>(new Dictionary<DocumentType, DocumentTypeImplementation>
 			{
@@ -107,20 +107,17 @@ namespace ComfortIsland.Database
 						-position.Value));
 				}
 			}
-			return errors.Length == 0;
-		}
-
-		private static bool validateProduce(Database database, Document document, StringBuilder errors)
-		{
-			foreach (var position in document.PositionsToSerialize)
+			if (document.Type == DocumentType.Produce)
 			{
-				var product = database.Products.First(p => p.ID == position.ID);
-				if (product.Children.Count == 0)
+				foreach (var position in document.PositionsToSerialize)
 				{
-					errors.AppendLine(string.Format(CultureInfo.InvariantCulture, "Товар {0} не может быть произведён, так как ни из чего не состоит.", product.DisplayMember));
+					var product = database.Products.First(p => p.ID == position.ID);
+					if (product.Children.Count == 0)
+					{
+						errors.AppendLine(string.Format(CultureInfo.InvariantCulture, "Товар {0} не может быть произведён, так как ни из чего не состоит.", product.DisplayMember));
+					}
 				}
 			}
-			validateDefault(database, document, errors);
 			return errors.Length == 0;
 		}
 
