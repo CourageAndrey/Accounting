@@ -44,20 +44,14 @@ namespace ComfortIsland.Database
 
 		#endregion
 
-		private DocumentTypeImplementation(
-			DocumentType type,
-			string name,
-			GetBalanceDeltaDelegate getBalanceDelta,
-			ValidateDocumentDelegate validate = null,
-			ProcessDocumentDelegate apply = null,
-			ProcessDocumentDelegate rollback = null)
+		private DocumentTypeImplementation(DocumentType type, string name, GetBalanceDeltaDelegate getBalanceDelta)
 		{
 			Type = type;
 			Name = name;
 			GetBalanceDelta = getBalanceDelta;
-			Validate = validate ?? validateDefault;
-			Apply = apply ?? applyDefault;
-			Rollback = rollback ?? rollbackDefault;
+			Validate = validateDefault;
+			Apply = applyDefault;
+			Rollback = rollbackDefault;
 		}
 
 		#region List
