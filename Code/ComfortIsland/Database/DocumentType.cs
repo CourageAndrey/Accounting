@@ -14,10 +14,6 @@ namespace ComfortIsland.Database
 		ToWarehouse,
 	}
 
-	public delegate bool ValidateDocumentDelegate(Database database, Document document, StringBuilder errors);
-
-	public delegate IDictionary<long, double> ProcessDocumentDelegate(Database database, Document document, IList<Balance> balanceTable);
-
 	public delegate IDictionary<long, double> GetBalanceDeltaDelegate(Database database, Document document);
 
 	internal class DocumentTypeImplementation
@@ -33,15 +29,6 @@ namespace ComfortIsland.Database
 		public GetBalanceDeltaDelegate GetBalanceDelta
 		{ get; private set; }
 
-		public ValidateDocumentDelegate Validate
-		{ get; private set; }
-
-		public ProcessDocumentDelegate Apply
-		{ get; private set; }
-
-		public ProcessDocumentDelegate Rollback
-		{ get; private set; }
-
 		#endregion
 
 		private DocumentTypeImplementation(DocumentType type, string name, GetBalanceDeltaDelegate getBalanceDelta)
@@ -49,9 +36,6 @@ namespace ComfortIsland.Database
 			Type = type;
 			Name = name;
 			GetBalanceDelta = getBalanceDelta;
-			Validate = validateDefault;
-			Apply = applyDefault;
-			Rollback = rollbackDefault;
 		}
 
 		#region List
@@ -83,11 +67,9 @@ namespace ComfortIsland.Database
 			});
 		}
 
-		#region Common default implementations
-
-		private static bool validateDefault(Database database, Document document, StringBuilder errors)
+		public bool Validate(Database database, Document document, StringBuilder errors)
 		{
-			foreach (var position in AllTypes[document.Type].GetBalanceDelta(database, document))
+			foreach (var position in GetBalanceDelta(database, document))
 			{
 				var balance = database.Balance.FirstOrDefault(b => b.ProductId == position.Key);
 				double count = balance != null ? balance.Count : 0;
@@ -115,9 +97,9 @@ namespace ComfortIsland.Database
 			return errors.Length == 0;
 		}
 
-		private static IDictionary<long, double> applyDefault(Database database, Document document, IList<Balance> balanceTable)
+		public IDictionary<long, double> Apply(Database database, Document document, IList<Balance> balanceTable)
 		{
-			var delta = AllTypes[document.Type].GetBalanceDelta(database, document);
+			var delta = GetBalanceDelta(database, document);
 			foreach (var position in delta)
 			{
 
@@ -134,9 +116,9 @@ namespace ComfortIsland.Database
 			return delta;
 		}
 
-		private static IDictionary<long, double> rollbackDefault(Database database, Document document, IList<Balance> balanceTable)
+		public IDictionary<long, double> Rollback(Database database, Document document, IList<Balance> balanceTable)
 		{
-			var delta = AllTypes[document.Type].GetBalanceDelta(database, document);
+			var delta = GetBalanceDelta(database, document);
 			foreach (var position in delta)
 			{
 				var balance = balanceTable.First(b => b.ProductId == position.Key);
@@ -144,8 +126,6 @@ namespace ComfortIsland.Database
 			}
 			return delta;
 		}
-
-		#endregion
 
 		#region GetDelta-methods
 
