@@ -182,7 +182,7 @@ namespace ComfortIsland.Database
 
 		private bool ValidateBalance(Database database, StringBuilder errors)
 		{
-			foreach (var position in GetBalanceDelta(database))
+			foreach (var position in getBalanceDelta(database))
 			{
 				var balance = database.Balance.FirstOrDefault(b => b.ProductId == position.Key);
 				double count = balance != null ? balance.Count : 0;
@@ -212,7 +212,7 @@ namespace ComfortIsland.Database
 
 		public IDictionary<long, double> Apply(Database database, IList<Balance> balanceTable)
 		{
-			var delta = GetBalanceDelta(database);
+			var delta = getBalanceDelta(database);
 			foreach (var position in delta)
 			{
 				var balance = balanceTable.FirstOrDefault(b => b.ProductId == position.Key);
@@ -230,7 +230,7 @@ namespace ComfortIsland.Database
 
 		public IDictionary<long, double> Rollback(Database database, IList<Balance> balanceTable)
 		{
-			var delta = GetBalanceDelta(database);
+			var delta = getBalanceDelta(database);
 			foreach (var position in delta)
 			{
 				var balance = balanceTable.First(b => b.ProductId == position.Key);
@@ -239,14 +239,14 @@ namespace ComfortIsland.Database
 			return delta;
 		}
 
-		public IDictionary<long, double> GetBalanceDelta(Database database)
+		private IDictionary<long, double> getBalanceDelta(Database database)
 		{
 			return DocumentTypeImplementation.AllTypes[Type].GetBalanceDelta(database, this);
 		}
 
 		public bool CheckBalance(Database database, IList<Balance> balanceTable, string operationNoun, string operationVerb)
 		{
-			return CheckBalance(database, balanceTable, GetBalanceDelta(database).Keys);
+			return CheckBalance(database, balanceTable, getBalanceDelta(database).Keys);
 		}
 
 		public static bool CheckBalance(Database database, IList<Balance> balanceTable, IEnumerable<long> products)
