@@ -165,7 +165,7 @@ namespace ComfortIsland.Database
 			}
 
 			// проверка итогового баланса
-			if (CheckBalance(database, balance, products))
+			if (checkBalance(database, balance, products))
 			{
 				// если всё хорошо - применяем изменения в БД
 				foreach (var document in documentsToDelete)
@@ -246,10 +246,10 @@ namespace ComfortIsland.Database
 
 		public bool CheckBalance(Database database, IList<Balance> balanceTable, string operationNoun, string operationVerb)
 		{
-			return CheckBalance(database, balanceTable, getBalanceDelta(database).Keys);
+			return checkBalance(database, balanceTable, getBalanceDelta(database).Keys);
 		}
 
-		public static bool CheckBalance(Database database, IList<Balance> balanceTable, IEnumerable<long> products)
+		private static bool checkBalance(Database database, IList<Balance> balanceTable, IEnumerable<long> products)
 		{
 			var wrongPositions = balanceTable.Where(p => products.Contains(p.ProductId) && p.Count < 0).ToList();
 			if (wrongPositions.Count > 0)
