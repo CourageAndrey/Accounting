@@ -127,11 +127,23 @@ namespace ComfortIsland
 
 		private void deleteDocumentsClick(object sender, RoutedEventArgs e)
 		{
-			var balanceTable = database.Balance.Select(b => new Balance(b)).ToList();
-			if (Document.TryDelete(database, documentsGrid.SelectedItems.OfType<Document>().ToList(), balanceTable))
+			var documentsToDelete = documentsGrid.SelectedItems.OfType<Document>().ToList();
+			if (documentsToDelete.Count == 0)
 			{
-				database.Balance = balanceTable;
-				database.Save();
+				MessageBox.Show("Не выбрано ни одного активного документа.", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
+				return;
+			}
+			if (MessageBox.Show(
+				string.Format(CultureInfo.InvariantCulture, "Действительно удалить {0} выбранных документов?", documentsToDelete.Count),
+				"Вопрос",
+				MessageBoxButton.YesNo,
+				MessageBoxImage.Question) != MessageBoxResult.Yes)
+			{
+				return;
+			}
+
+			if (Document.TryDelete(database, documentsToDelete))
+			{
 				documentStateFilterChecked(this, null);
 				reportHeader.Text = string.Empty;
 				reportGrid.ItemsSource = null;

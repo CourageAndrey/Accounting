@@ -137,22 +137,10 @@ namespace ComfortIsland.Database
 
 		#region Workflow
 
-		public static bool TryDelete(Database database, IList<Document> documentsToDelete, IList<Balance> balance)
+		public static bool TryDelete(Database database, IEnumerable<Document> documentsToDelete)
 		{
-			// приготовление к отмене
-			if (documentsToDelete.Count == 0)
-			{
-				MessageBox.Show("Не выбрано ни одного активного документа.", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
-				return false;
-			}
-			if (MessageBox.Show(
-				string.Format(CultureInfo.InvariantCulture, "Действительно удалить {0} выбранных документов?", documentsToDelete.Count),
-				"Вопрос",
-				MessageBoxButton.YesNo,
-				MessageBoxImage.Question) != MessageBoxResult.Yes)
-			{
-				return false;
-			}
+			// создание временной копии таблицы баланса
+			var balance = database.Balance.Select(b => new Balance(b)).ToList();
 
 			// последовательный откат документов
 			var products = new HashSet<long>();
@@ -172,6 +160,8 @@ namespace ComfortIsland.Database
 				{
 					document.State = DocumentState.Deleted;
 				}
+				database.Balance = balance;
+				database.Save();
 				return true;
 			}
 			else
