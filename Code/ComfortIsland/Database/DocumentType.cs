@@ -12,10 +12,10 @@ namespace ComfortIsland.Database
 		ToWarehouse,
 	}
 
-	public delegate IDictionary<long, double> GetBalanceDeltaDelegate(Database database, Document document);
-
 	internal class DocumentTypeImplementation
 	{
+		private delegate IDictionary<long, double> GetBalanceDeltaDelegate(Database database, Document document);
+
 		#region Properties
 
 		public DocumentType Type
@@ -24,8 +24,7 @@ namespace ComfortIsland.Database
 		public string Name
 		{ get; private set; }
 
-		public GetBalanceDeltaDelegate GetBalanceDelta
-		{ get; private set; }
+		private readonly GetBalanceDeltaDelegate getBalanceDelta;
 
 		#endregion
 
@@ -33,7 +32,7 @@ namespace ComfortIsland.Database
 		{
 			Type = type;
 			Name = name;
-			GetBalanceDelta = getBalanceDelta;
+			this.getBalanceDelta = getBalanceDelta;
 		}
 
 		#region List
@@ -101,5 +100,10 @@ namespace ComfortIsland.Database
 		}
 
 		#endregion
+
+		public IDictionary<long, double> GetBalanceDelta(Database database, Document document)
+		{
+			return getBalanceDelta(database, document);
+		}
 	}
 }
