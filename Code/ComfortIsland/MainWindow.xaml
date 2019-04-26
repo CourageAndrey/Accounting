@@ -99,7 +99,6 @@
 						</StackPanel>
 						<DataGrid Name="productsGrid" IsReadOnly="True" AutoGenerateColumns="False" SelectionChanged="selectedProductsChanged">
 							<DataGrid.Columns>
-								<DataGridTextColumn Header="Код" Binding="{Binding Path=Code, Mode=OneTime}" MinWidth="100"/>
 								<DataGridTextColumn Header="Наименование" Binding="{Binding Path=Name, Mode=OneTime}" MinWidth="300"/>
 								<DataGridTextColumn Header="Ед/изм" Binding="{Binding Path=UnitName, Mode=OneTime}" MinWidth="50"/>
 							</DataGrid.Columns>

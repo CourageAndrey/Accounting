@@ -23,7 +23,6 @@ namespace UnitTests
 			var productChild1 = new Product
 			{
 				ID = 1,
-				Code = string.Empty,
 				Name = string.Empty,
 				Unit = unit,
 			};
@@ -31,7 +30,6 @@ namespace UnitTests
 			var productChild2 = new Product
 			{
 				ID = 2,
-				Code = string.Empty,
 				Name = string.Empty,
 				Unit = unit,
 			};
@@ -44,7 +42,6 @@ namespace UnitTests
 					{ productChild1, 1 },
 					{ productChild2, 2 },
 				},
-				Code = string.Empty,
 				Name = string.Empty,
 				Unit = unit,
 			};

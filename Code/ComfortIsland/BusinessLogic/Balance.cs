@@ -12,9 +12,6 @@ namespace ComfortIsland.BusinessLogic
 		public double Count
 		{ get; set; }
 
-		public string ProductCode
-		{ get; private set; }
-
 		public string ProductName
 		{ get; private set; }
 
@@ -32,7 +29,6 @@ namespace ComfortIsland.BusinessLogic
 		{
 			ProductId = other.ProductId;
 			Count = other.Count;
-			ProductCode = other.ProductCode;
 			ProductName = other.ProductName;
 			ProductUnit = other.ProductUnit;
 		}
@@ -52,7 +48,6 @@ namespace ComfortIsland.BusinessLogic
 
 		private void initializeProduct(Product product)
 		{
-			ProductCode = product.Code;
 			ProductName = product.Name;
 			ProductUnit = product.Unit.Name;
 		}

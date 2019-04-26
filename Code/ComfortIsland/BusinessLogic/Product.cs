@@ -12,9 +12,6 @@ namespace ComfortIsland.BusinessLogic
 		public long ID
 		{ get; set; }
 
-		public string Code
-		{ get; set; }
-
 		public string Name
 		{ get; set; }
 
@@ -28,7 +25,7 @@ namespace ComfortIsland.BusinessLogic
 		{ get { return Unit.Name; } }
 
 		public string DisplayMember
-		{ get { return string.Format(CultureInfo.InvariantCulture, "{0} {1} ({2})", Code, Name, UnitName); } }
+		{ get { return string.Format(CultureInfo.InvariantCulture, "{0} ({1})", Name, UnitName); } }
 
 		public Dictionary<Product, double> Children
 		{ get; private set; }
@@ -48,7 +45,6 @@ namespace ComfortIsland.BusinessLogic
 		{
 			this.ID = other.ID;
 			this.Name = other.Name;
-			this.Code = other.Code;
 			this.Unit = other.Unit;
 			this.Children = new Dictionary<Product, double>(other.Children);
 			this.ChildrenToSerialize = other.ChildrenToSerialize.Select(c => new Position(c)).ToList();

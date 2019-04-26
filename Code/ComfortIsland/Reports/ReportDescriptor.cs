@@ -61,12 +61,6 @@ namespace ComfortIsland.Reports
 		{
 			new DataGridTextColumn
 			{
-				Header = "Код",
-				Binding = new Binding { Path = new PropertyPath("ProductCode"), Mode = BindingMode.OneTime },
-				MinWidth = 100,
-			},
-			new DataGridTextColumn
-			{
 				Header = "Товар",
 				Binding = new Binding { Path = new PropertyPath("ProductName"), Mode = BindingMode.OneTime },
 				MinWidth = 300,
@@ -87,12 +81,6 @@ namespace ComfortIsland.Reports
 
 		public static readonly ReportDescriptor Trade = new ReportDescriptor("Товарный отчёт", () => new List<DataGridColumn>
 		{
-			new DataGridTextColumn
-			{
-				Header = "Код",
-				Binding = new Binding { Path = new PropertyPath("ProductCode"), Mode = BindingMode.OneTime },
-				MinWidth = 100,
-			},
 			new DataGridTextColumn
 			{
 				Header = "Товар",

@@ -105,9 +105,6 @@ namespace ComfortIsland.Reports
 		public long ProductId
 		{ get; private set; }
 
-		public string ProductCode
-		{ get; private set; }
-
 		public string ProductName
 		{ get; private set; }
 
@@ -140,7 +137,6 @@ namespace ComfortIsland.Reports
 		public TradeItem(Product product)
 		{
 			ProductId = product.ID;
-			ProductCode = product.Code;
 			ProductName = product.Name;
 			ProductUnit = product.Unit.Name;
 			InitialBalance = Income = Produced = Selled = UsedToProduce = FinalBalance = 0;

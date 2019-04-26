@@ -14,10 +14,6 @@ namespace ComfortIsland.Xml
 		{ get; set; }
 
 		[XmlAttribute]
-		public string Code
-		{ get; set; }
-
-		[XmlAttribute]
 		public string Name
 		{ get; set; }
 
@@ -41,7 +37,6 @@ namespace ComfortIsland.Xml
 		public Product(BusinessLogic.Product product)
 		{
 			ID = product.ID;
-			Code = product.Code;
 			Name = product.Name;
 			UnitID = product.UnitID;
 			Children = product.ChildrenToSerialize.Select(child => new Position(child)).ToList();
@@ -54,7 +49,6 @@ namespace ComfortIsland.Xml
 			return new BusinessLogic.Product
 			{
 				ID = ID,
-				Code = Code,
 				Name = Name,
 				UnitID = UnitID,
 				ChildrenToSerialize = Children.Select(child => child.ConvertToBusinessLogic()).ToList(),
