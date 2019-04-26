@@ -35,7 +35,7 @@ namespace ComfortIsland.BusinessLogic
 		{ get { return DocumentTypeImplementation.AllTypes[Type].Name; } }
 
 		public string StateName
-		{ get { return State.StateToString(); } }
+		{ get { return State.Name; } }
 
 		public Dictionary<Product, double> Positions
 		{ get; private set; }

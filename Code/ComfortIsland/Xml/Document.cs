@@ -31,7 +31,7 @@ namespace ComfortIsland.Xml
 		{ get; set; }
 
 		[XmlAttribute]
-		public BusinessLogic.DocumentState State
+		public DocumentState State
 		{ get; set; }
 
 		[XmlArray("Positions"), XmlArrayItem("Product")]
@@ -54,7 +54,7 @@ namespace ComfortIsland.Xml
 			Number = document.Number;
 			Date = document.Date;
 			Type = document.Type;
-			State = document.State;
+			State = document.State.Enum;
 			Positions = document.PositionsToSerialize.Select(position => new Position(position)).ToList();
 		}
 
@@ -69,7 +69,7 @@ namespace ComfortIsland.Xml
 				Number = Number,
 				Date = Date,
 				Type = Type,
-				State = State,
+				State = BusinessLogic.DocumentState.AllStates[State],
 				PositionsToSerialize = Positions.Select(position => position.ConvertToBusinessLogic()).ToList(),
 			};
 		}

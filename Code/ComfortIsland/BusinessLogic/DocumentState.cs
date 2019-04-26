@@ -1,26 +1,41 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace ComfortIsland.BusinessLogic
 {
-	public enum DocumentState
+	public class DocumentState
 	{
-		Active = 0,
-		Edited = 1,
-		Deleted = 2,
-	}
+		#region Properties
 
-	public static class DocumentStateHelper
-	{
-		public static string StateToString(this DocumentState state)
+		public Xml.DocumentState Enum
+		{ get; }
+
+		public string Name
+		{ get; }
+
+		#endregion
+
+		private DocumentState(Xml.DocumentState enumValue, string name)
 		{
-			return stateNames[state];
+			Enum = enumValue;
+			Name = name;
 		}
 
-		public static readonly IDictionary<DocumentState, string> stateNames = new Dictionary<DocumentState, string>
+		public override string ToString()
 		{
-			{ DocumentState.Active, "действует" },
-			{ DocumentState.Edited, "был изменён" },
-			{ DocumentState.Deleted, "был удалён" },
-		};
+			return Name;
+		}
+
+		#region List
+
+		public static readonly DocumentState Active = new DocumentState(Xml.DocumentState.Active, "действует");
+		public static readonly DocumentState Edited = new DocumentState(Xml.DocumentState.Edited, "был изменён");
+		public static readonly DocumentState Deleted = new DocumentState(Xml.DocumentState.Deleted, "был удалён");
+
+		public static readonly IDictionary<Xml.DocumentState, DocumentState> AllStates = new[] { Active, Edited, Deleted }.ToDictionary(
+			state => state.Enum,
+			state => state);
+
+		#endregion
 	}
 }

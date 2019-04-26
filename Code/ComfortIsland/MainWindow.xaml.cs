@@ -158,6 +158,7 @@ namespace ComfortIsland
 			var originalDocument = documentsGrid.SelectedItems.OfType<Document>().Single();
 			var editedDocument = new Document();
 			editedDocument.Update(originalDocument);
+			editedDocument.State = DocumentState.Active;
 			editedDocument.ID = IdHelper.GenerateNewId(database.Documents);
 			editedDocument.PreviousVersionId = originalDocument.ID;
 			editedDocument.BeforeEdit();
