@@ -164,6 +164,7 @@ namespace ComfortIsland
 			{
 				dialog.ProductsGetter = db => db.Products.Where(p => p.Children.Count > 0);
 			}
+			dialog.Initialize(database);
 			dialog.EditValue = editedDocument;
 			dialog.IgnoreValidation = true;
 			if (dialog.ShowDialog() == true)
@@ -285,6 +286,7 @@ namespace ComfortIsland
 				selectedItem.BeforeEdit();
 				var dialog = new DocumentDialog();
 				dialog.SetReadOnly();
+				dialog.Initialize(database);
 				dialog.EditValue = selectedItem;
 				dialog.ShowDialog();
 			}
