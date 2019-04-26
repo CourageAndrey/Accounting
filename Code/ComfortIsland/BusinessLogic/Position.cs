@@ -1,22 +1,17 @@
 ﻿using System.Linq;
-using System.Xml.Serialization;
 
 namespace ComfortIsland.BusinessLogic
 {
-	[XmlType]
 	public class Position
 	{
 		#region Properties
 
-		[XmlAttribute]
 		public long ID
 		{ get; set; }
 
-		[XmlAttribute]
 		public double Count
 		{ get; set; }
 
-		[XmlIgnore]
 		public Product BoundProduct
 		{ get; private set; }
 

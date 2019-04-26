@@ -4,61 +4,42 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows;
-using System.Xml.Serialization;
 
 using ComfortIsland.Helpers;
 
 namespace ComfortIsland.BusinessLogic
 {
-	[XmlType]
-	public  class Document : IEntity, IEditable<Document>
+	public class Document : IEntity, IEditable<Document>
 	{
 		#region Properties
 
-		[XmlAttribute]
 		public long ID
 		{ get; set; }
 
-		[XmlIgnore]
 		public long? PreviousVersionId
 		{ get; set; }
 
-		[XmlAttribute]
-		private string PreviousVersionIdXml
-		{
-			get { return PreviousVersionId.ToString(); }
-			set { PreviousVersionId = !string.IsNullOrEmpty(value) ? (long?) long.Parse(value) : null; }
-		}
-
-		[XmlAttribute]
 		public string Number
 		{ get; set; }
 
-		[XmlAttribute]
 		public DateTime Date
 		{ get; set; }
 
-		[XmlAttribute]
 		public DocumentType Type
 		{ get; set; }
 
-		[XmlAttribute]
 		public DocumentState State
 		{ get; set; }
 
-		[XmlIgnore]
 		public string TypeName
 		{ get { return DocumentTypeImplementation.AllTypes[Type].Name; } }
 
-		[XmlIgnore]
 		public string StateName
 		{ get { return State.StateToString(); } }
 
-		[XmlIgnore]
 		public Dictionary<Product, double> Positions
 		{ get; private set; }
 
-		[XmlArray("Positions"), XmlArrayItem("Product")]
 		public List<Position> PositionsToSerialize
 		{ get; set; }
 
@@ -161,7 +142,6 @@ namespace ComfortIsland.BusinessLogic
 					document.State = DocumentState.Deleted;
 				}
 				database.Balance = balance;
-				database.Save();
 				return true;
 			}
 			else

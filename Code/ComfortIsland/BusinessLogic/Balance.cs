@@ -1,30 +1,23 @@
 ﻿using System.Linq;
-using System.Xml.Serialization;
 
 namespace ComfortIsland.BusinessLogic
 {
-	[XmlType]
 	public class Balance
 	{
 		#region Properties
 
-		[XmlAttribute("Product")]
 		public long ProductId
 		{ get; set; }
 
-		[XmlAttribute]
 		public double Count
 		{ get; set; }
 
-		[XmlIgnore]
 		public string ProductCode
 		{ get; private set; }
 
-		[XmlIgnore]
 		public string ProductName
 		{ get; private set; }
 
-		[XmlIgnore]
 		public string ProductUnit
 		{ get; private set; }
 

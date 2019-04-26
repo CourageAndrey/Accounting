@@ -1,22 +1,17 @@
 ﻿using System.Text;
-using System.Xml.Serialization;
 
 namespace ComfortIsland.BusinessLogic
 {
-	[XmlType]
 	public class Unit : IEntity, IEditable<Unit>
 	{
 		#region Properties
 
-		[XmlAttribute]
 		public long ID
 		{ get; set; }
 
-		[XmlAttribute]
 		public string Name
 		{ get; set; }
 
-		[XmlAttribute]
 		public string ShortName
 		{ get; set; }
 

@@ -64,6 +64,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Xml\Balance.cs" />
+    <Compile Include="Xml\Database.cs" />
+    <Compile Include="Xml\Document.cs" />
+    <Compile Include="Xml\Position.cs" />
+    <Compile Include="Xml\Product.cs" />
+    <Compile Include="Xml\Unit.cs" />
     <Compile Include="BusinessLogic\DocumentState.cs" />
     <Compile Include="Helpers\AutoCompleteHelper.cs" />
     <Compile Include="Helpers\DateConverter.cs" />

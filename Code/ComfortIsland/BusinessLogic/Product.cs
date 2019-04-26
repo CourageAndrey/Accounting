@@ -2,48 +2,37 @@
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Xml.Serialization;
 
 namespace ComfortIsland.BusinessLogic
 {
-	[XmlType]
 	public class Product : IEntity, IEditable<Product>, IListBoxItem
 	{
 		#region Properties
 
-		[XmlAttribute]
 		public long ID
 		{ get; set; }
 
-		[XmlAttribute]
 		public string Code
 		{ get; set; }
 
-		[XmlAttribute]
 		public string Name
 		{ get; set; }
 
-		[XmlIgnore]
 		public Unit Unit
 		{ get; set; }
 
-		[XmlAttribute]
 		public long UnitID
 		{ get; set; }
 
-		[XmlIgnore]
 		public string UnitName
 		{ get { return Unit.Name; } }
 
-		[XmlIgnore]
 		public string DisplayMember
 		{ get { return string.Format(CultureInfo.InvariantCulture, "{0} {1} ({2})", Code, Name, UnitName); } }
 
-		[XmlIgnore]
 		public Dictionary<Product, double> Children
 		{ get; private set; }
 
-		[XmlArray("Children"), XmlArrayItem("Product")]
 		public List<Position> ChildrenToSerialize
 		{ get; set; }
 

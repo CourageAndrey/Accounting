@@ -32,7 +32,8 @@ namespace ComfortIsland
 		private void formLoaded(object sender, RoutedEventArgs e)
 		{
 			// вычитка базы данных
-			database = Database.TryLoad();
+			var databaseXml = Xml.Database.TryLoad();
+			database = databaseXml.ConvertToBusinessLogic();
 
 			// документы
 			stateColumn.Visibility = checkBoxShowObsoleteDocuments.IsChecked == true ? Visibility.Visible : Visibility.Collapsed;
@@ -144,6 +145,7 @@ namespace ComfortIsland
 
 			if (Document.TryDelete(database, documentsToDelete))
 			{
+				new Xml.Database(database).Save();
 				documentStateFilterChecked(this, null);
 				reportHeader.Text = string.Empty;
 				reportGrid.ItemsSource = null;
@@ -243,7 +245,7 @@ namespace ComfortIsland
 				}
 				database.Documents.Add(editedDocument);
 				database.Balance = balanceTable;
-				database.Save();
+				new Xml.Database(database).Save();
 				documentStateFilterChecked(this, null);
 				reportHeader.Text = string.Empty;
 				reportGrid.ItemsSource = null;
@@ -644,7 +646,7 @@ namespace ComfortIsland
 					{
 						beforeSave(newItem);
 					}
-					database.Save();
+					new Xml.Database(database).Save();
 					if (updateGrid == null)
 					{
 						updateGrid = () =>
@@ -698,7 +700,7 @@ namespace ComfortIsland
 					{
 						copyItem.AfterEdit(database);
 						editItem.Update(copyItem);
-						database.Save();
+						new Xml.Database(database).Save();
 						grid.ItemsSource = null;
 						grid.ItemsSource = table;
 					}
@@ -728,7 +730,7 @@ namespace ComfortIsland
 					{
 						table.Remove(item);
 					}
-					database.Save();
+					new Xml.Database(database).Save();
 					grid.ItemsSource = null;
 					grid.ItemsSource = table;
 				}
