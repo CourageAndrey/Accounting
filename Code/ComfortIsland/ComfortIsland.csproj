@@ -68,6 +68,7 @@
     <Compile Include="Xml\Database.cs" />
     <Compile Include="Xml\Document.cs" />
     <Compile Include="Xml\DocumentState.cs" />
+    <Compile Include="Xml\DocumentType.cs" />
     <Compile Include="Xml\Position.cs" />
     <Compile Include="Xml\Product.cs" />
     <Compile Include="Xml\Unit.cs" />

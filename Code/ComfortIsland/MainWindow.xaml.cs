@@ -46,7 +46,7 @@ namespace ComfortIsland
 			productsGrid.ItemsSource = database.Products;
 			reloadComplexProducts();
 			unitsGrid.ItemsSource = database.Units;
-			documentTypesGrid.ItemsSource = DocumentTypeImplementation.AllTypes.Values;
+			documentTypesGrid.ItemsSource = DocumentType.AllTypes.Values;
 
 			updateButtonsAvailability(productsGrid, buttonEditProduct, buttonDeleteProduct);
 			updateButtonsAvailability(unitsGrid, buttonEditUnit, buttonDeleteUnit);
@@ -439,7 +439,7 @@ namespace ComfortIsland
 		{
 			editItem<Product, ProductDialog>(productsGrid, database.Products, product =>
 			{
-				var documents = database.Documents.Where(d => DocumentTypeImplementation.AllTypes[d.Type].GetBalanceDelta(database, d).Keys.Contains(product.ID)).ToList();
+				var documents = database.Documents.Where(d => d.Type.GetBalanceDelta(database, d).Keys.Contains(product.ID)).ToList();
 				var parentProducts = database.Products.Where(p => p.Children.Keys.Contains(product)).ToList();
 				if (documents.Count == 0 && parentProducts.Count == 0)
 				{
@@ -487,7 +487,7 @@ namespace ComfortIsland
 			deleteItem(productsGrid, database.Products, products =>
 			{
 				var checkIds = products.Select(u => u.ID).ToList();
-				var documents = database.Documents.Where(d => DocumentTypeImplementation.AllTypes[d.Type].GetBalanceDelta(database, d).Keys.Any(id => checkIds.Contains(id))).ToList();
+				var documents = database.Documents.Where(d => d.Type.GetBalanceDelta(database, d).Keys.Any(id => checkIds.Contains(id))).ToList();
 				var parentProducts = database.Products.Where(p => p.Children.Keys.Any(pp => checkIds.Contains(pp.ID))).ToList();
 				if (documents.Count == 0 && parentProducts.Count == 0)
 				{

@@ -32,7 +32,7 @@ namespace ComfortIsland.BusinessLogic
 		{ get; set; }
 
 		public string TypeName
-		{ get { return DocumentTypeImplementation.AllTypes[Type].Name; } }
+		{ get { return Type.Name; } }
 
 		public string StateName
 		{ get { return State.Name; } }
@@ -211,7 +211,7 @@ namespace ComfortIsland.BusinessLogic
 
 		private IDictionary<long, double> getBalanceDelta(Database database)
 		{
-			return DocumentTypeImplementation.AllTypes[Type].GetBalanceDelta(database, this);
+			return Type.GetBalanceDelta(database, this);
 		}
 
 		public bool CheckBalance(Database database, IList<Balance> balanceTable, string operationNoun, string operationVerb)

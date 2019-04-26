@@ -27,7 +27,7 @@ namespace ComfortIsland.Xml
 		{ get; set; }
 
 		[XmlAttribute]
-		public BusinessLogic.DocumentType Type
+		public DocumentType Type
 		{ get; set; }
 
 		[XmlAttribute]
@@ -53,7 +53,7 @@ namespace ComfortIsland.Xml
 			PreviousVersionId = document.PreviousVersionId.ToString();
 			Number = document.Number;
 			Date = document.Date;
-			Type = document.Type;
+			Type = document.Type.Enum;
 			State = document.State.Enum;
 			Positions = document.PositionsToSerialize.Select(position => new Position(position)).ToList();
 		}
@@ -68,7 +68,7 @@ namespace ComfortIsland.Xml
 				PreviousVersionId = !string.IsNullOrEmpty(PreviousVersionId) ? (long?) long.Parse(PreviousVersionId) : null,
 				Number = Number,
 				Date = Date,
-				Type = Type,
+				Type = BusinessLogic.DocumentType.AllTypes[Type],
 				State = BusinessLogic.DocumentState.AllStates[State],
 				PositionsToSerialize = Positions.Select(position => position.ConvertToBusinessLogic()).ToList(),
 			};

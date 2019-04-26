@@ -52,21 +52,21 @@ namespace ComfortIsland.Reports
 			foreach (var document in activeDocuments.Where(d => d.Date <= ToDate && d.Date >= FromDate))
 			{
 				document.Rollback(database, balanceList);
-				switch (document.Type)
+				switch (document.Type.Enum)
 				{
-					case DocumentType.Income:
+					case Xml.DocumentType.Income:
 						foreach (var position in document.Positions)
 						{
 							items[position.Key.ID].Income += position.Value;
 						}
 						break;
-					case DocumentType.Outcome:
+					case Xml.DocumentType.Outcome:
 						foreach (var position in document.Positions)
 						{
 							items[position.Key.ID].Selled += position.Value;
 						}
 						break;
-					case DocumentType.Produce:
+					case Xml.DocumentType.Produce:
 						foreach (var position in document.Positions)
 						{
 							var product = position.Key;
@@ -77,7 +77,7 @@ namespace ComfortIsland.Reports
 							}
 						}
 						break;
-					case DocumentType.ToWarehouse:
+					case Xml.DocumentType.ToWarehouse:
 						foreach (var position in document.Positions)
 						{
 							items[position.Key.ID].SentToWarehouse += position.Value;

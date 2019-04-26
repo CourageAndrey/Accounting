@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
 
-using ComfortIsland.BusinessLogic;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests
@@ -13,8 +11,8 @@ namespace UnitTests
 		[TestMethod]
 		public void DocumentType()
 		{
-			var values = Enum.GetValues(typeof(DocumentType)).OfType<DocumentType>().ToList();
-			Assert.IsTrue(values.SequenceEqual(DocumentTypeImplementation.AllTypes.Keys));
+			var values = Enum.GetValues(typeof(ComfortIsland.Xml.DocumentType)).OfType<ComfortIsland.Xml.DocumentType>().ToList();
+			Assert.IsTrue(values.SequenceEqual(ComfortIsland.BusinessLogic.DocumentType.AllTypes.Keys));
 		}
 	}
 }

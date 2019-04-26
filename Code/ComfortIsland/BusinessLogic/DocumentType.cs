@@ -1,66 +1,46 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace ComfortIsland.BusinessLogic
 {
-	public enum DocumentType
-	{
-		Income,
-		Outcome,
-		Produce,
-		ToWarehouse,
-	}
-
-	internal class DocumentTypeImplementation
+	public class DocumentType
 	{
 		private delegate IDictionary<long, double> GetBalanceDeltaDelegate(Database database, Document document);
 
 		#region Properties
 
-		public DocumentType Type
-		{ get; private set; }
+		public Xml.DocumentType Enum
+		{ get; }
 
 		public string Name
-		{ get; private set; }
+		{ get; }
 
 		private readonly GetBalanceDeltaDelegate getBalanceDelta;
 
 		#endregion
 
-		private DocumentTypeImplementation(DocumentType type, string name, GetBalanceDeltaDelegate getBalanceDelta)
+		private DocumentType(Xml.DocumentType enumValue, string name, GetBalanceDeltaDelegate getBalanceDelta)
 		{
-			Type = type;
+			Enum = enumValue;
 			Name = name;
 			this.getBalanceDelta = getBalanceDelta;
 		}
 
+		public override string ToString()
+		{
+			return Name;
+		}
+
 		#region List
 
-		public static readonly DocumentTypeImplementation Income;
+		public static readonly DocumentType Income = new DocumentType(Xml.DocumentType.Income, "приход", getBalanceDeltaIncome);
+		public static readonly DocumentType Outcome = new DocumentType(Xml.DocumentType.Outcome, "продажа", getBalanceDeltaOutcome);
+		public static readonly DocumentType Produce = new DocumentType(Xml.DocumentType.Produce, "производство", getBalanceDeltaProduce);
+		public static readonly DocumentType ToWarehouse = new DocumentType(Xml.DocumentType.ToWarehouse, "перемещение на склад", getBalanceDeltaOutcome);
 
-		public static readonly DocumentTypeImplementation Outcome;
-
-		public static readonly DocumentTypeImplementation Produce;
-
-		public static readonly DocumentTypeImplementation ToWarehouse;
-
-		public static readonly IDictionary<DocumentType, DocumentTypeImplementation> AllTypes;
-
-		static DocumentTypeImplementation()
-		{
-			Income = new DocumentTypeImplementation(DocumentType.Income, "приход", getBalanceDeltaIncome);
-			Outcome = new DocumentTypeImplementation(DocumentType.Outcome, "продажа", getBalanceDeltaOutcome);
-			Produce = new DocumentTypeImplementation(DocumentType.Produce, "производство", getBalanceDeltaProduce);
-			ToWarehouse = new DocumentTypeImplementation(DocumentType.ToWarehouse, "перемещение на склад", getBalanceDeltaOutcome);
-			AllTypes = new ReadOnlyDictionary<DocumentType, DocumentTypeImplementation>(new Dictionary<DocumentType, DocumentTypeImplementation>
-			{
-				{ DocumentType.Income, Income },
-				{ DocumentType.Outcome, Outcome },
-				{ DocumentType.Produce, Produce },
-				{ DocumentType.ToWarehouse, ToWarehouse },
-			});
-		}
+		public static readonly IDictionary<Xml.DocumentType, DocumentType> AllTypes = new[] { Income, Outcome, Produce, ToWarehouse }.ToDictionary(
+			type => type.Enum,
+			type => type);
 
 		#endregion
 
