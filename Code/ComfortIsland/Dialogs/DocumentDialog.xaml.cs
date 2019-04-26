@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-using ComfortIsland.Database;
+using ComfortIsland.BusinessLogic;
 using ComfortIsland.Helpers;
 
 namespace ComfortIsland.Dialogs
@@ -23,9 +23,9 @@ namespace ComfortIsland.Dialogs
 			set { contextControl.DataContext = value; }
 		}
 
-		private Database.Database database;
+		private Database database;
 
-		public void Initialize(Database.Database database)
+		public void Initialize(Database database)
 		{
 			this.database = database;
 			comboBoxProducts.ItemsSource = ProductsGetter != null
@@ -33,7 +33,7 @@ namespace ComfortIsland.Dialogs
 				: database.Products;
 		}
 
-		public Func<Database.Database, IEnumerable<Product>> ProductsGetter
+		public Func<Database, IEnumerable<Product>> ProductsGetter
 		{ get; set; }
 
 		public bool IgnoreValidation

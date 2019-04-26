@@ -4,7 +4,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace ComfortIsland.Database
+namespace ComfortIsland.BusinessLogic
 {
 	[XmlType, XmlRoot]
 	public class Database

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ComfortIsland.Database
+namespace ComfortIsland.BusinessLogic
 {
 	public enum DocumentState
 	{

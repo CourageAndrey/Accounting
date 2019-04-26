@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 
-using ComfortIsland.Database;
+using ComfortIsland.BusinessLogic;
 using ComfortIsland.Helpers;
 
 namespace ComfortIsland.Dialogs
@@ -20,7 +20,7 @@ namespace ComfortIsland.Dialogs
 			set { productsList.SelectedItem = value; }
 		}
 
-		public void Initialize(Database.Database database)
+		public void Initialize(Database database)
 		{
 			productsList.ItemsSource = database.Products;
 		}

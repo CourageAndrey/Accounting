@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows;
 
+using ComfortIsland.BusinessLogic;
+
 namespace ComfortIsland.Dialogs
 {
 	public partial class SelectPeriodDialog : IEditDialog<Tuple<DateTime, DateTime>>
@@ -20,7 +22,7 @@ namespace ComfortIsland.Dialogs
 			}
 		}
 
-		public void Initialize(Database.Database database)
+		public void Initialize(Database database)
 		{ }
 
 		private void okClick(object sender, RoutedEventArgs e)

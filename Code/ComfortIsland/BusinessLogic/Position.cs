@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Xml.Serialization;
 
-namespace ComfortIsland.Database
+namespace ComfortIsland.BusinessLogic
 {
 	[XmlType]
 	public class Position

@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 
 using ComfortIsland.Helpers;
 
-namespace ComfortIsland.Database
+namespace ComfortIsland.BusinessLogic
 {
 	[XmlType]
 	public  class Document : IEntity, IEditable<Document>

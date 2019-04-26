@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Windows;
 
-using ComfortIsland.Database;
+using ComfortIsland.BusinessLogic;
 
 namespace ComfortIsland.Dialogs
 {
@@ -18,9 +18,9 @@ namespace ComfortIsland.Dialogs
 			set { contextControl.DataContext = value; }
 		}
 
-		private Database.Database database;
+		private Database database;
 
-		public void Initialize(Database.Database database)
+		public void Initialize(Database database)
 		{
 			this.database = database;
 		}

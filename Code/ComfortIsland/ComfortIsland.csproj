@@ -64,7 +64,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Database\DocumentState.cs" />
+    <Compile Include="BusinessLogic\DocumentState.cs" />
     <Compile Include="Helpers\AutoCompleteHelper.cs" />
     <Compile Include="Helpers\DateConverter.cs" />
     <Compile Include="Dialogs\SelectProductDialog.xaml.cs">
@@ -116,14 +116,14 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Database\Balance.cs" />
-    <Compile Include="Database\Database.cs" />
-    <Compile Include="Database\Document.cs" />
-    <Compile Include="Database\DocumentType.cs" />
+    <Compile Include="BusinessLogic\Balance.cs" />
+    <Compile Include="BusinessLogic\Database.cs" />
+    <Compile Include="BusinessLogic\Document.cs" />
+    <Compile Include="BusinessLogic\DocumentType.cs" />
     <Compile Include="Interfaces.cs" />
-    <Compile Include="Database\Position.cs" />
-    <Compile Include="Database\Product.cs" />
-    <Compile Include="Database\Unit.cs" />
+    <Compile Include="BusinessLogic\Position.cs" />
+    <Compile Include="BusinessLogic\Product.cs" />
+    <Compile Include="BusinessLogic\Unit.cs" />
     <Compile Include="Dialogs\DocumentDialog.xaml.cs">
       <DependentUpon>DocumentDialog.xaml</DependentUpon>
     </Compile>

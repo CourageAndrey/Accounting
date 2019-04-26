@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-using ComfortIsland.Database;
+using ComfortIsland.BusinessLogic;
 using ComfortIsland.Dialogs;
 using ComfortIsland.Helpers;
 using ComfortIsland.Reports;
@@ -27,12 +27,12 @@ namespace ComfortIsland
 			InitializeComponent();
 		}
 
-		private Database.Database database;
+		private Database database;
 
 		private void formLoaded(object sender, RoutedEventArgs e)
 		{
 			// вычитка базы данных
-			database = Database.Database.TryLoad();
+			database = Database.TryLoad();
 
 			// документы
 			stateColumn.Visibility = checkBoxShowObsoleteDocuments.IsChecked == true ? Visibility.Visible : Visibility.Collapsed;

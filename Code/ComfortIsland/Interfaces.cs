@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Text;
 
+using ComfortIsland.BusinessLogic;
 using ComfortIsland.Reports;
 
 namespace ComfortIsland
@@ -14,22 +15,22 @@ namespace ComfortIsland
 	{
 		void Update(T other);
 
-		bool Validate(Database.Database database, out StringBuilder errors);
+		bool Validate(Database database, out StringBuilder errors);
 
 		void BeforeSerialization();
 
-		void AfterDeserialization(Database.Database database);
+		void AfterDeserialization(Database database);
 
 		void BeforeEdit();
 
-		void AfterEdit(Database.Database database);
+		void AfterEdit(Database database);
 	}
 
 	public interface IEditDialog<T>
 	{
 		T EditValue { get; set; }
 
-		void Initialize(Database.Database database);
+		void Initialize(Database database);
 	}
 
 	public interface IReport

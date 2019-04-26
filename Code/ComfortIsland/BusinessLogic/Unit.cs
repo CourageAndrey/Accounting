@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Xml.Serialization;
 
-namespace ComfortIsland.Database
+namespace ComfortIsland.BusinessLogic
 {
 	[XmlType]
 	public class Unit : IEntity, IEditable<Unit>

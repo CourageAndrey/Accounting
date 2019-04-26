@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
-using ComfortIsland.Database;
+using ComfortIsland.BusinessLogic;
 
 namespace ComfortIsland.Reports
 {
@@ -31,7 +31,7 @@ namespace ComfortIsland.Reports
 
 		#endregion
 
-		public TradeReport(Database.Database database, DateTime fromDate, DateTime toDate)
+		public TradeReport(Database database, DateTime fromDate, DateTime toDate)
 		{
 			FromDate = fromDate.Date;
 			ToDate = toDate.Date.AddDays(1).AddMilliseconds(-1);

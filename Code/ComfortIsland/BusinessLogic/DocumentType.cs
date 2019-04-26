@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace ComfortIsland.Database
+namespace ComfortIsland.BusinessLogic
 {
 	public enum DocumentType
 	{

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-using ComfortIsland.Database;
+using ComfortIsland.BusinessLogic;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

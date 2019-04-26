@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
+using ComfortIsland.BusinessLogic;
 using ComfortIsland.Dialogs;
 using ComfortIsland.Helpers;
 
@@ -19,7 +20,7 @@ namespace ComfortIsland.Reports
 		{ get; private set; }
 
 		private readonly Func<IEnumerable<DataGridColumn>> columnsGetter;
-		private delegate bool ReportCreator(Database.Database database, out IReport report);
+		private delegate bool ReportCreator(Database database, out IReport report);
 		private readonly ReportCreator reportCreator;
 
 		#endregion
@@ -49,7 +50,7 @@ namespace ComfortIsland.Reports
 			return columns;
 		}
 
-		public bool CreateReport(Database.Database database, out IReport report)
+		public bool CreateReport(Database database, out IReport report)
 		{
 			return reportCreator(database, out report);
 		}
@@ -155,7 +156,7 @@ namespace ComfortIsland.Reports
 			Trade,
 		});
 
-		private static bool createBalanceReport(Database.Database database, out IReport report)
+		private static bool createBalanceReport(Database database, out IReport report)
 		{
 			var dialog = new SelectDateDialog { EditValue = DateTime.Now };
 			if (dialog.ShowDialog() == true)
@@ -170,7 +171,7 @@ namespace ComfortIsland.Reports
 			}
 		}
 
-		private static bool createTradeReport(Database.Database database, out IReport report)
+		private static bool createTradeReport(Database database, out IReport report)
 		{
 			var dialog = new SelectPeriodDialog { EditValue = new Tuple<DateTime, DateTime>(DateTime.Now.AddDays(-7), DateTime.Now) };
 			if (dialog.ShowDialog() == true)
