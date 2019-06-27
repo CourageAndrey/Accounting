@@ -17,11 +17,11 @@ namespace ComfortIsland
 
 		bool Validate(Database database, out StringBuilder errors);
 
-		void BeforeSerialization();
+		void BeforeSerialization(Database database);
 
 		void AfterDeserialization(Database database);
 
-		void BeforeEdit();
+		void BeforeEdit(Database database);
 
 		void AfterEdit(Database database);
 	}

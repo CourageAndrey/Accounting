@@ -40,7 +40,7 @@ namespace ComfortIsland.BusinessLogic
 
 		#region [De]Serialization
 
-		public void BeforeSerialization()
+		public void BeforeSerialization(Database database)
 		{ }
 
 		public void AfterDeserialization(Database database)
@@ -48,7 +48,7 @@ namespace ComfortIsland.BusinessLogic
 
 		#endregion
 
-		public void BeforeEdit()
+		public void BeforeEdit(Database database)
 		{ }
 
 		public void AfterEdit(Database database)

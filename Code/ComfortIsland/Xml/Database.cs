@@ -44,11 +44,11 @@ namespace ComfortIsland.Xml
 		{
 			foreach (var product in database.Products)
 			{
-				product.BeforeSerialization();
+				product.BeforeSerialization(database);
 			}
 			foreach (var document in database.Documents)
 			{
-				document.BeforeSerialization();
+				document.BeforeSerialization(database);
 			}
 			Documents = database.Documents.Select(document => new Document(document)).ToList();
 			Balance = database.Balance.Select(balance => new Balance(balance)).ToList();

@@ -26,14 +26,12 @@ namespace UnitTests
 				Name = string.Empty,
 				Unit = unit,
 			};
-			productChild1.BeforeEdit();
 			var productChild2 = new Product
 			{
 				ID = 2,
 				Name = string.Empty,
 				Unit = unit,
 			};
-			productChild2.BeforeEdit();
 			var productParent = new Product
 			{
 				ID = 3,
@@ -45,7 +43,6 @@ namespace UnitTests
 				Name = string.Empty,
 				Unit = unit,
 			};
-			productParent.BeforeEdit();
 			var database = new Database
 			{
 				Units = { unit },
@@ -62,6 +59,9 @@ namespace UnitTests
 					new Position(productParent.ID, 1),
 				},
 			};
+			productChild1.BeforeEdit(database);
+			productChild2.BeforeEdit(database);
+			productParent.BeforeEdit(database);
 
 			// apply documents
 			var income = new Document
@@ -100,9 +100,9 @@ namespace UnitTests
 					{ productParent, 15 },
 				}
 			};
-			income.BeforeEdit();
-			outcome.BeforeEdit();
-			produce.BeforeEdit();
+			income.BeforeEdit(database);
+			outcome.BeforeEdit(database);
+			produce.BeforeEdit(database);
 
 			income.Apply(database, database.Balance);
 			Assert.AreEqual(20, database.Balance.First(b => b.ID == productChild1.ID).Count);

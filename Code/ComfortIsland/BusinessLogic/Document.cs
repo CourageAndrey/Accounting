@@ -90,9 +90,9 @@ namespace ComfortIsland.BusinessLogic
 
 		#region [De]Serialization
 
-		public void BeforeSerialization()
+		public void BeforeSerialization(Database database)
 		{
-			BeforeEdit();
+			BeforeEdit(database);
 		}
 
 		public void AfterDeserialization(Database database)
@@ -102,7 +102,7 @@ namespace ComfortIsland.BusinessLogic
 
 		#endregion
 
-		public void BeforeEdit()
+		public void BeforeEdit(Database database)
 		{
 			PositionsToSerialize = Positions.Select(kvp => new Position(kvp.Key.ID, kvp.Value)).ToList();
 		}

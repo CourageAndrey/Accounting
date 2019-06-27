@@ -161,7 +161,7 @@ namespace ComfortIsland
 			editedDocument.State = DocumentState.Active;
 			editedDocument.ID = IdHelper.GenerateNewId(database.Documents);
 			editedDocument.PreviousVersionId = originalDocument.ID;
-			editedDocument.BeforeEdit();
+			editedDocument.BeforeEdit(database);
 			var dialog = new DocumentDialog();
 			if (originalDocument.Type == DocumentType.Produce)
 			{
@@ -286,7 +286,7 @@ namespace ComfortIsland
 			var selectedItem = documentsGrid.SelectedItems.OfType<Document>().FirstOrDefault();
 			if (selectedItem != null)
 			{
-				selectedItem.BeforeEdit();
+				selectedItem.BeforeEdit(database);
 				var dialog = new DocumentDialog();
 				dialog.SetReadOnly();
 				dialog.Initialize(database);
@@ -420,7 +420,7 @@ namespace ComfortIsland
 			var complexProducts = database.Products.Where(p => p.Children.Count > 0).ToList();
 			foreach (var product in complexProducts)
 			{
-				product.BeforeEdit();
+				product.BeforeEdit(database);
 				foreach (var position in product.ChildrenToSerialize)
 				{
 					position.SetProduct(database);
@@ -687,7 +687,7 @@ namespace ComfortIsland
 				}
 				var copyItem = new ItemT();
 				copyItem.Update(editItem);
-				copyItem.BeforeEdit();
+				copyItem.BeforeEdit(database);
 				var dialog = new DialogT();
 				if (dialogSetup != null)
 				{
