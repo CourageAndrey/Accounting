@@ -121,7 +121,7 @@ namespace ComfortIsland.BusinessLogic
 		public static bool TryDelete(Database database, IEnumerable<Document> documentsToDelete)
 		{
 			// создание временной копии таблицы баланса
-			var balance = database.Balance.Select(b => new Balance(b)).ToList();
+			var balance = database.Balance.Select(b => new Position(b)).ToList();
 
 			// последовательный откат документов
 			var products = new HashSet<long>();
@@ -154,7 +154,7 @@ namespace ComfortIsland.BusinessLogic
 		{
 			foreach (var position in getBalanceDelta(database))
 			{
-				var balance = database.Balance.FirstOrDefault(b => b.ProductId == position.Key);
+				var balance = database.Balance.FirstOrDefault(b => b.ID == position.Key);
 				double count = balance != null ? balance.Count : 0;
 				if ((count + position.Value) < 0)
 				{
@@ -180,30 +180,32 @@ namespace ComfortIsland.BusinessLogic
 			return errors.Length == 0;
 		}
 
-		public IDictionary<long, double> Apply(Database database, IList<Balance> balanceTable)
+		public IDictionary<long, double> Apply(Database database, IList<Position> balanceTable)
 		{
 			var delta = getBalanceDelta(database);
 			foreach (var position in delta)
 			{
-				var balance = balanceTable.FirstOrDefault(b => b.ProductId == position.Key);
+				var balance = balanceTable.FirstOrDefault(b => b.ID == position.Key);
 				if (balance != null)
 				{
 					balance.Count += position.Value;
 				}
 				else
 				{
-					balanceTable.Add(new Balance(database, position.Key, position.Value));
+					var positionObject = new Position(position.Key, position.Value);
+					positionObject.SetProduct(database);
+					balanceTable.Add(positionObject);
 				}
 			}
 			return delta;
 		}
 
-		public IDictionary<long, double> Rollback(Database database, IList<Balance> balanceTable)
+		public IDictionary<long, double> Rollback(Database database, IList<Position> balanceTable)
 		{
 			var delta = getBalanceDelta(database);
 			foreach (var position in delta)
 			{
-				var balance = balanceTable.First(b => b.ProductId == position.Key);
+				var balance = balanceTable.First(b => b.ID == position.Key);
 				balance.Count -= position.Value;
 			}
 			return delta;
@@ -214,21 +216,21 @@ namespace ComfortIsland.BusinessLogic
 			return Type.GetBalanceDelta(database, this);
 		}
 
-		public bool CheckBalance(Database database, IList<Balance> balanceTable, string operationNoun, string operationVerb)
+		public bool CheckBalance(Database database, IList<Position> balanceTable, string operationNoun, string operationVerb)
 		{
 			return checkBalance(database, balanceTable, getBalanceDelta(database).Keys);
 		}
 
-		private static bool checkBalance(Database database, IList<Balance> balanceTable, IEnumerable<long> products)
+		private static bool checkBalance(Database database, IList<Position> balanceTable, IEnumerable<long> products)
 		{
-			var wrongPositions = balanceTable.Where(p => products.Contains(p.ProductId) && p.Count < 0).ToList();
+			var wrongPositions = balanceTable.Where(p => products.Contains(p.ID) && p.Count < 0).ToList();
 			if (wrongPositions.Count > 0)
 			{
 				var text = new StringBuilder("При выполнении данной операции остатки следующих товаров принимают отрицательные значения:");
 				text.AppendLine();
 				foreach (var position in wrongPositions)
 				{
-					var product = database.Products.First(p => p.ID == position.ProductId);
+					var product = database.Products.First(p => p.ID == position.ID);
 					text.AppendLine(string.Format(" * {0} = {1}", product.DisplayMember, DigitRoundingConverter.Simplify(position.Count)));
 				}
 				MessageBox.Show(text.ToString(), "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);

@@ -89,7 +89,7 @@ namespace ComfortIsland
 				var balance = database.Balance;
 				var getBalance = new Func<Product, double>(p =>
 				{
-					var b = balance.FirstOrDefault(bb => bb.ProductId == p.ID);
+					var b = balance.FirstOrDefault(bb => bb.ID == p.ID);
 					return b != null ? b.Count : 0;
 				});
 
@@ -173,7 +173,7 @@ namespace ComfortIsland
 			if (dialog.ShowDialog() == true)
 			{
 				editedDocument.AfterEdit(database);
-				var balanceTable = database.Balance.Select(b => new Balance(b)).ToList();
+				var balanceTable = database.Balance.Select(b => new Position(b)).ToList();
 				var documentsToApplyAgain = new Stack<Document>();
 
 				// последовательный откат документов

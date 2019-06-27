@@ -87,7 +87,7 @@ namespace ComfortIsland.Xml
 			}
 			foreach (var balance in database.Balance)
 			{
-				balance.AfterDeserialization(database);
+				balance.SetProduct(database);
 			}
 			foreach (var document in database.Documents)
 			{

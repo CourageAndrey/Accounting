@@ -22,7 +22,7 @@ namespace ComfortIsland.Reports
 		public DateTime Date
 		{ get; private set; }
 
-		public IEnumerable<Balance> BalanceItems
+		public IEnumerable<Position> BalanceItems
 		{ get; private set; }
 
 		#endregion
@@ -30,7 +30,7 @@ namespace ComfortIsland.Reports
 		public BalanceReport(Database database, DateTime date, bool showAllProducts)
 		{
 			Date = date.Date.AddDays(1).AddMilliseconds(-1);
-			var balanceList = database.Balance.Select(b => new Balance(b)).ToList();
+			var balanceList = database.Balance.Select(b => new Position(b)).ToList();
 			var activeDocuments = database.Documents.Where(d => d.State == DocumentState.Active).OrderByDescending(d => d.Date).ToList();
 
 			foreach (var document in activeDocuments.Where(d => d.Date > Date))
@@ -41,12 +41,17 @@ namespace ComfortIsland.Reports
 			var products = database.Products.ToDictionary(product => product.ID, product => (double?) null);
 			foreach (var balance in balanceList)
 			{
-				products[balance.ProductId] = balance.Count;
+				products[balance.ID] = balance.Count;
 			}
 
 			BalanceItems = products
 				.Where(item => showAllProducts || item.Value > 0)
-				.Select(item => new Balance(database, item.Key, item.Value.HasValue ? item.Value.Value : 0))
+				.Select(item =>
+				{
+					var position = new Position(item.Key, item.Value.HasValue ? item.Value.Value : 0);
+					position.SetProduct(database);
+					return position;
+				})
 				.ToList();
 		}
 	}

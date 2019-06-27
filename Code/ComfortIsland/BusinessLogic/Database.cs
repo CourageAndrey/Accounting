@@ -9,7 +9,7 @@ namespace ComfortIsland.BusinessLogic
 		public List<Document> Documents
 		{ get; set; }
 
-		public List<Balance> Balance
+		public List<Position> Balance
 		{ get; set; }
 
 		public List<Product> Products
@@ -23,7 +23,7 @@ namespace ComfortIsland.BusinessLogic
 		public Database()
 		{
 			Documents = new List<Document>();
-			Balance = new List<Balance>();
+			Balance = new List<Position>();
 			Products = new List<Product>();
 			Units = new List<Unit>();
 		}

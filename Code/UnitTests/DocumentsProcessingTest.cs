@@ -57,9 +57,9 @@ namespace UnitTests
 				},
 				Balance =
 				{
-					new Balance(productChild1, 10),
-					new Balance(productChild2, 20),
-					new Balance(productParent, 1),
+					new Position(productChild1.ID, 10),
+					new Position(productChild2.ID, 20),
+					new Position(productParent.ID, 1),
 				},
 			};
 
@@ -105,34 +105,34 @@ namespace UnitTests
 			produce.BeforeEdit();
 
 			income.Apply(database, database.Balance);
-			Assert.AreEqual(20, database.Balance.First(b => b.ProductId == productChild1.ID).Count);
-			Assert.AreEqual(40, database.Balance.First(b => b.ProductId == productChild2.ID).Count);
-			Assert.AreEqual(1, database.Balance.First(b => b.ProductId == productParent.ID).Count);
+			Assert.AreEqual(20, database.Balance.First(b => b.ID == productChild1.ID).Count);
+			Assert.AreEqual(40, database.Balance.First(b => b.ID == productChild2.ID).Count);
+			Assert.AreEqual(1, database.Balance.First(b => b.ID == productParent.ID).Count);
 
 			produce.Apply(database, database.Balance);
-			Assert.AreEqual(5, database.Balance.First(b => b.ProductId == productChild1.ID).Count);
-			Assert.AreEqual(10, database.Balance.First(b => b.ProductId == productChild2.ID).Count);
-			Assert.AreEqual(16, database.Balance.First(b => b.ProductId == productParent.ID).Count);
+			Assert.AreEqual(5, database.Balance.First(b => b.ID == productChild1.ID).Count);
+			Assert.AreEqual(10, database.Balance.First(b => b.ID == productChild2.ID).Count);
+			Assert.AreEqual(16, database.Balance.First(b => b.ID == productParent.ID).Count);
 
 			outcome.Apply(database, database.Balance);
-			Assert.AreEqual(0, database.Balance.First(b => b.ProductId == productChild1.ID).Count);
-			Assert.AreEqual(0, database.Balance.First(b => b.ProductId == productChild2.ID).Count);
-			Assert.AreEqual(15, database.Balance.First(b => b.ProductId == productParent.ID).Count);
+			Assert.AreEqual(0, database.Balance.First(b => b.ID == productChild1.ID).Count);
+			Assert.AreEqual(0, database.Balance.First(b => b.ID == productChild2.ID).Count);
+			Assert.AreEqual(15, database.Balance.First(b => b.ID == productParent.ID).Count);
 
 			outcome.Rollback(database, database.Balance);
-			Assert.AreEqual(5, database.Balance.First(b => b.ProductId == productChild1.ID).Count);
-			Assert.AreEqual(10, database.Balance.First(b => b.ProductId == productChild2.ID).Count);
-			Assert.AreEqual(16, database.Balance.First(b => b.ProductId == productParent.ID).Count);
+			Assert.AreEqual(5, database.Balance.First(b => b.ID == productChild1.ID).Count);
+			Assert.AreEqual(10, database.Balance.First(b => b.ID == productChild2.ID).Count);
+			Assert.AreEqual(16, database.Balance.First(b => b.ID == productParent.ID).Count);
 
 			produce.Rollback(database, database.Balance);
-			Assert.AreEqual(20, database.Balance.First(b => b.ProductId == productChild1.ID).Count);
-			Assert.AreEqual(40, database.Balance.First(b => b.ProductId == productChild2.ID).Count);
-			Assert.AreEqual(1, database.Balance.First(b => b.ProductId == productParent.ID).Count);
+			Assert.AreEqual(20, database.Balance.First(b => b.ID == productChild1.ID).Count);
+			Assert.AreEqual(40, database.Balance.First(b => b.ID == productChild2.ID).Count);
+			Assert.AreEqual(1, database.Balance.First(b => b.ID == productParent.ID).Count);
 
 			income.Rollback(database, database.Balance);
-			Assert.AreEqual(10, database.Balance.First(b => b.ProductId == productChild1.ID).Count);
-			Assert.AreEqual(20, database.Balance.First(b => b.ProductId == productChild2.ID).Count);
-			Assert.AreEqual(1, database.Balance.First(b => b.ProductId == productParent.ID).Count);
+			Assert.AreEqual(10, database.Balance.First(b => b.ID == productChild1.ID).Count);
+			Assert.AreEqual(20, database.Balance.First(b => b.ID == productChild2.ID).Count);
+			Assert.AreEqual(1, database.Balance.First(b => b.ID == productParent.ID).Count);
 		}
 	}
 }

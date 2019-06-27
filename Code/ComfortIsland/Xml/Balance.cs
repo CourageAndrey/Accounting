@@ -22,19 +22,19 @@ namespace ComfortIsland.Xml
 		public Balance()
 		{ }
 
-		public Balance(BusinessLogic.Balance balance)
+		public Balance(BusinessLogic.Position balance)
 		{
-			Product = balance.ProductId;
+			Product = balance.ID;
 			Count = balance.Count;
 		}
 
 		#endregion
 
-		public BusinessLogic.Balance ConvertToBusinessLogic()
+		public BusinessLogic.Position ConvertToBusinessLogic()
 		{
-			return new BusinessLogic.Balance
+			return new BusinessLogic.Position
 			{
-				ProductId = Product,
+				ID = Product,
 				Count = Count,
 			};
 		}
