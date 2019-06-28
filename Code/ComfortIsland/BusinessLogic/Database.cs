@@ -6,26 +6,42 @@ namespace ComfortIsland.BusinessLogic
 	{
 		#region Properties
 
-		public List<Document> Documents
-		{ get; set; }
+		public IDictionary<long, Unit> Units
+		{ get; }
 
-		public List<Position> Balance
-		{ get; set; }
+		public IDictionary<long, Product> Products
+		{ get; }
 
-		public List<Product> Products
-		{ get; set; }
+		public IDictionary<long, double> Balance
+		{ get; }
 
-		public List<Unit> Units
-		{ get; set; }
+		public IDictionary<long, Document> Documents
+		{ get; }
 
 		#endregion
 
+		#region Constructors
+
 		public Database()
+			: this(
+				new Dictionary<long, Unit>(),
+				new Dictionary<long, Product>(),
+				new Dictionary<long, double>(),
+				new Dictionary<long, Document>())
+		{ }
+
+		public Database(
+			IDictionary<long, Unit> units,
+			IDictionary<long, Product> products,
+			IDictionary<long, double> balance,
+			IDictionary<long, Document> documents)
 		{
-			Documents = new List<Document>();
-			Balance = new List<Position>();
-			Products = new List<Product>();
-			Units = new List<Unit>();
+			Units = units;
+			Products = products;
+			Balance = balance;
+			Documents = documents;
 		}
+
+		#endregion
 	}
 }

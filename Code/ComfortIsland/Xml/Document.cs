@@ -60,7 +60,7 @@ namespace ComfortIsland.Xml
 
 		#endregion
 
-		public BusinessLogic.Document ConvertToBusinessLogic(BusinessLogic.Database database)
+		public BusinessLogic.Document ConvertToBusinessLogic()
 		{
 			return new BusinessLogic.Document
 			{
@@ -70,9 +70,6 @@ namespace ComfortIsland.Xml
 				Date = Date,
 				Type = BusinessLogic.DocumentType.AllTypes[Type],
 				State = BusinessLogic.DocumentState.AllStates[State],
-				Positions = Positions.ToDictionary(
-					position => database.Products.First(p => p.ID == position.ID),
-					position => position.Count),
 			};
 		}
 	}

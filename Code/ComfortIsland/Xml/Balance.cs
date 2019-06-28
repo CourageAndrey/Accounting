@@ -22,10 +22,10 @@ namespace ComfortIsland.Xml
 		public Balance()
 		{ }
 
-		public Balance(BusinessLogic.Position balance)
+		public Balance(long product, double count)
 		{
-			Product = balance.ID;
-			Count = balance.Count;
+			Product = product;
+			Count = count;
 		}
 
 		#endregion

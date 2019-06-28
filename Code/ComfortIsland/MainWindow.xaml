@@ -100,7 +100,7 @@
 						<DataGrid Name="productsGrid" IsReadOnly="True" AutoGenerateColumns="False" SelectionChanged="selectedProductsChanged">
 							<DataGrid.Columns>
 								<DataGridTextColumn Header="Наименование" Binding="{Binding Path=Name, Mode=OneTime}" MinWidth="300"/>
-								<DataGridTextColumn Header="Ед/изм" Binding="{Binding Path=UnitName, Mode=OneTime}" MinWidth="50"/>
+								<DataGridTextColumn Header="Ед/изм" Binding="{Binding Path=Unit.Name, Mode=OneTime}" MinWidth="50"/>
 							</DataGrid.Columns>
 						</DataGrid>
 					</DockPanel>

@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-using ComfortIsland.Helpers;
+﻿using ComfortIsland.Helpers;
 
 namespace ComfortIsland.ViewModels
 {
@@ -37,11 +35,12 @@ namespace ComfortIsland.ViewModels
 			BusinessLogic.Unit instance;
 			if (id.HasValue)
 			{
-				instance = database.Units.First(i => i.ID == id.Value);
+				instance = database.Units[id.Value];
 			}
 			else
 			{
-				database.Units.Add(instance = new BusinessLogic.Unit { ID = IdHelper.GenerateNewId(database.Units) });
+				instance = new BusinessLogic.Unit { ID = IdHelper.GenerateNewId(database.Units.Values) };
+				database.Units[instance.ID] = instance;
 			}
 			instance.Name = Name;
 			instance.ShortName = ShortName;

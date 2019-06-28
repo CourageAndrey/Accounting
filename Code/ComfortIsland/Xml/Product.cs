@@ -38,7 +38,7 @@ namespace ComfortIsland.Xml
 		{
 			ID = product.ID;
 			Name = product.Name;
-			UnitID = product.UnitID;
+			UnitID = product.Unit.ID;
 			Children = product.Children.Select(child => new Position(new BusinessLogic.Position(child.Key.ID, child.Value))).ToList();
 		}
 
@@ -50,7 +50,6 @@ namespace ComfortIsland.Xml
 			{
 				ID = ID,
 				Name = Name,
-				UnitID = UnitID,
 			};
 		}
 	}

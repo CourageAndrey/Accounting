@@ -43,9 +43,9 @@ namespace ComfortIsland
 			// отчёты
 			listReports.ItemsSource = ReportDescriptor.All;
 			// справочники
-			productsGrid.ItemsSource = database.Products;
+			productsGrid.ItemsSource = database.Products.Values;
 			reloadComplexProducts();
-			unitsGrid.ItemsSource = database.Units;
+			unitsGrid.ItemsSource = database.Units.Values;
 			documentTypesGrid.ItemsSource = DocumentType.AllTypes.Values;
 
 			updateButtonsAvailability(productsGrid, buttonEditProduct, buttonDeleteProduct);
@@ -70,7 +70,7 @@ namespace ComfortIsland
 		{
 			createDocument(DocumentType.Produce, dialog =>
 			{
-				dialog.ProductsGetter = db => db.Products.Where(p => p.Children.Count > 0);
+				dialog.ProductsGetter = db => db.Products.Values.Where(p => p.Children.Count > 0);
 			});
 		}
 
@@ -89,8 +89,10 @@ namespace ComfortIsland
 				var balance = database.Balance;
 				var getBalance = new Func<Product, double>(p =>
 				{
-					var b = balance.FirstOrDefault(bb => bb.ID == p.ID);
-					return b != null ? b.Count : 0;
+					double count;
+					return balance.TryGetValue(p.ID, out count)
+						? count
+						: 0;
 				});
 
 				var message = new StringBuilder();
@@ -160,7 +162,7 @@ namespace ComfortIsland
 			var dialog = new DocumentDialog();
 			if (instance.Type == DocumentType.Produce)
 			{
-				dialog.ProductsGetter = db => db.Products.Where(p => p.Children.Count > 0);
+				dialog.ProductsGetter = db => db.Products.Values.Where(p => p.Children.Count > 0);
 			}
 			dialog.Initialize(database);
 			dialog.EditValue = viewModel;
@@ -256,7 +258,7 @@ namespace ComfortIsland
 			var sortColumns = documentsGrid.Columns.Select(c => c.SortDirection).ToList();
 
 			documentsGrid.ItemsSource = null;
-			IEnumerable<Document> documents = database.Documents;
+			IEnumerable<Document> documents = database.Documents.Values;
 			if (checkBoxShowObsoleteDocuments.IsChecked != true)
 			{
 				documents = documents.Where(d => d.State == DocumentState.Active);
@@ -354,7 +356,7 @@ namespace ComfortIsland
 
 		private void reloadComplexProducts()
 		{
-			treeViewComplexProducts.ItemsSource = database.Products.Where(p => p.Children.Count > 0).ToList();
+			treeViewComplexProducts.ItemsSource = database.Products.Values.Where(p => p.Children.Count > 0).ToList();
 		}
 
 		private void productAddClick(object sender, RoutedEventArgs e)
@@ -370,7 +372,7 @@ namespace ComfortIsland
 					var instance = viewModel.ConvertToBusinessLogic(database);
 					new Xml.Database(database).Save();
 					productsGrid.ItemsSource = null;
-					productsGrid.ItemsSource = database.Products;
+					productsGrid.ItemsSource = database.Products.Values;
 					productsGrid.SelectedItem = instance;
 				}
 				catch (Exception error)
@@ -409,7 +411,7 @@ namespace ComfortIsland
 						instance = viewModel.ConvertToBusinessLogic(database);
 						new Xml.Database(database).Save();
 						productsGrid.ItemsSource = null;
-						productsGrid.ItemsSource = database.Products;
+						productsGrid.ItemsSource = database.Products.Values;
 						productsGrid.SelectedItem = instance;
 						reloadComplexProducts();
 					}
@@ -441,11 +443,11 @@ namespace ComfortIsland
 			}
 			foreach (var item in selectedItems)
 			{
-				database.Products.Remove(item);
+				database.Products.Remove(item.ID);
 			}
 			new Xml.Database(database).Save();
 			productsGrid.ItemsSource = null;
-			productsGrid.ItemsSource = database.Products;
+			productsGrid.ItemsSource = database.Products.Values;
 			reloadComplexProducts();
 		}
 
@@ -471,7 +473,7 @@ namespace ComfortIsland
 					var instance = viewModel.ConvertToBusinessLogic(database);
 					new Xml.Database(database).Save();
 					unitsGrid.ItemsSource = null;
-					unitsGrid.ItemsSource = database.Units;
+					unitsGrid.ItemsSource = database.Units.Values;
 					unitsGrid.SelectedItem = instance;
 				}
 				catch (Exception error)
@@ -509,7 +511,7 @@ namespace ComfortIsland
 						instance = viewModel.ConvertToBusinessLogic(database);
 						new Xml.Database(database).Save();
 						unitsGrid.ItemsSource = null;
-						unitsGrid.ItemsSource = database.Units;
+						unitsGrid.ItemsSource = database.Units.Values;
 						unitsGrid.SelectedItem = instance;
 					}
 					catch (Exception error)
@@ -540,11 +542,11 @@ namespace ComfortIsland
 			}
 			foreach (var item in selectedItems)
 			{
-				database.Units.Remove(item);
+				database.Units.Remove(item.ID);
 			}
 			new Xml.Database(database).Save();
 			unitsGrid.ItemsSource = null;
-			unitsGrid.ItemsSource = database.Units;
+			unitsGrid.ItemsSource = database.Units.Values;
 		}
 
 		private void selectedUnitsChanged(object sender, SelectionChangedEventArgs e)

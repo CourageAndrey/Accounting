@@ -40,16 +40,17 @@ namespace ComfortIsland.ViewModels
 			BusinessLogic.Product instance;
 			if (id.HasValue)
 			{
-				instance = database.Products.First(i => i.ID == id.Value);
+				instance = database.Products[id.Value];
 			}
 			else
 			{
-				database.Products.Add(instance = new BusinessLogic.Product { ID = IdHelper.GenerateNewId(database.Products) });
+				instance = new BusinessLogic.Product { ID = IdHelper.GenerateNewId(database.Products.Values) };
+				database.Products[instance.ID] = instance;
 			}
 			instance.Name = Name;
 			instance.Unit = Unit;
 			instance.Children = Children.ToDictionary(
-				child => database.Products.First(p => p.ID == child.ID),
+				child => database.Products[child.ID],
 				child => child.Count);
 			return instance;
 		}

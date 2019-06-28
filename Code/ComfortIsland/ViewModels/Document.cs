@@ -44,29 +44,29 @@ namespace ComfortIsland.ViewModels
 
 		public BusinessLogic.Document ConvertToBusinessLogic(BusinessLogic.Database database)
 		{
-			BusinessLogic.Document instance;
-			database.Documents.Add(instance = new BusinessLogic.Document
+			BusinessLogic.Document instance = new BusinessLogic.Document
 			{
-				ID = IdHelper.GenerateNewId(database.Documents),
+				ID = IdHelper.GenerateNewId(database.Documents.Values),
 				Type = type,
 				State = BusinessLogic.DocumentState.Active,
 				PreviousVersionId = id,
-			});
+			};
+			database.Documents[instance.ID] = instance;
 			instance.Number = Number;
 			instance.Date = Date;
 			instance.Positions = Positions.ToDictionary(
-				child => database.Products.First(p => p.ID == child.ID),
-				child => child.Count);
+				position => database.Products[position.ID],
+				position => position.Count);
 			if (id.HasValue)
 			{
-				var previousVersion = database.Documents.First(i => i.ID == id.Value);
-				previousVersion.Rollback(database, database.Balance);
+				var previousVersion = database.Documents[id.Value];
+				previousVersion.Rollback(database);
 				if (previousVersion.State == BusinessLogic.DocumentState.Active)
 				{
 					previousVersion.State = BusinessLogic.DocumentState.Edited;
 				}
 			}
-			instance.Apply(database, database.Balance);
+			instance.Apply(database);
 			return instance;
 		}
 	}

@@ -18,14 +18,8 @@ namespace ComfortIsland.BusinessLogic
 		public Unit Unit
 		{ get; set; }
 
-		public long UnitID
-		{ get; set; }
-
-		public string UnitName
-		{ get { return Unit.Name; } }
-
 		public string DisplayMember
-		{ get { return string.Format(CultureInfo.InvariantCulture, "{0} ({1})", Name, UnitName); } }
+		{ get { return string.Format(CultureInfo.InvariantCulture, "{0} ({1})", Name, Unit.Name); } }
 
 		public Dictionary<Product, double> Children
 		{ get; set; }
@@ -49,7 +43,7 @@ namespace ComfortIsland.BusinessLogic
 				errors.AppendLine("Не выбрана единица измерения.");
 			}
 			var products = database.Products;
-			if (Children.Any(c => products.First(p => p == c.Key).IsOrHasChild(ID)))
+			if (Children.Keys.Any(c => c.IsOrHasChild(ID)))
 			{
 				errors.AppendLine("Товар не может быть частью себя или содержать другие товары, частью которых является.");
 			}
@@ -73,8 +67,8 @@ namespace ComfortIsland.BusinessLogic
 		public StringBuilder FindUsages(Database database)
 		{
 			var message = new StringBuilder();
-			var documents = database.Documents.Where(d => d.Type.GetBalanceDelta(database, d).ContainsKey(ID)).ToList();
-			var parentProducts = database.Products.Where(p => p.Children.ContainsKey(this)).ToList();
+			var documents = database.Documents.Values.Where(d => d.Type.GetBalanceDelta(database, d).ContainsKey(ID)).ToList();
+			var parentProducts = database.Products.Values.Where(p => p.Children.ContainsKey(this)).ToList();
 			if (documents.Count > 0)
 			{
 				message.AppendLine("Данный товар используется в следующих документах:");

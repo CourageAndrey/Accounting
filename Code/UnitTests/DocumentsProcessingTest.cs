@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
 
 using ComfortIsland.BusinessLogic;
 
@@ -44,21 +44,25 @@ namespace UnitTests
 				Unit = unit,
 			};
 			var database = new Database
-			{
-				Units = { unit },
-				Products =
+			(
+				new Dictionary<long, Unit>
 				{
-					productChild1,
-					productChild2,
-					productParent,
+					{ unit.ID, unit },
 				},
-				Balance =
+				new Dictionary<long, Product>
 				{
-					new Position(productChild1.ID, 10),
-					new Position(productChild2.ID, 20),
-					new Position(productParent.ID, 1),
+					{ productChild1.ID, productChild1 },
+					{ productChild2.ID, productChild2 },
+					{ productParent.ID, productParent },
 				},
-			};
+				new Dictionary<long, double>
+				{
+					{ productChild1.ID, 10 },
+					{ productChild2.ID, 20 },
+					{ productParent.ID, 1 },
+				},
+				new Dictionary<long, Document>()
+			);
 
 			// apply documents
 			var income = new Document
@@ -98,35 +102,35 @@ namespace UnitTests
 				}
 			};
 
-			income.Apply(database, database.Balance);
-			Assert.AreEqual(20, database.Balance.First(b => b.ID == productChild1.ID).Count);
-			Assert.AreEqual(40, database.Balance.First(b => b.ID == productChild2.ID).Count);
-			Assert.AreEqual(1, database.Balance.First(b => b.ID == productParent.ID).Count);
+			income.Apply(database);
+			Assert.AreEqual(20, database.Balance[productChild1.ID]);
+			Assert.AreEqual(40, database.Balance[productChild2.ID]);
+			Assert.AreEqual(1, database.Balance[productParent.ID]);
 
-			produce.Apply(database, database.Balance);
-			Assert.AreEqual(5, database.Balance.First(b => b.ID == productChild1.ID).Count);
-			Assert.AreEqual(10, database.Balance.First(b => b.ID == productChild2.ID).Count);
-			Assert.AreEqual(16, database.Balance.First(b => b.ID == productParent.ID).Count);
+			produce.Apply(database);
+			Assert.AreEqual(5, database.Balance[productChild1.ID]);
+			Assert.AreEqual(10, database.Balance[productChild2.ID]);
+			Assert.AreEqual(16, database.Balance[productParent.ID]);
 
-			outcome.Apply(database, database.Balance);
-			Assert.AreEqual(0, database.Balance.First(b => b.ID == productChild1.ID).Count);
-			Assert.AreEqual(0, database.Balance.First(b => b.ID == productChild2.ID).Count);
-			Assert.AreEqual(15, database.Balance.First(b => b.ID == productParent.ID).Count);
+			outcome.Apply(database);
+			Assert.AreEqual(0, database.Balance[productChild1.ID]);
+			Assert.AreEqual(0, database.Balance[productChild2.ID]);
+			Assert.AreEqual(15, database.Balance[productParent.ID]);
 
-			outcome.Rollback(database, database.Balance);
-			Assert.AreEqual(5, database.Balance.First(b => b.ID == productChild1.ID).Count);
-			Assert.AreEqual(10, database.Balance.First(b => b.ID == productChild2.ID).Count);
-			Assert.AreEqual(16, database.Balance.First(b => b.ID == productParent.ID).Count);
+			outcome.Rollback(database);
+			Assert.AreEqual(5, database.Balance[productChild1.ID]);
+			Assert.AreEqual(10, database.Balance[productChild2.ID]);
+			Assert.AreEqual(16, database.Balance[productParent.ID]);
 
-			produce.Rollback(database, database.Balance);
-			Assert.AreEqual(20, database.Balance.First(b => b.ID == productChild1.ID).Count);
-			Assert.AreEqual(40, database.Balance.First(b => b.ID == productChild2.ID).Count);
-			Assert.AreEqual(1, database.Balance.First(b => b.ID == productParent.ID).Count);
+			produce.Rollback(database);
+			Assert.AreEqual(20, database.Balance[productChild1.ID]);
+			Assert.AreEqual(40, database.Balance[productChild2.ID]);
+			Assert.AreEqual(1, database.Balance[productParent.ID]);
 
-			income.Rollback(database, database.Balance);
-			Assert.AreEqual(10, database.Balance.First(b => b.ID == productChild1.ID).Count);
-			Assert.AreEqual(20, database.Balance.First(b => b.ID == productChild2.ID).Count);
-			Assert.AreEqual(1, database.Balance.First(b => b.ID == productParent.ID).Count);
+			income.Rollback(database);
+			Assert.AreEqual(10, database.Balance[productChild1.ID]);
+			Assert.AreEqual(20, database.Balance[productChild2.ID]);
+			Assert.AreEqual(1, database.Balance[productParent.ID]);
 		}
 	}
 }

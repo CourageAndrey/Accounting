@@ -79,13 +79,13 @@ namespace ComfortIsland.BusinessLogic
 		public static bool TryDelete(Database database, IEnumerable<Document> documentsToDelete)
 		{
 			// создание временной копии таблицы баланса
-			var balance = database.Balance.Select(b => new Position(b)).ToList();
+			var balance = database.Balance.Select(b => new Position(b.Key, b.Value)).ToList();
 
 			// последовательный откат документов
 			var products = new HashSet<long>();
 			foreach (var document in documentsToDelete)
 			{
-				foreach (long productId in document.Rollback(database, balance).Keys)
+				foreach (long productId in document.Rollback(database).Keys)
 				{
 					products.Add(productId);
 				}
@@ -99,7 +99,11 @@ namespace ComfortIsland.BusinessLogic
 				{
 					document.State = DocumentState.Deleted;
 				}
-				database.Balance = balance;
+				database.Balance.Clear();
+				foreach (var position in balance)
+				{
+					database.Balance[position.ID] = position.Count;
+				}
 				return true;
 			}
 			else
@@ -112,14 +116,17 @@ namespace ComfortIsland.BusinessLogic
 		{
 			foreach (var position in getBalanceDelta(database))
 			{
-				var balance = database.Balance.FirstOrDefault(b => b.ID == position.Key);
-				double count = balance != null ? balance.Count : 0;
+				double count;
+				if (!database.Balance.TryGetValue(position.Key, out count))
+				{
+					count = 0;
+				}
 				if ((count + position.Value) < 0)
 				{
 					errors.AppendLine(string.Format(
 						CultureInfo.InvariantCulture,
 						"Недостаточно товара \"{0}\". Имеется по факту {1}, требуется {2}.",
-						database.Products.First(p => p.ID == position.Key).DisplayMember,
+						database.Products[position.Key].DisplayMember,
 						count,
 						-position.Value));
 				}
@@ -138,33 +145,34 @@ namespace ComfortIsland.BusinessLogic
 			return errors.Length == 0;
 		}
 
-		public IDictionary<long, double> Apply(Database database, IList<Position> balanceTable)
+		public IDictionary<long, double> Apply(Database database)
 		{
 			var delta = getBalanceDelta(database);
 			foreach (var position in delta)
 			{
-				var balance = balanceTable.FirstOrDefault(b => b.ID == position.Key);
-				if (balance != null)
+				double count;
+				if (!database.Balance.TryGetValue(position.Key, out count))
 				{
-					balance.Count += position.Value;
+					count = 0;
 				}
-				else
-				{
-					var positionObject = new Position(position.Key, position.Value);
-					positionObject.SetProduct(database);
-					balanceTable.Add(positionObject);
-				}
+				count += position.Value;
+				database.Balance[position.Key] = count;
 			}
 			return delta;
 		}
 
-		public IDictionary<long, double> Rollback(Database database, IList<Position> balanceTable)
+		public IDictionary<long, double> Rollback(Database database)
 		{
 			var delta = getBalanceDelta(database);
 			foreach (var position in delta)
 			{
-				var balance = balanceTable.First(b => b.ID == position.Key);
-				balance.Count -= position.Value;
+				double count;
+				if (!database.Balance.TryGetValue(position.Key, out count))
+				{
+					count = 0;
+				}
+				count -= position.Value;
+				database.Balance[position.Key] = count;
 			}
 			return delta;
 		}
@@ -188,7 +196,7 @@ namespace ComfortIsland.BusinessLogic
 				text.AppendLine();
 				foreach (var position in wrongPositions)
 				{
-					var product = database.Products.First(p => p.ID == position.ID);
+					var product = database.Products[position.ID];
 					text.AppendLine(string.Format(" * {0} = {1}", product.DisplayMember, DigitRoundingConverter.Simplify(position.Count)));
 				}
 				MessageBox.Show(text.ToString(), "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);

@@ -30,7 +30,7 @@ namespace ComfortIsland.Dialogs
 			this.database = database;
 			comboBoxProducts.ItemsSource = ProductsGetter != null
 				? ProductsGetter(database)
-				: database.Products;
+				: database.Products.Values;
 		}
 
 		public Func<Database, IEnumerable<Product>> ProductsGetter

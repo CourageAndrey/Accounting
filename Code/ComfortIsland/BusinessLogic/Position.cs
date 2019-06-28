@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace ComfortIsland.BusinessLogic
+﻿namespace ComfortIsland.BusinessLogic
 {
 	public class Position
 	{
@@ -38,7 +36,7 @@ namespace ComfortIsland.BusinessLogic
 
 		internal void SetProduct(Database database)
 		{
-			BoundProduct = database.Products.First(p => p.ID == ID);
+			BoundProduct = database.Products[ID];
 		}
 	}
 }
