@@ -43,9 +43,9 @@ namespace ComfortIsland
 			// отчёты
 			listReports.ItemsSource = ReportDescriptor.All;
 			// справочники
-			productsGrid.ItemsSource = database.Products.Values;
+			productsGrid.ItemsSource = database.Products;
 			reloadComplexProducts();
-			unitsGrid.ItemsSource = database.Units.Values;
+			unitsGrid.ItemsSource = database.Units;
 			documentTypesGrid.ItemsSource = DocumentType.AllTypes.Values;
 
 			updateButtonsAvailability(productsGrid, buttonEditProduct, buttonDeleteProduct);
@@ -70,7 +70,7 @@ namespace ComfortIsland
 		{
 			createDocument(DocumentType.Produce, dialog =>
 			{
-				dialog.ProductsGetter = db => db.Products.Values.Where(p => p.Children.Count > 0);
+				dialog.ProductsGetter = db => db.Products.Where(p => p.Children.Count > 0);
 			});
 		}
 
@@ -162,7 +162,7 @@ namespace ComfortIsland
 			var dialog = new DocumentDialog();
 			if (instance.Type == DocumentType.Produce)
 			{
-				dialog.ProductsGetter = db => db.Products.Values.Where(p => p.Children.Count > 0);
+				dialog.ProductsGetter = db => db.Products.Where(p => p.Children.Count > 0);
 			}
 			dialog.Initialize(database);
 			dialog.EditValue = viewModel;
@@ -258,7 +258,7 @@ namespace ComfortIsland
 			var sortColumns = documentsGrid.Columns.Select(c => c.SortDirection).ToList();
 
 			documentsGrid.ItemsSource = null;
-			IEnumerable<Document> documents = database.Documents.Values;
+			IEnumerable<Document> documents = database.Documents;
 			if (checkBoxShowObsoleteDocuments.IsChecked != true)
 			{
 				documents = documents.Where(d => d.State == DocumentState.Active);
@@ -356,7 +356,7 @@ namespace ComfortIsland
 
 		private void reloadComplexProducts()
 		{
-			treeViewComplexProducts.ItemsSource = database.Products.Values.Where(p => p.Children.Count > 0).ToList();
+			treeViewComplexProducts.ItemsSource = database.Products.Where(p => p.Children.Count > 0).ToList();
 		}
 
 		private void productAddClick(object sender, RoutedEventArgs e)
@@ -372,7 +372,7 @@ namespace ComfortIsland
 					var instance = viewModel.ConvertToBusinessLogic(database);
 					new Xml.Database(database).Save();
 					productsGrid.ItemsSource = null;
-					productsGrid.ItemsSource = database.Products.Values;
+					productsGrid.ItemsSource = database.Products;
 					productsGrid.SelectedItem = instance;
 				}
 				catch (Exception error)
@@ -411,7 +411,7 @@ namespace ComfortIsland
 						instance = viewModel.ConvertToBusinessLogic(database);
 						new Xml.Database(database).Save();
 						productsGrid.ItemsSource = null;
-						productsGrid.ItemsSource = database.Products.Values;
+						productsGrid.ItemsSource = database.Products;
 						productsGrid.SelectedItem = instance;
 						reloadComplexProducts();
 					}
@@ -447,7 +447,7 @@ namespace ComfortIsland
 			}
 			new Xml.Database(database).Save();
 			productsGrid.ItemsSource = null;
-			productsGrid.ItemsSource = database.Products.Values;
+			productsGrid.ItemsSource = database.Products;
 			reloadComplexProducts();
 		}
 
@@ -473,7 +473,7 @@ namespace ComfortIsland
 					var instance = viewModel.ConvertToBusinessLogic(database);
 					new Xml.Database(database).Save();
 					unitsGrid.ItemsSource = null;
-					unitsGrid.ItemsSource = database.Units.Values;
+					unitsGrid.ItemsSource = database.Units;
 					unitsGrid.SelectedItem = instance;
 				}
 				catch (Exception error)
@@ -511,7 +511,7 @@ namespace ComfortIsland
 						instance = viewModel.ConvertToBusinessLogic(database);
 						new Xml.Database(database).Save();
 						unitsGrid.ItemsSource = null;
-						unitsGrid.ItemsSource = database.Units.Values;
+						unitsGrid.ItemsSource = database.Units;
 						unitsGrid.SelectedItem = instance;
 					}
 					catch (Exception error)
@@ -546,7 +546,7 @@ namespace ComfortIsland
 			}
 			new Xml.Database(database).Save();
 			unitsGrid.ItemsSource = null;
-			unitsGrid.ItemsSource = database.Units.Values;
+			unitsGrid.ItemsSource = database.Units;
 		}
 
 		private void selectedUnitsChanged(object sender, SelectionChangedEventArgs e)

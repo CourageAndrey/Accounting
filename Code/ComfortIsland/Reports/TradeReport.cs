@@ -35,9 +35,9 @@ namespace ComfortIsland.Reports
 		{
 			FromDate = fromDate.Date;
 			ToDate = toDate.Date.AddDays(1).AddMilliseconds(-1);
-			var items = database.Products.Values.ToDictionary(p => p.ID, p => new TradeItem(p));
+			var items = database.Products.ToDictionary(p => p.ID, p => new TradeItem(p));
 			var balanceList = database.Balance.Select(b => new Position(b.Key, b.Value)).ToList();
-			var activeDocuments = database.Documents.Values.Where(d => d.State == DocumentState.Active).OrderByDescending(d => d.Date).ToList();
+			var activeDocuments = database.Documents.Where(d => d.State == DocumentState.Active).OrderByDescending(d => d.Date).ToList();
 
 			// открутили остатки на конец периода
 			foreach (var document in activeDocuments.Where(d => d.Date > ToDate))

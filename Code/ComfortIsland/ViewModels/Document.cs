@@ -44,14 +44,13 @@ namespace ComfortIsland.ViewModels
 
 		public BusinessLogic.Document ConvertToBusinessLogic(BusinessLogic.Database database)
 		{
-			BusinessLogic.Document instance = new BusinessLogic.Document
+			BusinessLogic.Document instance;
+			database.Documents.Add(instance = new BusinessLogic.Document
 			{
-				ID = IdHelper.GenerateNewId(database.Documents.Values),
 				Type = type,
 				State = BusinessLogic.DocumentState.Active,
 				PreviousVersionId = id,
-			};
-			database.Documents[instance.ID] = instance;
+			});
 			instance.Number = Number;
 			instance.Date = Date;
 			instance.Positions = Positions.ToDictionary(

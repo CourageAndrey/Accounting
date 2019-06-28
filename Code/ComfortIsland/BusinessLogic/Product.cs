@@ -67,8 +67,8 @@ namespace ComfortIsland.BusinessLogic
 		public StringBuilder FindUsages(Database database)
 		{
 			var message = new StringBuilder();
-			var documents = database.Documents.Values.Where(d => d.Type.GetBalanceDelta(database, d).ContainsKey(ID)).ToList();
-			var parentProducts = database.Products.Values.Where(p => p.Children.ContainsKey(this)).ToList();
+			var documents = database.Documents.Where(d => d.Type.GetBalanceDelta(database, d).ContainsKey(ID)).ToList();
+			var parentProducts = database.Products.Where(p => p.Children.ContainsKey(this)).ToList();
 			if (documents.Count > 0)
 			{
 				message.AppendLine("Данный товар используется в следующих документах:");

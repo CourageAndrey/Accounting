@@ -42,10 +42,10 @@ namespace ComfortIsland.Xml
 
 		public Database(BusinessLogic.Database database)
 		{
-			Documents = database.Documents.Values.Select(document => new Document(document)).ToList();
+			Documents = database.Documents.Select(document => new Document(document)).ToList();
 			Balance = database.Balance.Select(balance => new Balance(balance.Key, balance.Value)).ToList();
-			Products = database.Products.Values.Select(product => new Product(product)).ToList();
-			Units = database.Units.Values.Select(unit => new Unit(unit)).ToList();
+			Products = database.Products.Select(product => new Product(product)).ToList();
+			Units = database.Units.Select(unit => new Unit(unit)).ToList();
 		}
 
 		#endregion
@@ -53,18 +53,12 @@ namespace ComfortIsland.Xml
 		public BusinessLogic.Database ConvertToBusinessLogic()
 		{
 			var database = new BusinessLogic.Database(
-				Units.ToDictionary(
-					unit => unit.ID,
-					unit => unit.ConvertToBusinessLogic()),
-				Products.ToDictionary(
-					product => product.ID,
-					product => product.ConvertToBusinessLogic()),
+				Units.Select(unit => unit.ConvertToBusinessLogic()),
+				Products.Select(product => product.ConvertToBusinessLogic()),
 				Balance.ToDictionary(
 					balance => balance.Product,
 					balance => balance.Count),
-				Documents.ToDictionary(
-					document => document.ID,
-					document => document.ConvertToBusinessLogic()));
+				Documents.Select(document => document.ConvertToBusinessLogic()));
 
 			foreach (var product in Products)
 			{

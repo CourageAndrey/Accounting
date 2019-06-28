@@ -36,7 +36,7 @@ namespace ComfortIsland.BusinessLogic
 		public StringBuilder FindUsages(Database database)
 		{
 			var message = new StringBuilder();
-			var products = database.Products.Values.Where(p => p.Unit == this).ToList();
+			var products = database.Products.Where(p => p.Unit == this).ToList();
 			if (products.Count > 0)
 			{
 				message.AppendLine(string.Format(CultureInfo.InvariantCulture, "Следующие товары имеют единицу измерения \"{0}\":", Name));

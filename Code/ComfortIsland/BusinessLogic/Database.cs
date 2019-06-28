@@ -6,16 +6,16 @@ namespace ComfortIsland.BusinessLogic
 	{
 		#region Properties
 
-		public IDictionary<long, Unit> Units
+		public Warehouse<Unit> Units
 		{ get; }
 
-		public IDictionary<long, Product> Products
+		public Warehouse<Product> Products
 		{ get; }
 
 		public IDictionary<long, double> Balance
 		{ get; }
 
-		public IDictionary<long, Document> Documents
+		public Warehouse<Document> Documents
 		{ get; }
 
 		#endregion
@@ -24,22 +24,22 @@ namespace ComfortIsland.BusinessLogic
 
 		public Database()
 			: this(
-				new Dictionary<long, Unit>(),
-				new Dictionary<long, Product>(),
+				new Warehouse<Unit>(),
+				new Warehouse<Product>(),
 				new Dictionary<long, double>(),
-				new Dictionary<long, Document>())
+				new Warehouse<Document>())
 		{ }
 
 		public Database(
-			IDictionary<long, Unit> units,
-			IDictionary<long, Product> products,
+			IEnumerable<Unit> units,
+			IEnumerable<Product> products,
 			IDictionary<long, double> balance,
-			IDictionary<long, Document> documents)
+			IEnumerable<Document> documents)
 		{
-			Units = units;
-			Products = products;
+			Units = new Warehouse<Unit>(units);
+			Products = new Warehouse<Product>(products);
 			Balance = balance;
-			Documents = documents;
+			Documents = new Warehouse<Document>(documents);
 		}
 
 		#endregion

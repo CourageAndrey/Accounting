@@ -45,15 +45,12 @@ namespace UnitTests
 			};
 			var database = new Database
 			(
-				new Dictionary<long, Unit>
+				new[] { unit },
+				new[]
 				{
-					{ unit.ID, unit },
-				},
-				new Dictionary<long, Product>
-				{
-					{ productChild1.ID, productChild1 },
-					{ productChild2.ID, productChild2 },
-					{ productParent.ID, productParent },
+					productChild1,
+					productChild2,
+					productParent,
 				},
 				new Dictionary<long, double>
 				{
@@ -61,7 +58,7 @@ namespace UnitTests
 					{ productChild2.ID, 20 },
 					{ productParent.ID, 1 },
 				},
-				new Dictionary<long, Document>()
+				new Document[0]
 			);
 
 			// apply documents

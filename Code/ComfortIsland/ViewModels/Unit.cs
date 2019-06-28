@@ -39,8 +39,7 @@ namespace ComfortIsland.ViewModels
 			}
 			else
 			{
-				instance = new BusinessLogic.Unit { ID = IdHelper.GenerateNewId(database.Units.Values) };
-				database.Units[instance.ID] = instance;
+				database.Units.Add(instance = new BusinessLogic.Unit());
 			}
 			instance.Name = Name;
 			instance.ShortName = ShortName;
