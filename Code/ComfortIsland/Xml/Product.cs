@@ -51,7 +51,6 @@ namespace ComfortIsland.Xml
 				ID = ID,
 				Name = Name,
 				UnitID = UnitID,
-				ChildrenToSerialize = Children.Select(child => child.ConvertToBusinessLogic()).ToList(),
 			};
 		}
 	}

@@ -9,7 +9,7 @@ using ComfortIsland.Helpers;
 
 namespace ComfortIsland.BusinessLogic
 {
-	public class Document : IEntity, IEditable<Document>
+	public class Document : IEntity
 	{
 		#region Properties
 
@@ -51,16 +51,6 @@ namespace ComfortIsland.BusinessLogic
 			PositionsToSerialize = new List<Position>();
 		}
 
-		public void Update(Document other)
-		{
-			this.ID = other.ID;
-			this.Number = other.Number;
-			this.Date = other.Date;
-			this.Type = other.Type;
-			this.Positions = new Dictionary<Product, double>(other.Positions);
-			this.PositionsToSerialize = other.PositionsToSerialize.Select(p => new Position(p)).ToList();
-		}
-
 		public bool Validate(Database database, out StringBuilder errors)
 		{
 			errors = new StringBuilder();
@@ -86,34 +76,6 @@ namespace ComfortIsland.BusinessLogic
 				errors.Append("Дублирование позиций в документе");
 			}
 			return isValid;
-		}
-
-		#region [De]Serialization
-
-		public void BeforeSerialization(Database database)
-		{
-			BeforeEdit(database);
-		}
-
-		public void AfterDeserialization(Database database)
-		{
-			AfterEdit(database);
-		}
-
-		#endregion
-
-		public void BeforeEdit(Database database)
-		{
-			PositionsToSerialize = Positions.Select(kvp => new Position(kvp.Key.ID, kvp.Value)).ToList();
-		}
-
-		public void AfterEdit(Database database)
-		{
-			Positions.Clear();
-			foreach (var position in PositionsToSerialize)
-			{
-				Positions[database.Products.First(p => p.ID == position.ID)] = position.Count;
-			}
 		}
 
 		#region Workflow

@@ -224,7 +224,6 @@ namespace ComfortIsland
 			var selectedItem = documentsGrid.SelectedItems.OfType<Document>().FirstOrDefault();
 			if (selectedItem != null)
 			{
-				selectedItem.BeforeEdit(database);
 				var dialog = new DocumentDialog();
 				dialog.SetReadOnly();
 				dialog.Initialize(database);
@@ -358,7 +357,6 @@ namespace ComfortIsland
 			var complexProducts = database.Products.Where(p => p.Children.Count > 0).ToList();
 			foreach (var product in complexProducts)
 			{
-				product.BeforeEdit(database);
 				foreach (var position in product.ChildrenToSerialize)
 				{
 					position.SetProduct(database);

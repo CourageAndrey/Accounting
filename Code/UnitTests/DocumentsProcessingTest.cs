@@ -59,9 +59,6 @@ namespace UnitTests
 					new Position(productParent.ID, 1),
 				},
 			};
-			productChild1.BeforeEdit(database);
-			productChild2.BeforeEdit(database);
-			productParent.BeforeEdit(database);
 
 			// apply documents
 			var income = new Document
@@ -100,9 +97,6 @@ namespace UnitTests
 					{ productParent, 15 },
 				}
 			};
-			income.BeforeEdit(database);
-			outcome.BeforeEdit(database);
-			produce.BeforeEdit(database);
 
 			income.Apply(database, database.Balance);
 			Assert.AreEqual(20, database.Balance.First(b => b.ID == productChild1.ID).Count);

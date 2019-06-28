@@ -11,21 +11,8 @@ namespace ComfortIsland
 		long ID { get; set; }
 
 		StringBuilder FindUsages(Database database);
-	}
-
-	public interface IEditable<in T>
-	{
-		void Update(T other);
 
 		bool Validate(Database database, out StringBuilder errors);
-
-		void BeforeSerialization(Database database);
-
-		void AfterDeserialization(Database database);
-
-		void BeforeEdit(Database database);
-
-		void AfterEdit(Database database);
 	}
 
 	public interface IEditDialog<T>

@@ -1,11 +1,10 @@
 ﻿using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Windows;
 
 namespace ComfortIsland.BusinessLogic
 {
-	public class Unit : IEntity, IEditable<Unit>
+	public class Unit : IEntity
 	{
 		#region Properties
 
@@ -20,13 +19,6 @@ namespace ComfortIsland.BusinessLogic
 
 		#endregion
 
-		public void Update(Unit other)
-		{
-			this.ID = other.ID;
-			this.Name = other.Name;
-			this.ShortName = other.ShortName;
-		}
-
 		public bool Validate(Database database, out StringBuilder errors)
 		{
 			errors = new StringBuilder();
@@ -40,22 +32,6 @@ namespace ComfortIsland.BusinessLogic
 			}
 			return errors.Length == 0;
 		}
-
-		#region [De]Serialization
-
-		public void BeforeSerialization(Database database)
-		{ }
-
-		public void AfterDeserialization(Database database)
-		{ }
-
-		#endregion
-
-		public void BeforeEdit(Database database)
-		{ }
-
-		public void AfterEdit(Database database)
-		{ }
 
 		public StringBuilder FindUsages(Database database)
 		{

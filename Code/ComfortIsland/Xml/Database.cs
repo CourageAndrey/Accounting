@@ -42,14 +42,6 @@ namespace ComfortIsland.Xml
 
 		public Database(BusinessLogic.Database database)
 		{
-			foreach (var product in database.Products)
-			{
-				product.BeforeSerialization(database);
-			}
-			foreach (var document in database.Documents)
-			{
-				document.BeforeSerialization(database);
-			}
 			Documents = database.Documents.Select(document => new Document(document)).ToList();
 			Balance = database.Balance.Select(balance => new Balance(balance)).ToList();
 			Products = database.Products.Select(product => new Product(product)).ToList();
@@ -61,13 +53,20 @@ namespace ComfortIsland.Xml
 		public BusinessLogic.Database ConvertToBusinessLogic()
 		{
 			var database = new BusinessLogic.Database();
+			var productsCache = new Dictionary<Product, BusinessLogic.Product>();
 			foreach (var unit in Units)
 			{
 				database.Units.Add(unit.ConvertToBusinessLogic());
 			}
 			foreach (var product in Products)
 			{
-				database.Products.Add(product.ConvertToBusinessLogic());
+				database.Products.Add(productsCache[product] = product.ConvertToBusinessLogic());
+			}
+			foreach (var product in Products)
+			{
+				productsCache[product].Children = product.Children.ToDictionary(
+					child => database.Products.First(p => p.ID == child.ID),
+					child => child.Count);
 			}
 			foreach (var balance in Balance)
 			{
@@ -77,21 +76,9 @@ namespace ComfortIsland.Xml
 			{
 				database.Documents.Add(document.ConvertToBusinessLogic());
 			}
-			foreach (var unit in database.Units)
-			{
-				unit.AfterDeserialization(database);
-			}
-			foreach (var product in database.Products)
-			{
-				product.AfterDeserialization(database);
-			}
 			foreach (var balance in database.Balance)
 			{
 				balance.SetProduct(database);
-			}
-			foreach (var document in database.Documents)
-			{
-				document.AfterDeserialization(database);
 			}
 			return database;
 		}
