@@ -431,105 +431,93 @@ namespace ComfortIsland
 
 		private void productAddClick(object sender, RoutedEventArgs e)
 		{
-			addItem<Product, ProductDialog>(productsGrid, database.Products);
-			reloadComplexProducts();
+			var viewModel = new ViewModels.Product();
+			var dialog = new ProductDialog();
+			dialog.Initialize(database);
+			dialog.EditValue = viewModel;
+			if (dialog.ShowDialog() == true)
+			{
+				try
+				{
+					var instance = viewModel.ConvertToBusinessLogic(database);
+					new Xml.Database(database).Save();
+					productsGrid.ItemsSource = null;
+					productsGrid.ItemsSource = database.Products;
+					productsGrid.SelectedItem = instance;
+				}
+				catch (Exception error)
+				{
+					MessageBox.Show(error.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
+				reloadComplexProducts();
+			}
 		}
 
 		private void productEditClick(object sender, RoutedEventArgs e)
 		{
-			editItem<Product, ProductDialog>(productsGrid, database.Products, product =>
+			var selectedItems = productsGrid.SelectedItems.OfType<Product>().ToList();
+			if (selectedItems.Count > 0)
 			{
-				var documents = database.Documents.Where(d => d.Type.GetBalanceDelta(database, d).Keys.Contains(product.ID)).ToList();
-				var parentProducts = database.Products.Where(p => p.Children.Keys.Contains(product)).ToList();
-				if (documents.Count == 0 && parentProducts.Count == 0)
-				{
-					return true;
-				}
-				else
-				{
-					var message = new StringBuilder();
-					if (documents.Count > 0)
-					{
-						message.AppendLine("Данный товар используется в следующих документах:");
-						message.AppendLine();
-						foreach (var document in documents)
-						{
-							message.AppendLine(string.Format(CultureInfo.InvariantCulture, "... {0} {1} от {2}",
-								document.TypeName,
-								!string.IsNullOrEmpty(document.Number) ? "\"" + document.Number + "\"" : string.Empty,
-								document.Date.ToShortDateString()));
-						}
-						message.AppendLine();
-					}
-					if (parentProducts.Count > 0)
-					{
-						message.AppendLine("Данный товар используется как составная часть в следующих товарах:");
-						message.AppendLine();
-						foreach (var parent in parentProducts)
-						{
-							message.AppendLine(string.Format(CultureInfo.InvariantCulture, "... {0}", parent.DisplayMember));
-						}
-						message.AppendLine();
-					}
-					message.AppendLine("После изменения выбранного товара все они будут содержать новую исправленную версию. Продолжить редактирование?");
-					return MessageBox.Show(
+				var instance = selectedItems[0];
+
+				var message = instance.FindUsages(database);
+				if (message.Length > 0 && MessageBox.Show(
 						message.ToString(),
-						"Внимание",
+						"Редактирование приведёт к дополнительным изменениям. Продолжить?",
 						MessageBoxButton.YesNo,
-						MessageBoxImage.Question) == MessageBoxResult.Yes;
+						MessageBoxImage.Question) != MessageBoxResult.Yes)
+				{
+					return;
 				}
-			});
-			reloadComplexProducts();
+
+				var viewModel = new ViewModels.Product(instance);
+				var dialog = new ProductDialog();
+				dialog.Initialize(database);
+				dialog.EditValue = viewModel;
+				if (dialog.ShowDialog() == true)
+				{
+					try
+					{
+						instance = viewModel.ConvertToBusinessLogic(database);
+						new Xml.Database(database).Save();
+						productsGrid.ItemsSource = null;
+						productsGrid.ItemsSource = database.Products;
+						productsGrid.SelectedItem = instance;
+						reloadComplexProducts();
+					}
+					catch (Exception error)
+					{
+						MessageBox.Show(error.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+					}
+				}
+			}
 		}
 
 		private void productDeleteClick(object sender, RoutedEventArgs e)
 		{
-			deleteItem(productsGrid, database.Products, products =>
+			var selectedItems = productsGrid.SelectedItems.OfType<Product>().ToList();
+			if (selectedItems.Count < 1) return;
+			var message = new StringBuilder();
+			foreach (var item in selectedItems)
 			{
-				var checkIds = products.Select(u => u.ID).ToList();
-				var documents = database.Documents.Where(d => d.Type.GetBalanceDelta(database, d).Keys.Any(id => checkIds.Contains(id))).ToList();
-				var parentProducts = database.Products.Where(p => p.Children.Keys.Any(pp => checkIds.Contains(pp.ID))).ToList();
-				if (documents.Count == 0 && parentProducts.Count == 0)
-				{
-					return true;
-				}
-				else
-				{
-					var message = new StringBuilder();
-					if (documents.Count > 0)
-					{
-						message.AppendLine("Выбранные товары используются в следующих документах и не могут быть удалены:");
-						message.AppendLine();
-						foreach (var document in documents)
-						{
-							message.AppendLine(string.Format(CultureInfo.InvariantCulture, "... {0} {1} от {2}",
-								document.TypeName,
-								!string.IsNullOrEmpty(document.Number) ? "\"" + document.Number + "\"" : string.Empty,
-								document.Date.ToShortDateString()));
-						}
-						message.AppendLine();
-					}
-					if (parentProducts.Count > 0)
-					{
-						message.AppendLine("Выбранные товары используются как составные части в других товарах:");
-						message.AppendLine();
-						foreach (var parent in parentProducts)
-						{
-							foreach (var child in parent.Children.Keys.Where(p => checkIds.Contains(p.ID)))
-							{
-								message.AppendLine(string.Format(CultureInfo.InvariantCulture, "... \"{0}\" содержит \"{1}\"", parent.DisplayMember, child.DisplayMember));
-							}
-						}
-						message.AppendLine();
-					}
-					MessageBox.Show(
-						message.ToString(),
-						"Невозможно удалить выбранные записи",
-						MessageBoxButton.OK,
-						MessageBoxImage.Warning);
-					return false;
-				}
-			});
+				message.Append(item.FindUsages(database));
+			}
+			if (message.Length > 0)
+			{
+				MessageBox.Show(
+					message.ToString(),
+					"Невозможно удалить выбранные сущности, так как они используются",
+					MessageBoxButton.OK,
+					MessageBoxImage.Warning);
+				return;
+			}
+			foreach (var item in selectedItems)
+			{
+				database.Products.Remove(item);
+			}
+			new Xml.Database(database).Save();
+			productsGrid.ItemsSource = null;
+			productsGrid.ItemsSource = database.Products;
 			reloadComplexProducts();
 		}
 

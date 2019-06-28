@@ -116,8 +116,33 @@ namespace ComfortIsland.BusinessLogic
 
 		public StringBuilder FindUsages(Database database)
 		{
-#warning Implement
-			throw new NotImplementedException();
+			var message = new StringBuilder();
+			var documents = database.Documents.Where(d => d.Type.GetBalanceDelta(database, d).ContainsKey(ID)).ToList();
+			var parentProducts = database.Products.Where(p => p.Children.ContainsKey(this)).ToList();
+			if (documents.Count > 0)
+			{
+				message.AppendLine("Данный товар используется в следующих документах:");
+				message.AppendLine();
+				foreach (var document in documents)
+				{
+					message.AppendLine(string.Format(CultureInfo.InvariantCulture, "... {0} {1} от {2}",
+						document.TypeName,
+						!string.IsNullOrEmpty(document.Number) ? "\"" + document.Number + "\"" : string.Empty,
+						document.Date.ToShortDateString()));
+				}
+				message.AppendLine();
+			}
+			if (parentProducts.Count > 0)
+			{
+				message.AppendLine("Данный товар используется как составная часть в следующих товарах:");
+				message.AppendLine();
+				foreach (var parent in parentProducts)
+				{
+					message.AppendLine(string.Format(CultureInfo.InvariantCulture, "... {0}", parent.DisplayMember));
+				}
+				message.AppendLine();
+			}
+			return message;
 		}
 	}
 }

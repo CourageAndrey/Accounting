@@ -21,7 +21,7 @@
 		<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Path=Name, Mode=TwoWay}" />
 		<ComboBox Grid.Row="2" Grid.Column="1" Margin="2" SelectedValue="{Binding Path=Unit, Mode=TwoWay}" Name="comboBoxUnit" DisplayMemberPath="Name" />
 		<GroupBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="2" Header="Части:">
-			<DataGrid IsReadOnly="False" AutoGenerateColumns="False" ItemsSource="{Binding Path=ChildrenToSerialize, Mode=OneTime}">
+			<DataGrid IsReadOnly="False" AutoGenerateColumns="False" ItemsSource="{Binding Path=Children, Mode=OneTime}">
 				<DataGrid.Columns>
 					<DataGridComboBoxColumn Header="Товар" SelectedValueBinding="{Binding Path=ID, Mode=TwoWay}" MinWidth="150" DisplayMemberPath="DisplayMember" SelectedValuePath="ID" x:Name="comboBoxProducts">
 						<DataGridComboBoxColumn.EditingElementStyle>
