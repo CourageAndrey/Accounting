@@ -572,25 +572,14 @@ namespace ComfortIsland
 			{
 				var instance = selectedItems[0];
 
-				var products = database.Products.Where(p => p.Unit.ID == instance.ID).ToList();
-				if (products.Count > 0)
+				var message = instance.FindUsages(database);
+				if (message.Length > 0 && MessageBox.Show(
+					message.ToString(),
+					"Редактирование приведёт к дополнительным изменениям. Продолжить?",
+					MessageBoxButton.YesNo,
+					MessageBoxImage.Question) != MessageBoxResult.Yes)
 				{
-					var message = new StringBuilder();
-					message.AppendLine("Следующие товары содержат ссылку на данную единицу измерения:");
-					message.AppendLine();
-					foreach (var product in products)
-					{
-						message.AppendLine(string.Format(CultureInfo.InvariantCulture, "... {0}", product.Name));
-					}
-					message.AppendLine("После её изменения они будут содержать новую исправленную версию. Продолжить редактирование?");
-					if (MessageBox.Show(
-						message.ToString(),
-						"Внимание",
-						MessageBoxButton.YesNo,
-						MessageBoxImage.Question) != MessageBoxResult.Yes)
-					{
-						return;
-					}
+					return;
 				}
 
 				var viewModel = new ViewModels.Unit(instance);
@@ -617,31 +606,29 @@ namespace ComfortIsland
 
 		private void unitDeleteClick(object sender, RoutedEventArgs e)
 		{
-			deleteItem(unitsGrid, database.Units, units =>
+			var selectedItems = unitsGrid.SelectedItems.OfType<Unit>().ToList();
+			if (selectedItems.Count < 1) return;
+			var message = new StringBuilder();
+			foreach (var item in selectedItems)
 			{
-				var checkIds = units.Select(u => u.ID).ToList();
-				var products = database.Products.Where(p => checkIds.Contains(p.Unit.ID)).ToList();
-				if (products.Count == 0)
-				{
-					return true;
-				}
-				else
-				{
-					var message = new StringBuilder();
-					message.AppendLine("Выбранные единицы измерения используются в товарах и не могут быть удалены:");
-					message.AppendLine();
-					foreach (var product in products)
-					{
-						message.AppendLine(string.Format(CultureInfo.InvariantCulture, "... \"{1}\" является единицей измерения \"{0}\"", product.Name, product.Unit.Name ?? product.Unit.ShortName));
-					}
-					MessageBox.Show(
-						message.ToString(),
-						"Невозможно удалить выбранные записи",
-						MessageBoxButton.OK,
-						MessageBoxImage.Warning);
-					return false;
-				}
-			});
+				message.Append(item.FindUsages(database));
+			}
+			if (message.Length > 0)
+			{
+				MessageBox.Show(
+					message.ToString(),
+					"Невозможно удалить выбранные сущности, так как они используются",
+					MessageBoxButton.OK,
+					MessageBoxImage.Warning);
+				return;
+			}
+			foreach (var item in selectedItems)
+			{
+				database.Units.Remove(item);
+			}
+			new Xml.Database(database).Save();
+			unitsGrid.ItemsSource = null;
+			unitsGrid.ItemsSource = database.Units;
 		}
 
 		private void selectedUnitsChanged(object sender, SelectionChangedEventArgs e)
