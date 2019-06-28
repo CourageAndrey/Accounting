@@ -39,7 +39,7 @@ namespace ComfortIsland.ViewModels
 			Number = instance.Number;
 			Date = instance.Date;
 			type = instance.Type;
-			Positions = new List<BusinessLogic.Position>(instance.PositionsToSerialize);
+			Positions = instance.Positions.Select(child => new BusinessLogic.Position(child.Key.ID, child.Value)).ToList();
 		}
 
 		public BusinessLogic.Document ConvertToBusinessLogic(BusinessLogic.Database database)
@@ -54,7 +54,9 @@ namespace ComfortIsland.ViewModels
 			});
 			instance.Number = Number;
 			instance.Date = Date;
-			instance.PositionsToSerialize = Positions;
+			instance.Positions = Positions.ToDictionary(
+				child => database.Products.First(p => p.ID == child.ID),
+				child => child.Count);
 			if (id.HasValue)
 			{
 				var previousVersion = database.Documents.First(i => i.ID == id.Value);

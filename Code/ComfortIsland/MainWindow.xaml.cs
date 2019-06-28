@@ -354,15 +354,7 @@ namespace ComfortIsland
 
 		private void reloadComplexProducts()
 		{
-			var complexProducts = database.Products.Where(p => p.Children.Count > 0).ToList();
-			foreach (var product in complexProducts)
-			{
-				foreach (var position in product.ChildrenToSerialize)
-				{
-					position.SetProduct(database);
-				}
-			}
-			treeViewComplexProducts.ItemsSource = complexProducts;
+			treeViewComplexProducts.ItemsSource = database.Products.Where(p => p.Children.Count > 0).ToList();
 		}
 
 		private void productAddClick(object sender, RoutedEventArgs e)

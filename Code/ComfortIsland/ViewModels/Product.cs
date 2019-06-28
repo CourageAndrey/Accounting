@@ -32,7 +32,7 @@ namespace ComfortIsland.ViewModels
 			id = instance.ID;
 			Name = instance.Name;
 			Unit = instance.Unit;
-			Children = new List<BusinessLogic.Position>(instance.ChildrenToSerialize);
+			Children = instance.Children.Select(child => new BusinessLogic.Position(child.Key.ID, child.Value)).ToList();
 		}
 
 		public BusinessLogic.Product ConvertToBusinessLogic(BusinessLogic.Database database)
@@ -48,7 +48,9 @@ namespace ComfortIsland.ViewModels
 			}
 			instance.Name = Name;
 			instance.Unit = Unit;
-			instance.ChildrenToSerialize = Children;
+			instance.Children = Children.ToDictionary(
+				child => database.Products.First(p => p.ID == child.ID),
+				child => child.Count);
 			return instance;
 		}
 	}

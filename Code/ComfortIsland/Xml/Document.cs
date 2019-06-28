@@ -55,12 +55,12 @@ namespace ComfortIsland.Xml
 			Date = document.Date;
 			Type = document.Type.Enum;
 			State = document.State.Enum;
-			Positions = document.PositionsToSerialize.Select(position => new Position(position)).ToList();
+			Positions = document.Positions.Select(position => new Position(new BusinessLogic.Position(position.Key.ID, position.Value))).ToList();
 		}
 
 		#endregion
 
-		public BusinessLogic.Document ConvertToBusinessLogic()
+		public BusinessLogic.Document ConvertToBusinessLogic(BusinessLogic.Database database)
 		{
 			return new BusinessLogic.Document
 			{
@@ -70,7 +70,9 @@ namespace ComfortIsland.Xml
 				Date = Date,
 				Type = BusinessLogic.DocumentType.AllTypes[Type],
 				State = BusinessLogic.DocumentState.AllStates[State],
-				PositionsToSerialize = Positions.Select(position => position.ConvertToBusinessLogic()).ToList(),
+				Positions = Positions.ToDictionary(
+					position => database.Products.First(p => p.ID == position.ID),
+					position => position.Count),
 			};
 		}
 	}

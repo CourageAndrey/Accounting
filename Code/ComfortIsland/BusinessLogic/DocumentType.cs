@@ -48,30 +48,30 @@ namespace ComfortIsland.BusinessLogic
 
 		private static IDictionary<long, double> getBalanceDeltaIncome(Database database, Document document)
 		{
-			return document.PositionsToSerialize.ToDictionary(p => p.ID, p => p.Count);
+			return document.Positions.ToDictionary(p => p.Key.ID, p => p.Value);
 		}
 
 		private static IDictionary<long, double> getBalanceDeltaOutcome(Database database, Document document)
 		{
-			return document.PositionsToSerialize.ToDictionary(p => p.ID, p => -p.Count);
+			return document.Positions.ToDictionary(p => p.Key.ID, p => -p.Value);
 		}
 
 		private static IDictionary<long, double> getBalanceDeltaProduce(Database database, Document document)
 		{
 			var result = new Dictionary<long, double>();
-			foreach (var position in document.PositionsToSerialize)
+			foreach (var position in document.Positions)
 			{
-				result[position.ID] = position.Count;
-				foreach (var child in database.Products.First(p => p.ID == position.ID).Children)
+				result[position.Key.ID] = position.Value;
+				foreach (var child in database.Products.First(p => p.ID == position.Key.ID).Children)
 				{
 					double count;
 					if (result.TryGetValue(child.Key.ID, out count))
 					{
-						count -= (position.Count * child.Value);
+						count -= (position.Value * child.Value);
 					}
 					else
 					{
-						count = -(position.Count * child.Value);
+						count = -(position.Value * child.Value);
 					}
 					result[child.Key.ID] = count;
 				}

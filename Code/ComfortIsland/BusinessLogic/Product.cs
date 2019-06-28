@@ -30,15 +30,11 @@ namespace ComfortIsland.BusinessLogic
 		public Dictionary<Product, double> Children
 		{ get; set; }
 
-		public List<Position> ChildrenToSerialize
-		{ get; set; }
-
 		#endregion
 
 		public Product()
 		{
 			Children = new Dictionary<Product, double>();
-			ChildrenToSerialize = new List<Position>();
 		}
 
 		public bool Validate(Database database, out StringBuilder errors)
@@ -53,15 +49,15 @@ namespace ComfortIsland.BusinessLogic
 				errors.AppendLine("Не выбрана единица измерения.");
 			}
 			var products = database.Products;
-			if (ChildrenToSerialize.Any(c => products.First(p => p.ID == c.ID).IsOrHasChild(ID)))
+			if (Children.Any(c => products.First(p => p == c.Key).IsOrHasChild(ID)))
 			{
 				errors.AppendLine("Товар не может быть частью себя или содержать другие товары, частью которых является.");
 			}
-			if (ChildrenToSerialize.Any(c => c.Count <= 0))
+			if (Children.Any(c => c.Value <= 0))
 			{
 				errors.AppendLine("Для каждого из вложенных товаров количество должно быть строго больше ноля.");
 			}
-			var ids = ChildrenToSerialize.Select(c => c.ID).ToList();
+			var ids = Children.Select(c => c.Key.ID).ToList();
 			if (ids.Count > ids.Distinct().Count())
 			{
 				errors.AppendLine("Некоторые товары включены как части несколько раз.");

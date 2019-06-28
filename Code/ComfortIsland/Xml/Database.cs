@@ -74,7 +74,7 @@ namespace ComfortIsland.Xml
 			}
 			foreach (var document in Documents)
 			{
-				database.Documents.Add(document.ConvertToBusinessLogic());
+				database.Documents.Add(document.ConvertToBusinessLogic(database));
 			}
 			foreach (var balance in database.Balance)
 			{

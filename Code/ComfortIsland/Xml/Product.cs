@@ -39,7 +39,7 @@ namespace ComfortIsland.Xml
 			ID = product.ID;
 			Name = product.Name;
 			UnitID = product.UnitID;
-			Children = product.ChildrenToSerialize.Select(child => new Position(child)).ToList();
+			Children = product.Children.Select(child => new Position(new BusinessLogic.Position(child.Key.ID, child.Value))).ToList();
 		}
 
 		#endregion

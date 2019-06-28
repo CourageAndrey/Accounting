@@ -38,9 +38,6 @@ namespace ComfortIsland.BusinessLogic
 		{ get { return State.Name; } }
 
 		public Dictionary<Product, double> Positions
-		{ get; private set; }
-
-		public List<Position> PositionsToSerialize
 		{ get; set; }
 
 		#endregion
@@ -48,29 +45,28 @@ namespace ComfortIsland.BusinessLogic
 		public Document()
 		{
 			Positions = new Dictionary<Product, double>();
-			PositionsToSerialize = new List<Position>();
 		}
 
 		public bool Validate(Database database, out StringBuilder errors)
 		{
 			errors = new StringBuilder();
-			if (PositionsToSerialize.Count <= 0)
+			if (Positions.Count <= 0)
 			{
 				errors.AppendLine("В документе не выбрано ни одного продукта.");
 			}
 			bool isValid = ValidateBalance(database, errors);
-			foreach (var position in PositionsToSerialize)
+			foreach (var position in Positions)
 			{
-				if (database.Products.FirstOrDefault(p => p.ID == position.ID) == null)
+				if (position.Key == null)
 				{
-					errors.AppendLine(string.Format(CultureInfo.InvariantCulture, "У {0}-й позиции в списке не выбран товар.", PositionsToSerialize.IndexOf(position) + 1));
+					errors.AppendLine(string.Format(CultureInfo.InvariantCulture, "У {0}-й позиции в списке не выбран товар.", Positions.Keys.ToList().IndexOf(position.Key) + 1));
 				}
-				if (position.Count <= 0)
+				if (position.Value <= 0)
 				{
 					errors.AppendLine("Количество товара во всех позициях должно быть строго больше ноля.");
 				}
 			}
-			var ids = PositionsToSerialize.Select(p => p.ID).ToList();
+			var ids = Positions.Select(p => p.Key.ID).ToList();
 			if (ids.Count > ids.Distinct().Count())
 			{
 				errors.Append("Дублирование позиций в документе");
@@ -130,9 +126,9 @@ namespace ComfortIsland.BusinessLogic
 			}
 			if (Type == DocumentType.Produce)
 			{
-				foreach (var position in PositionsToSerialize)
+				foreach (var position in Positions)
 				{
-					var product = database.Products.First(p => p.ID == position.ID);
+					var product = position.Key;
 					if (product.Children.Count == 0)
 					{
 						errors.AppendLine(string.Format(CultureInfo.InvariantCulture, "Товар {0} не может быть произведён, так как ни из чего не состоит.", product.DisplayMember));
