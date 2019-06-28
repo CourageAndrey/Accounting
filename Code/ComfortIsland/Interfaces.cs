@@ -9,6 +9,8 @@ namespace ComfortIsland
 	public interface IEntity
 	{
 		long ID { get; set; }
+
+		StringBuilder FindUsages(Database database);
 	}
 
 	public interface IEditable<in T>

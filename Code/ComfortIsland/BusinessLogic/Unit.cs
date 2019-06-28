@@ -1,4 +1,7 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Windows;
 
 namespace ComfortIsland.BusinessLogic
 {
@@ -53,5 +56,21 @@ namespace ComfortIsland.BusinessLogic
 
 		public void AfterEdit(Database database)
 		{ }
+
+		public StringBuilder FindUsages(Database database)
+		{
+			var message = new StringBuilder();
+			var products = database.Products.Where(p => p.Unit == this).ToList();
+			if (products.Count > 0)
+			{
+				message.AppendLine(string.Format(CultureInfo.InvariantCulture, "Следующие товары имеют единицу измерения \"{0}\":", Name));
+				message.AppendLine();
+				foreach (var product in products)
+				{
+					message.AppendLine(string.Format(CultureInfo.InvariantCulture, "... {0}", product.Name));
+				}
+			}
+			return message;
+		}
 	}
 }

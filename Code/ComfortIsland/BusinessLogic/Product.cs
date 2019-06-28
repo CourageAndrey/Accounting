@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -111,6 +112,12 @@ namespace ComfortIsland.BusinessLogic
 			{
 				Children[database.Products.First(p => p.ID == child.ID)] = child.Count;
 			}
+		}
+
+		public StringBuilder FindUsages(Database database)
+		{
+#warning Implement
+			throw new NotImplementedException();
 		}
 	}
 }

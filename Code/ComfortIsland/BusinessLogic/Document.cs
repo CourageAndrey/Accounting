@@ -243,5 +243,11 @@ namespace ComfortIsland.BusinessLogic
 		}
 
 		#endregion
+
+		public StringBuilder FindUsages(Database database)
+		{
+#warning Implement
+			throw new NotImplementedException();
+		}
 	}
 }
