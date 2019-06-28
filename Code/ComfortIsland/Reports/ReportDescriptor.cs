@@ -62,13 +62,13 @@ namespace ComfortIsland.Reports
 			new DataGridTextColumn
 			{
 				Header = "Товар",
-				Binding = new Binding { Path = new PropertyPath("ProductName"), Mode = BindingMode.OneTime },
+				Binding = new Binding { Path = new PropertyPath("BoundProduct.Name"), Mode = BindingMode.OneTime },
 				MinWidth = 300,
 			},
 			new DataGridTextColumn
 			{
 				Header = "Ед/изм",
-				Binding = new Binding { Path = new PropertyPath("ProductUnit"), Mode = BindingMode.OneTime },
+				Binding = new Binding { Path = new PropertyPath("BoundProduct.Unit.Name"), Mode = BindingMode.OneTime },
 				MinWidth = 50,
 			},
 			new DataGridTextColumn
