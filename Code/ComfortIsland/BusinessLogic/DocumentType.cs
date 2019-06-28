@@ -62,7 +62,7 @@ namespace ComfortIsland.BusinessLogic
 			foreach (var position in document.Positions)
 			{
 				result[position.Key.ID] = position.Value;
-				foreach (var child in database.Products[position.Key.ID].Children)
+				foreach (var child in position.Key.Children)
 				{
 					double count;
 					if (result.TryGetValue(child.Key.ID, out count))
