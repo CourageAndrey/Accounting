@@ -155,100 +155,30 @@ namespace ComfortIsland
 
 		private void editDocumentClick(object sender, RoutedEventArgs e)
 		{
-			var originalDocument = documentsGrid.SelectedItems.OfType<Document>().Single();
-			var editedDocument = new Document();
-			editedDocument.Update(originalDocument);
-			editedDocument.State = DocumentState.Active;
-			editedDocument.ID = IdHelper.GenerateNewId(database.Documents);
-			editedDocument.PreviousVersionId = originalDocument.ID;
-			editedDocument.BeforeEdit(database);
+			var instance = documentsGrid.SelectedItems.OfType<Document>().Single();
+			var viewModel = new ViewModels.Document(instance);
 			var dialog = new DocumentDialog();
-			if (originalDocument.Type == DocumentType.Produce)
+			if (instance.Type == DocumentType.Produce)
 			{
 				dialog.ProductsGetter = db => db.Products.Where(p => p.Children.Count > 0);
 			}
 			dialog.Initialize(database);
-			dialog.EditValue = editedDocument;
-			dialog.IgnoreValidation = true;
+			dialog.EditValue = viewModel;
+#warning dialog.IgnoreValidation = true;
 			if (dialog.ShowDialog() == true)
 			{
-				editedDocument.AfterEdit(database);
-				var balanceTable = database.Balance.Select(b => new Position(b)).ToList();
-				var documentsToApplyAgain = new Stack<Document>();
-
-				// последовательный откат документов
-				DateTime minDocDate = editedDocument.Date > originalDocument.Date ? originalDocument.Date : editedDocument.Date;
-				bool originalDeleted = false;
-				foreach (var document in database.Documents.Where(d => d.State == DocumentState.Active).OrderByDescending(d => d.Date).Where(d => d.Date >= minDocDate))
+				try
 				{
-					document.Rollback(database, balanceTable);
-					/* удалено, так как в настоящей базе есть реальные ошибки
-					if (!document.CheckBalance(database, balanceTable, "удалении", "редактировать"))
-					{
-						return;
-					}*/
+					instance = viewModel.ConvertToBusinessLogic(database);
+					new Xml.Database(database).Save();
 
-					if (document != originalDocument)
-					{
-						documentsToApplyAgain.Push(document);
-					}
-					else
-					{
-						originalDeleted = true;
-					}
+					documentStateFilterChecked(this, null);
+					documentsGrid.SelectedItem = instance;
 				}
-
-				// если нужно - откат оригинала
-				if (!originalDeleted)
+				catch (Exception error)
 				{
-					originalDocument.Rollback(database, balanceTable);
-					if (!originalDocument.CheckBalance(database, balanceTable, "отмене старой версии отредактированного", "редактировать"))
-					{
-						return;
-					}
+					MessageBox.Show(error.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
 				}
-
-				// накат неудалённых документов и отредактированной версии обратно
-				bool editedApplied = false;
-				while (documentsToApplyAgain.Count > 0)
-				{
-					var document = documentsToApplyAgain.Pop();
-					if (!editedApplied && document.Date > editedDocument.Date)
-					{ // применение отредактированной версии документа
-						editedApplied = true;
-						editedDocument.Apply(database, balanceTable);
-						if (!editedDocument.CheckBalance(database, balanceTable, "применении новой версии отредактированного", "редактировать"))
-						{
-							return;
-						}
-					}
-					document.Apply(database, balanceTable);
-					if (!document.CheckBalance(database, balanceTable, "применении", "редактировать"))
-					{
-						return;
-					}
-				}
-
-				// применение отредактированной версии документа, если она ещё не была применена
-				if (!editedApplied)
-				{ 
-					editedDocument.Apply(database, balanceTable);
-					if (!editedDocument.CheckBalance(database, balanceTable, "применении новой версии отредактированного", "редактировать"))
-					{
-						return;
-					}
-				}
-
-				// если всё хорошо - применяем изменения в БД и на экране
-				if (originalDocument.State == DocumentState.Active)
-				{
-					originalDocument.State = DocumentState.Edited;
-				}
-				database.Documents.Add(editedDocument);
-				database.Balance = balanceTable;
-				new Xml.Database(database).Save();
-				documentStateFilterChecked(this, null);
-				reportHeader.Text = string.Empty;
 				reportGrid.ItemsSource = null;
 				buttonPrintReport.IsEnabled = false;
 			}
@@ -263,22 +193,30 @@ namespace ComfortIsland
 
 		private void createDocument(DocumentType type, Action<DocumentDialog> dialogSetup = null)
 		{
-			addItem<Document, DocumentDialog>(
-				documentsGrid,
-				database.Documents,
-				() => new Document { Date = DateTime.Now, Type = type, State = DocumentState.Active },
-				document => document.Apply(database, database.Balance),
-				item =>
+			var viewModel = new ViewModels.Document(type);
+			var dialog = new DocumentDialog();
+			dialog.Initialize(database);
+			if (dialogSetup != null)
+			{
+				dialogSetup(dialog);
+			}
+			dialog.EditValue = viewModel;
+			if (dialog.ShowDialog() == true)
+			{
+				try
 				{
-					reportHeader.Text = string.Empty;
-					reportGrid.ItemsSource = null;
-					buttonPrintReport.IsEnabled = false;
-				},
-				dialogSetup,
-				() =>
-				{
+					var instance = viewModel.ConvertToBusinessLogic(database);
+					new Xml.Database(database).Save();
 					documentStateFilterChecked(this, null);
-				});
+					documentsGrid.SelectedItem = instance;
+				}
+				catch (Exception error)
+				{
+					MessageBox.Show(error.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
+				reportGrid.ItemsSource = null;
+				buttonPrintReport.IsEnabled = false;
+			}
 		}
 
 		private void documentsGridDoubleClick(object sender, MouseButtonEventArgs e)
@@ -290,7 +228,7 @@ namespace ComfortIsland
 				var dialog = new DocumentDialog();
 				dialog.SetReadOnly();
 				dialog.Initialize(database);
-				dialog.EditValue = selectedItem;
+				dialog.EditValue = new ViewModels.Document(selectedItem);
 				dialog.ShowDialog();
 			}
 		}

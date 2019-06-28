@@ -246,8 +246,7 @@ namespace ComfortIsland.BusinessLogic
 
 		public StringBuilder FindUsages(Database database)
 		{
-#warning Implement
-			throw new NotImplementedException();
+			return new StringBuilder();
 		}
 	}
 }

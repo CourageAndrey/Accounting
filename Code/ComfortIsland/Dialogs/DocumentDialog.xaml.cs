@@ -10,16 +10,16 @@ using ComfortIsland.Helpers;
 
 namespace ComfortIsland.Dialogs
 {
-	public partial class DocumentDialog : IEditDialog<Document>
+	public partial class DocumentDialog : IEditDialog<ViewModels.Document>
 	{
 		public DocumentDialog()
 		{
 			InitializeComponent();
 		}
 
-		public Document EditValue
+		public ViewModels.Document EditValue
 		{
-			get { return (Document) contextControl.DataContext; }
+			get { return (ViewModels.Document) contextControl.DataContext; }
 			set { contextControl.DataContext = value; }
 		}
 
@@ -48,14 +48,14 @@ namespace ComfortIsland.Dialogs
 			else
 			{
 				StringBuilder errors;
-				if (EditValue.Validate(database, out errors))
+#warning if (EditValue.Validate(database, out errors))
 				{
 					DialogResult = true;
 				}
-				else
+				/*else
 				{
 					MessageBox.Show(errors.ToString(), "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
-				}
+				}*/
 			}
 		}
 

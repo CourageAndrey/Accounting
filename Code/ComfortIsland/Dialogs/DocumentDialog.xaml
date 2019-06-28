@@ -23,7 +23,7 @@
 		<DatePicker Grid.Row="1" Grid.Column="1" Margin="2" SelectedDate="{Binding Path=Date, Mode=TwoWay}" />
 		<TextBox Grid.Row="2" Grid.Column="1" Margin="2" Text="{Binding Path=TypeName, Mode=OneWay}" IsReadOnly="True" />
 		<GroupBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="2" Header="Товары:">
-			<DataGrid IsReadOnly="False" AutoGenerateColumns="False" ItemsSource="{Binding Path=PositionsToSerialize, Mode=OneTime}">
+			<DataGrid IsReadOnly="False" AutoGenerateColumns="False" ItemsSource="{Binding Path=Positions, Mode=OneTime}">
 				<DataGrid.Columns>
 					<DataGridComboBoxColumn Header="Товар" SelectedValueBinding="{Binding Path=ID, Mode=TwoWay}" MinWidth="200" DisplayMemberPath="DisplayMember" SelectedValuePath="ID" x:Name="comboBoxProducts">
 						<DataGridComboBoxColumn.EditingElementStyle>
