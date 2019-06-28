@@ -568,7 +568,7 @@ namespace ComfortIsland
 
 		#region Helpers
 
-		private void addItem<ItemT, DialogT>(
+		/*private void addItem<ItemT, DialogT>(
 			DataGrid grid,
 			List<ItemT> table,
 			Func<ItemT> createItem = null,
@@ -693,7 +693,7 @@ namespace ComfortIsland
 					MessageBox.Show(error.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
 				}
 			}
-		}
+		}*/
 
 		private void updateButtonsAvailability(DataGrid grid, Button editButton, Button deleteButton)
 		{
