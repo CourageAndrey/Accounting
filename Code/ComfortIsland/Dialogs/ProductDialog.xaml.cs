@@ -26,8 +26,8 @@ namespace ComfortIsland.Dialogs
 		public void Initialize(Database database)
 		{
 			this.database = database;
-			comboBoxUnit.ItemsSource = database.Units;
-			comboBoxProducts.ItemsSource = database.Products;
+			comboBoxUnit.ItemsSource = database.Units.Values;
+			comboBoxProducts.ItemsSource = database.Products.Values;
 		}
 
 		private void okClick(object sender, RoutedEventArgs e)

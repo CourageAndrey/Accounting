@@ -22,7 +22,7 @@ namespace ComfortIsland.Dialogs
 
 		public void Initialize(Database database)
 		{
-			productsList.ItemsSource = database.Products;
+			productsList.ItemsSource = database.Products.Values;
 		}
 
 		private void okClick(object sender, RoutedEventArgs e)
