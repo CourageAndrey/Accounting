@@ -544,19 +544,36 @@ namespace ComfortIsland
 
 		private void unitAddClick(object sender, RoutedEventArgs e)
 		{
-			addItem<Unit, UnitDialog>(unitsGrid, database.Units);
+			var viewModel = new ViewModels.Unit();
+			var dialog = new UnitDialog();
+			dialog.Initialize(database);
+			dialog.EditValue = viewModel;
+			if (dialog.ShowDialog() == true)
+			{
+				try
+				{
+					var instance = viewModel.ConvertToBusinessLogic(database);
+					new Xml.Database(database).Save();
+					unitsGrid.ItemsSource = null;
+					unitsGrid.ItemsSource = database.Units;
+					unitsGrid.SelectedItem = instance;
+				}
+				catch (Exception error)
+				{
+					MessageBox.Show(error.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
+			}
 		}
 
 		private void unitEditClick(object sender, RoutedEventArgs e)
 		{
-			editItem<Unit, UnitDialog>(unitsGrid, database.Units, unit =>
+			var selectedItems = unitsGrid.SelectedItems.OfType<Unit>().ToList();
+			if (selectedItems.Count > 0)
 			{
-				var products = database.Products.Where(p => p.Unit.ID == unit.ID).ToList();
-				if (products.Count == 0)
-				{
-					return true;
-				}
-				else
+				var instance = selectedItems[0];
+
+				var products = database.Products.Where(p => p.Unit.ID == instance.ID).ToList();
+				if (products.Count > 0)
 				{
 					var message = new StringBuilder();
 					message.AppendLine("Следующие товары содержат ссылку на данную единицу измерения:");
@@ -566,13 +583,36 @@ namespace ComfortIsland
 						message.AppendLine(string.Format(CultureInfo.InvariantCulture, "... {0}", product.Name));
 					}
 					message.AppendLine("После её изменения они будут содержать новую исправленную версию. Продолжить редактирование?");
-					return MessageBox.Show(
+					if (MessageBox.Show(
 						message.ToString(),
 						"Внимание",
 						MessageBoxButton.YesNo,
-						MessageBoxImage.Question) == MessageBoxResult.Yes;
+						MessageBoxImage.Question) != MessageBoxResult.Yes)
+					{
+						return;
+					}
 				}
-			});
+
+				var viewModel = new ViewModels.Unit(instance);
+				var dialog = new UnitDialog();
+				dialog.Initialize(database);
+				dialog.EditValue = viewModel;
+				if (dialog.ShowDialog() == true)
+				{
+					try
+					{
+						instance = viewModel.ConvertToBusinessLogic(database);
+						new Xml.Database(database).Save();
+						unitsGrid.ItemsSource = null;
+						unitsGrid.ItemsSource = database.Units;
+						unitsGrid.SelectedItem = instance;
+					}
+					catch (Exception error)
+					{
+						MessageBox.Show(error.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+					}
+				}
+			}
 		}
 
 		private void unitDeleteClick(object sender, RoutedEventArgs e)

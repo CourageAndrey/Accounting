@@ -5,16 +5,16 @@ using ComfortIsland.BusinessLogic;
 
 namespace ComfortIsland.Dialogs
 {
-	public partial class UnitDialog : IEditDialog<Unit>
+	public partial class UnitDialog : IEditDialog<ViewModels.Unit>
 	{
 		public UnitDialog()
 		{
 			InitializeComponent();
 		}
 
-		public Unit EditValue
+		public ViewModels.Unit EditValue
 		{
-			get { return (Unit) contextControl.DataContext; }
+			get { return (ViewModels.Unit) contextControl.DataContext; }
 			set { contextControl.DataContext = value; }
 		}
 
@@ -28,14 +28,14 @@ namespace ComfortIsland.Dialogs
 		private void okClick(object sender, RoutedEventArgs e)
 		{
 			StringBuilder errors;
-			if (EditValue.Validate(database, out errors))
+#warning if (EditValue.Validate(database, out errors))
 			{
 				DialogResult = true;
 			}
-			else
+			/*else
 			{
 				MessageBox.Show(errors.ToString(), "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
-			}
+			}*/
 		}
 
 		private void cancelClick(object sender, RoutedEventArgs e)

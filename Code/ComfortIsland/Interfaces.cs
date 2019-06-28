@@ -46,4 +46,9 @@ namespace ComfortIsland
 	{
 		string DisplayMember { get; }
 	}
+ 
+	public interface IViewModel<T>
+	{
+		T ConvertToBusinessLogic(Database database);
+	}
 }
