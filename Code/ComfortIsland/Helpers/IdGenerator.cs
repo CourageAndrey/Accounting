@@ -3,9 +3,9 @@ using System.Linq;
 
 namespace ComfortIsland.Helpers
 {
-	public static class IdHelper
+	public static class IdGenerator
 	{
-		public static long GenerateNewId<T>(ICollection<T> list)
+		public static long NewId<T>(ICollection<T> list)
 			where T: IEntity
 		{
 			return list.Count > 0

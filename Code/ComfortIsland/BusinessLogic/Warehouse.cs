@@ -17,7 +17,7 @@ namespace ComfortIsland.BusinessLogic
 
 		public long Add(T item)
 		{
-			storage[item.ID = IdHelper.GenerateNewId(storage.Values)] = item;
+			storage[item.ID = IdGenerator.NewId(storage.Values)] = item;
 			return item.ID;
 		}
 
