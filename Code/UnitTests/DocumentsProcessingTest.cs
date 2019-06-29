@@ -17,8 +17,8 @@ namespace UnitTests
 			var unit = new Unit
 			{
 				ID = 1,
-				Name = string.Empty,
-				ShortName = string.Empty,
+				Name = "Full Name",
+				ShortName = "short",
 			};
 			var productChild1 = new Product
 			{

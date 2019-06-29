@@ -11,8 +11,6 @@ namespace ComfortIsland
 		long ID { get; set; }
 
 		StringBuilder FindUsages(Database database);
-
-		bool Validate(Database database, out StringBuilder errors);
 	}
 
 	public interface IEditDialog<T>

@@ -1,5 +1,4 @@
-﻿using System.Text;
-using System.Windows;
+﻿using System.Windows;
 
 using ComfortIsland.BusinessLogic;
 
@@ -15,27 +14,23 @@ namespace ComfortIsland.Dialogs
 		public ViewModels.Unit EditValue
 		{
 			get { return (ViewModels.Unit) contextControl.DataContext; }
-			set { contextControl.DataContext = value; }
+			set
+			{
+				buttonOk.IsEnabled = !value.HasErrors;
+				value.ErrorsChanged += (sender, args) => { buttonOk.IsEnabled = !value.HasErrors; };
+				contextControl.DataContext = value;
+			}
 		}
-
-		private Database database;
 
 		public void Initialize(Database database)
-		{
-			this.database = database;
-		}
+		{ }
 
 		private void okClick(object sender, RoutedEventArgs e)
 		{
-			StringBuilder errors;
-#warning if (EditValue.Validate(database, out errors))
+			if (!EditValue.HasErrors)
 			{
 				DialogResult = true;
 			}
-			/*else
-			{
-				MessageBox.Show(errors.ToString(), "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
-			}*/
 		}
 
 		private void cancelClick(object sender, RoutedEventArgs e)

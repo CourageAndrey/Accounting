@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -12,26 +13,72 @@ namespace ComfortIsland.BusinessLogic
 		{ get; set; }
 
 		public string Name
-		{ get; set; }
+		{
+			get { return name; }
+			set
+			{
+				var errors = new StringBuilder();
+				if (NameIsNotNullOrEmpty(value, errors))
+				{
+					name = value;
+				}
+				else
+				{
+					throw new ArgumentException(errors.ToString());
+				}
+			}
+		}
 
 		public string ShortName
-		{ get; set; }
+		{
+			get { return shortName; }
+			set
+			{
+				var errors = new StringBuilder();
+				if (ShortNameIsNotNullOrEmpty(value, errors))
+				{
+					shortName = value;
+				}
+				else
+				{
+					throw new ArgumentException(errors.ToString());
+				}
+			}
+		}
+
+		private string name, shortName;
 
 		#endregion
 
-		public bool Validate(Database database, out StringBuilder errors)
+		#region Валидация
+
+		public static bool NameIsNotNullOrEmpty(string name, StringBuilder errors)
 		{
-			errors = new StringBuilder();
-			if (string.IsNullOrEmpty(Name))
+			if (string.IsNullOrEmpty(name))
 			{
 				errors.AppendLine("Наименование не может быть пустой строкой.");
+				return false;
 			}
-			if (string.IsNullOrEmpty(ShortName))
+			else
+			{
+				return true;
+			}
+		}
+
+		public static bool ShortNameIsNotNullOrEmpty(string shortName, StringBuilder errors)
+		{
+			if (string.IsNullOrEmpty(shortName))
 			{
 				errors.AppendLine("Сокращение не может быть пустой строкой.");
+				return false;
 			}
-			return errors.Length == 0;
+			else
+			{
+				return true;
+			}
 		}
+
+		#endregion
 
 		public StringBuilder FindUsages(Database database)
 		{
