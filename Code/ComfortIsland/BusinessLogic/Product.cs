@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -13,16 +14,64 @@ namespace ComfortIsland.BusinessLogic
 		{ get; set; }
 
 		public string Name
-		{ get; set; }
+		{
+			get { return name; }
+			set
+			{
+				var errors = new StringBuilder();
+				if (NameIsNotNullOrEmpty(value, errors))
+				{
+					name = value;
+				}
+				else
+				{
+					throw new ArgumentException(errors.ToString());
+				}
+			}
+		}
 
 		public Unit Unit
-		{ get; set; }
+		{
+			get { return unit; }
+			set
+			{
+				var errors = new StringBuilder();
+				if (UnitIsNotNull(value, errors))
+				{
+					unit = value;
+				}
+				else
+				{
+					throw new ArgumentException(errors.ToString());
+				}
+			}
+		}
 
 		public string DisplayMember
 		{ get { return string.Format(CultureInfo.InvariantCulture, "{0} ({1})", Name, Unit.Name); } }
 
 		public Dictionary<Product, double> Children
-		{ get; set; }
+		{
+			get { return children; }
+			set
+			{
+				var errors = new StringBuilder();
+				if (ChildrenAreNotRecursive(ID, value, errors) &
+					ChildrenCountsArePositive(value, errors) &
+					ChildrenDoNotDuplicate(value, errors))
+				{
+					children = value;
+				}
+				else
+				{
+					throw new ArgumentException(errors.ToString());
+				}
+			}
+		}
+
+		private string name;
+		private Unit unit;
+		private Dictionary<Product, double> children;
 
 		#endregion
 
@@ -31,33 +80,75 @@ namespace ComfortIsland.BusinessLogic
 			Children = new Dictionary<Product, double>();
 		}
 
-		public bool Validate(Database database, out StringBuilder errors)
+		#region Валидация
+
+		public static bool NameIsNotNullOrEmpty(string name, StringBuilder errors)
 		{
-			errors = new StringBuilder();
-			if (string.IsNullOrEmpty(Name))
+			if (string.IsNullOrEmpty(name))
 			{
 				errors.AppendLine("Наименование не может быть пустой строкой.");
+				return false;
 			}
-			if (Unit == null)
+			else
+			{
+				return true;
+			}
+		}
+
+		public static bool UnitIsNotNull(Unit unit, StringBuilder errors)
+		{
+			if (unit == null)
 			{
 				errors.AppendLine("Не выбрана единица измерения.");
+				return false;
 			}
-			var products = database.Products;
-			if (Children.Keys.Any(c => c.IsOrHasChild(ID)))
+			else
+			{
+				return true;
+			}
+		}
+
+		public static bool ChildrenAreNotRecursive(long? id, Dictionary<Product, double> children, StringBuilder errors)
+		{
+			if (id.HasValue && children.Keys.Any(c => c.IsOrHasChild(id.Value)))
 			{
 				errors.AppendLine("Товар не может быть частью себя или содержать другие товары, частью которых является.");
+				return false;
 			}
-			if (Children.Any(c => c.Value <= 0))
+			else
+			{
+				return true;
+			}
+		}
+
+		public static bool ChildrenCountsArePositive(Dictionary<Product, double> children, StringBuilder errors)
+		{
+			if (children.Any(c => c.Value <= 0))
 			{
 				errors.AppendLine("Для каждого из вложенных товаров количество должно быть строго больше ноля.");
+				return false;
 			}
-			var ids = Children.Select(c => c.Key.ID).ToList();
+			else
+			{
+				return true;
+			}
+		}
+
+		public static bool ChildrenDoNotDuplicate(Dictionary<Product, double> children, StringBuilder errors)
+		{
+			var ids = children.Select(c => c.Key.ID).ToList();
 			if (ids.Count > ids.Distinct().Count())
 			{
 				errors.AppendLine("Некоторые товары включены как части несколько раз.");
+				return false;
 			}
-			return errors.Length == 0;
+			else
+			{
+				return true;
+			}
 		}
+
+		#endregion
 
 		public bool IsOrHasChild(long id)
 		{

@@ -1,39 +1,101 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-
-using ComfortIsland.Helpers;
+using System.Text;
 
 namespace ComfortIsland.ViewModels
 {
-	public class Product : IViewModel<BusinessLogic.Product>
+	public class Product : NotifyDataErrorInfo, IViewModel<BusinessLogic.Product>
 	{
 		#region Properties
 
-		private readonly long? id;
-
 		public string Name
-		{ get; set; }
+		{
+			get { return name; }
+			set
+			{
+				name = value;
+				var errors = new StringBuilder();
+				if (BusinessLogic.Product.NameIsNotNullOrEmpty(value, errors))
+				{
+					ClearErrors();
+				}
+				else
+				{
+					AddError(errors.ToString());
+				}
+			}
+		}
 
 		public BusinessLogic.Unit Unit
-		{ get; set; }
+		{
+			get { return unit; }
+			set
+			{
+				unit = value;
+				var errors = new StringBuilder();
+				if (BusinessLogic.Product.UnitIsNotNull(value, errors))
+				{
+					ClearErrors();
+				}
+				else
+				{
+					AddError(errors.ToString());
+				}
+			}
+		}
 
 		public List<BusinessLogic.Position> Children
-		{ get; }
+		{
+			get { return children; }
+			set
+			{
+				children = value;
+				var errors = new StringBuilder();
+#warning Dictionary
+				/*var valueDictionary = value.ToDictionary(, );
+				if (BusinessLogic.Product.ChildrenAreNotRecursive(id, valueDictionary, errors) &
+					BusinessLogic.Product.ChildrenCountsArePositive(valueDictionary, errors) &
+					BusinessLogic.Product.ChildrenDoNotDuplicate(valueDictionary, errors))
+				{
+					ClearErrors();
+				}
+				else
+				{
+					AddError(errors.ToString());
+				}*/
+			}
+		}
+
+		private readonly long? id;
+		private string name;
+		private BusinessLogic.Unit unit;
+		private List<BusinessLogic.Position> children;
 
 		#endregion
 
-		public Product()
+		#region Constructors
+
+		private Product(long? id, string name, BusinessLogic.Unit unit, List<BusinessLogic.Position> children)
 		{
-			Children = new List<BusinessLogic.Position>();
+			this.id = id;
+			Name = name;
+			Unit = unit;
+			Children = children;
 		}
 
+		public Product()
+			: this(null, string.Empty, null, new List<BusinessLogic.Position>())
+		{ }
+
 		public Product(BusinessLogic.Product instance)
-		{
-			id = instance.ID;
-			Name = instance.Name;
-			Unit = instance.Unit;
-			Children = instance.Children.Select(child => new BusinessLogic.Position(child.Key.ID, child.Value)).ToList();
-		}
+			: this(
+				instance.ID,
+				instance.Name,
+				instance.Unit,
+				instance.Children.Select(child => new BusinessLogic.Position(child.Key.ID, child.Value)).ToList())
+		{ }
+
+		#endregion
 
 		public BusinessLogic.Product ConvertToBusinessLogic(BusinessLogic.Database database)
 		{

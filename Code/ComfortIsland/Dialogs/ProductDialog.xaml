@@ -27,10 +27,10 @@
 		</Grid.ColumnDefinitions>
 		<TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="5,0,5,0" Text="Наименование" />
 		<TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="5,0,5,0" Text="Ед. изм." />
-		<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Path=Name, Mode=TwoWay}" />
-		<ComboBox Grid.Row="2" Grid.Column="1" Margin="2" SelectedValue="{Binding Path=Unit, Mode=TwoWay}" Name="comboBoxUnit" DisplayMemberPath="Name" />
+		<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Path=Name, Mode=TwoWay}" Style="{StaticResource errorStyle}" />
+		<ComboBox Grid.Row="2" Grid.Column="1" Margin="2" SelectedValue="{Binding Path=Unit, Mode=TwoWay}" Name="comboBoxUnit" DisplayMemberPath="Name" Style="{StaticResource errorStyle}" />
 		<GroupBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="2" Header="Части:">
-			<DataGrid IsReadOnly="False" AutoGenerateColumns="False" ItemsSource="{Binding Path=Children, Mode=OneTime}">
+			<DataGrid IsReadOnly="False" AutoGenerateColumns="False" ItemsSource="{Binding Path=Children, Mode=OneTime}" Style="{StaticResource errorStyle}">
 				<DataGrid.Columns>
 					<DataGridComboBoxColumn Header="Товар" SelectedValueBinding="{Binding Path=ID, Mode=TwoWay}" MinWidth="150" DisplayMemberPath="DisplayMember" SelectedValuePath="ID" x:Name="comboBoxProducts">
 						<DataGridComboBoxColumn.EditingElementStyle>
@@ -48,8 +48,8 @@
 			</DataGrid>
 		</GroupBox>
 		<StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="2" Orientation="Horizontal">
-			<Button Padding="5,2,5,2" Margin="2" Content="OK" Click="okClick"/>
-			<Button Padding="5,2,5,2" Margin="2" Content="Отмена" Click="cancelClick"/>
+			<Button Padding="5,2,5,2" Margin="2" Content="OK" Click="okClick" Name="buttonOk" />
+			<Button Padding="5,2,5,2" Margin="2" Content="Отмена" Click="cancelClick" />
 		</StackPanel>
 	</Grid>
 </Window>
