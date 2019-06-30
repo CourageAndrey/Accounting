@@ -4,6 +4,15 @@
 		xmlns:comfortIsland="clr-namespace:ComfortIsland"
 		Title="Единица измерения" SizeToContent="WidthAndHeight"
 		FontSize="{x:Static comfortIsland:Settings.FontSize}">
+	<Window.Resources>
+		<Style x:Key="errorStyle" TargetType="{x:Type Control}">
+			<Style.Triggers>
+				<Trigger Property="Validation.HasError" Value="True">
+					<Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}"></Setter>
+				</Trigger>
+			</Style.Triggers>
+		</Style>
+	</Window.Resources>
 	<Grid Name="contextControl" Margin="5">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
