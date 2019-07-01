@@ -76,7 +76,7 @@ namespace ComfortIsland.BusinessLogic
 				foreach (var document in documents)
 				{
 					message.AppendLine(string.Format(CultureInfo.InvariantCulture, "... {0} {1} от {2}",
-						document.TypeName,
+						document.Type.Name,
 						!string.IsNullOrEmpty(document.Number) ? "\"" + document.Number + "\"" : string.Empty,
 						document.Date.ToShortDateString()));
 				}

@@ -31,12 +31,6 @@ namespace ComfortIsland.BusinessLogic
 		public DocumentState State
 		{ get; set; }
 
-		public string TypeName
-		{ get { return Type.Name; } }
-
-		public string StateName
-		{ get { return State.Name; } }
-
 		public Dictionary<Product, double> Positions
 		{ get; set; }
 
