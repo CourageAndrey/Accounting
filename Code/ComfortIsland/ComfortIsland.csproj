@@ -65,6 +65,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BusinessLogic\Storage.cs" />
+    <Compile Include="ViewModels\PositionType.cs" />
     <Compile Include="ViewModels\NotifyDataErrorInfo.cs" />
     <Compile Include="BusinessLogic\Warehouse.cs" />
     <Compile Include="ViewModels\Document.cs" />

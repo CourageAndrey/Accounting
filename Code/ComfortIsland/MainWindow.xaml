@@ -2,23 +2,25 @@
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:businessLogic="clr-namespace:ComfortIsland.BusinessLogic"
+		xmlns:viewModels="clr-namespace:ComfortIsland.ViewModels"
 		xmlns:comfortIsland="clr-namespace:ComfortIsland"
 		xmlns:helpers="clr-namespace:ComfortIsland.Helpers"
 		Title="Остров комфорта - Учёт" Width="1100" Height="750"
 		Loaded="formLoaded" Icon="Icon.ico"
 		FontSize="{x:Static comfortIsland:Settings.FontSize}">
 	<Window.Resources>
+		<viewModels:PositionType x:Key="kvpPositionType" />
 		<HierarchicalDataTemplate DataType="{x:Type businessLogic:Product}">
 			<TextBlock Text="{Binding Path=DisplayMember, Mode=OneWay}"/>
 			<HierarchicalDataTemplate.ItemsSource>
 				<Binding Path="Children" />
 			</HierarchicalDataTemplate.ItemsSource>
 		</HierarchicalDataTemplate>
-		<DataTemplate DataType="{x:Type businessLogic:Position}" >
+		<DataTemplate DataType="{StaticResource kvpPositionType}" >
 			<StackPanel Orientation="Horizontal">
-				<TextBlock Text="{Binding Path=Count, Mode=OneWay}" Margin="5,0,0,0" />
-				<TextBlock Text="{Binding Path=BoundProduct.Unit.ShortName, Mode=OneWay}" Margin="5,0,0,0" />
-				<TextBlock Text="{Binding Path=BoundProduct.Name, Mode=OneWay}" Margin="5,0,0,0" />
+				<TextBlock Text="{Binding Path=Value, Mode=OneWay}" Margin="5,0,0,0" />
+				<TextBlock Text="{Binding Path=Key.Unit.ShortName, Mode=OneWay}" Margin="5,0,0,0" />
+				<TextBlock Text="{Binding Path=Key.Name, Mode=OneWay}" Margin="5,0,0,0" />
 			</StackPanel>
 		</DataTemplate>
 		<helpers:DateConverter x:Key="dateConverter" />
