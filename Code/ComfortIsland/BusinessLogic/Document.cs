@@ -130,7 +130,7 @@ namespace ComfortIsland.BusinessLogic
 		public static bool TryDelete(Database database, IEnumerable<Document> documentsToDelete)
 		{
 			// создание временной копии таблицы баланса
-			var balance = database.Balance.Select(b => new Position(b.Key, b.Value)).ToList();
+			var balance = database.Balance.ToPositions();
 
 			// последовательный откат документов
 			var products = new HashSet<long>();
@@ -150,11 +150,7 @@ namespace ComfortIsland.BusinessLogic
 				{
 					document.State = DocumentState.Deleted;
 				}
-				database.Balance.Clear();
-				foreach (var position in balance)
-				{
-					database.Balance[position.ID] = position.Count;
-				}
+				database.Balance.LoadPositions(balance);
 				return true;
 			}
 			else
@@ -202,13 +198,7 @@ namespace ComfortIsland.BusinessLogic
 			var delta = getBalanceDelta(database);
 			foreach (var position in delta)
 			{
-				double count;
-				if (!database.Balance.TryGetValue(position.Key, out count))
-				{
-					count = 0;
-				}
-				count += position.Value;
-				database.Balance[position.Key] = count;
+				database.Balance.Increase(position.Key, position.Value);
 			}
 			return delta;
 		}
@@ -218,13 +208,7 @@ namespace ComfortIsland.BusinessLogic
 			var delta = getBalanceDelta(database);
 			foreach (var position in delta)
 			{
-				double count;
-				if (!database.Balance.TryGetValue(position.Key, out count))
-				{
-					count = 0;
-				}
-				count -= position.Value;
-				database.Balance[position.Key] = count;
+				database.Balance.Decrease(position.Key, position.Value);
 			}
 			return delta;
 		}

@@ -43,7 +43,7 @@ namespace ComfortIsland.Xml
 		public Database(BusinessLogic.Database database)
 		{
 			Documents = database.Documents.Select(document => new Document(document)).ToList();
-			Balance = database.Balance.Select(balance => new Balance(balance.Key, balance.Value)).ToList();
+			Balance = database.Balance.ToPositions().Select(position => new Balance(position.ID, position.Count)).ToList();
 			Products = database.Products.Select(product => new Product(product)).ToList();
 			Units = database.Units.Select(unit => new Unit(unit)).ToList();
 		}

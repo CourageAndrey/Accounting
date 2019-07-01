@@ -30,7 +30,7 @@ namespace ComfortIsland.Reports
 		public BalanceReport(Database database, DateTime date, bool showAllProducts)
 		{
 			Date = date.Date.AddDays(1).AddMilliseconds(-1);
-			var balanceList = database.Balance.Select(b => new Position(b.Key, b.Value)).ToList();
+			var balanceList = database.Balance.ToPositions();
 			var activeDocuments = database.Documents.Where(d => d.State == DocumentState.Active).OrderByDescending(d => d.Date).ToList();
 
 			foreach (var document in activeDocuments.Where(d => d.Date > Date))

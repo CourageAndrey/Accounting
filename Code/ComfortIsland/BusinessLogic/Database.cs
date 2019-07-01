@@ -12,7 +12,7 @@ namespace ComfortIsland.BusinessLogic
 		public Warehouse<Product> Products
 		{ get; }
 
-		public IDictionary<long, double> Balance
+		public Storage Balance
 		{ get; }
 
 		public Warehouse<Document> Documents
@@ -38,7 +38,7 @@ namespace ComfortIsland.BusinessLogic
 		{
 			Units = new Warehouse<Unit>(units);
 			Products = new Warehouse<Product>(products);
-			Balance = balance;
+			Balance = new Storage(balance);
 			Documents = new Warehouse<Document>(documents);
 		}
 
