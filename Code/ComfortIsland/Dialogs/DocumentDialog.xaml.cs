@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -20,7 +19,12 @@ namespace ComfortIsland.Dialogs
 		public ViewModels.Document EditValue
 		{
 			get { return (ViewModels.Document) contextControl.DataContext; }
-			set { contextControl.DataContext = value; }
+			set
+			{
+				buttonOk.IsEnabled = !IgnoreValidation || !value.HasErrors;
+				value.ErrorsChanged += (sender, args) => { buttonOk.IsEnabled = !IgnoreValidation || !value.HasErrors; };
+				contextControl.DataContext = value;
+			}
 		}
 
 		private Database database;
@@ -41,21 +45,9 @@ namespace ComfortIsland.Dialogs
 
 		private void okClick(object sender, RoutedEventArgs e)
 		{
-			if (IgnoreValidation)
+			if (!IgnoreValidation || !EditValue.HasErrors)
 			{
 				DialogResult = true;
-			}
-			else
-			{
-				StringBuilder errors;
-#warning if (EditValue.Validate(database, out errors))
-				{
-					DialogResult = true;
-				}
-				/*else
-				{
-					MessageBox.Show(errors.ToString(), "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
-				}*/
 			}
 		}
 

@@ -68,7 +68,7 @@ namespace UnitTests
 				Date = new DateTime(),
 				Number = string.Empty,
 				Type = DocumentType.Income,
-				Positions =
+				Positions = new Dictionary<Product, double>
 				{
 					{ productChild1, 10 },
 					{ productChild2, 20 },
@@ -80,7 +80,7 @@ namespace UnitTests
 				Date = new DateTime(),
 				Number = string.Empty,
 				Type = DocumentType.Outcome,
-				Positions =
+				Positions = new Dictionary<Product, double>
 				{
 					{ productChild1, 5 },
 					{ productChild2, 10 },
@@ -93,7 +93,7 @@ namespace UnitTests
 				Date = new DateTime(),
 				Number = string.Empty,
 				Type = DocumentType.Produce,
-				Positions =
+				Positions = new Dictionary<Product, double>
 				{
 					{ productParent, 15 },
 				}

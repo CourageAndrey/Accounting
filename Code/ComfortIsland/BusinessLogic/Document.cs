@@ -32,41 +32,71 @@ namespace ComfortIsland.BusinessLogic
 		{ get; set; }
 
 		public Dictionary<Product, double> Positions
-		{ get; set; }
+		{
+			get { return positions; }
+			set
+			{
+				var errors = new StringBuilder();
+				if (PositionsCountHasToBePositive(value, errors) &
+					PositionCountsArePositive(value, errors) &
+					PositionDoNotDuplicate(value, errors))
+				{
+					positions = value;
+				}
+				else
+				{
+					throw new ArgumentException(errors.ToString());
+				}
+			}
+		}
+
+		private Dictionary<Product, double> positions;
 
 		#endregion
 
-		public Document()
-		{
-			Positions = new Dictionary<Product, double>();
-		}
+		#region Validation
 
-		public bool Validate(Database database, out StringBuilder errors)
+		public static bool PositionsCountHasToBePositive(Dictionary<Product, double> children, StringBuilder errors)
 		{
-			errors = new StringBuilder();
-			if (Positions.Count <= 0)
+			if (children.Count <= 0)
 			{
 				errors.AppendLine("В документе не выбрано ни одного продукта.");
+				return false;
 			}
-			bool isValid = ValidateBalance(database, errors);
-			foreach (var position in Positions)
+			else
 			{
-				if (position.Key == null)
-				{
-					errors.AppendLine(string.Format(CultureInfo.InvariantCulture, "У {0}-й позиции в списке не выбран товар.", Positions.Keys.ToList().IndexOf(position.Key) + 1));
-				}
-				if (position.Value <= 0)
-				{
-					errors.AppendLine("Количество товара во всех позициях должно быть строго больше ноля.");
-				}
+				return true;
 			}
-			var ids = Positions.Select(p => p.Key.ID).ToList();
+		}
+
+		public static bool PositionCountsArePositive(Dictionary<Product, double> children, StringBuilder errors)
+		{
+			if (children.Any(c => c.Value <= 0))
+			{
+				errors.AppendLine("Количество товара во всех позициях должно быть строго больше ноля.");
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		}
+
+		public static bool PositionDoNotDuplicate(Dictionary<Product, double> children, StringBuilder errors)
+		{
+			var ids = children.Select(c => c.Key.ID).ToList();
 			if (ids.Count > ids.Distinct().Count())
 			{
-				errors.Append("Дублирование позиций в документе");
+				errors.AppendLine("Некоторые товары включены несколько раз.");
+				return false;
 			}
-			return isValid;
+			else
+			{
+				return true;
+			}
 		}
+
+		#endregion
 
 		#region Workflow
 
@@ -106,6 +136,7 @@ namespace ComfortIsland.BusinessLogic
 			}
 		}
 
+#warning IsNotUsed
 		private bool ValidateBalance(Database database, StringBuilder errors)
 		{
 			foreach (var position in getBalanceDelta(database))

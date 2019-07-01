@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
-using ComfortIsland.Helpers;
+using System.Text;
 
 namespace ComfortIsland.ViewModels
 {
-	public class Document : IViewModel<BusinessLogic.Document>
+	public class Document : NotifyDataErrorInfo, IViewModel<BusinessLogic.Document>
 	{
 		#region Properties
 
-		private readonly long? id;
-		private readonly BusinessLogic.DocumentType type;
+		public BusinessLogic.DocumentType Type
+		{ get; }
 
 		public string Number
 		{ get; set; }
@@ -19,35 +18,65 @@ namespace ComfortIsland.ViewModels
 		public DateTime Date
 		{ get; set; }
 
-		public string TypeName
-		{ get { return type.Name; } }
-
 		public List<BusinessLogic.Position> Positions
-		{ get; set; }
+		{
+			get { return positions; }
+			set
+			{
+				positions = value;
+				var errors = new StringBuilder();
+#warning Dictionary
+				/*var valueDictionary = value.ToDictionary(, );
+				if (BusinessLogic.Document.PositionsCountHasToBePositive(value, errors) &
+					BusinessLogic.Document.PositionCountsArePositive(value, errors) &
+					BusinessLogic.Document.PositionDoNotDuplicate(value, errors))
+				{
+					ClearErrors();
+				}
+				else
+				{
+					AddError(errors.ToString());
+				}*/
+			}
+		}
+
+		private readonly long? id;
+		private List<BusinessLogic.Position> positions;
 
 		#endregion
 
-		public Document(BusinessLogic.DocumentType type)
+		#region Constructors
+
+		private Document(long? id, BusinessLogic.DocumentType type, string number, DateTime date, List<BusinessLogic.Position> positions)
 		{
-			this.type = type;
-			Positions = new List<BusinessLogic.Position>();
+			this.id = id;
+			Type = type;
+			Number = number;
+			Date = date;
+			Positions = positions;
 		}
 
+		public Document(BusinessLogic.DocumentType type)
+			: this(null, type, string.Empty, DateTime.Now, new List<BusinessLogic.Position>())
+		{ }
+
 		public Document(BusinessLogic.Document instance)
-		{
-			id = instance.ID;
-			Number = instance.Number;
-			Date = instance.Date;
-			type = instance.Type;
-			Positions = instance.Positions.Select(child => new BusinessLogic.Position(child.Key.ID, child.Value)).ToList();
-		}
+			: this(
+				instance.ID,
+				instance.Type,
+				instance.Number,
+				instance.Date,
+				instance.Positions.Select(child => new BusinessLogic.Position(child.Key.ID, child.Value)).ToList())
+		{ }
+
+		#endregion
 
 		public BusinessLogic.Document ConvertToBusinessLogic(BusinessLogic.Database database)
 		{
 			BusinessLogic.Document instance;
 			database.Documents.Add(instance = new BusinessLogic.Document
 			{
-				Type = type,
+				Type = Type,
 				State = BusinessLogic.DocumentState.Active,
 				PreviousVersionId = id,
 			});
