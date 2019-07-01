@@ -17,7 +17,7 @@ namespace ComfortIsland.BusinessLogic
 		{ get; set; }
 
 		public long? PreviousVersionId
-		{ get; set; }
+		{ get; }
 
 		public string Number
 		{ get; set; }
@@ -26,10 +26,10 @@ namespace ComfortIsland.BusinessLogic
 		{ get; set; }
 
 		public DocumentType Type
-		{ get; set; }
+		{ get; }
 
 		public DocumentState State
-		{ get; set; }
+		{ get; private set; }
 
 		public Dictionary<Product, double> Positions
 		{
@@ -51,6 +51,33 @@ namespace ComfortIsland.BusinessLogic
 		}
 
 		private Dictionary<Product, double> positions;
+
+		#endregion
+
+		#region Constructors
+
+		public Document(long? previousVersionId, DocumentType type, DocumentState state)
+		{
+			if (type == null) throw new ArgumentNullException(nameof(type));
+			if (state == null) throw new ArgumentNullException(nameof(state));
+
+			PreviousVersionId = previousVersionId;
+			Type = type;
+			State = state;
+		}
+
+		public Document(DocumentType type)
+			: this(null, type, DocumentState.Active)
+		{ }
+
+		public Document(Document previousVersion)
+			: this(previousVersion.ID, previousVersion.Type, DocumentState.Active)
+		{
+			if (previousVersion.State == DocumentState.Active)
+			{
+				previousVersion.State = DocumentState.Edited;
+			}
+		}
 
 		#endregion
 

@@ -62,24 +62,22 @@ namespace UnitTests
 			);
 
 			// apply documents
-			var income = new Document
+			var income = new Document(DocumentType.Income)
 			{
 				ID = 1,
 				Date = new DateTime(),
 				Number = string.Empty,
-				Type = DocumentType.Income,
 				Positions = new Dictionary<Product, double>
 				{
 					{ productChild1, 10 },
 					{ productChild2, 20 },
 				}
 			};
-			var outcome = new Document
+			var outcome = new Document(DocumentType.Outcome)
 			{
 				ID = 2,
 				Date = new DateTime(),
 				Number = string.Empty,
-				Type = DocumentType.Outcome,
 				Positions = new Dictionary<Product, double>
 				{
 					{ productChild1, 5 },
@@ -87,12 +85,11 @@ namespace UnitTests
 					{ productParent, 1 },
 				}
 			};
-			var produce = new Document
+			var produce = new Document(DocumentType.Produce)
 			{
 				ID = 1,
 				Date = new DateTime(),
 				Number = string.Empty,
-				Type = DocumentType.Produce,
 				Positions = new Dictionary<Product, double>
 				{
 					{ productParent, 15 },

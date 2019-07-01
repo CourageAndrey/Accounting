@@ -62,14 +62,14 @@ namespace ComfortIsland.Xml
 
 		public BusinessLogic.Document ConvertToBusinessLogic()
 		{
-			return new BusinessLogic.Document
+			return new BusinessLogic.Document(
+				!string.IsNullOrEmpty(PreviousVersionId) ? (long?) long.Parse(PreviousVersionId) : null,
+				BusinessLogic.DocumentType.AllTypes[Type],
+				BusinessLogic.DocumentState.AllStates[State])
 			{
 				ID = ID,
-				PreviousVersionId = !string.IsNullOrEmpty(PreviousVersionId) ? (long?) long.Parse(PreviousVersionId) : null,
 				Number = Number,
 				Date = Date,
-				Type = BusinessLogic.DocumentType.AllTypes[Type],
-				State = BusinessLogic.DocumentState.AllStates[State],
 			};
 		}
 	}
