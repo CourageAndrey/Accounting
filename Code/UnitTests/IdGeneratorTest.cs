@@ -54,11 +54,6 @@ namespace UnitTests
 			{
 				throw new NotSupportedException();
 			}
-
-			public bool Validate(ComfortIsland.BusinessLogic.Database database, out StringBuilder errors)
-			{
-				throw new NotSupportedException();
-			}
 		}
 	}
 }
