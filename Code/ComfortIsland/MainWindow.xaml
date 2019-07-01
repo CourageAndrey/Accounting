@@ -11,7 +11,7 @@
 		<HierarchicalDataTemplate DataType="{x:Type businessLogic:Product}">
 			<TextBlock Text="{Binding Path=DisplayMember, Mode=OneWay}"/>
 			<HierarchicalDataTemplate.ItemsSource>
-				<Binding Path="ChildrenToSerialize" />
+				<Binding Path="Children" />
 			</HierarchicalDataTemplate.ItemsSource>
 		</HierarchicalDataTemplate>
 		<DataTemplate DataType="{x:Type businessLogic:Position}" >
