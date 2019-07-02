@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using ComfortIsland.BusinessLogic;
+using ComfortIsland.Helpers;
 
 namespace UnitTests
 {
@@ -30,12 +31,18 @@ namespace UnitTests
 			};
 
 			// act
-			document.Apply(database);
+			var delta = document.Apply(database);
 
 			// assert
 			Assert.AreEqual(11, database.Balance[productChild1.ID]);
 			Assert.AreEqual(22, database.Balance[productChild2.ID]);
 			Assert.AreEqual(33, database.Balance[productParent.ID]);
+			Assert.IsTrue(delta.IsEqualTo(new Dictionary<long, double>
+			{
+				{ productChild1.ID, 1 },
+				{ productChild2.ID, 2 },
+				{ productParent.ID, 3 },
+			}));
 		}
 
 		[TestMethod]
@@ -58,12 +65,18 @@ namespace UnitTests
 			};
 
 			// act
-			document.Apply(database);
+			var delta = document.Apply(database);
 
 			// assert
 			Assert.AreEqual(9, database.Balance[productChild1.ID]);
 			Assert.AreEqual(18, database.Balance[productChild2.ID]);
 			Assert.AreEqual(27, database.Balance[productParent.ID]);
+			Assert.IsTrue(delta.IsEqualTo(new Dictionary<long, double>
+			{
+				{ productChild1.ID, -1 },
+				{ productChild2.ID, -2 },
+				{ productParent.ID, -3 },
+			}));
 		}
 
 		[TestMethod]
@@ -86,12 +99,18 @@ namespace UnitTests
 			};
 
 			// act
-			document.Apply(database);
+			var delta = document.Apply(database);
 
 			// assert
 			Assert.AreEqual(9, database.Balance[productChild1.ID]);
 			Assert.AreEqual(18, database.Balance[productChild2.ID]);
 			Assert.AreEqual(27, database.Balance[productParent.ID]);
+			Assert.IsTrue(delta.IsEqualTo(new Dictionary<long, double>
+			{
+				{ productChild1.ID, -1 },
+				{ productChild2.ID, -2 },
+				{ productParent.ID, -3 },
+			}));
 		}
 
 		[TestMethod]
@@ -112,12 +131,18 @@ namespace UnitTests
 			};
 
 			// act
-			document.Apply(database);
+			var delta = document.Apply(database);
 
 			// assert
 			Assert.AreEqual(5, database.Balance[productChild1.ID]);
 			Assert.AreEqual(10, database.Balance[productChild2.ID]);
 			Assert.AreEqual(35, database.Balance[productParent.ID]);
+			Assert.IsTrue(delta.IsEqualTo(new Dictionary<long, double>
+			{
+				{ productChild1.ID, -5 },
+				{ productChild2.ID, -10 },
+				{ productParent.ID, 5 },
+			}));
 		}
 
 		[TestMethod]
@@ -140,12 +165,19 @@ namespace UnitTests
 			};
 
 			// act
-			document.Rollback(database);
+			var delta = document.Rollback(database);
 
 			// assert
 			Assert.AreEqual(9, database.Balance[productChild1.ID]);
 			Assert.AreEqual(18, database.Balance[productChild2.ID]);
 			Assert.AreEqual(27, database.Balance[productParent.ID]);
+			
+			Assert.IsTrue(delta.IsEqualTo(new Dictionary<long, double>
+			{
+				{ productChild1.ID, 1 },
+				{ productChild2.ID, 2 },
+				{ productParent.ID, 3 },
+			}));
 		}
 
 		[TestMethod]
@@ -168,12 +200,18 @@ namespace UnitTests
 			};
 
 			// act
-			document.Rollback(database);
+			var delta = document.Rollback(database);
 
 			// assert
 			Assert.AreEqual(11, database.Balance[productChild1.ID]);
 			Assert.AreEqual(22, database.Balance[productChild2.ID]);
 			Assert.AreEqual(33, database.Balance[productParent.ID]);
+			Assert.IsTrue(delta.IsEqualTo(new Dictionary<long, double>
+			{
+				{ productChild1.ID, -1 },
+				{ productChild2.ID, -2 },
+				{ productParent.ID, -3 },
+			}));
 		}
 
 		[TestMethod]
@@ -196,12 +234,18 @@ namespace UnitTests
 			};
 
 			// act
-			document.Rollback(database);
+			var delta = document.Rollback(database);
 
 			// assert
 			Assert.AreEqual(11, database.Balance[productChild1.ID]);
 			Assert.AreEqual(22, database.Balance[productChild2.ID]);
 			Assert.AreEqual(33, database.Balance[productParent.ID]);
+			Assert.IsTrue(delta.IsEqualTo(new Dictionary<long, double>
+			{
+				{ productChild1.ID, -1 },
+				{ productChild2.ID, -2 },
+				{ productParent.ID, -3 },
+			}));
 		}
 
 		[TestMethod]
@@ -222,12 +266,18 @@ namespace UnitTests
 			};
 
 			// act
-			document.Rollback(database);
+			var delta = document.Rollback(database);
 
 			// assert
 			Assert.AreEqual(15, database.Balance[productChild1.ID]);
 			Assert.AreEqual(30, database.Balance[productChild2.ID]);
 			Assert.AreEqual(25, database.Balance[productParent.ID]);
+			Assert.IsTrue(delta.IsEqualTo(new Dictionary<long, double>
+			{
+				{ productChild1.ID, -5 },
+				{ productChild2.ID, -10 },
+				{ productParent.ID, 5 },
+			}));
 		}
 
 		private static Database createTestBase(out Product productChild1, out Product productChild2, out Product productParent)
