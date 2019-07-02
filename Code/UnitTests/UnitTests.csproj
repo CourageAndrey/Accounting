@@ -50,6 +50,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="DigitRoundingTest.cs" />
     <Compile Include="DocumentsProcessingTest.cs" />
     <Compile Include="EnumerationsTest.cs" />
     <Compile Include="IdGeneratorTest.cs" />
