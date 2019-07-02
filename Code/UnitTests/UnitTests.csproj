@@ -51,8 +51,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="DigitRoundingTest.cs" />
-    <Compile Include="DocumentsProcessingTest.cs" />
     <Compile Include="EnumerationsTest.cs" />
+    <Compile Include="WorkflowTest.cs" />
     <Compile Include="IdGeneratorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
