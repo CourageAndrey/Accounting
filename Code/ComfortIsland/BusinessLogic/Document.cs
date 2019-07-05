@@ -64,6 +64,8 @@ namespace ComfortIsland.BusinessLogic
 			PreviousVersionId = previousVersionId;
 			Type = type;
 			State = state;
+
+			positions = new Dictionary<Product, double>();
 		}
 
 		public Document(DocumentType type)
