@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ComfortIsland.BusinessLogic
 {
-	public class Storage
+	public class Storage : IEnumerable<KeyValuePair<long, double>>
 	{
 		private readonly IDictionary<long, double> data;
 
@@ -62,6 +62,11 @@ namespace ComfortIsland.BusinessLogic
 			}
 		}
 
+		public Storage Clone()
+		{
+			return new Storage(new Dictionary<long, double>(data));
+		}
+
 		#endregion
 
 		#region Constructors
@@ -75,6 +80,20 @@ namespace ComfortIsland.BusinessLogic
 			if (data == null) throw new ArgumentNullException(nameof(data));
 
 			this.data = data;
+		}
+
+		#endregion
+
+		#region Enumeration
+
+		public IEnumerator<KeyValuePair<long, double>> GetEnumerator()
+		{
+			return data.GetEnumerator();
+		}
+
+		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+		{
+			return GetEnumerator();
 		}
 
 		#endregion
