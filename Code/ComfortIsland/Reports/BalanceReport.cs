@@ -30,18 +30,18 @@ namespace ComfortIsland.Reports
 		public BalanceReport(Database database, DateTime date, bool showAllProducts)
 		{
 			Date = date.Date.AddDays(1).AddMilliseconds(-1);
-			var balanceList = database.Balance.ToPositions();
+			var balance = database.Balance.Clone();
 			var activeDocuments = database.Documents.Where(d => d.State == DocumentState.Active).OrderByDescending(d => d.Date).ToList();
 
 			foreach (var document in activeDocuments.Where(d => d.Date > Date))
 			{
-				document.Rollback(database.Balance);
+				document.Rollback(balance);
 			}
 
 			var products = database.Products.ToDictionary(product => product.ID, product => (double?) null);
-			foreach (var balance in balanceList)
+			foreach (var position in balance)
 			{
-				products[balance.ID] = balance.Count;
+				products[position.Key] = position.Value;
 			}
 
 			BalanceItems = products
