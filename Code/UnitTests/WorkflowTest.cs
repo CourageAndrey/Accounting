@@ -31,7 +31,7 @@ namespace UnitTests
 			};
 
 			// act
-			var delta = document.Apply(database);
+			var delta = document.Apply(database.Balance);
 
 			// assert
 			Assert.AreEqual(11, database.Balance[productChild1.ID]);
@@ -65,7 +65,7 @@ namespace UnitTests
 			};
 
 			// act
-			var delta = document.Apply(database);
+			var delta = document.Apply(database.Balance);
 
 			// assert
 			Assert.AreEqual(9, database.Balance[productChild1.ID]);
@@ -99,7 +99,7 @@ namespace UnitTests
 			};
 
 			// act
-			var delta = document.Apply(database);
+			var delta = document.Apply(database.Balance);
 
 			// assert
 			Assert.AreEqual(9, database.Balance[productChild1.ID]);
@@ -131,7 +131,7 @@ namespace UnitTests
 			};
 
 			// act
-			var delta = document.Apply(database);
+			var delta = document.Apply(database.Balance);
 
 			// assert
 			Assert.AreEqual(5, database.Balance[productChild1.ID]);
@@ -165,7 +165,7 @@ namespace UnitTests
 			};
 
 			// act
-			var delta = document.Rollback(database);
+			var delta = document.Rollback(database.Balance);
 
 			// assert
 			Assert.AreEqual(9, database.Balance[productChild1.ID]);
@@ -200,7 +200,7 @@ namespace UnitTests
 			};
 
 			// act
-			var delta = document.Rollback(database);
+			var delta = document.Rollback(database.Balance);
 
 			// assert
 			Assert.AreEqual(11, database.Balance[productChild1.ID]);
@@ -234,7 +234,7 @@ namespace UnitTests
 			};
 
 			// act
-			var delta = document.Rollback(database);
+			var delta = document.Rollback(database.Balance);
 
 			// assert
 			Assert.AreEqual(11, database.Balance[productChild1.ID]);
@@ -266,7 +266,7 @@ namespace UnitTests
 			};
 
 			// act
-			var delta = document.Rollback(database);
+			var delta = document.Rollback(database.Balance);
 
 			// assert
 			Assert.AreEqual(15, database.Balance[productChild1.ID]);

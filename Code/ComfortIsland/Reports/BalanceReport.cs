@@ -35,7 +35,7 @@ namespace ComfortIsland.Reports
 
 			foreach (var document in activeDocuments.Where(d => d.Date > Date))
 			{
-				document.Rollback(database);
+				document.Rollback(database.Balance);
 			}
 
 			var products = database.Products.ToDictionary(product => product.ID, product => (double?) null);

@@ -42,7 +42,7 @@ namespace ComfortIsland.Reports
 			// открутили остатки на конец периода
 			foreach (var document in activeDocuments.Where(d => d.Date > ToDate))
 			{
-				document.Rollback(database);
+				document.Rollback(database.Balance);
 			}
 			foreach (var balance in balanceList)
 			{
@@ -51,7 +51,7 @@ namespace ComfortIsland.Reports
 
 			foreach (var document in activeDocuments.Where(d => d.Date <= ToDate && d.Date >= FromDate))
 			{
-				document.Rollback(database);
+				document.Rollback(database.Balance);
 				switch (document.Type.Enum)
 				{
 					case Xml.DocumentType.Income:
