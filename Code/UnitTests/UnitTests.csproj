@@ -54,6 +54,7 @@
     <Compile Include="DictionaryComparerTest.cs" />
     <Compile Include="DigitRoundingTest.cs" />
     <Compile Include="EnumerationsTest.cs" />
+    <Compile Include="Reports\TradeReportTest.cs" />
     <Compile Include="Reports\BalanceReportTest.cs" />
     <Compile Include="TestHelper.cs" />
     <Compile Include="WorkflowTest.cs" />
