@@ -164,7 +164,7 @@ namespace ComfortIsland.BusinessLogic
 #warning IsNotUsed
 		private bool ValidateBalance(Database database, StringBuilder errors)
 		{
-			foreach (var position in getBalanceDelta(database))
+			foreach (var position in getBalanceDelta())
 			{
 				double count;
 				if (!database.Balance.TryGetValue(position.Key, out count))
@@ -197,7 +197,7 @@ namespace ComfortIsland.BusinessLogic
 
 		public IDictionary<long, double> Apply(Database database)
 		{
-			var delta = getBalanceDelta(database);
+			var delta = getBalanceDelta();
 			foreach (var position in delta)
 			{
 				database.Balance.Increase(position.Key, position.Value);
@@ -207,7 +207,7 @@ namespace ComfortIsland.BusinessLogic
 
 		public IDictionary<long, double> Rollback(Database database)
 		{
-			var delta = getBalanceDelta(database);
+			var delta = getBalanceDelta();
 			foreach (var position in delta)
 			{
 				database.Balance.Decrease(position.Key, position.Value);
@@ -215,14 +215,14 @@ namespace ComfortIsland.BusinessLogic
 			return delta;
 		}
 
-		private IDictionary<long, double> getBalanceDelta(Database database)
+		private IDictionary<long, double> getBalanceDelta()
 		{
-			return Type.GetBalanceDelta(database, this);
+			return Type.GetBalanceDelta(this);
 		}
 
 		public bool CheckBalance(Database database, IList<Position> balanceTable, string operationNoun, string operationVerb)
 		{
-			return checkBalance(database, balanceTable, getBalanceDelta(database).Keys);
+			return checkBalance(database, balanceTable, getBalanceDelta().Keys);
 		}
 
 		private static bool checkBalance(Database database, IList<Position> balanceTable, IEnumerable<long> products)
