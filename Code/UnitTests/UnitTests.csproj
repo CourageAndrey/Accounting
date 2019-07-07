@@ -56,6 +56,7 @@
     <Compile Include="EnumerationsTest.cs" />
     <Compile Include="Reports\TradeReportTest.cs" />
     <Compile Include="Reports\BalanceReportTest.cs" />
+    <Compile Include="SerializationTest.cs" />
     <Compile Include="TestHelper.cs" />
     <Compile Include="WorkflowTest.cs" />
     <Compile Include="IdGeneratorTest.cs" />
