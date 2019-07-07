@@ -139,7 +139,7 @@ namespace ComfortIsland.Reports
 			ProductId = product.ID;
 			ProductName = product.Name;
 			ProductUnit = product.Unit.Name;
-			InitialBalance = Income = Produced = Selled = UsedToProduce = FinalBalance = 0;
+			InitialBalance = Income = Produced = Selled = UsedToProduce = SentToWarehouse = FinalBalance = 0;
 		}
 	}
 }
