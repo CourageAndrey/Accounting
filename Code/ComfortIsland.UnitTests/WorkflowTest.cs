@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 using ComfortIsland.BusinessLogic;
 using ComfortIsland.Helpers;
 
-namespace UnitTests
+namespace ComfortIsland.UnitTests
 {
-	[TestClass]
 	public class WorkflowTest
 	{
-		[TestMethod]
+		[Test]
 		public void ApplyIncomeIncreasesBalance()
 		{
 			// arrange
@@ -45,7 +44,7 @@ namespace UnitTests
 			}));
 		}
 
-		[TestMethod]
+		[Test]
 		public void ApplyOutcomeDecreasesBalance()
 		{
 			// arrange
@@ -79,7 +78,7 @@ namespace UnitTests
 			}));
 		}
 
-		[TestMethod]
+		[Test]
 		public void ApplyWarehouseDecreasesBalance()
 		{
 			// arrange
@@ -113,7 +112,7 @@ namespace UnitTests
 			}));
 		}
 
-		[TestMethod]
+		[Test]
 		public void ApplyProduceChangesBalance()
 		{
 			// arrange
@@ -145,7 +144,7 @@ namespace UnitTests
 			}));
 		}
 
-		[TestMethod]
+		[Test]
 		public void RollbackIncomeDecreasesBalance()
 		{
 			// arrange
@@ -180,7 +179,7 @@ namespace UnitTests
 			}));
 		}
 
-		[TestMethod]
+		[Test]
 		public void RollbackOutcomeIncreasesBalance()
 		{
 			// arrange
@@ -214,7 +213,7 @@ namespace UnitTests
 			}));
 		}
 
-		[TestMethod]
+		[Test]
 		public void RollbackWarehouseIncreasesBalance()
 		{
 			// arrange
@@ -248,7 +247,7 @@ namespace UnitTests
 			}));
 		}
 
-		[TestMethod]
+		[Test]
 		public void RollbackProduceChangesBalance()
 		{
 			// arrange

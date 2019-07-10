@@ -18,7 +18,6 @@ using System.Windows;
 
 [assembly: ThemeInfo(ResourceDictionaryLocation.None,ResourceDictionaryLocation.SourceAssembly)]
 
-[assembly: InternalsVisibleTo("UnitTests")]
 [assembly: InternalsVisibleTo("ComfortIsland.UnitTests")]
 
 [assembly: AssemblyVersion("1.0.0.0")]

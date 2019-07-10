@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Linq;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
-namespace UnitTests
+namespace ComfortIsland.UnitTests
 {
-	[TestClass]
 	public class EnumerationsTest
 	{
-		[TestMethod]
+		[Test]
 		public void DocumentType()
 		{
 			var values = Enum.GetValues(typeof(ComfortIsland.Xml.DocumentType)).OfType<ComfortIsland.Xml.DocumentType>().ToList();
 			Assert.IsTrue(values.SequenceEqual(ComfortIsland.BusinessLogic.DocumentType.AllTypes.Keys));
 		}
 
-		[TestMethod]
+		[Test]
 		public void DocumentState()
 		{
 			var values = Enum.GetValues(typeof(ComfortIsland.Xml.DocumentState)).OfType<ComfortIsland.Xml.DocumentState>().ToList();

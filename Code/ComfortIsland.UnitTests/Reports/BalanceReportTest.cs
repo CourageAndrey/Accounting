@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 using ComfortIsland.BusinessLogic;
 using ComfortIsland.Reports;
 
-namespace UnitTests.Reports
+namespace ComfortIsland.UnitTests.Reports
 {
-	[TestClass]
 	public class BalanceReportTest
 	{
-		[TestMethod]
+		[Test]
 		public void HappyPath()
 		{
 			// arrange
@@ -76,7 +75,7 @@ namespace UnitTests.Reports
 			Assert.AreEqual(0, item.Count);
 		}
 
-		[TestMethod]
+		[Test]
 		public void ReportDoesNotRuinBalance()
 		{
 			// arrange

@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 using ComfortIsland.BusinessLogic;
 using ComfortIsland.Reports;
 
-namespace UnitTests.Reports
+namespace ComfortIsland.UnitTests.Reports
 {
-	[TestClass]
 	public class TradeReportTest
 	{
-		[TestMethod]
+		[Test]
 		public void ReportBeforeAllChangesLooksEmpty()
 		{
 			// arrange
@@ -49,7 +48,7 @@ namespace UnitTests.Reports
 			Assert.AreEqual(0, parentItem.FinalBalance);
 		}
 
-		[TestMethod]
+		[Test]
 		public void ReportAfterAllChangesLooksEmpty()
 		{
 			// arrange
@@ -86,7 +85,7 @@ namespace UnitTests.Reports
 			Assert.AreEqual(0, parentItem.FinalBalance);
 		}
 
-		[TestMethod]
+		[Test]
 		public void CheckAllChanges()
 		{
 			// arrange
@@ -123,7 +122,7 @@ namespace UnitTests.Reports
 			Assert.AreEqual(0, parentItem.FinalBalance);
 		}
 
-		[TestMethod]
+		[Test]
 		public void CheckIncome()
 		{
 			// arrange
@@ -160,7 +159,7 @@ namespace UnitTests.Reports
 			Assert.AreEqual(0, parentItem.FinalBalance);
 		}
 
-		[TestMethod]
+		[Test]
 		public void CheckOutcome()
 		{
 			// arrange
@@ -197,7 +196,7 @@ namespace UnitTests.Reports
 			Assert.AreEqual(0, parentItem.FinalBalance);
 		}
 
-		[TestMethod]
+		[Test]
 		public void CheckProduced()
 		{
 			// arrange
@@ -234,7 +233,7 @@ namespace UnitTests.Reports
 			Assert.AreEqual(100, parentItem.FinalBalance);
 		}
 
-		[TestMethod]
+		[Test]
 		public void CheckToWarehouse()
 		{
 			// arrange
@@ -271,7 +270,7 @@ namespace UnitTests.Reports
 			Assert.AreEqual(0, parentItem.FinalBalance);
 		}
 
-		[TestMethod]
+		[Test]
 		public void ReportDoesNotRuinBalance()
 		{
 			// arrange

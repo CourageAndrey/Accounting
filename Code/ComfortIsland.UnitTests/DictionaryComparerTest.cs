@@ -1,29 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 using ComfortIsland.Helpers;
 
-namespace UnitTests
+namespace ComfortIsland.UnitTests
 {
-	[TestClass]
 	public class DictionaryComparerTest
 	{
-		[TestMethod]
+		[Test]
 		public void ComparisonFailsIfOneOfDictionariesIsNull()
 		{
-			TestHelper.Throws<ArgumentNullException>(() => DictionaryComparer.IsEqualTo(null, new Dictionary<string, string>()));
-			TestHelper.Throws<ArgumentNullException>(() => DictionaryComparer.IsEqualTo(new Dictionary<string, string>(), null));
+			Assert.Throws<ArgumentNullException>(() => DictionaryComparer.IsEqualTo(null, new Dictionary<string, string>()));
+			Assert.Throws<ArgumentNullException>(() => DictionaryComparer.IsEqualTo(new Dictionary<string, string>(), null));
 		}
 
-		[TestMethod]
+		[Test]
 		public void TwoEmptyDictionariesAreEqual()
 		{
 			Assert.IsTrue(new Dictionary<string, string>().IsEqualTo(new Dictionary<string, string>()));
 		}
 
-		[TestMethod]
+		[Test]
 		public void DictionaryIsEqualToItself()
 		{
 			var dictionary = new Dictionary<string, string>
@@ -35,7 +34,7 @@ namespace UnitTests
 			Assert.IsTrue(dictionary.IsEqualTo(dictionary));
 		}
 
-		[TestMethod]
+		[Test]
 		public void EqualDictionariesAreEqual()
 		{
 			var a = new Dictionary<string, string>
@@ -53,7 +52,7 @@ namespace UnitTests
 			Assert.IsTrue(a.IsEqualTo(b));
 		}
 
-		[TestMethod]
+		[Test]
 		public void DifferentDictionariesAreNotEqual()
 		{
 			var a = new Dictionary<string, string>

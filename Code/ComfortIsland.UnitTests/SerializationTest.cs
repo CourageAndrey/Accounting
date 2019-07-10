@@ -4,17 +4,16 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 using ComfortIsland.BusinessLogic;
 using ComfortIsland.Helpers;
 
-namespace UnitTests
+namespace ComfortIsland.UnitTests
 {
-	[TestClass]
 	public class SerializationTest
 	{
-		[TestMethod]
+		[Test]
 		public void HappyPass()
 		{
 			// arrange

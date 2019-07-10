@@ -1,13 +1,12 @@
 ﻿using ComfortIsland.Helpers;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
-namespace UnitTests
+namespace ComfortIsland.UnitTests
 {
-	[TestClass]
 	public class DigitRoundingTest
 	{
-		[TestMethod]
+		[Test]
 		public void IntegerNumbersReturnAsIs()
 		{
 			for (int i = 0; i < 10; i++)
@@ -16,7 +15,7 @@ namespace UnitTests
 			}
 		}
 
-		[TestMethod]
+		[Test]
 		public void DoubleNumbersAreRounded()
 		{
 			Assert.AreEqual("0.1", DigitRoundingConverter.Simplify(0.1));

@@ -2,17 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
-using ComfortIsland;
 using ComfortIsland.Helpers;
 
-namespace UnitTests
+namespace ComfortIsland.UnitTests
 {
-	[TestClass]
 	public class IdGeneratorTest
 	{
-		[TestMethod]
+		[Test]
 		public void FirstIdIsOne()
 		{
 			// arrange
@@ -25,7 +23,7 @@ namespace UnitTests
 			Assert.AreEqual(1, id);
 		}
 
-		[TestMethod]
+		[Test]
 		public void GeneratedIdIsMaxPlusOne()
 		{
 			// arrange
