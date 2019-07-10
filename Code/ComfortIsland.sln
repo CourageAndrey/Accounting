@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External", "External", "{71
 		External\DocumentFormat.OpenXml.dll = External\DocumentFormat.OpenXml.dll
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComfortIsland.UnitTests", "ComfortIsland.UnitTests\ComfortIsland.UnitTests.csproj", "{168FC24F-97A8-4B53-8A28-39E08189C347}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,10 @@ Global
 		{1BEA4FEF-0872-4BAD-8B4B-DF2C589347A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BEA4FEF-0872-4BAD-8B4B-DF2C589347A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1BEA4FEF-0872-4BAD-8B4B-DF2C589347A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{168FC24F-97A8-4B53-8A28-39E08189C347}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{168FC24F-97A8-4B53-8A28-39E08189C347}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{168FC24F-97A8-4B53-8A28-39E08189C347}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{168FC24F-97A8-4B53-8A28-39E08189C347}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
