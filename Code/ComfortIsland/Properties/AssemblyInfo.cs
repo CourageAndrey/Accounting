@@ -8,7 +8,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Андрей Бычко")]
 [assembly: AssemblyProduct("Остров Комфорта")]
-[assembly: AssemblyCopyright("Copyright © Андрей Бычко 2017")]
+[assembly: AssemblyCopyright("Copyright © Андрей Бычко 2017-2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
