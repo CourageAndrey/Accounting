@@ -217,7 +217,7 @@ namespace ComfortIsland.BusinessLogic
 
 		private IDictionary<long, double> getBalanceDelta()
 		{
-			return Type.GetBalanceDelta(this);
+			return Type.GetBalanceDelta(Positions);
 		}
 
 		public bool CheckBalance(Database database, IList<Position> balanceTable, string operationNoun, string operationVerb)
