@@ -78,7 +78,7 @@ namespace ComfortIsland.ViewModels
 			{
 				var previousVersion = database.Documents[id.Value];
 				instance = new BusinessLogic.Document(previousVersion);
-				previousVersion.Rollback(database.Balance);
+				previousVersion.Rollback(database);
 			}
 			else
 			{
@@ -90,7 +90,7 @@ namespace ComfortIsland.ViewModels
 			instance.Positions = Positions.ToDictionary(
 				position => database.Products[position.ID],
 				position => position.Count);
-			instance.Apply(database.Balance);
+			instance.Apply(database);
 			return instance;
 		}
 	}

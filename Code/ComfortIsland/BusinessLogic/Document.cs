@@ -138,7 +138,7 @@ namespace ComfortIsland.BusinessLogic
 			var products = new HashSet<long>();
 			foreach (var document in documentsToDelete)
 			{
-				foreach (long productId in document.Rollback(database.Balance).Keys)
+				foreach (long productId in document.Rollback(database).Keys)
 				{
 					products.Add(productId);
 				}
@@ -195,22 +195,22 @@ namespace ComfortIsland.BusinessLogic
 			return errors.Length == 0;
 		}
 
-		public IDictionary<long, double> Apply(Storage balance)
+		public IDictionary<long, double> Apply(Database database)
 		{
 			var delta = Type.GetBalanceDelta(Positions);
 			foreach (var position in delta)
 			{
-				balance.Increase(position.Key, position.Value);
+				database.Balance.Increase(position.Key, position.Value);
 			}
 			return delta;
 		}
 
-		public IDictionary<long, double> Rollback(Storage balance)
+		public IDictionary<long, double> Rollback(Database database)
 		{
 			var delta = Type.GetBalanceDelta(Positions);
 			foreach (var position in delta)
 			{
-				balance.Decrease(position.Key, position.Value);
+				database.Balance.Decrease(position.Key, position.Value);
 			}
 			return delta;
 		}

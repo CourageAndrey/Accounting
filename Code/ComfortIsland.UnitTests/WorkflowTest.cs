@@ -30,7 +30,7 @@ namespace ComfortIsland.UnitTests
 			};
 
 			// act
-			var delta = document.Apply(database.Balance);
+			var delta = document.Apply(database);
 
 			// assert
 			Assert.AreEqual(11, database.Balance[productChild1.ID]);
@@ -64,7 +64,7 @@ namespace ComfortIsland.UnitTests
 			};
 
 			// act
-			var delta = document.Apply(database.Balance);
+			var delta = document.Apply(database);
 
 			// assert
 			Assert.AreEqual(9, database.Balance[productChild1.ID]);
@@ -98,7 +98,7 @@ namespace ComfortIsland.UnitTests
 			};
 
 			// act
-			var delta = document.Apply(database.Balance);
+			var delta = document.Apply(database);
 
 			// assert
 			Assert.AreEqual(9, database.Balance[productChild1.ID]);
@@ -130,7 +130,7 @@ namespace ComfortIsland.UnitTests
 			};
 
 			// act
-			var delta = document.Apply(database.Balance);
+			var delta = document.Apply(database);
 
 			// assert
 			Assert.AreEqual(5, database.Balance[productChild1.ID]);
@@ -164,7 +164,7 @@ namespace ComfortIsland.UnitTests
 			};
 
 			// act
-			var delta = document.Rollback(database.Balance);
+			var delta = document.Rollback(database);
 
 			// assert
 			Assert.AreEqual(9, database.Balance[productChild1.ID]);
@@ -199,7 +199,7 @@ namespace ComfortIsland.UnitTests
 			};
 
 			// act
-			var delta = document.Rollback(database.Balance);
+			var delta = document.Rollback(database);
 
 			// assert
 			Assert.AreEqual(11, database.Balance[productChild1.ID]);
@@ -233,7 +233,7 @@ namespace ComfortIsland.UnitTests
 			};
 
 			// act
-			var delta = document.Rollback(database.Balance);
+			var delta = document.Rollback(database);
 
 			// assert
 			Assert.AreEqual(11, database.Balance[productChild1.ID]);
@@ -265,7 +265,7 @@ namespace ComfortIsland.UnitTests
 			};
 
 			// act
-			var delta = document.Rollback(database.Balance);
+			var delta = document.Rollback(database);
 
 			// assert
 			Assert.AreEqual(15, database.Balance[productChild1.ID]);

@@ -36,22 +36,26 @@ namespace ComfortIsland.Reports
 			FromDate = fromDate.Date;
 			ToDate = toDate.Date.AddDays(1).AddMilliseconds(-1);
 			var items = database.Products.ToDictionary(p => p.ID, p => new TradeItem(p));
-			var balance = database.Balance.Clone();
+			var databaseMock = new Database(
+				new Unit[0],
+				new Product[0],
+				database.Balance.ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
+				new Document[0]);
 			var activeDocuments = database.Documents.Where(d => d.State == DocumentState.Active).OrderByDescending(d => d.Date).ToList();
 
 			// открутили остатки на конец периода
 			foreach (var document in activeDocuments.Where(d => d.Date > ToDate))
 			{
-				document.Rollback(balance);
+				document.Rollback(databaseMock);
 			}
-			foreach (var position in balance)
+			foreach (var position in databaseMock.Balance)
 			{
 				items[position.Key].FinalBalance = position.Value;
 			}
 
 			foreach (var document in activeDocuments.Where(d => d.Date <= ToDate && d.Date >= FromDate))
 			{
-				document.Rollback(balance);
+				document.Rollback(databaseMock);
 				switch (document.Type.Enum)
 				{
 					case Xml.DocumentType.Income:
@@ -89,7 +93,7 @@ namespace ComfortIsland.Reports
 			}
 
 			// сохраняем баланс на начало периода
-			foreach (var position in balance)
+			foreach (var position in databaseMock.Balance)
 			{
 				items[position.Key].InitialBalance = position.Value;
 			}
