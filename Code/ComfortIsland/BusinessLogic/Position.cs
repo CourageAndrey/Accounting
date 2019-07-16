@@ -7,6 +7,7 @@
 		public long ID
 		{ get; set; }
 
+#warning TODO: HAS TO BE DECIMAL!
 		public double Count
 		{ get; set; }
 
