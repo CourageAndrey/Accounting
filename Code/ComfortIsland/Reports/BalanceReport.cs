@@ -36,7 +36,7 @@ namespace ComfortIsland.Reports
 				new Product[0],
 				database.Balance.ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
 				new Document[0]);
-			var activeDocuments = database.Documents.Where(d => d.State == DocumentState.Active).OrderByDescending(d => d.Date).ToList();
+			var activeDocuments = database.GetActiveDocuments().ToList();
 
 			foreach (var document in activeDocuments.Where(d => d.Date > Date))
 			{
