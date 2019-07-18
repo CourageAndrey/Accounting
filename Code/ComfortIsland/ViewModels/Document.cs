@@ -9,6 +9,9 @@ namespace ComfortIsland.ViewModels
 	{
 		#region Properties
 
+		public bool IsNew
+		{ get { return !id.HasValue; } }
+
 		public BusinessLogic.DocumentType Type
 		{ get; }
 
@@ -85,13 +88,18 @@ namespace ComfortIsland.ViewModels
 				instance = new BusinessLogic.Document(Type);
 			}
 			database.Documents.Add(instance);
-			instance.Number = Number;
-			instance.Date = Date;
-			instance.Positions = Positions.ToDictionary(
-				position => database.Products[position.ID],
-				position => position.Count);
+			ApplyChanges(instance, database.Products);
 			instance.Apply(database);
 			return instance;
+		}
+
+		internal void ApplyChanges(BusinessLogic.Document document, BusinessLogic.Warehouse<BusinessLogic.Product> products)
+		{
+			document.Number = Number;
+			document.Date = Date;
+			document.Positions = Positions.ToDictionary(
+				position => products[position.ID],
+				position => position.Count);
 		}
 	}
 }
