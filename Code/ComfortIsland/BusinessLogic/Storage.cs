@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+
+using ComfortIsland.Helpers;
 
 namespace ComfortIsland.BusinessLogic
 {
@@ -53,18 +56,34 @@ namespace ComfortIsland.BusinessLogic
 			return data.Select(b => new Position(b.Key, b.Value)).ToList();
 		}
 
-		public void LoadPositions(IEnumerable<Position> positions)
-		{
-			data.Clear();
-			foreach (var position in positions)
-			{
-				data[position.ID] = position.Count;
-			}
-		}
-
 		public Storage Clone()
 		{
 			return new Storage(new Dictionary<long, double>(data));
+		}
+
+		public bool Check(Warehouse<Product> products, StringBuilder errors, ICollection<long> productsFilter = null)
+		{
+			IEnumerable<KeyValuePair<long, double>> wrongPositions = data.Where(position => position.Value < 0);
+			if (productsFilter != null)
+			{
+				wrongPositions = wrongPositions.Where(position => productsFilter.Contains(position.Key));
+			}
+			var wrongPositionsList = wrongPositions.ToList();
+
+			if (wrongPositionsList.Count > 0)
+			{
+				errors.AppendLine("При выполнении данной операции остатки следующих товаров принимают отрицательные значения:");
+				foreach (var position in wrongPositionsList)
+				{
+					var product = products[position.Key];
+					errors.AppendLine(string.Format(" * {0} = {1}", product.DisplayMember, DigitRoundingConverter.Simplify(position.Value)));
+				}
+				return false;
+			}
+			else
+			{
+				return true;
+			}
 		}
 
 		#endregion
