@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Windows;
-
-using ComfortIsland.Helpers;
 
 namespace ComfortIsland.BusinessLogic
 {
@@ -75,6 +71,7 @@ namespace ComfortIsland.BusinessLogic
 		public Document(Document previousVersion)
 			: this(previousVersion.ID, previousVersion.Type, DocumentState.Active)
 		{
+#warning Возможна порча данных, если этот новосозданный документ не будет применён, смотри место единственного использования и тесты стратегии валидации
 			if (previousVersion.State == DocumentState.Active)
 			{
 				previousVersion.State = DocumentState.Edited;
@@ -129,72 +126,6 @@ namespace ComfortIsland.BusinessLogic
 
 		#region Workflow
 
-		public static bool TryDelete(Database database, IEnumerable<Document> documentsToDelete)
-		{
-			// создание временной копии таблицы баланса
-			var balance = database.Balance.ToPositions();
-
-			// последовательный откат документов
-			var products = new HashSet<long>();
-			foreach (var document in documentsToDelete)
-			{
-				foreach (long productId in document.Rollback(database).Keys)
-				{
-					products.Add(productId);
-				}
-			}
-
-			// проверка итогового баланса
-			if (checkBalance(database, balance, products))
-			{
-				// если всё хорошо - применяем изменения в БД
-				foreach (var document in documentsToDelete)
-				{
-					document.State = DocumentState.Deleted;
-				}
-				database.Balance.LoadPositions(balance);
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-
-#warning IsNotUsed
-		private bool ValidateBalance(Database database, StringBuilder errors)
-		{
-			foreach (var position in Type.GetBalanceDelta(Positions))
-			{
-				double count;
-				if (!database.Balance.TryGetValue(position.Key, out count))
-				{
-					count = 0;
-				}
-				if ((count + position.Value) < 0)
-				{
-					errors.AppendLine(string.Format(
-						CultureInfo.InvariantCulture,
-						"Недостаточно товара \"{0}\". Имеется по факту {1}, требуется {2}.",
-						database.Products[position.Key].DisplayMember,
-						count,
-						-position.Value));
-				}
-			}
-			if (Type == DocumentType.Produce)
-			{
-				foreach (var position in Positions)
-				{
-					var product = position.Key;
-					if (product.Children.Count == 0)
-					{
-						errors.AppendLine(string.Format(CultureInfo.InvariantCulture, "Товар {0} не может быть произведён, так как ни из чего не состоит.", product.DisplayMember));
-					}
-				}
-			}
-			return errors.Length == 0;
-		}
-
 		public IDictionary<long, double> Apply(Database database)
 		{
 			var delta = Type.GetBalanceDelta(Positions);
@@ -213,32 +144,6 @@ namespace ComfortIsland.BusinessLogic
 				database.Balance.Decrease(position.Key, position.Value);
 			}
 			return delta;
-		}
-
-		public bool CheckBalance(Database database, IList<Position> balanceTable, string operationNoun, string operationVerb)
-		{
-			return checkBalance(database, balanceTable, Type.GetBalanceDelta(Positions).Keys);
-		}
-
-		private static bool checkBalance(Database database, IList<Position> balanceTable, IEnumerable<long> products)
-		{
-			var wrongPositions = balanceTable.Where(p => products.Contains(p.ID) && p.Count < 0).ToList();
-			if (wrongPositions.Count > 0)
-			{
-				var text = new StringBuilder("При выполнении данной операции остатки следующих товаров принимают отрицательные значения:");
-				text.AppendLine();
-				foreach (var position in wrongPositions)
-				{
-					var product = database.Products[position.ID];
-					text.AppendLine(string.Format(" * {0} = {1}", product.DisplayMember, DigitRoundingConverter.Simplify(position.Count)));
-				}
-				MessageBox.Show(text.ToString(), "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-				return false;
-			}
-			else
-			{
-				return true;
-			}
 		}
 
 		#endregion

@@ -145,13 +145,22 @@ namespace ComfortIsland
 				return;
 			}
 
-			if (Document.TryDelete(database, documentsToDelete))
+			var errors = new StringBuilder();
+			if (Settings.BalanceValidationStrategy.VerifyDelete(database, documentsToDelete, errors))
 			{
+				foreach (var document in documentsToDelete)
+				{
+					document.Rollback(database);
+				}
 				new Xml.Database(database).Save();
 				documentStateFilterChecked(this, null);
 				reportHeader.Text = string.Empty;
 				reportGrid.ItemsSource = null;
 				buttonPrintReport.IsEnabled = false;
+			}
+			else
+			{
+				MessageBox.Show(errors.ToString(), "Не удалось выполнить удаление документов", MessageBoxButton.OK, MessageBoxImage.Warning);
 			}
 		}
 
@@ -166,7 +175,6 @@ namespace ComfortIsland
 			}
 			dialog.Initialize(database);
 			dialog.EditValue = viewModel;
-#warning dialog.IgnoreValidation = true;
 			if (dialog.ShowDialog() == true)
 			{
 				try

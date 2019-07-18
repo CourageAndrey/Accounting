@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -21,8 +22,8 @@ namespace ComfortIsland.Dialogs
 			get { return (ViewModels.Document) contextControl.DataContext; }
 			set
 			{
-				buttonOk.IsEnabled = !IgnoreValidation || !value.HasErrors;
-				value.ErrorsChanged += (sender, args) => { buttonOk.IsEnabled = !IgnoreValidation || !value.HasErrors; };
+				buttonOk.IsEnabled = !value.HasErrors;
+				value.ErrorsChanged += (sender, args) => { buttonOk.IsEnabled = !value.HasErrors; };
 				contextControl.DataContext = value;
 			}
 		}
@@ -40,14 +41,23 @@ namespace ComfortIsland.Dialogs
 		public Func<Database, IEnumerable<Product>> ProductsGetter
 		{ get; set; }
 
-		public bool IgnoreValidation
-		{ get; set; }
-
 		private void okClick(object sender, RoutedEventArgs e)
 		{
-			if (!IgnoreValidation || !EditValue.HasErrors)
+			if (!EditValue.HasErrors)
 			{
-				DialogResult = true;
+				StringBuilder errors = new StringBuilder();
+				var documentStub = new Document(EditValue.Type);
+				EditValue.ApplyChanges(documentStub, database.Products);
+				if (EditValue.IsNew
+					? Settings.BalanceValidationStrategy.VerifyCreate(database, documentStub, errors)
+					: Settings.BalanceValidationStrategy.VerifyEdit(database, documentStub, errors))
+				{
+					DialogResult = true;
+				}
+				else
+				{
+					MessageBox.Show(errors.ToString(), "Невозможно применить документ", MessageBoxButton.OK, MessageBoxImage.Warning);
+				}
 			}
 		}
 

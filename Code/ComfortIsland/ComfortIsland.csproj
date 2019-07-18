@@ -65,6 +65,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BusinessLogic\DatabaseExtension.cs" />
+    <Compile Include="BusinessLogic\BalanceValidationStrategy.cs" />
     <Compile Include="BusinessLogic\Storage.cs" />
     <Compile Include="Helpers\DictionaryComparer.cs" />
     <Compile Include="ViewModels\PositionType.cs" />

@@ -75,6 +75,12 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="BalanceValidationStrategies\AnyTypeTest.cs" />
+    <Compile Include="BalanceValidationStrategies\BalanceCheckWorkflowHelper.cs" />
+    <Compile Include="BalanceValidationStrategies\FinalOnlyTest.cs" />
+    <Compile Include="BalanceValidationStrategies\PerDayTest.cs" />
+    <Compile Include="BalanceValidationStrategies\PerDocumentTest.cs" />
+    <Compile Include="BalanceValidationStrategies\NoVerifyTest.cs" />
     <Compile Include="DictionaryComparerTest.cs" />
     <Compile Include="DigitRoundingTest.cs" />
     <Compile Include="EnumerationsTest.cs" />
@@ -99,6 +105,7 @@
       <Name>ComfortIsland</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
