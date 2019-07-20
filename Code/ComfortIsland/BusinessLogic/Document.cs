@@ -68,16 +68,6 @@ namespace ComfortIsland.BusinessLogic
 			: this(null, type, DocumentState.Active)
 		{ }
 
-		public Document(Document previousVersion)
-			: this(previousVersion.ID, previousVersion.Type, DocumentState.Active)
-		{
-#warning Возможна порча данных, если этот новосозданный документ не будет применён, смотри место единственного использования и тесты стратегии валидации
-			if (previousVersion.State == DocumentState.Active)
-			{
-				previousVersion.State = DocumentState.Edited;
-			}
-		}
-
 		#endregion
 
 		#region Validation
@@ -144,6 +134,15 @@ namespace ComfortIsland.BusinessLogic
 				database.Balance.Decrease(position.Key, position.Value);
 			}
 			return delta;
+		}
+
+		public void MakeEdited(Database database)
+		{
+			if (State == DocumentState.Active)
+			{
+				State = DocumentState.Edited;
+				Rollback(database);
+			}
 		}
 
 		#endregion

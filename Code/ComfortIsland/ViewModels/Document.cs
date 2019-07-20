@@ -75,13 +75,12 @@ namespace ComfortIsland.ViewModels
 
 		public BusinessLogic.Document ConvertToBusinessLogic(BusinessLogic.Database database)
 		{
-#warning Не надо делать Rollback и изменять состояние уже удалённым или отредактированным ранее документам
 			BusinessLogic.Document instance;
 			if (ID.HasValue)
 			{
 				var previousVersion = database.Documents[ID.Value];
-				instance = new BusinessLogic.Document(previousVersion);
-				previousVersion.Rollback(database);
+				instance = new BusinessLogic.Document(previousVersion.ID, previousVersion.Type, BusinessLogic.DocumentState.Active);
+				previousVersion.MakeEdited(database);
 			}
 			else
 			{
