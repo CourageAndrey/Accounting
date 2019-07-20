@@ -43,7 +43,7 @@ namespace ComfortIsland.UnitTests.BalanceValidationStrategies
 			income.Apply(database);
 			database.Documents.Add(income);
 
-			result = BalanceCheckWorkflowHelper.TryToEditSecond(database, doc => new Tuple<double, int>(5, 0), validationStrategy, errors, out document);
+			result = BalanceCheckWorkflowHelper.TryToEditSecond(database, doc => new Tuple<decimal, int>(5, 0), validationStrategy, errors, out document);
 			Assert.IsFalse(result);
 		}
 

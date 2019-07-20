@@ -50,7 +50,7 @@ namespace ComfortIsland.BusinessLogic
 		public string DisplayMember
 		{ get { return string.Format(CultureInfo.InvariantCulture, "{0} ({1})", Name, Unit.Name); } }
 
-		public Dictionary<Product, double> Children
+		public Dictionary<Product, decimal> Children
 		{
 			get { return children; }
 			set
@@ -71,13 +71,13 @@ namespace ComfortIsland.BusinessLogic
 
 		private string name;
 		private Unit unit;
-		private Dictionary<Product, double> children;
+		private Dictionary<Product, decimal> children;
 
 		#endregion
 
 		public Product()
 		{
-			Children = new Dictionary<Product, double>();
+			Children = new Dictionary<Product, decimal>();
 		}
 
 		#region Валидация
@@ -108,7 +108,7 @@ namespace ComfortIsland.BusinessLogic
 			}
 		}
 
-		public static bool ChildrenAreNotRecursive(long? id, Dictionary<Product, double> children, StringBuilder errors)
+		public static bool ChildrenAreNotRecursive(long? id, Dictionary<Product, decimal> children, StringBuilder errors)
 		{
 			if (id.HasValue && children.Keys.Any(c => c.IsOrHasChild(id.Value)))
 			{
@@ -121,7 +121,7 @@ namespace ComfortIsland.BusinessLogic
 			}
 		}
 
-		public static bool ChildrenCountsArePositive(Dictionary<Product, double> children, StringBuilder errors)
+		public static bool ChildrenCountsArePositive(Dictionary<Product, decimal> children, StringBuilder errors)
 		{
 			if (children.Any(c => c.Value <= 0))
 			{
@@ -134,7 +134,7 @@ namespace ComfortIsland.BusinessLogic
 			}
 		}
 
-		public static bool ChildrenDoNotDuplicate(Dictionary<Product, double> children, StringBuilder errors)
+		public static bool ChildrenDoNotDuplicate(Dictionary<Product, decimal> children, StringBuilder errors)
 		{
 			var ids = children.Select(c => c.Key.ID).ToList();
 			if (ids.Count > ids.Distinct().Count())

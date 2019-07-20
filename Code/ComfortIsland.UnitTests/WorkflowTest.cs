@@ -21,7 +21,7 @@ namespace ComfortIsland.UnitTests
 				ID = 0,
 				Date = new DateTime(),
 				Number = string.Empty,
-				Positions = new Dictionary<Product, double>
+				Positions = new Dictionary<Product, decimal>
 				{
 					{ productChild1, 1 },
 					{ productChild2, 2 },
@@ -36,7 +36,7 @@ namespace ComfortIsland.UnitTests
 			Assert.AreEqual(11, database.Balance[productChild1.ID]);
 			Assert.AreEqual(22, database.Balance[productChild2.ID]);
 			Assert.AreEqual(33, database.Balance[productParent.ID]);
-			Assert.IsTrue(delta.IsEqualTo(new Dictionary<long, double>
+			Assert.IsTrue(delta.IsEqualTo(new Dictionary<long, decimal>
 			{
 				{ productChild1.ID, 1 },
 				{ productChild2.ID, 2 },
@@ -55,7 +55,7 @@ namespace ComfortIsland.UnitTests
 				ID = 0,
 				Date = new DateTime(),
 				Number = string.Empty,
-				Positions = new Dictionary<Product, double>
+				Positions = new Dictionary<Product, decimal>
 				{
 					{ productChild1, 1 },
 					{ productChild2, 2 },
@@ -70,7 +70,7 @@ namespace ComfortIsland.UnitTests
 			Assert.AreEqual(9, database.Balance[productChild1.ID]);
 			Assert.AreEqual(18, database.Balance[productChild2.ID]);
 			Assert.AreEqual(27, database.Balance[productParent.ID]);
-			Assert.IsTrue(delta.IsEqualTo(new Dictionary<long, double>
+			Assert.IsTrue(delta.IsEqualTo(new Dictionary<long, decimal>
 			{
 				{ productChild1.ID, -1 },
 				{ productChild2.ID, -2 },
@@ -89,7 +89,7 @@ namespace ComfortIsland.UnitTests
 				ID = 0,
 				Date = new DateTime(),
 				Number = string.Empty,
-				Positions = new Dictionary<Product, double>
+				Positions = new Dictionary<Product, decimal>
 				{
 					{ productChild1, 1 },
 					{ productChild2, 2 },
@@ -104,7 +104,7 @@ namespace ComfortIsland.UnitTests
 			Assert.AreEqual(9, database.Balance[productChild1.ID]);
 			Assert.AreEqual(18, database.Balance[productChild2.ID]);
 			Assert.AreEqual(27, database.Balance[productParent.ID]);
-			Assert.IsTrue(delta.IsEqualTo(new Dictionary<long, double>
+			Assert.IsTrue(delta.IsEqualTo(new Dictionary<long, decimal>
 			{
 				{ productChild1.ID, -1 },
 				{ productChild2.ID, -2 },
@@ -123,7 +123,7 @@ namespace ComfortIsland.UnitTests
 				ID = 0,
 				Date = new DateTime(),
 				Number = string.Empty,
-				Positions = new Dictionary<Product, double>
+				Positions = new Dictionary<Product, decimal>
 				{
 					{ productParent, 5 },
 				}
@@ -136,7 +136,7 @@ namespace ComfortIsland.UnitTests
 			Assert.AreEqual(5, database.Balance[productChild1.ID]);
 			Assert.AreEqual(10, database.Balance[productChild2.ID]);
 			Assert.AreEqual(35, database.Balance[productParent.ID]);
-			Assert.IsTrue(delta.IsEqualTo(new Dictionary<long, double>
+			Assert.IsTrue(delta.IsEqualTo(new Dictionary<long, decimal>
 			{
 				{ productChild1.ID, -5 },
 				{ productChild2.ID, -10 },
@@ -155,7 +155,7 @@ namespace ComfortIsland.UnitTests
 				ID = 0,
 				Date = new DateTime(),
 				Number = string.Empty,
-				Positions = new Dictionary<Product, double>
+				Positions = new Dictionary<Product, decimal>
 				{
 					{ productChild1, 1 },
 					{ productChild2, 2 },
@@ -171,7 +171,7 @@ namespace ComfortIsland.UnitTests
 			Assert.AreEqual(18, database.Balance[productChild2.ID]);
 			Assert.AreEqual(27, database.Balance[productParent.ID]);
 			
-			Assert.IsTrue(delta.IsEqualTo(new Dictionary<long, double>
+			Assert.IsTrue(delta.IsEqualTo(new Dictionary<long, decimal>
 			{
 				{ productChild1.ID, 1 },
 				{ productChild2.ID, 2 },
@@ -190,7 +190,7 @@ namespace ComfortIsland.UnitTests
 				ID = 0,
 				Date = new DateTime(),
 				Number = string.Empty,
-				Positions = new Dictionary<Product, double>
+				Positions = new Dictionary<Product, decimal>
 				{
 					{ productChild1, 1 },
 					{ productChild2, 2 },
@@ -205,7 +205,7 @@ namespace ComfortIsland.UnitTests
 			Assert.AreEqual(11, database.Balance[productChild1.ID]);
 			Assert.AreEqual(22, database.Balance[productChild2.ID]);
 			Assert.AreEqual(33, database.Balance[productParent.ID]);
-			Assert.IsTrue(delta.IsEqualTo(new Dictionary<long, double>
+			Assert.IsTrue(delta.IsEqualTo(new Dictionary<long, decimal>
 			{
 				{ productChild1.ID, -1 },
 				{ productChild2.ID, -2 },
@@ -224,7 +224,7 @@ namespace ComfortIsland.UnitTests
 				ID = 0,
 				Date = new DateTime(),
 				Number = string.Empty,
-				Positions = new Dictionary<Product, double>
+				Positions = new Dictionary<Product, decimal>
 				{
 					{ productChild1, 1 },
 					{ productChild2, 2 },
@@ -239,7 +239,7 @@ namespace ComfortIsland.UnitTests
 			Assert.AreEqual(11, database.Balance[productChild1.ID]);
 			Assert.AreEqual(22, database.Balance[productChild2.ID]);
 			Assert.AreEqual(33, database.Balance[productParent.ID]);
-			Assert.IsTrue(delta.IsEqualTo(new Dictionary<long, double>
+			Assert.IsTrue(delta.IsEqualTo(new Dictionary<long, decimal>
 			{
 				{ productChild1.ID, -1 },
 				{ productChild2.ID, -2 },
@@ -258,7 +258,7 @@ namespace ComfortIsland.UnitTests
 				ID = 0,
 				Date = new DateTime(),
 				Number = string.Empty,
-				Positions = new Dictionary<Product, double>
+				Positions = new Dictionary<Product, decimal>
 				{
 					{ productParent, 5 },
 				}
@@ -271,7 +271,7 @@ namespace ComfortIsland.UnitTests
 			Assert.AreEqual(15, database.Balance[productChild1.ID]);
 			Assert.AreEqual(30, database.Balance[productChild2.ID]);
 			Assert.AreEqual(25, database.Balance[productParent.ID]);
-			Assert.IsTrue(delta.IsEqualTo(new Dictionary<long, double>
+			Assert.IsTrue(delta.IsEqualTo(new Dictionary<long, decimal>
 			{
 				{ productChild1.ID, -5 },
 				{ productChild2.ID, -10 },
@@ -319,7 +319,7 @@ namespace ComfortIsland.UnitTests
 					productChild2,
 					productParent,
 				},
-				new Dictionary<long, double>
+				new Dictionary<long, decimal>
 				{
 					{ productChild1.ID, 10 },
 					{ productChild2.ID, 20 },

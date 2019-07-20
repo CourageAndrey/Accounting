@@ -26,14 +26,14 @@ namespace ComfortIsland.BusinessLogic
 			: this(
 				new Warehouse<Unit>(),
 				new Warehouse<Product>(),
-				new Dictionary<long, double>(),
+				new Dictionary<long, decimal>(),
 				new Warehouse<Document>())
 		{ }
 
 		public Database(
 			IEnumerable<Unit> units,
 			IEnumerable<Product> products,
-			IDictionary<long, double> balance,
+			IDictionary<long, decimal> balance,
 			IEnumerable<Document> documents)
 		{
 			Units = new Warehouse<Unit>(units);

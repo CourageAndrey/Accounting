@@ -12,7 +12,7 @@ namespace ComfortIsland.Xml
 		{ get; set; }
 
 		[XmlAttribute]
-		public double Count
+		public decimal Count
 		{ get; set; }
 
 		#endregion
@@ -22,7 +22,7 @@ namespace ComfortIsland.Xml
 		public Balance()
 		{ }
 
-		public Balance(long product, double count)
+		public Balance(long product, decimal count)
 		{
 			Product = product;
 			Count = count;

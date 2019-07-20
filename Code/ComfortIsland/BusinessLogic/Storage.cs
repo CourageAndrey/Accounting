@@ -7,15 +7,15 @@ using ComfortIsland.Helpers;
 
 namespace ComfortIsland.BusinessLogic
 {
-	public class Storage : IEnumerable<KeyValuePair<long, double>>
+	public class Storage : IEnumerable<KeyValuePair<long, decimal>>
 	{
-		private readonly IDictionary<long, double> data;
+		private readonly IDictionary<long, decimal> data;
 
 		#region Public interface
 
-		public void Increase(long id, double value)
+		public void Increase(long id, decimal value)
 		{
-			double count;
+			decimal count;
 			if (!data.TryGetValue(id, out count))
 			{
 				count = 0;
@@ -24,9 +24,9 @@ namespace ComfortIsland.BusinessLogic
 			data[id] = count;
 		}
 
-		public void Decrease(long id, double value)
+		public void Decrease(long id, decimal value)
 		{
-			double count;
+			decimal count;
 			if (!data.TryGetValue(id, out count))
 			{
 				count = 0;
@@ -35,16 +35,16 @@ namespace ComfortIsland.BusinessLogic
 			data[id] = count;
 		}
 
-		public bool TryGetValue(long id, out double value)
+		public bool TryGetValue(long id, out decimal value)
 		{
 			return data.TryGetValue(id, out value);
 		}
 
-		public double this[long id]
+		public decimal this[long id]
 		{
 			get
 			{
-				double count;
+				decimal count;
 				return data.TryGetValue(id, out count)
 					? count
 					: 0;
@@ -58,12 +58,12 @@ namespace ComfortIsland.BusinessLogic
 
 		public Storage Clone()
 		{
-			return new Storage(new Dictionary<long, double>(data));
+			return new Storage(new Dictionary<long, decimal>(data));
 		}
 
 		public bool Check(Warehouse<Product> products, StringBuilder errors, ICollection<long> productsFilter = null)
 		{
-			IEnumerable<KeyValuePair<long, double>> wrongPositions = data.Where(position => position.Value < 0);
+			IEnumerable<KeyValuePair<long, decimal>> wrongPositions = data.Where(position => position.Value < 0);
 			if (productsFilter != null)
 			{
 				wrongPositions = wrongPositions.Where(position => productsFilter.Contains(position.Key));
@@ -91,10 +91,10 @@ namespace ComfortIsland.BusinessLogic
 		#region Constructors
 
 		public Storage()
-			: this(new Dictionary<long, double>())
+			: this(new Dictionary<long, decimal>())
 		{ }
 
-		public Storage(IDictionary<long, double> data)
+		public Storage(IDictionary<long, decimal> data)
 		{
 			if (data == null) throw new ArgumentNullException(nameof(data));
 
@@ -105,7 +105,7 @@ namespace ComfortIsland.BusinessLogic
 
 		#region Enumeration
 
-		public IEnumerator<KeyValuePair<long, double>> GetEnumerator()
+		public IEnumerator<KeyValuePair<long, decimal>> GetEnumerator()
 		{
 			return data.GetEnumerator();
 		}

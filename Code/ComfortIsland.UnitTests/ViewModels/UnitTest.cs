@@ -34,7 +34,7 @@ namespace ComfortIsland.UnitTests.ViewModels
 			var database = new BusinessLogic.Database(
 				new BusinessLogic.Unit[0],
 				new BusinessLogic.Product[0],
-				new Dictionary<long, double>(),
+				new Dictionary<long, decimal>(),
 				new BusinessLogic.Document[0]);
 
 			// act
@@ -65,7 +65,7 @@ namespace ComfortIsland.UnitTests.ViewModels
 			var database = new BusinessLogic.Database(
 				new[] { initialBusinessObject },
 				new BusinessLogic.Product[0],
-				new Dictionary<long, double>(),
+				new Dictionary<long, decimal>(),
 				new BusinessLogic.Document[0]);
 
 			// act

@@ -4,12 +4,12 @@ using System.Windows.Data;
 
 namespace ComfortIsland.Helpers
 {
-	[ValueConversion(typeof(double), typeof(string))]
+	[ValueConversion(typeof(decimal), typeof(string))]
 	public class DigitRoundingConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			return Simplify((double) value);
+			return Simplify((decimal) value);
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -17,7 +17,7 @@ namespace ComfortIsland.Helpers
 			return double.Parse(value.ToString());
 		}
 
-		public static string Simplify(double value)
+		public static string Simplify(decimal value)
 		{
 			string result = value.ToString(CultureInfo.CurrentCulture);
 			var numberFormat = CultureInfo.CurrentCulture.NumberFormat;

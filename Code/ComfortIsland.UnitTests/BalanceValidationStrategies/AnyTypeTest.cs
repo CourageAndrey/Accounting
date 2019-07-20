@@ -47,7 +47,7 @@ namespace ComfortIsland.UnitTests.BalanceValidationStrategies
 						doc =>
 						{
 							original = doc;
-							return new Tuple<double, int>(
+							return new Tuple<decimal, int>(
 								doc.Type == DocumentType.Income ? -1 : 1,
 								0);
 						},
@@ -83,7 +83,7 @@ namespace ComfortIsland.UnitTests.BalanceValidationStrategies
 						doc =>
 						{
 							original = doc;
-							return new Tuple<double, int>(
+							return new Tuple<decimal, int>(
 								doc.Type == DocumentType.Income ? -2 : 2,
 								0);
 						},
@@ -130,7 +130,7 @@ namespace ComfortIsland.UnitTests.BalanceValidationStrategies
 						doc =>
 						{
 							original = doc;
-							return new Tuple<double, int>(
+							return new Tuple<decimal, int>(
 								doc.Type == DocumentType.Income
 									? doc.Positions.Values.First() * 10
 									: -(doc.Positions.Values.First() - 1),
@@ -182,7 +182,7 @@ namespace ComfortIsland.UnitTests.BalanceValidationStrategies
 			{
 				bool result = BalanceCheckWorkflowHelper.TryToEditFirst(
 					database,
-					doc => new Tuple<double, int>(0, -72),
+					doc => new Tuple<decimal, int>(0, -72),
 					validationStrategy,
 					errors,
 					out edited);
@@ -190,7 +190,7 @@ namespace ComfortIsland.UnitTests.BalanceValidationStrategies
 
 				result = BalanceCheckWorkflowHelper.TryToEditThird(
 					database,
-					doc => new Tuple<double, int>(0, -72),
+					doc => new Tuple<decimal, int>(0, -72),
 					validationStrategy,
 					errors,
 					out edited);
@@ -211,7 +211,7 @@ namespace ComfortIsland.UnitTests.BalanceValidationStrategies
 			{
 				bool result = BalanceCheckWorkflowHelper.TryToEditSecond(
 					database,
-					doc => new Tuple<double, int>(0, 72),
+					doc => new Tuple<decimal, int>(0, 72),
 					validationStrategy,
 					errors,
 					out edited);
@@ -219,7 +219,7 @@ namespace ComfortIsland.UnitTests.BalanceValidationStrategies
 
 				result = BalanceCheckWorkflowHelper.TryToEditFourth(
 					database,
-					doc => new Tuple<double, int>(0, 72),
+					doc => new Tuple<decimal, int>(0, 72),
 					validationStrategy,
 					errors,
 					out edited);

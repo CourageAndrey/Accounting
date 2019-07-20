@@ -30,7 +30,7 @@ namespace ComfortIsland.UnitTests.BalanceValidationStrategies
 			var database = new Database(
 				new[] { unit },
 				new[] { product },
-				new Dictionary<long, double> { { product.ID, 10 } },
+				new Dictionary<long, decimal> { { product.ID, 10 } },
 				new Document[0]);
 			var firstDate = DateTime.Now.Date.AddDays(-2);
 
@@ -38,7 +38,7 @@ namespace ComfortIsland.UnitTests.BalanceValidationStrategies
 			{
 				Date = firstDate.AddHours(6),
 				Number = "income +5",
-				Positions = new Dictionary<Product, double> { { product, 5 } },
+				Positions = new Dictionary<Product, decimal> { { product, 5 } },
 			});
 			document.Apply(database);
 
@@ -46,7 +46,7 @@ namespace ComfortIsland.UnitTests.BalanceValidationStrategies
 			{
 				Date = firstDate.AddHours(12),
 				Number = "outcome -12",
-				Positions = new Dictionary<Product, double> { { product, 12 } },
+				Positions = new Dictionary<Product, decimal> { { product, 12 } },
 			});
 			document.Apply(database);
 
@@ -54,7 +54,7 @@ namespace ComfortIsland.UnitTests.BalanceValidationStrategies
 			{
 				Date = firstDate.AddDays(1).AddHours(6),
 				Number = "income +8",
-				Positions = new Dictionary<Product, double> { { product, 8 } },
+				Positions = new Dictionary<Product, decimal> { { product, 8 } },
 			});
 			document.Apply(database);
 
@@ -62,7 +62,7 @@ namespace ComfortIsland.UnitTests.BalanceValidationStrategies
 			{
 				Date = firstDate.AddDays(1).AddHours(12),
 				Number = "outcome -10",
-				Positions = new Dictionary<Product, double> { { product, 10 } },
+				Positions = new Dictionary<Product, decimal> { { product, 10 } },
 			});
 			document.Apply(database);
 
@@ -73,8 +73,8 @@ namespace ComfortIsland.UnitTests.BalanceValidationStrategies
 
 		#region Test cases
 
-		public delegate bool AddChecker(Database database, double delta, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document document);
-		public delegate bool EditChecker(Database database, Func<Document, Tuple<double, int>> deltaGetter, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document edited);
+		public delegate bool AddChecker(Database database, decimal delta, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document document);
+		public delegate bool EditChecker(Database database, Func<Document, Tuple<decimal, int>> deltaGetter, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document edited);
 
 		public static readonly IReadOnlyCollection<AddChecker> AddCheckers = new AddChecker[]
 		{
@@ -93,72 +93,72 @@ namespace ComfortIsland.UnitTests.BalanceValidationStrategies
 			TryToEditFourth,
 		};
 
-		public static bool TryToAddBeforeAll(Database database, double delta, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document document)
+		public static bool TryToAddBeforeAll(Database database, decimal delta, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document document)
 		{
 			document = new Document(delta > 0 ? DocumentType.Income : DocumentType.Outcome)
 			{
 				Number = "TEST",
 				Date = database.Documents.Skip(0).First().Date.AddDays(-1),
-				Positions = new Dictionary<Product, double> { { database.Products.First(), Math.Abs(delta) } },
+				Positions = new Dictionary<Product, decimal> { { database.Products.First(), Math.Abs(delta) } },
 			};
 			return validationStrategy.VerifyCreate(database, document, errors);
 		}
 
-		public static bool TryToAddAfterFirst(Database database, double delta, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document document)
+		public static bool TryToAddAfterFirst(Database database, decimal delta, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document document)
 		{
 			document = new Document(delta > 0 ? DocumentType.Income : DocumentType.Outcome)
 			{
 				Number = "TEST",
 				Date = database.Documents.Skip(0).First().Date.AddHours(3),
-				Positions = new Dictionary<Product, double> { { database.Products.First(), Math.Abs(delta) } },
+				Positions = new Dictionary<Product, decimal> { { database.Products.First(), Math.Abs(delta) } },
 			};
 			return validationStrategy.VerifyCreate(database, document, errors);
 		}
 
-		public static bool TryToAddAfterSecond(Database database, double delta, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document document)
+		public static bool TryToAddAfterSecond(Database database, decimal delta, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document document)
 		{
 			document = new Document(delta > 0 ? DocumentType.Income : DocumentType.Outcome)
 			{
 				Number = "TEST",
 				Date = database.Documents.Skip(1).First().Date.AddHours(3),
-				Positions = new Dictionary<Product, double> { { database.Products.First(), Math.Abs(delta) } },
+				Positions = new Dictionary<Product, decimal> { { database.Products.First(), Math.Abs(delta) } },
 			};
 			return validationStrategy.VerifyCreate(database, document, errors);
 		}
 
-		public static bool TryToAddAfterThird(Database database, double delta, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document document)
+		public static bool TryToAddAfterThird(Database database, decimal delta, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document document)
 		{
 			document = new Document(delta > 0 ? DocumentType.Income : DocumentType.Outcome)
 			{
 				Number = "TEST",
 				Date = database.Documents.Skip(2).First().Date.AddHours(3),
-				Positions = new Dictionary<Product, double> { { database.Products.First(), Math.Abs(delta) } },
+				Positions = new Dictionary<Product, decimal> { { database.Products.First(), Math.Abs(delta) } },
 			};
 			return validationStrategy.VerifyCreate(database, document, errors);
 		}
 
-		public static bool TryToAddAfterAll(Database database, double delta, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document document)
+		public static bool TryToAddAfterAll(Database database, decimal delta, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document document)
 		{
 			document = new Document(delta > 0 ? DocumentType.Income : DocumentType.Outcome)
 			{
 				Number = "TEST",
 				Date = database.Documents.Last().Date.AddDays(1),
-				Positions = new Dictionary<Product, double> { { database.Products.First(), Math.Abs(delta) } },
+				Positions = new Dictionary<Product, decimal> { { database.Products.First(), Math.Abs(delta) } },
 			};
 			return validationStrategy.VerifyCreate(database, document, errors);
 		}
 
-		public static bool TryToEditFirst(Database database, Func<Document, Tuple<double, int>> deltaGetter, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document edited)
+		public static bool TryToEditFirst(Database database, Func<Document, Tuple<decimal, int>> deltaGetter, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document edited)
 		{
 			var original = database.Documents.Skip(0).First();
 			var deltas = deltaGetter(original);
-			double delta = deltas.Item1;
+			decimal delta = deltas.Item1;
 			int hoursDelta = deltas.Item2;
 			edited = new Document(original.ID, original.Type, DocumentState.Active)
 			{
 				Number = "EDIT " + original.Number,
 				Date = original.Date.AddHours(hoursDelta),
-				Positions = new Dictionary<Product, double>
+				Positions = new Dictionary<Product, decimal>
 				{
 					{
 						database.Products.First(),
@@ -169,17 +169,17 @@ namespace ComfortIsland.UnitTests.BalanceValidationStrategies
 			return validationStrategy.VerifyEdit(database, edited, errors);
 		}
 
-		public static bool TryToEditSecond(Database database, Func<Document, Tuple<double, int>> deltaGetter, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document edited)
+		public static bool TryToEditSecond(Database database, Func<Document, Tuple<decimal, int>> deltaGetter, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document edited)
 		{
 			var original = database.Documents.Skip(1).First();
 			var deltas = deltaGetter(original);
-			double delta = deltas.Item1;
+			decimal delta = deltas.Item1;
 			int hoursDelta = deltas.Item2;
 			edited = new Document(original.ID, original.Type, DocumentState.Active)
 			{
 				Number = "EDIT " + original.Number,
 				Date = original.Date.AddHours(hoursDelta),
-				Positions = new Dictionary<Product, double>
+				Positions = new Dictionary<Product, decimal>
 				{
 					{
 						database.Products.First(),
@@ -190,17 +190,17 @@ namespace ComfortIsland.UnitTests.BalanceValidationStrategies
 			return validationStrategy.VerifyEdit(database, edited, errors);
 		}
 
-		public static bool TryToEditThird(Database database, Func<Document, Tuple<double, int>> deltaGetter, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document edited)
+		public static bool TryToEditThird(Database database, Func<Document, Tuple<decimal, int>> deltaGetter, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document edited)
 		{
 			var original = database.Documents.Skip(2).First();
 			var deltas = deltaGetter(original);
-			double delta = deltas.Item1;
+			decimal delta = deltas.Item1;
 			int hoursDelta = deltas.Item2;
 			edited = new Document(original.ID, original.Type, DocumentState.Active)
 			{
 				Number = "EDIT " + original.Number,
 				Date = original.Date.AddHours(hoursDelta),
-				Positions = new Dictionary<Product, double>
+				Positions = new Dictionary<Product, decimal>
 				{
 					{
 						database.Products.First(),
@@ -211,17 +211,17 @@ namespace ComfortIsland.UnitTests.BalanceValidationStrategies
 			return validationStrategy.VerifyEdit(database, edited, errors);
 		}
 
-		public static bool TryToEditFourth(Database database, Func<Document, Tuple<double, int>> deltaGetter, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document edited)
+		public static bool TryToEditFourth(Database database, Func<Document, Tuple<decimal, int>> deltaGetter, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document edited)
 		{
 			var original = database.Documents.Skip(3).First();
 			var deltas = deltaGetter(original);
-			double delta = deltas.Item1;
+			decimal delta = deltas.Item1;
 			int hoursDelta = deltas.Item2;
 			edited = new Document(original.ID, original.Type, DocumentState.Active)
 			{
 				Number = "EDIT " + original.Number,
 				Date = original.Date.AddHours(hoursDelta),
-				Positions = new Dictionary<Product, double>
+				Positions = new Dictionary<Product, decimal>
 				{
 					{
 						database.Products.First(),

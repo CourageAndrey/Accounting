@@ -7,8 +7,7 @@
 		public long ID
 		{ get; set; }
 
-#warning TODO: HAS TO BE DECIMAL!
-		public double Count
+		public decimal Count
 		{ get; set; }
 
 		public Product BoundProduct
@@ -21,7 +20,7 @@
 		public Position()
 		{ }
 
-		public Position(long id, double count)
+		public Position(long id, decimal count)
 		{
 			ID = id;
 			Count = count;

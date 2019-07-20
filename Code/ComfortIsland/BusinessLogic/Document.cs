@@ -27,7 +27,7 @@ namespace ComfortIsland.BusinessLogic
 		public DocumentState State
 		{ get; private set; }
 
-		public Dictionary<Product, double> Positions
+		public Dictionary<Product, decimal> Positions
 		{
 			get { return positions; }
 			set
@@ -46,7 +46,7 @@ namespace ComfortIsland.BusinessLogic
 			}
 		}
 
-		private Dictionary<Product, double> positions;
+		private Dictionary<Product, decimal> positions;
 
 		#endregion
 
@@ -61,7 +61,7 @@ namespace ComfortIsland.BusinessLogic
 			Type = type;
 			State = state;
 
-			positions = new Dictionary<Product, double>();
+			positions = new Dictionary<Product, decimal>();
 		}
 
 		public Document(DocumentType type)
@@ -82,7 +82,7 @@ namespace ComfortIsland.BusinessLogic
 
 		#region Validation
 
-		public static bool PositionsCountHasToBePositive(Dictionary<Product, double> children, StringBuilder errors)
+		public static bool PositionsCountHasToBePositive(Dictionary<Product, decimal> children, StringBuilder errors)
 		{
 			if (children.Count <= 0)
 			{
@@ -95,7 +95,7 @@ namespace ComfortIsland.BusinessLogic
 			}
 		}
 
-		public static bool PositionCountsArePositive(Dictionary<Product, double> children, StringBuilder errors)
+		public static bool PositionCountsArePositive(Dictionary<Product, decimal> children, StringBuilder errors)
 		{
 			if (children.Any(c => c.Value <= 0))
 			{
@@ -108,7 +108,7 @@ namespace ComfortIsland.BusinessLogic
 			}
 		}
 
-		public static bool PositionDoNotDuplicate(Dictionary<Product, double> children, StringBuilder errors)
+		public static bool PositionDoNotDuplicate(Dictionary<Product, decimal> children, StringBuilder errors)
 		{
 			var ids = children.Select(c => c.Key.ID).ToList();
 			if (ids.Count > ids.Distinct().Count())
@@ -126,7 +126,7 @@ namespace ComfortIsland.BusinessLogic
 
 		#region Workflow
 
-		public IDictionary<long, double> Apply(Database database)
+		public IDictionary<long, decimal> Apply(Database database)
 		{
 			var delta = Type.GetBalanceDelta(Positions);
 			foreach (var position in delta)
@@ -136,7 +136,7 @@ namespace ComfortIsland.BusinessLogic
 			return delta;
 		}
 
-		public IDictionary<long, double> Rollback(Database database)
+		public IDictionary<long, decimal> Rollback(Database database)
 		{
 			var delta = Type.GetBalanceDelta(Positions);
 			foreach (var position in delta)

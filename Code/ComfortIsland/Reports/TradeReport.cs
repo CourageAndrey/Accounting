@@ -115,25 +115,25 @@ namespace ComfortIsland.Reports
 		public string ProductUnit
 		{ get; private set; }
 
-		public double InitialBalance
+		public decimal InitialBalance
 		{ get; internal set; }
 
-		public double Income
+		public decimal Income
 		{ get; internal set; }
 
-		public double Produced
+		public decimal Produced
 		{ get; internal set; }
 
-		public double Selled
+		public decimal Selled
 		{ get; internal set; }
 
-		public double UsedToProduce
+		public decimal UsedToProduce
 		{ get; internal set; }
 
-		public double SentToWarehouse
+		public decimal SentToWarehouse
 		{ get; internal set; }
 
-		public double FinalBalance
+		public decimal FinalBalance
 		{ get; internal set; }
 
 		#endregion

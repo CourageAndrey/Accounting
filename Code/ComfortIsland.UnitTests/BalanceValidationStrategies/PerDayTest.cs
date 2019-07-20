@@ -43,7 +43,7 @@ namespace ComfortIsland.UnitTests.BalanceValidationStrategies
 				doc =>
 				{
 					original = doc;
-					return new Tuple<double, int>(4, 1);
+					return new Tuple<decimal, int>(4, 1);
 				},
 				validationStrategy,
 				errors,
@@ -59,7 +59,7 @@ namespace ComfortIsland.UnitTests.BalanceValidationStrategies
 				doc =>
 				{
 					original = doc;
-					return new Tuple<double, int>(4, 0);
+					return new Tuple<decimal, int>(4, 0);
 				},
 				validationStrategy,
 				errors,
@@ -71,7 +71,7 @@ namespace ComfortIsland.UnitTests.BalanceValidationStrategies
 				doc =>
 				{
 					original = doc;
-					return new Tuple<double, int>(-2, 0);
+					return new Tuple<decimal, int>(-2, 0);
 				},
 				validationStrategy,
 				errors,
@@ -123,7 +123,7 @@ namespace ComfortIsland.UnitTests.BalanceValidationStrategies
 				doc =>
 				{
 					original = doc;
-					return new Tuple<double, int>(5, 0);
+					return new Tuple<decimal, int>(5, 0);
 				},
 				validationStrategy,
 				errors,
@@ -138,7 +138,7 @@ namespace ComfortIsland.UnitTests.BalanceValidationStrategies
 				doc =>
 				{
 					original = doc;
-					return new Tuple<double, int>(5, 0);
+					return new Tuple<decimal, int>(5, 0);
 				},
 				validationStrategy,
 				errors,
@@ -161,7 +161,7 @@ namespace ComfortIsland.UnitTests.BalanceValidationStrategies
 				doc =>
 				{
 					original = doc;
-					return new Tuple<double, int>(4, 0);
+					return new Tuple<decimal, int>(4, 0);
 				},
 				validationStrategy,
 				errors,

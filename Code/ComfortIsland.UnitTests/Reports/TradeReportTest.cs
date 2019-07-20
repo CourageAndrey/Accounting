@@ -326,7 +326,7 @@ namespace ComfortIsland.UnitTests.Reports
 			(
 				new[] { unit },
 				new[] { childProduct1, childProduct2, parentProduct },
-				new Dictionary<long, double>(),
+				new Dictionary<long, decimal>(),
 				new[]
 				{
 					new Document(DocumentType.Income)

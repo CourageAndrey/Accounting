@@ -43,7 +43,7 @@ namespace ComfortIsland.Reports
 				document.Rollback(databaseMock);
 			}
 
-			var products = database.Products.ToDictionary(product => product.ID, product => (double?) null);
+			var products = database.Products.ToDictionary(product => product.ID, product => (decimal?) null);
 			foreach (var position in databaseMock.Balance)
 			{
 				products[position.Key] = position.Value;

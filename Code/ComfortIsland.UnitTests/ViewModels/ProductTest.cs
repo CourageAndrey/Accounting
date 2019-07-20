@@ -29,7 +29,7 @@ namespace ComfortIsland.UnitTests.ViewModels
 			{
 				Name = "Product",
 				Unit = unit,
-				Children = new Dictionary<BusinessLogic.Product, double> { { child, 75 } },
+				Children = new Dictionary<BusinessLogic.Product, decimal> { { child, 75 } },
 			};
 
 			// act
@@ -58,12 +58,12 @@ namespace ComfortIsland.UnitTests.ViewModels
 				ID = 1,
 				Name = "Child product",
 				Unit = unit,
-				Children = new Dictionary<BusinessLogic.Product, double>(),
+				Children = new Dictionary<BusinessLogic.Product, decimal>(),
 			};
 			var database = new BusinessLogic.Database(
 				new[] { unit },
 				new[] { child },
-				new Dictionary<long, double>(),
+				new Dictionary<long, decimal>(),
 				new BusinessLogic.Document[0]);
 
 			// act
@@ -105,26 +105,26 @@ namespace ComfortIsland.UnitTests.ViewModels
 				ID = 3,
 				Name = "old child",
 				Unit = unitOld,
-				Children = new Dictionary<BusinessLogic.Product, double>(),
+				Children = new Dictionary<BusinessLogic.Product, decimal>(),
 			};
 			var childNew = new BusinessLogic.Product
 			{
 				ID = 4,
 				Name = "new child",
 				Unit = unitNew,
-				Children = new Dictionary<BusinessLogic.Product, double>(),
+				Children = new Dictionary<BusinessLogic.Product, decimal>(),
 			};
 			var initialBusinessObject = new BusinessLogic.Product
 			{
 				ID = 5,
 				Name = "Product",
 				Unit = unitOld,
-				Children = new Dictionary<BusinessLogic.Product, double> { { childOld, 6 } },
+				Children = new Dictionary<BusinessLogic.Product, decimal> { { childOld, 6 } },
 			};
 			var database = new BusinessLogic.Database(
 				new[] { unitOld, unitNew },
 				new[] { childOld, childNew, initialBusinessObject },
-				new Dictionary<long, double>(),
+				new Dictionary<long, decimal>(),
 				new BusinessLogic.Document[0]);
 
 			// act

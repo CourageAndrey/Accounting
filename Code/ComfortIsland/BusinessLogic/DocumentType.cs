@@ -5,7 +5,7 @@ namespace ComfortIsland.BusinessLogic
 {
 	public class DocumentType
 	{
-		private delegate IDictionary<long, double> GetBalanceDeltaDelegate(IDictionary<Product, double> positions);
+		private delegate IDictionary<long, decimal> GetBalanceDeltaDelegate(IDictionary<Product, decimal> positions);
 
 		#region Properties
 
@@ -46,25 +46,25 @@ namespace ComfortIsland.BusinessLogic
 
 		#region GetDelta-methods
 
-		private static IDictionary<long, double> getBalanceDeltaIncome(IDictionary<Product, double> positions)
+		private static IDictionary<long, decimal> getBalanceDeltaIncome(IDictionary<Product, decimal> positions)
 		{
 			return positions.ToDictionary(p => p.Key.ID, p => p.Value);
 		}
 
-		private static IDictionary<long, double> getBalanceDeltaOutcome(IDictionary<Product, double> positions)
+		private static IDictionary<long, decimal> getBalanceDeltaOutcome(IDictionary<Product, decimal> positions)
 		{
 			return positions.ToDictionary(p => p.Key.ID, p => -p.Value);
 		}
 
-		private static IDictionary<long, double> getBalanceDeltaProduce(IDictionary<Product, double> positions)
+		private static IDictionary<long, decimal> getBalanceDeltaProduce(IDictionary<Product, decimal> positions)
 		{
-			var result = new Dictionary<long, double>();
+			var result = new Dictionary<long, decimal>();
 			foreach (var position in positions)
 			{
 				result[position.Key.ID] = position.Value;
 				foreach (var child in position.Key.Children)
 				{
-					double count;
+					decimal count;
 					if (result.TryGetValue(child.Key.ID, out count))
 					{
 						count -= (position.Value * child.Value);
@@ -81,7 +81,7 @@ namespace ComfortIsland.BusinessLogic
 
 		#endregion
 
-		public IDictionary<long, double> GetBalanceDelta(IDictionary<Product, double> positions)
+		public IDictionary<long, decimal> GetBalanceDelta(IDictionary<Product, decimal> positions)
 		{
 			return getBalanceDelta(positions);
 		}

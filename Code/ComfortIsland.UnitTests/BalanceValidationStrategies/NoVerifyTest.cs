@@ -98,7 +98,7 @@ namespace ComfortIsland.UnitTests.BalanceValidationStrategies
 					doc =>
 					{
 						original = doc;
-						return new Tuple<double, int>(
+						return new Tuple<decimal, int>(
 							doc.Type == DocumentType.Income
 								? -(doc.Positions.Values.First() - 1)
 								: doc.Positions.Values.First()*10,

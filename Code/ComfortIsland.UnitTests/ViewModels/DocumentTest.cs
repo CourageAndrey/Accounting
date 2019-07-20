@@ -31,7 +31,7 @@ namespace ComfortIsland.UnitTests.ViewModels
 			{
 				Date = documentDate,
 				Number = "1-bis",
-				Positions = new Dictionary<BusinessLogic.Product, double> { { product, 7 } },
+				Positions = new Dictionary<BusinessLogic.Product, decimal> { { product, 7 } },
 			};
 
 			// act
@@ -61,13 +61,13 @@ namespace ComfortIsland.UnitTests.ViewModels
 				ID = 1,
 				Name = "Product",
 				Unit = unit,
-				Children = new Dictionary<BusinessLogic.Product, double>(),
+				Children = new Dictionary<BusinessLogic.Product, decimal>(),
 			};
 			var documentDate = DateTime.Now;
 			var database = new BusinessLogic.Database(
 				new[] { unit },
 				new[] { product },
-				new Dictionary<long, double>(),
+				new Dictionary<long, decimal>(),
 				new BusinessLogic.Document[0]);
 
 			// act
@@ -105,14 +105,14 @@ namespace ComfortIsland.UnitTests.ViewModels
 				ID = 2,
 				Name = "Old",
 				Unit = unit,
-				Children = new Dictionary<BusinessLogic.Product, double>(),
+				Children = new Dictionary<BusinessLogic.Product, decimal>(),
 			};
 			var newProduct = new BusinessLogic.Product
 			{
 				ID = 3,
 				Name = "New",
 				Unit = unit,
-				Children = new Dictionary<BusinessLogic.Product, double>(),
+				Children = new Dictionary<BusinessLogic.Product, decimal>(),
 			};
 			var initialDate = DateTime.Now;
 			var initialBusinessObject = new BusinessLogic.Document(BusinessLogic.DocumentType.Income)
@@ -120,12 +120,12 @@ namespace ComfortIsland.UnitTests.ViewModels
 				ID = 4,
 				Date = initialDate,
 				Number = "1-bis",
-				Positions = new Dictionary<BusinessLogic.Product, double> { { oldProduct, 5 } },
+				Positions = new Dictionary<BusinessLogic.Product, decimal> { { oldProduct, 5 } },
 			};
 			var database = new BusinessLogic.Database(
 				new[] { unit },
 				new[] { oldProduct, newProduct },
-				new Dictionary<long, double> { { oldProduct.ID, 6 } },
+				new Dictionary<long, decimal> { { oldProduct.ID, 6 } },
 				new[] { initialBusinessObject });
 
 			// act

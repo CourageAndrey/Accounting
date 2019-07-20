@@ -87,9 +87,9 @@ namespace ComfortIsland
 			{
 				var product = dialog.EditValue;
 				var balance = database.Balance;
-				var getBalance = new Func<Product, double>(p =>
+				var getBalance = new Func<Product, decimal>(p =>
 				{
-					double count;
+					decimal count;
 					return balance.TryGetValue(p.ID, out count)
 						? count
 						: 0;
@@ -100,12 +100,12 @@ namespace ComfortIsland
 
 				if (product.Children.Count > 0)
 				{
-					double minCount = double.MaxValue;
+					decimal minCount = decimal.MaxValue;
 					var children = new StringBuilder();
 					foreach (var child in product.Children)
 					{
-						double childBalance = getBalance(child.Key);
-						double canProduce = childBalance / child.Value;
+						decimal childBalance = getBalance(child.Key);
+						decimal canProduce = childBalance / child.Value;
 						minCount = Math.Min(minCount, canProduce);
 						children.AppendLine(string.Format(
 							CultureInfo.InvariantCulture,

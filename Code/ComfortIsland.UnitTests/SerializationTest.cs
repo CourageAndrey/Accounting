@@ -52,7 +52,7 @@ namespace ComfortIsland.UnitTests
 			(
 				new[] { unit },
 				new[] { childProduct1, childProduct2, parentProduct },
-				new Dictionary<long, double>
+				new Dictionary<long, decimal>
 				{
 					{ parentProduct.ID, 1 },
 					{ childProduct1.ID, 2 },
@@ -93,7 +93,7 @@ namespace ComfortIsland.UnitTests
 						Positions = { { parentProduct, 100 } },
 					},
 				});
-			Func<IDictionary<Product, double>, IDictionary<long, double>> simplify = original => original.ToDictionary(
+			Func<IDictionary<Product, decimal>, IDictionary<long, decimal>> simplify = original => original.ToDictionary(
 				position => position.Key.ID,
 				position => position.Value);
 

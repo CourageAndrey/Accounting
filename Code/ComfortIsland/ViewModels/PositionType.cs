@@ -8,7 +8,7 @@ namespace ComfortIsland.ViewModels
 	{
 		public override object ProvideValue(IServiceProvider serviceProvider)
 		{
-			return typeof(KeyValuePair<BusinessLogic.Product, double>);
+			return typeof(KeyValuePair<BusinessLogic.Product, decimal>);
 		}
 	}
 }
