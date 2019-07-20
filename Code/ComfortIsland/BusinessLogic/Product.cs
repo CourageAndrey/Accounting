@@ -56,9 +56,14 @@ namespace ComfortIsland.BusinessLogic
 			set
 			{
 				var errors = new StringBuilder();
-				if (ChildrenAreNotRecursive(ID, value, errors) &
-					ChildrenCountsArePositive(value, errors) &
-					ChildrenDoNotDuplicate(value, errors))
+				var positionsToCheck = value.Select(kvp => new Position(kvp.Key.ID, kvp.Value)).ToList();
+				bool isValid = Position.PositionsDoNotDuplicate(positionsToCheck, "составляющие части", errors);
+				for (int line = 0; line < positionsToCheck.Count; line++)
+				{
+					isValid &= Position.ProductIsSet(positionsToCheck[line].ID, line + 1, errors);
+					isValid &= Position.CountIsPositive(positionsToCheck[line].Count, line + 1, errors);
+				}
+				if (isValid & ChildrenAreNotRecursive(ID, value.Keys, errors))
 				{
 					children = value;
 				}
@@ -108,38 +113,11 @@ namespace ComfortIsland.BusinessLogic
 			}
 		}
 
-		public static bool ChildrenAreNotRecursive(long? id, Dictionary<Product, decimal> children, StringBuilder errors)
+		public static bool ChildrenAreNotRecursive(long? id, IEnumerable<Product> children, StringBuilder errors)
 		{
-			if (id.HasValue && children.Keys.Any(c => c.IsOrHasChild(id.Value)))
+			if (id.HasValue && children.Any(c => c.IsOrHasChild(id.Value)))
 			{
 				errors.AppendLine("Товар не может быть частью себя или содержать другие товары, частью которых является.");
-				return false;
-			}
-			else
-			{
-				return true;
-			}
-		}
-
-		public static bool ChildrenCountsArePositive(Dictionary<Product, decimal> children, StringBuilder errors)
-		{
-			if (children.Any(c => c.Value <= 0))
-			{
-				errors.AppendLine("Для каждого из вложенных товаров количество должно быть строго больше ноля.");
-				return false;
-			}
-			else
-			{
-				return true;
-			}
-		}
-
-		public static bool ChildrenDoNotDuplicate(Dictionary<Product, decimal> children, StringBuilder errors)
-		{
-			var ids = children.Select(c => c.Key.ID).ToList();
-			if (ids.Count > ids.Distinct().Count())
-			{
-				errors.AppendLine("Некоторые товары включены как части несколько раз.");
 				return false;
 			}
 			else

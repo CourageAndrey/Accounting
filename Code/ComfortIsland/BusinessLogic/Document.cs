@@ -33,9 +33,14 @@ namespace ComfortIsland.BusinessLogic
 			set
 			{
 				var errors = new StringBuilder();
-				if (PositionsCountHasToBePositive(value, errors) &
-					PositionCountsArePositive(value, errors) &
-					PositionDoNotDuplicate(value, errors))
+				var positionsToCheck = value.Select(kvp => new Position(kvp.Key.ID, kvp.Value)).ToList();
+				bool isValid = Position.PositionsDoNotDuplicate(positionsToCheck, "товарные позиции", errors);
+				for (int line = 0; line < positionsToCheck.Count; line++)
+				{
+					isValid &= Position.ProductIsSet(positionsToCheck[line].ID, line + 1, errors);
+					isValid &= Position.CountIsPositive(positionsToCheck[line].Count, line + 1, errors);
+				}
+				if (isValid & PositionsCountHasToBePositive(value, errors))
 				{
 					positions = value;
 				}
@@ -72,38 +77,11 @@ namespace ComfortIsland.BusinessLogic
 
 		#region Validation
 
-		public static bool PositionsCountHasToBePositive(Dictionary<Product, decimal> children, StringBuilder errors)
+		public static bool PositionsCountHasToBePositive(System.Collections.ICollection positions, StringBuilder errors)
 		{
-			if (children.Count <= 0)
+			if (positions.Count <= 0)
 			{
 				errors.AppendLine("В документе не выбрано ни одного продукта.");
-				return false;
-			}
-			else
-			{
-				return true;
-			}
-		}
-
-		public static bool PositionCountsArePositive(Dictionary<Product, decimal> children, StringBuilder errors)
-		{
-			if (children.Any(c => c.Value <= 0))
-			{
-				errors.AppendLine("Количество товара во всех позициях должно быть строго больше ноля.");
-				return false;
-			}
-			else
-			{
-				return true;
-			}
-		}
-
-		public static bool PositionDoNotDuplicate(Dictionary<Product, decimal> children, StringBuilder errors)
-		{
-			var ids = children.Select(c => c.Key.ID).ToList();
-			if (ids.Count > ids.Distinct().Count())
-			{
-				errors.AppendLine("Некоторые товары включены несколько раз.");
 				return false;
 			}
 			else

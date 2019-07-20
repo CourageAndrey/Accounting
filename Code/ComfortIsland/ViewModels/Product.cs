@@ -48,30 +48,10 @@ namespace ComfortIsland.ViewModels
 		}
 
 		public List<BusinessLogic.Position> Children
-		{
-			get { return children; }
-			set
-			{
-				children = value;
-				var errors = new StringBuilder();
-#warning Dictionary
-				/*var valueDictionary = value.ToDictionary(, );
-				if (BusinessLogic.Product.ChildrenAreNotRecursive(id, valueDictionary, errors) &
-					BusinessLogic.Product.ChildrenCountsArePositive(valueDictionary, errors) &
-					BusinessLogic.Product.ChildrenDoNotDuplicate(valueDictionary, errors))
-				{
-					ClearErrors();
-				}
-				else
-				{
-					AddError(errors.ToString());
-				}*/
-			}
-		}
+		{ get; }
 
 		private string name;
 		private BusinessLogic.Unit unit;
-		private List<BusinessLogic.Position> children;
 
 		#endregion
 

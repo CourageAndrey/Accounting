@@ -46,11 +46,22 @@ namespace ComfortIsland.Dialogs
 			if (!EditValue.HasErrors)
 			{
 				StringBuilder errors = new StringBuilder();
-				var documentStub = new Document(EditValue.ID, EditValue.Type, DocumentState.Active);
-				EditValue.ApplyChanges(documentStub, database.Products);
-				if (!EditValue.ID.HasValue || database.Documents[EditValue.ID.Value].State != DocumentState.Active
-					? Settings.BalanceValidationStrategy.VerifyCreate(database, documentStub, errors)
-					: Settings.BalanceValidationStrategy.VerifyEdit(database, documentStub, errors))
+				bool isValid =	Position.PositionsDoNotDuplicate(EditValue.Positions, "товарные позиции", errors) &
+								Document.PositionsCountHasToBePositive(EditValue.Positions, errors);
+				for (int line = 0; line < EditValue.Positions.Count; line++)
+				{
+					isValid &= Position.ProductIsSet(EditValue.Positions[line].ID, line + 1, errors);
+					isValid &= Position.CountIsPositive(EditValue.Positions[line].Count, line + 1, errors);
+				}
+				if (isValid)
+				{
+					var documentStub = new Document(EditValue.ID, EditValue.Type, DocumentState.Active);
+					EditValue.ApplyChanges(documentStub, database.Products);
+					isValid &= (!EditValue.ID.HasValue || database.Documents[EditValue.ID.Value].State != DocumentState.Active)
+						? Settings.BalanceValidationStrategy.VerifyCreate(database, documentStub, errors)
+						: Settings.BalanceValidationStrategy.VerifyEdit(database, documentStub, errors);
+				}
+				if (isValid)
 				{
 					DialogResult = true;
 				}

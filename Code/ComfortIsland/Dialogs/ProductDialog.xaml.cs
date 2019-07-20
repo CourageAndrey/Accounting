@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Text;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -38,7 +40,21 @@ namespace ComfortIsland.Dialogs
 		{
 			if (!EditValue.HasErrors)
 			{
-				DialogResult = true;
+				var errors = new StringBuilder();
+				bool isValid = Position.PositionsDoNotDuplicate(EditValue.Children, "составляющие части", errors);
+				for (int line = 0; line < EditValue.Children.Count; line++)
+				{
+					isValid &= Position.ProductIsSet(EditValue.Children[line].ID, line + 1, errors);
+					isValid &= Position.CountIsPositive(EditValue.Children[line].Count, line + 1, errors);
+				}
+				if (isValid & Product.ChildrenAreNotRecursive(EditValue.ID, EditValue.Children.Select(position => database.Products[position.ID]), errors))
+				{
+					DialogResult = true;
+				}
+				else
+				{
+					MessageBox.Show(errors.ToString(), "Ошибка в списке дочерних продуктов", MessageBoxButton.OK, MessageBoxImage.Warning);
+				}
 			}
 		}
 

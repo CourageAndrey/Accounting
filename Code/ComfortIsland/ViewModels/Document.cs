@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace ComfortIsland.ViewModels
 {
@@ -22,28 +21,7 @@ namespace ComfortIsland.ViewModels
 		{ get; set; }
 
 		public List<BusinessLogic.Position> Positions
-		{
-			get { return positions; }
-			set
-			{
-				positions = value;
-				var errors = new StringBuilder();
-#warning Dictionary
-				/*var valueDictionary = value.ToDictionary(, );
-				if (BusinessLogic.Document.PositionsCountHasToBePositive(value, errors) &
-					BusinessLogic.Document.PositionCountsArePositive(value, errors) &
-					BusinessLogic.Document.PositionDoNotDuplicate(value, errors))
-				{
-					ClearErrors();
-				}
-				else
-				{
-					AddError(errors.ToString());
-				}*/
-			}
-		}
-
-		private List<BusinessLogic.Position> positions;
+		{ get; }
 
 		#endregion
 
