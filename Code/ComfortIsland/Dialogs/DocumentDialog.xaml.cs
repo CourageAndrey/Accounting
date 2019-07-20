@@ -46,9 +46,9 @@ namespace ComfortIsland.Dialogs
 			if (!EditValue.HasErrors)
 			{
 				StringBuilder errors = new StringBuilder();
-				var documentStub = new Document(EditValue.Type);
+				var documentStub = new Document(EditValue.ID, EditValue.Type, DocumentState.Active);
 				EditValue.ApplyChanges(documentStub, database.Products);
-				if (EditValue.IsNew
+				if (!EditValue.ID.HasValue || database.Documents[EditValue.ID.Value].State != DocumentState.Active
 					? Settings.BalanceValidationStrategy.VerifyCreate(database, documentStub, errors)
 					: Settings.BalanceValidationStrategy.VerifyEdit(database, documentStub, errors))
 				{

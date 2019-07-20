@@ -9,8 +9,8 @@ namespace ComfortIsland.ViewModels
 	{
 		#region Properties
 
-		public bool IsNew
-		{ get { return !id.HasValue; } }
+		public long? ID
+		{ get; }
 
 		public BusinessLogic.DocumentType Type
 		{ get; }
@@ -43,7 +43,6 @@ namespace ComfortIsland.ViewModels
 			}
 		}
 
-		private readonly long? id;
 		private List<BusinessLogic.Position> positions;
 
 		#endregion
@@ -52,7 +51,7 @@ namespace ComfortIsland.ViewModels
 
 		private Document(long? id, BusinessLogic.DocumentType type, string number, DateTime date, List<BusinessLogic.Position> positions)
 		{
-			this.id = id;
+			ID = id;
 			Type = type;
 			Number = number;
 			Date = date;
@@ -78,9 +77,9 @@ namespace ComfortIsland.ViewModels
 		{
 #warning Не надо делать Rollback и изменять состояние уже удалённым или отредактированным ранее документам
 			BusinessLogic.Document instance;
-			if (id.HasValue)
+			if (ID.HasValue)
 			{
-				var previousVersion = database.Documents[id.Value];
+				var previousVersion = database.Documents[ID.Value];
 				instance = new BusinessLogic.Document(previousVersion);
 				previousVersion.Rollback(database);
 			}
