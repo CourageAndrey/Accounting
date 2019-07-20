@@ -13,10 +13,10 @@ namespace ComfortIsland.ViewModels
 
 		public string Name
 		{
-			get { return name; }
+			get { return _name; }
 			set
 			{
-				name = value;
+				_name = value;
 				var errors = new StringBuilder();
 				if (BusinessLogic.Product.NameIsNotNullOrEmpty(value, errors))
 				{
@@ -31,10 +31,10 @@ namespace ComfortIsland.ViewModels
 
 		public BusinessLogic.Unit Unit
 		{
-			get { return unit; }
+			get { return _unit; }
 			set
 			{
-				unit = value;
+				_unit = value;
 				var errors = new StringBuilder();
 				if (BusinessLogic.Product.UnitIsNotNull(value, errors))
 				{
@@ -50,8 +50,8 @@ namespace ComfortIsland.ViewModels
 		public List<BusinessLogic.Position> Children
 		{ get; }
 
-		private string name;
-		private BusinessLogic.Unit unit;
+		private string _name;
+		private BusinessLogic.Unit _unit;
 
 		#endregion
 

@@ -28,11 +28,11 @@ namespace ComfortIsland.Dialogs
 			}
 		}
 
-		private Database database;
+		private Database _database;
 
 		public void Initialize(Database database)
 		{
-			this.database = database;
+			_database = database;
 			comboBoxProducts.ItemsSource = ProductsGetter != null
 				? ProductsGetter(database)
 				: database.Products;
@@ -56,10 +56,10 @@ namespace ComfortIsland.Dialogs
 				if (isValid)
 				{
 					var documentStub = new Document(EditValue.ID, EditValue.Type, DocumentState.Active);
-					EditValue.ApplyChanges(documentStub, database.Products);
-					isValid &= (!EditValue.ID.HasValue || database.Documents[EditValue.ID.Value].State != DocumentState.Active)
-						? Settings.BalanceValidationStrategy.VerifyCreate(database, documentStub, errors)
-						: Settings.BalanceValidationStrategy.VerifyEdit(database, documentStub, errors);
+					EditValue.ApplyChanges(documentStub, _database.Products);
+					isValid &= (!EditValue.ID.HasValue || _database.Documents[EditValue.ID.Value].State != DocumentState.Active)
+						? Settings.BalanceValidationStrategy.VerifyCreate(_database, documentStub, errors)
+						: Settings.BalanceValidationStrategy.VerifyEdit(_database, documentStub, errors);
 				}
 				if (isValid)
 				{

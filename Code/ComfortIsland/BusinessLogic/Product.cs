@@ -15,13 +15,13 @@ namespace ComfortIsland.BusinessLogic
 
 		public string Name
 		{
-			get { return name; }
+			get { return _name; }
 			set
 			{
 				var errors = new StringBuilder();
 				if (NameIsNotNullOrEmpty(value, errors))
 				{
-					name = value;
+					_name = value;
 				}
 				else
 				{
@@ -32,13 +32,13 @@ namespace ComfortIsland.BusinessLogic
 
 		public Unit Unit
 		{
-			get { return unit; }
+			get { return _unit; }
 			set
 			{
 				var errors = new StringBuilder();
 				if (UnitIsNotNull(value, errors))
 				{
-					unit = value;
+					_unit = value;
 				}
 				else
 				{
@@ -52,7 +52,7 @@ namespace ComfortIsland.BusinessLogic
 
 		public Dictionary<Product, decimal> Children
 		{
-			get { return children; }
+			get { return _children; }
 			set
 			{
 				var errors = new StringBuilder();
@@ -65,7 +65,7 @@ namespace ComfortIsland.BusinessLogic
 				}
 				if (isValid & ChildrenAreNotRecursive(ID, value.Keys, errors))
 				{
-					children = value;
+					_children = value;
 				}
 				else
 				{
@@ -74,9 +74,9 @@ namespace ComfortIsland.BusinessLogic
 			}
 		}
 
-		private string name;
-		private Unit unit;
-		private Dictionary<Product, decimal> children;
+		private string _name;
+		private Unit _unit;
+		private Dictionary<Product, decimal> _children;
 
 		#endregion
 

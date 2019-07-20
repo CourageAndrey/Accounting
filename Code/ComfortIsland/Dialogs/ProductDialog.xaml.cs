@@ -27,11 +27,11 @@ namespace ComfortIsland.Dialogs
 			}
 		}
 
-		private Database database;
+		private Database _database;
 
 		public void Initialize(Database database)
 		{
-			this.database = database;
+			_database = database;
 			comboBoxUnit.ItemsSource = database.Units;
 			comboBoxProducts.ItemsSource = database.Products;
 		}
@@ -47,7 +47,7 @@ namespace ComfortIsland.Dialogs
 					isValid &= Position.ProductIsSet(EditValue.Children[line].ID, line + 1, errors);
 					isValid &= Position.CountIsPositive(EditValue.Children[line].Count, line + 1, errors);
 				}
-				if (isValid & Product.ChildrenAreNotRecursive(EditValue.ID, EditValue.Children.Select(position => database.Products[position.ID]), errors))
+				if (isValid & Product.ChildrenAreNotRecursive(EditValue.ID, EditValue.Children.Select(position => _database.Products[position.ID]), errors))
 				{
 					DialogResult = true;
 				}

@@ -29,7 +29,7 @@ namespace ComfortIsland.BusinessLogic
 
 		public Dictionary<Product, decimal> Positions
 		{
-			get { return positions; }
+			get { return _positions; }
 			set
 			{
 				var errors = new StringBuilder();
@@ -42,7 +42,7 @@ namespace ComfortIsland.BusinessLogic
 				}
 				if (isValid & PositionsCountHasToBePositive(value, errors))
 				{
-					positions = value;
+					_positions = value;
 				}
 				else
 				{
@@ -51,7 +51,7 @@ namespace ComfortIsland.BusinessLogic
 			}
 		}
 
-		private Dictionary<Product, decimal> positions;
+		private Dictionary<Product, decimal> _positions;
 
 		#endregion
 
@@ -66,7 +66,7 @@ namespace ComfortIsland.BusinessLogic
 			Type = type;
 			State = state;
 
-			positions = new Dictionary<Product, decimal>();
+			_positions = new Dictionary<Product, decimal>();
 		}
 
 		public Document(DocumentType type)

@@ -11,10 +11,10 @@ namespace ComfortIsland.ViewModels
 
 		public string Name
 		{
-			get { return name; }
+			get { return _name; }
 			set
 			{
-				name = value;
+				_name = value;
 				var errors = new StringBuilder();
 				if (BusinessLogic.Unit.NameIsNotNullOrEmpty(value, errors))
 				{
@@ -29,10 +29,10 @@ namespace ComfortIsland.ViewModels
 
 		public string ShortName
 		{
-			get { return shortName; }
+			get { return _shortName; }
 			set
 			{
-				shortName = value;
+				_shortName = value;
 				var errors = new StringBuilder();
 				if (BusinessLogic.Unit.ShortNameIsNotNullOrEmpty(value, errors))
 				{
@@ -45,7 +45,7 @@ namespace ComfortIsland.ViewModels
 			}
 		}
 
-		private string name, shortName;
+		private string _name, _shortName;
 
 		#endregion
 

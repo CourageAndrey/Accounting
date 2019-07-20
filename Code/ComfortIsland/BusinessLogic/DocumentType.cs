@@ -15,7 +15,7 @@ namespace ComfortIsland.BusinessLogic
 		public string Name
 		{ get; }
 
-		private readonly GetBalanceDeltaDelegate getBalanceDelta;
+		private readonly GetBalanceDeltaDelegate _getBalanceDelta;
 
 		#endregion
 
@@ -23,7 +23,7 @@ namespace ComfortIsland.BusinessLogic
 		{
 			Enum = enumValue;
 			Name = name;
-			this.getBalanceDelta = getBalanceDelta;
+			_getBalanceDelta = getBalanceDelta;
 		}
 
 		public override string ToString()
@@ -83,7 +83,7 @@ namespace ComfortIsland.BusinessLogic
 
 		public IDictionary<long, decimal> GetBalanceDelta(IDictionary<Product, decimal> positions)
 		{
-			return getBalanceDelta(positions);
+			return _getBalanceDelta(positions);
 		}
 	}
 }

@@ -14,13 +14,13 @@ namespace ComfortIsland.BusinessLogic
 
 		public string Name
 		{
-			get { return name; }
+			get { return _name; }
 			set
 			{
 				var errors = new StringBuilder();
 				if (NameIsNotNullOrEmpty(value, errors))
 				{
-					name = value;
+					_name = value;
 				}
 				else
 				{
@@ -31,13 +31,13 @@ namespace ComfortIsland.BusinessLogic
 
 		public string ShortName
 		{
-			get { return shortName; }
+			get { return _shortName; }
 			set
 			{
 				var errors = new StringBuilder();
 				if (ShortNameIsNotNullOrEmpty(value, errors))
 				{
-					shortName = value;
+					_shortName = value;
 				}
 				else
 				{
@@ -46,7 +46,7 @@ namespace ComfortIsland.BusinessLogic
 			}
 		}
 
-		private string name, shortName;
+		private string _name, _shortName;
 
 		#endregion
 

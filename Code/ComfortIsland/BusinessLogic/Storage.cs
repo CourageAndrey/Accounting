@@ -9,35 +9,35 @@ namespace ComfortIsland.BusinessLogic
 {
 	public class Storage : IEnumerable<KeyValuePair<long, decimal>>
 	{
-		private readonly IDictionary<long, decimal> data;
+		private readonly IDictionary<long, decimal> _data;
 
 		#region Public interface
 
 		public void Increase(long id, decimal value)
 		{
 			decimal count;
-			if (!data.TryGetValue(id, out count))
+			if (!_data.TryGetValue(id, out count))
 			{
 				count = 0;
 			}
 			count += value;
-			data[id] = count;
+			_data[id] = count;
 		}
 
 		public void Decrease(long id, decimal value)
 		{
 			decimal count;
-			if (!data.TryGetValue(id, out count))
+			if (!_data.TryGetValue(id, out count))
 			{
 				count = 0;
 			}
 			count -= value;
-			data[id] = count;
+			_data[id] = count;
 		}
 
 		public bool TryGetValue(long id, out decimal value)
 		{
-			return data.TryGetValue(id, out value);
+			return _data.TryGetValue(id, out value);
 		}
 
 		public decimal this[long id]
@@ -45,7 +45,7 @@ namespace ComfortIsland.BusinessLogic
 			get
 			{
 				decimal count;
-				return data.TryGetValue(id, out count)
+				return _data.TryGetValue(id, out count)
 					? count
 					: 0;
 			}
@@ -53,17 +53,17 @@ namespace ComfortIsland.BusinessLogic
 
 		public List<Position> ToPositions()
 		{
-			return data.Select(b => new Position(b.Key, b.Value)).ToList();
+			return _data.Select(b => new Position(b.Key, b.Value)).ToList();
 		}
 
 		public Storage Clone()
 		{
-			return new Storage(new Dictionary<long, decimal>(data));
+			return new Storage(new Dictionary<long, decimal>(_data));
 		}
 
 		public bool Check(Warehouse<Product> products, StringBuilder errors, ICollection<long> productsFilter = null)
 		{
-			IEnumerable<KeyValuePair<long, decimal>> wrongPositions = data.Where(position => position.Value < 0);
+			IEnumerable<KeyValuePair<long, decimal>> wrongPositions = _data.Where(position => position.Value < 0);
 			if (productsFilter != null)
 			{
 				wrongPositions = wrongPositions.Where(position => productsFilter.Contains(position.Key));
@@ -98,7 +98,7 @@ namespace ComfortIsland.BusinessLogic
 		{
 			if (data == null) throw new ArgumentNullException(nameof(data));
 
-			this.data = data;
+			_data = data;
 		}
 
 		#endregion
@@ -107,7 +107,7 @@ namespace ComfortIsland.BusinessLogic
 
 		public IEnumerator<KeyValuePair<long, decimal>> GetEnumerator()
 		{
-			return data.GetEnumerator();
+			return _data.GetEnumerator();
 		}
 
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()

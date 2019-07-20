@@ -19,22 +19,22 @@ namespace ComfortIsland.Reports
 		public string Title
 		{ get; private set; }
 
-		private readonly Func<IEnumerable<DataGridColumn>> columnsGetter;
+		private readonly Func<IEnumerable<DataGridColumn>> _columnsGetter;
 		private delegate bool ReportCreator(Database database, out IReport report);
-		private readonly ReportCreator reportCreator;
+		private readonly ReportCreator _reportCreator;
 
 		#endregion
 
 		private ReportDescriptor(string title, Func<IEnumerable<DataGridColumn>> columnsGetter, ReportCreator reportCreator)
 		{
 			Title = title;
-			this.columnsGetter = columnsGetter;
-			this.reportCreator = reportCreator;
+			_columnsGetter = columnsGetter;
+			_reportCreator = reportCreator;
 		}
 
 		public IEnumerable<DataGridColumn> GetColumns()
 		{
-			var columns = columnsGetter().ToList();
+			var columns = _columnsGetter().ToList();
 			foreach (var column in columns.OfType<DataGridTextColumn>())
 			{
 				var binding = column.Binding as Binding;
@@ -52,7 +52,7 @@ namespace ComfortIsland.Reports
 
 		public bool CreateReport(Database database, out IReport report)
 		{
-			return reportCreator(database, out report);
+			return _reportCreator(database, out report);
 		}
 
 		#region Список

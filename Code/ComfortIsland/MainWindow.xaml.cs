@@ -27,13 +27,13 @@ namespace ComfortIsland
 			InitializeComponent();
 		}
 
-		private Database database;
+		private Database _database;
 
 		private void formLoaded(object sender, RoutedEventArgs e)
 		{
 			// вычитка базы данных
 			var databaseXml = Xml.Database.TryLoad();
-			database = databaseXml.ConvertToBusinessLogic();
+			_database = databaseXml.ConvertToBusinessLogic();
 
 			// документы
 			stateColumn.Visibility = checkBoxShowObsoleteDocuments.IsChecked == true ? Visibility.Visible : Visibility.Collapsed;
@@ -43,9 +43,9 @@ namespace ComfortIsland
 			// отчёты
 			listReports.ItemsSource = ReportDescriptor.All;
 			// справочники
-			productsGrid.ItemsSource = database.Products;
+			productsGrid.ItemsSource = _database.Products;
 			reloadComplexProducts();
-			unitsGrid.ItemsSource = database.Units;
+			unitsGrid.ItemsSource = _database.Units;
 			documentTypesGrid.ItemsSource = DocumentType.AllTypes.Values;
 
 			updateButtonsAvailability(productsGrid, buttonEditProduct, buttonDeleteProduct);
@@ -82,11 +82,11 @@ namespace ComfortIsland
 		private void checkBalanceClick(object sender, RoutedEventArgs e)
 		{
 			var dialog = new SelectProductDialog();
-			dialog.Initialize(database);
+			dialog.Initialize(_database);
 			if (dialog.ShowDialog() == true)
 			{
 				var product = dialog.EditValue;
-				var balance = database.Balance;
+				var balance = _database.Balance;
 				var getBalance = new Func<Product, decimal>(p =>
 				{
 					decimal count;
@@ -146,13 +146,13 @@ namespace ComfortIsland
 			}
 
 			var errors = new StringBuilder();
-			if (Settings.BalanceValidationStrategy.VerifyDelete(database, documentsToDelete, errors))
+			if (Settings.BalanceValidationStrategy.VerifyDelete(_database, documentsToDelete, errors))
 			{
 				foreach (var document in documentsToDelete)
 				{
-					document.Rollback(database);
+					document.Rollback(_database);
 				}
-				new Xml.Database(database).Save();
+				new Xml.Database(_database).Save();
 				documentStateFilterChecked(this, null);
 				reportHeader.Text = string.Empty;
 				reportGrid.ItemsSource = null;
@@ -173,14 +173,14 @@ namespace ComfortIsland
 			{
 				dialog.ProductsGetter = db => db.Products.Where(p => p.Children.Count > 0);
 			}
-			dialog.Initialize(database);
+			dialog.Initialize(_database);
 			dialog.EditValue = viewModel;
 			if (dialog.ShowDialog() == true)
 			{
 				try
 				{
-					instance = viewModel.ConvertToBusinessLogic(database);
-					new Xml.Database(database).Save();
+					instance = viewModel.ConvertToBusinessLogic(_database);
+					new Xml.Database(_database).Save();
 
 					documentStateFilterChecked(this, null);
 					documentsGrid.SelectedItem = instance;
@@ -205,7 +205,7 @@ namespace ComfortIsland
 		{
 			var viewModel = new ViewModels.Document(type);
 			var dialog = new DocumentDialog();
-			dialog.Initialize(database);
+			dialog.Initialize(_database);
 			if (dialogSetup != null)
 			{
 				dialogSetup(dialog);
@@ -215,8 +215,8 @@ namespace ComfortIsland
 			{
 				try
 				{
-					var instance = viewModel.ConvertToBusinessLogic(database);
-					new Xml.Database(database).Save();
+					var instance = viewModel.ConvertToBusinessLogic(_database);
+					new Xml.Database(_database).Save();
 					documentStateFilterChecked(this, null);
 					documentsGrid.SelectedItem = instance;
 				}
@@ -236,7 +236,7 @@ namespace ComfortIsland
 			{
 				var dialog = new DocumentDialog();
 				dialog.SetReadOnly();
-				dialog.Initialize(database);
+				dialog.Initialize(_database);
 				dialog.EditValue = new ViewModels.Document(selectedItem);
 				dialog.ShowDialog();
 			}
@@ -252,13 +252,13 @@ namespace ComfortIsland
 
 		private void documentsDateFilterChanged(object sender, SelectionChangedEventArgs e)
 		{
-			if (!suppressDocumentChangeFilter)
+			if (!_suppressDocumentChangeFilter)
 			{
 				refreshDocuments();
 			}
 		}
 
-		private bool suppressDocumentChangeFilter;
+		private bool _suppressDocumentChangeFilter;
 
 		private void refreshDocuments()
 		{
@@ -266,7 +266,7 @@ namespace ComfortIsland
 			var sortColumns = documentsGrid.Columns.Select(c => c.SortDirection).ToList();
 
 			documentsGrid.ItemsSource = null;
-			IEnumerable<Document> documents = database.Documents;
+			IEnumerable<Document> documents = _database.Documents;
 			if (checkBoxShowObsoleteDocuments.IsChecked != true)
 			{
 				documents = documents.Where(d => d.State == DocumentState.Active);
@@ -293,15 +293,15 @@ namespace ComfortIsland
 
 		private void documentsTodayClick(object sender, RoutedEventArgs e)
 		{
-			suppressDocumentChangeFilter = true;
+			_suppressDocumentChangeFilter = true;
 			documentsToDatePicker.SelectedDate = documentsFromDatePicker.SelectedDate = DateTime.Now;
-			suppressDocumentChangeFilter = false;
+			_suppressDocumentChangeFilter = false;
 			refreshDocuments();
 		}
 
 		private void documentsWeekClick(object sender, RoutedEventArgs e)
 		{
-			suppressDocumentChangeFilter = true;
+			_suppressDocumentChangeFilter = true;
 			var beginDate = DateTime.Now;
 			switch (beginDate.DayOfWeek)
 			{
@@ -330,29 +330,29 @@ namespace ComfortIsland
 			}
 			documentsFromDatePicker.SelectedDate = beginDate;
 			documentsToDatePicker.SelectedDate = beginDate.AddDays(6);
-			suppressDocumentChangeFilter = false;
+			_suppressDocumentChangeFilter = false;
 			refreshDocuments();
 		}
 
 		private void documentsMonthClick(object sender, RoutedEventArgs e)
 		{
-			suppressDocumentChangeFilter = true;
+			_suppressDocumentChangeFilter = true;
 			var beginDate = DateTime.Now;
 			beginDate = new DateTime(beginDate.Year, beginDate.Month, 1);
 			documentsFromDatePicker.SelectedDate = beginDate;
 			documentsToDatePicker.SelectedDate = beginDate.AddMonths(1).AddSeconds(-1);
-			suppressDocumentChangeFilter = false;
+			_suppressDocumentChangeFilter = false;
 			refreshDocuments();
 		}
 
 		private void documentsYearClick(object sender, RoutedEventArgs e)
 		{
-			suppressDocumentChangeFilter = true;
+			_suppressDocumentChangeFilter = true;
 			var beginDate = DateTime.Now;
 			beginDate = new DateTime(beginDate.Year, 1, 1);
 			documentsFromDatePicker.SelectedDate = beginDate;
 			documentsToDatePicker.SelectedDate = beginDate.AddYears(1).AddSeconds(-1);
-			suppressDocumentChangeFilter = false;
+			_suppressDocumentChangeFilter = false;
 			refreshDocuments();
 		}
 
@@ -364,23 +364,23 @@ namespace ComfortIsland
 
 		private void reloadComplexProducts()
 		{
-			treeViewComplexProducts.ItemsSource = database.Products.Where(p => p.Children.Count > 0).ToList();
+			treeViewComplexProducts.ItemsSource = _database.Products.Where(p => p.Children.Count > 0).ToList();
 		}
 
 		private void productAddClick(object sender, RoutedEventArgs e)
 		{
 			var viewModel = new ViewModels.Product();
 			var dialog = new ProductDialog();
-			dialog.Initialize(database);
+			dialog.Initialize(_database);
 			dialog.EditValue = viewModel;
 			if (dialog.ShowDialog() == true)
 			{
 				try
 				{
-					var instance = viewModel.ConvertToBusinessLogic(database);
-					new Xml.Database(database).Save();
+					var instance = viewModel.ConvertToBusinessLogic(_database);
+					new Xml.Database(_database).Save();
 					productsGrid.ItemsSource = null;
-					productsGrid.ItemsSource = database.Products;
+					productsGrid.ItemsSource = _database.Products;
 					productsGrid.SelectedItem = instance;
 				}
 				catch (Exception error)
@@ -398,7 +398,7 @@ namespace ComfortIsland
 			{
 				var instance = selectedItems[0];
 
-				var message = instance.FindUsages(database);
+				var message = instance.FindUsages(_database);
 				if (message.Length > 0 && MessageBox.Show(
 						message.ToString(),
 						"Редактирование приведёт к дополнительным изменениям. Продолжить?",
@@ -410,16 +410,16 @@ namespace ComfortIsland
 
 				var viewModel = new ViewModels.Product(instance);
 				var dialog = new ProductDialog();
-				dialog.Initialize(database);
+				dialog.Initialize(_database);
 				dialog.EditValue = viewModel;
 				if (dialog.ShowDialog() == true)
 				{
 					try
 					{
-						instance = viewModel.ConvertToBusinessLogic(database);
-						new Xml.Database(database).Save();
+						instance = viewModel.ConvertToBusinessLogic(_database);
+						new Xml.Database(_database).Save();
 						productsGrid.ItemsSource = null;
-						productsGrid.ItemsSource = database.Products;
+						productsGrid.ItemsSource = _database.Products;
 						productsGrid.SelectedItem = instance;
 						reloadComplexProducts();
 					}
@@ -438,7 +438,7 @@ namespace ComfortIsland
 			var message = new StringBuilder();
 			foreach (var item in selectedItems)
 			{
-				message.Append(item.FindUsages(database));
+				message.Append(item.FindUsages(_database));
 			}
 			if (message.Length > 0)
 			{
@@ -451,11 +451,11 @@ namespace ComfortIsland
 			}
 			foreach (var item in selectedItems)
 			{
-				database.Products.Remove(item.ID);
+				_database.Products.Remove(item.ID);
 			}
-			new Xml.Database(database).Save();
+			new Xml.Database(_database).Save();
 			productsGrid.ItemsSource = null;
-			productsGrid.ItemsSource = database.Products;
+			productsGrid.ItemsSource = _database.Products;
 			reloadComplexProducts();
 		}
 
@@ -472,16 +472,16 @@ namespace ComfortIsland
 		{
 			var viewModel = new ViewModels.Unit();
 			var dialog = new UnitDialog();
-			dialog.Initialize(database);
+			dialog.Initialize(_database);
 			dialog.EditValue = viewModel;
 			if (dialog.ShowDialog() == true)
 			{
 				try
 				{
-					var instance = viewModel.ConvertToBusinessLogic(database);
-					new Xml.Database(database).Save();
+					var instance = viewModel.ConvertToBusinessLogic(_database);
+					new Xml.Database(_database).Save();
 					unitsGrid.ItemsSource = null;
-					unitsGrid.ItemsSource = database.Units;
+					unitsGrid.ItemsSource = _database.Units;
 					unitsGrid.SelectedItem = instance;
 				}
 				catch (Exception error)
@@ -498,7 +498,7 @@ namespace ComfortIsland
 			{
 				var instance = selectedItems[0];
 
-				var message = instance.FindUsages(database);
+				var message = instance.FindUsages(_database);
 				if (message.Length > 0 && MessageBox.Show(
 					message.ToString(),
 					"Редактирование приведёт к дополнительным изменениям. Продолжить?",
@@ -510,16 +510,16 @@ namespace ComfortIsland
 
 				var viewModel = new ViewModels.Unit(instance);
 				var dialog = new UnitDialog();
-				dialog.Initialize(database);
+				dialog.Initialize(_database);
 				dialog.EditValue = viewModel;
 				if (dialog.ShowDialog() == true)
 				{
 					try
 					{
-						instance = viewModel.ConvertToBusinessLogic(database);
-						new Xml.Database(database).Save();
+						instance = viewModel.ConvertToBusinessLogic(_database);
+						new Xml.Database(_database).Save();
 						unitsGrid.ItemsSource = null;
-						unitsGrid.ItemsSource = database.Units;
+						unitsGrid.ItemsSource = _database.Units;
 						unitsGrid.SelectedItem = instance;
 					}
 					catch (Exception error)
@@ -537,7 +537,7 @@ namespace ComfortIsland
 			var message = new StringBuilder();
 			foreach (var item in selectedItems)
 			{
-				message.Append(item.FindUsages(database));
+				message.Append(item.FindUsages(_database));
 			}
 			if (message.Length > 0)
 			{
@@ -550,11 +550,11 @@ namespace ComfortIsland
 			}
 			foreach (var item in selectedItems)
 			{
-				database.Units.Remove(item.ID);
+				_database.Units.Remove(item.ID);
 			}
-			new Xml.Database(database).Save();
+			new Xml.Database(_database).Save();
 			unitsGrid.ItemsSource = null;
-			unitsGrid.ItemsSource = database.Units;
+			unitsGrid.ItemsSource = _database.Units;
 		}
 
 		private void selectedUnitsChanged(object sender, SelectionChangedEventArgs e)
@@ -714,7 +714,7 @@ namespace ComfortIsland
 			if (reportDescriptor != null)
 			{
 				IReport report;
-				if (reportDescriptor.CreateReport(database, out report))
+				if (reportDescriptor.CreateReport(_database, out report))
 				{
 					reportGrid.ItemsSource = null;
 					reportGrid.Columns.Clear();
@@ -729,17 +729,17 @@ namespace ComfortIsland
 			}
 		}
 
-		private static readonly Microsoft.Win32.SaveFileDialog saveDocumentDialog = ExcelHelper.CreateSaveDialog();
+		private static readonly Microsoft.Win32.SaveFileDialog _saveDocumentDialog = ExcelHelper.CreateSaveDialog();
 
 		private void printReportClick(object sender, RoutedEventArgs e)
 		{
-			if (saveDocumentDialog.ShowDialog() == true)
+			if (_saveDocumentDialog.ShowDialog() == true)
 			{
-				using (SpreadsheetDocument spreadsheet = SpreadsheetDocument.Create(saveDocumentDialog.FileName, SpreadsheetDocumentType.Workbook))
+				using (SpreadsheetDocument spreadsheet = SpreadsheetDocument.Create(_saveDocumentDialog.FileName, SpreadsheetDocumentType.Workbook))
 				{
 					ExcelHelper.ExportReport(spreadsheet, reportHeader.Text, reportGrid);
 				}
-				saveDocumentDialog.FileName.ShellOpen();
+				_saveDocumentDialog.FileName.ShellOpen();
 			}
 		}
 

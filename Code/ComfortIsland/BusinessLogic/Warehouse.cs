@@ -8,26 +8,26 @@ namespace ComfortIsland.BusinessLogic
 	public class Warehouse<T> : IEnumerable<T>
 		where T : IEntity
 	{
-		private readonly IDictionary<long, T> storage;
+		private readonly IDictionary<long, T> _storage;
 
 		#region Public interface
 
 		public int Count
-		{ get { return storage.Count; } }
+		{ get { return _storage.Count; } }
 
 		public long Add(T item)
 		{
-			storage[item.ID = IdGenerator.NewId(storage.Values)] = item;
+			_storage[item.ID = IdGenerator.NewId(_storage.Values)] = item;
 			return item.ID;
 		}
 
 		public bool Remove(long id)
 		{
-			return storage.Remove(id);
+			return _storage.Remove(id);
 		}
 
 		public T this[long id]
-		{ get { return storage[id]; } }
+		{ get { return _storage[id]; } }
 
 		#endregion
 
@@ -35,7 +35,7 @@ namespace ComfortIsland.BusinessLogic
 
 		public IEnumerator<T> GetEnumerator()
 		{
-			return storage.Values.GetEnumerator();
+			return _storage.Values.GetEnumerator();
 		}
 
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
@@ -47,9 +47,9 @@ namespace ComfortIsland.BusinessLogic
 
 		#region Constructors
 
-		private Warehouse(IDictionary<long, T> items)
+		private Warehouse(IDictionary<long, T> storage)
 		{
-			storage = items;
+			_storage = storage;
 		}
 
 		public Warehouse()

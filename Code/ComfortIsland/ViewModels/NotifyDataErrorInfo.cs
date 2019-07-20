@@ -9,17 +9,17 @@ namespace ComfortIsland.ViewModels
 {
 	public abstract class NotifyDataErrorInfo : INotifyDataErrorInfo
 	{
-		private IDictionary<string, List<string>> errorMessages = new Dictionary<string, List<string>>();
+		private readonly IDictionary<string, List<string>> _errorMessages = new Dictionary<string, List<string>>();
 
 		public bool HasErrors
-		{ get { return errorMessages.Count > 0; } }
+		{ get { return _errorMessages.Count > 0; } }
 
 		public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
 		public IEnumerable GetErrors(string propertyName)
 		{
 			List<string> stringList;
-			errorMessages.TryGetValue(propertyName, out stringList);
+			_errorMessages.TryGetValue(propertyName, out stringList);
 			return stringList;
 		}
 
@@ -34,7 +34,7 @@ namespace ComfortIsland.ViewModels
 
 		protected void SetErrors(IEnumerable<string> errors, [CallerMemberName] string propertyName = null)
 		{
-			errorMessages[propertyName] = new List<string>(errors);
+			_errorMessages[propertyName] = new List<string>(errors);
 			RaiseErrorsChanged(propertyName);
 		}
 
@@ -46,9 +46,9 @@ namespace ComfortIsland.ViewModels
 		protected void AddErrors(IEnumerable<string> errors, [CallerMemberName] string propertyName = null)
 		{
 			List<string> stringList;
-			if (!errorMessages.TryGetValue(propertyName, out stringList))
+			if (!_errorMessages.TryGetValue(propertyName, out stringList))
 			{
-				errorMessages[propertyName] = stringList = new List<string>();
+				_errorMessages[propertyName] = stringList = new List<string>();
 			}
 			stringList.AddRange(errors);
 			RaiseErrorsChanged(propertyName);
@@ -63,11 +63,11 @@ namespace ComfortIsland.ViewModels
 		{
 			if (string.IsNullOrEmpty(propertyName))
 			{
-				errorMessages.Clear();
+				_errorMessages.Clear();
 			}
 			else
 			{
-				errorMessages.Remove(propertyName);
+				_errorMessages.Remove(propertyName);
 			}
 			RaiseErrorsChanged(propertyName);
 		}

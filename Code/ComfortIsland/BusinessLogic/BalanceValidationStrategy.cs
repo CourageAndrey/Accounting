@@ -10,15 +10,15 @@ namespace ComfortIsland.BusinessLogic
 		public delegate bool BalanceTryChangeDelegate(Database database, Document document, StringBuilder errors);
 		private delegate bool BalanceTryChangeManyDelegate(Database database, IReadOnlyCollection<Document> documents, StringBuilder errors);
 
-		private readonly BalanceTryChangeDelegate createHandler;
-		private readonly BalanceTryChangeDelegate editHandler;
-		private readonly BalanceTryChangeManyDelegate deleteHandler;
+		private readonly BalanceTryChangeDelegate _createHandler;
+		private readonly BalanceTryChangeDelegate _editHandler;
+		private readonly BalanceTryChangeManyDelegate _deleteHandler;
 
 		private BalanceValidationStrategy(BalanceTryChangeDelegate createHandler, BalanceTryChangeDelegate editHandler, BalanceTryChangeManyDelegate deleteHandler)
 		{
-			this.createHandler = createHandler;
-			this.editHandler = editHandler;
-			this.deleteHandler = deleteHandler;
+			_createHandler = createHandler;
+			_editHandler = editHandler;
+			_deleteHandler = deleteHandler;
 		}
 
 		#region List
@@ -451,17 +451,17 @@ namespace ComfortIsland.BusinessLogic
 
 		public bool VerifyCreate(Database database, Document document, StringBuilder errors)
 		{
-			return createHandler(database, document, errors);
+			return _createHandler(database, document, errors);
 		}
 
 		public bool VerifyEdit(Database database, Document document, StringBuilder errors)
 		{
-			return editHandler(database, document, errors);
+			return _editHandler(database, document, errors);
 		}
 
 		public bool VerifyDelete(Database database, IReadOnlyCollection<Document> documents, StringBuilder errors)
 		{
-			return deleteHandler(database, documents, errors);
+			return _deleteHandler(database, documents, errors);
 		}
 	}
 }
