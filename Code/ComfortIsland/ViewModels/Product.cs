@@ -8,6 +8,9 @@ namespace ComfortIsland.ViewModels
 	{
 		#region Properties
 
+		public long? ID
+		{ get; }
+
 		public string Name
 		{
 			get { return name; }
@@ -66,7 +69,6 @@ namespace ComfortIsland.ViewModels
 			}
 		}
 
-		private readonly long? id;
 		private string name;
 		private BusinessLogic.Unit unit;
 		private List<BusinessLogic.Position> children;
@@ -77,7 +79,7 @@ namespace ComfortIsland.ViewModels
 
 		private Product(long? id, string name, BusinessLogic.Unit unit, List<BusinessLogic.Position> children)
 		{
-			this.id = id;
+			ID = id;
 			Name = name;
 			Unit = unit;
 			Children = children;
@@ -100,9 +102,9 @@ namespace ComfortIsland.ViewModels
 		public BusinessLogic.Product ConvertToBusinessLogic(BusinessLogic.Database database)
 		{
 			BusinessLogic.Product instance;
-			if (id.HasValue)
+			if (ID.HasValue)
 			{
-				instance = database.Products[id.Value];
+				instance = database.Products[ID.Value];
 			}
 			else
 			{

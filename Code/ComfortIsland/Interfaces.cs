@@ -36,6 +36,9 @@ namespace ComfortIsland
  
 	public interface IViewModel<T>
 	{
+		long? ID
+		{ get; }
+
 		T ConvertToBusinessLogic(Database database);
 	}
 }
