@@ -48,7 +48,7 @@ namespace ComfortIsland.UnitTests
 		{
 			public long ID { get; set; }
 
-			public StringBuilder FindUsages(ComfortIsland.BusinessLogic.Database database)
+			public StringBuilder FindUsages(BusinessLogic.Database database)
 			{
 				throw new NotSupportedException();
 			}
