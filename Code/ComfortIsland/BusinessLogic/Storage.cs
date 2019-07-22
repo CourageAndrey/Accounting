@@ -61,7 +61,7 @@ namespace ComfortIsland.BusinessLogic
 			return new Storage(new Dictionary<long, decimal>(_data));
 		}
 
-		public bool Check(Warehouse<Product> products, StringBuilder errors, ICollection<long> productsFilter = null)
+		public bool Check(Registry<Product> products, StringBuilder errors, ICollection<long> productsFilter = null)
 		{
 			IEnumerable<KeyValuePair<long, decimal>> wrongPositions = _data.Where(position => position.Value < 0);
 			if (productsFilter != null)

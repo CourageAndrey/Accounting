@@ -5,7 +5,7 @@ using ComfortIsland.Helpers;
 
 namespace ComfortIsland.BusinessLogic
 {
-	public class Warehouse<T> : IEnumerable<T>
+	public class Registry<T> : IEnumerable<T>
 		where T : IEntity
 	{
 		private readonly IDictionary<long, T> _storage;
@@ -47,16 +47,16 @@ namespace ComfortIsland.BusinessLogic
 
 		#region Constructors
 
-		private Warehouse(IDictionary<long, T> storage)
+		private Registry(IDictionary<long, T> storage)
 		{
 			_storage = storage;
 		}
 
-		public Warehouse()
+		public Registry()
 			: this(new Dictionary<long, T>())
 		{ }
 
-		public Warehouse(IEnumerable<T> items)
+		public Registry(IEnumerable<T> items)
 			: this(items.ToDictionary(item => item.ID, item => item))
 		{ }
 

@@ -70,7 +70,7 @@ namespace ComfortIsland.ViewModels
 			return instance;
 		}
 
-		internal void ApplyChanges(BusinessLogic.Document document, BusinessLogic.Warehouse<BusinessLogic.Product> products)
+		internal void ApplyChanges(BusinessLogic.Document document, BusinessLogic.Registry<BusinessLogic.Product> products)
 		{
 			document.Number = Number;
 			document.Date = Date;

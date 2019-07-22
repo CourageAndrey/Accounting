@@ -7,16 +7,16 @@ namespace ComfortIsland.BusinessLogic
 	{
 		#region Properties
 
-		public Warehouse<Unit> Units
+		public Registry<Unit> Units
 		{ get; }
 
-		public Warehouse<Product> Products
+		public Registry<Product> Products
 		{ get; }
 
 		public Storage Balance
 		{ get; }
 
-		public Warehouse<Document> Documents
+		public Registry<Document> Documents
 		{ get; }
 
 		#endregion
@@ -25,10 +25,10 @@ namespace ComfortIsland.BusinessLogic
 
 		public Database()
 			: this(
-				new Warehouse<Unit>(),
-				new Warehouse<Product>(),
+				new Registry<Unit>(),
+				new Registry<Product>(),
 				new Dictionary<long, decimal>(),
-				new Warehouse<Document>())
+				new Registry<Document>())
 		{ }
 
 		public Database(
@@ -37,10 +37,10 @@ namespace ComfortIsland.BusinessLogic
 			IDictionary<long, decimal> balance,
 			IEnumerable<Document> documents)
 		{
-			Units = new Warehouse<Unit>(units);
-			Products = new Warehouse<Product>(products);
+			Units = new Registry<Unit>(units);
+			Products = new Registry<Product>(products);
 			Balance = new Storage(balance);
-			Documents = new Warehouse<Document>(documents);
+			Documents = new Registry<Document>(documents);
 		}
 
 		public Database CreateMockup()

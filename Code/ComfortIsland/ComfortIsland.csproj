@@ -70,7 +70,7 @@
     <Compile Include="Helpers\DictionaryComparer.cs" />
     <Compile Include="ViewModels\PositionType.cs" />
     <Compile Include="ViewModels\NotifyDataErrorInfo.cs" />
-    <Compile Include="BusinessLogic\Warehouse.cs" />
+    <Compile Include="BusinessLogic\Registry.cs" />
     <Compile Include="ViewModels\Document.cs" />
     <Compile Include="ViewModels\Product.cs" />
     <Compile Include="ViewModels\Unit.cs" />
