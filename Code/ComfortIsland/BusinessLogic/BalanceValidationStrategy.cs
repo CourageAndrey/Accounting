@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -60,11 +59,7 @@ namespace ComfortIsland.BusinessLogic
 			ICollection<long> productsToCheck;
 
 			// создание временной копии таблицы баланса
-			var databaseMock = new Database(
-				new Unit[0],
-				new Product[0],
-				database.Balance.ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
-				new Document[0]);
+			var databaseMock = database.CreateMockup();
 
 			// откат предыдущих документов
 			var documentsRolledBack = new Stack<Document>();
@@ -101,11 +96,7 @@ namespace ComfortIsland.BusinessLogic
 			var original = database.Documents[document.PreviousVersionId.Value];
 
 			// создание временной копии таблицы баланса
-			var databaseMock = new Database(
-				new Unit[0],
-				new Product[0],
-				database.Balance.ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
-				new Document[0]);
+			var databaseMock = database.CreateMockup();
 
 			// откат документов до самой маленькой даты
 			var firstDate = document.Date > original.Date ? original.Date : document.Date;
@@ -167,11 +158,7 @@ namespace ComfortIsland.BusinessLogic
 			ICollection<long> productsToCheck;
 
 			// создание временной копии таблицы баланса
-			var databaseMock = new Database(
-				new Unit[0],
-				new Product[0],
-				database.Balance.ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
-				new Document[0]);
+			var databaseMock = database.CreateMockup();
 
 			// откат предыдущих документов
 			var documentsToDelete = new HashSet<Document>(documents);
@@ -212,11 +199,7 @@ namespace ComfortIsland.BusinessLogic
 			List<long> productsToCheck;
 
 			// создание временной копии таблицы баланса
-			var databaseMock = new Database(
-				new Unit[0],
-				new Product[0],
-				database.Balance.ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
-				new Document[0]);
+			var databaseMock = database.CreateMockup();
 
 			// откат предыдущих документов
 			var documentsRolledBack = new Stack<ICollection<Document>>();
@@ -261,11 +244,7 @@ namespace ComfortIsland.BusinessLogic
 			var original = database.Documents[document.PreviousVersionId.Value];
 
 			// создание временной копии таблицы баланса
-			var databaseMock = new Database(
-				new Unit[0],
-				new Product[0],
-				database.Balance.ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
-				new Document[0]);
+			var databaseMock = database.CreateMockup();
 
 			// откат документов до самой маленькой даты
 			var firstDate = document.Date.Date > original.Date.Date ? original.Date.Date : document.Date.Date;
@@ -334,11 +313,7 @@ namespace ComfortIsland.BusinessLogic
 			List<long> productsToCheck;
 
 			// создание временной копии таблицы баланса
-			var databaseMock = new Database(
-				new Unit[0],
-				new Product[0],
-				database.Balance.ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
-				new Document[0]);
+			var databaseMock = database.CreateMockup();
 
 			// откат предыдущих документов
 			var minDate = documents.Min(doc => doc.Date.Date);
@@ -374,11 +349,7 @@ namespace ComfortIsland.BusinessLogic
 		private static bool createFinalOnly(Database database, Document document, StringBuilder errors)
 		{
 			// создание временной копии таблицы баланса
-			var databaseMock = new Database(
-				new Unit[0],
-				new Product[0],
-				database.Balance.ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
-				new Document[0]);
+			var databaseMock = database.CreateMockup();
 
 			// применение нового документа
 			var productsToCheck = document.Apply(databaseMock).Keys;
@@ -390,11 +361,7 @@ namespace ComfortIsland.BusinessLogic
 		private static bool editFinalOnly(Database database, Document document, StringBuilder errors)
 		{
 			// создание временной копии таблицы баланса
-			var databaseMock = new Database(
-				new Unit[0],
-				new Product[0],
-				database.Balance.ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
-				new Document[0]);
+			var databaseMock = database.CreateMockup();
 
 			// откат старой версии документа
 			var productsToCheck = new HashSet<long>(database.Documents[document.PreviousVersionId.Value].Rollback(databaseMock).Keys);
@@ -412,11 +379,7 @@ namespace ComfortIsland.BusinessLogic
 		private static bool deleteFinalOnly(Database database, IReadOnlyCollection<Document> documents, StringBuilder errors)
 		{
 			// создание временной копии таблицы баланса
-			var databaseMock = new Database(
-				new Unit[0],
-				new Product[0],
-				database.Balance.ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
-				new Document[0]);
+			var databaseMock = database.CreateMockup();
 
 			// последовательный откат документов
 			var productsToCheck = new HashSet<long>();

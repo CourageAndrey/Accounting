@@ -36,11 +36,7 @@ namespace ComfortIsland.Reports
 			FromDate = fromDate.Date;
 			ToDate = toDate.Date.AddDays(1).AddMilliseconds(-1);
 			var items = database.Products.ToDictionary(p => p.ID, p => new TradeItem(p));
-			var databaseMock = new Database(
-				new Unit[0],
-				new Product[0],
-				database.Balance.ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
-				new Document[0]);
+			var databaseMock = database.CreateMockup();
 			var activeDocuments = database.GetActiveDocuments().ToList();
 
 			// открутили остатки на конец периода

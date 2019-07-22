@@ -31,11 +31,7 @@ namespace ComfortIsland.Reports
 		{
 			Date = date.Date.AddDays(1).AddMilliseconds(-1);
 
-			var databaseMock = new Database(
-				new Unit[0],
-				new Product[0],
-				database.Balance.ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
-				new Document[0]);
+			var databaseMock = database.CreateMockup();
 			var activeDocuments = database.GetActiveDocuments().ToList();
 
 			foreach (var document in activeDocuments.Where(d => d.Date > Date))

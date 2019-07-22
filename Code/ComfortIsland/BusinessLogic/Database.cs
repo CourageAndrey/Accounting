@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace ComfortIsland.BusinessLogic
 {
@@ -40,6 +41,15 @@ namespace ComfortIsland.BusinessLogic
 			Products = new Warehouse<Product>(products);
 			Balance = new Storage(balance);
 			Documents = new Warehouse<Document>(documents);
+		}
+
+		public Database CreateMockup()
+		{
+			return new Database(
+				new Unit[0],
+				new Product[0],
+				Balance.ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
+				new Document[0]);
 		}
 
 		#endregion
