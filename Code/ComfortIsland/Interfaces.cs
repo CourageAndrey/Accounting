@@ -34,7 +34,7 @@ namespace ComfortIsland
 		string DisplayMember { get; }
 	}
  
-	public interface IViewModel<T>
+	public interface IViewModel<out T>
 	{
 		long? ID
 		{ get; }
