@@ -7,7 +7,7 @@ using ComfortIsland.Helpers;
 
 namespace ComfortIsland.BusinessLogic
 {
-	public class Storage : IEnumerable<KeyValuePair<long, decimal>>
+	public class Warehouse : IEnumerable<KeyValuePair<long, decimal>>
 	{
 		private readonly IDictionary<long, decimal> _data;
 
@@ -56,9 +56,9 @@ namespace ComfortIsland.BusinessLogic
 			return _data.Select(b => new Position(b.Key, b.Value)).ToList();
 		}
 
-		public Storage Clone()
+		public Warehouse Clone()
 		{
-			return new Storage(new Dictionary<long, decimal>(_data));
+			return new Warehouse(new Dictionary<long, decimal>(_data));
 		}
 
 		public bool Check(Registry<Product> products, StringBuilder errors, ICollection<long> productsFilter = null)
@@ -90,11 +90,11 @@ namespace ComfortIsland.BusinessLogic
 
 		#region Constructors
 
-		public Storage()
+		public Warehouse()
 			: this(new Dictionary<long, decimal>())
 		{ }
 
-		public Storage(IDictionary<long, decimal> data)
+		public Warehouse(IDictionary<long, decimal> data)
 		{
 			if (data == null) throw new ArgumentNullException(nameof(data));
 

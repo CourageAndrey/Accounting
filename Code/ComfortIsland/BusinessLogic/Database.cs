@@ -13,7 +13,7 @@ namespace ComfortIsland.BusinessLogic
 		public Registry<Product> Products
 		{ get; }
 
-		public Storage Balance
+		public Warehouse Balance
 		{ get; }
 
 		public Registry<Document> Documents
@@ -39,7 +39,7 @@ namespace ComfortIsland.BusinessLogic
 		{
 			Units = new Registry<Unit>(units);
 			Products = new Registry<Product>(products);
-			Balance = new Storage(balance);
+			Balance = new Warehouse(balance);
 			Documents = new Registry<Document>(documents);
 		}
 
