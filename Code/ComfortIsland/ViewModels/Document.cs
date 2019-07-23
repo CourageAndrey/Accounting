@@ -58,7 +58,7 @@ namespace ComfortIsland.ViewModels
 			{
 				var previousVersion = database.Documents[ID.Value];
 				instance = new BusinessLogic.Document(previousVersion.ID, previousVersion.Type, BusinessLogic.DocumentState.Active);
-				previousVersion.MakeEdited(database);
+				previousVersion.Edit(database);
 			}
 			else
 			{

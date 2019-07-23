@@ -114,11 +114,20 @@ namespace ComfortIsland.BusinessLogic
 			return delta;
 		}
 
-		public void MakeEdited(Database database)
+		public void Edit(Database database)
 		{
 			if (State == DocumentState.Active)
 			{
 				State = DocumentState.Edited;
+				Rollback(database);
+			}
+		}
+
+		public void Delete(Database database)
+		{
+			if (State == DocumentState.Active)
+			{
+				State = DocumentState.Deleted;
 				Rollback(database);
 			}
 		}

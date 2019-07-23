@@ -146,7 +146,7 @@ namespace ComfortIsland
 			{
 				foreach (var document in documentsToDelete)
 				{
-					document.Rollback(_database);
+					document.Delete(_database);
 				}
 				new Xml.Database(_database).Save();
 				refreshDocuments();
