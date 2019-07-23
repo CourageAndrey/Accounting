@@ -36,9 +36,11 @@ namespace ComfortIsland
 			documentsGrid.Columns[0].SortDirection = ListSortDirection.Ascending;
 			documentsGrid.Items.SortDescriptions.Add(new SortDescription("Date", ListSortDirection.Ascending));
 			documentsWeekClick(null, null);
+
 			// отчёты
 			listReports.ItemsSource = ReportDescriptor.All;
 			reportControl.Report = null;
+
 			// справочники
 			productsGrid.ItemsSource = _database.Products;
 			reloadComplexProducts();
