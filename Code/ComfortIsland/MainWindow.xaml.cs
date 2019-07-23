@@ -130,7 +130,7 @@ namespace ComfortIsland
 
 		private void deleteDocumentsClick(object sender, RoutedEventArgs e)
 		{
-			var documentsToDelete = documentsGrid.SelectedItems.OfType<Document>().ToList();
+			var documentsToDelete = documentsGrid.SelectedItems.OfType<Document>().Where(doc => doc.State == DocumentState.Active).ToList();
 			if (documentsToDelete.Count == 0)
 			{
 				MessageBox.Show("Не выбрано ни одного активного документа.", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
