@@ -68,10 +68,7 @@ namespace ComfortIsland
 
 		private void produceClick(object sender, RoutedEventArgs e)
 		{
-			createDocument(DocumentType.Produce, dialog =>
-			{
-				dialog.ProductsGetter = db => db.Products.Where(p => p.Children.Count > 0);
-			});
+			createDocument(DocumentType.Produce);
 		}
 
 		private void toWarehouseClick(object sender, RoutedEventArgs e)
@@ -201,15 +198,15 @@ namespace ComfortIsland
 			editDocumentButton.IsEnabled = documents.Count == 1;
 		}
 
-		private void createDocument(DocumentType type, Action<DocumentDialog> dialogSetup = null)
+		private void createDocument(DocumentType type)
 		{
 			var viewModel = new ViewModels.Document(type);
 			var dialog = new DocumentDialog();
-			dialog.Initialize(_database);
-			if (dialogSetup != null)
+			if (type == DocumentType.Produce)
 			{
-				dialogSetup(dialog);
+				dialog.ProductsGetter = db => db.Products.Where(p => p.Children.Count > 0);
 			}
+			dialog.Initialize(_database);
 			dialog.EditValue = viewModel;
 			if (dialog.ShowDialog() == true)
 			{
