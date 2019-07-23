@@ -149,7 +149,7 @@ namespace ComfortIsland
 					document.Rollback(_database);
 				}
 				new Xml.Database(_database).Save();
-				documentStateFilterChecked(this, null);
+				refreshDocuments();
 				reportControl.Report = null;
 			}
 			else
@@ -176,7 +176,7 @@ namespace ComfortIsland
 					instance = viewModel.ConvertToBusinessLogic(_database);
 					new Xml.Database(_database).Save();
 
-					documentStateFilterChecked(this, null);
+					refreshDocuments();
 					documentsGrid.SelectedItem = instance;
 				}
 				catch (Exception error)
@@ -210,7 +210,7 @@ namespace ComfortIsland
 				{
 					var instance = viewModel.ConvertToBusinessLogic(_database);
 					new Xml.Database(_database).Save();
-					documentStateFilterChecked(this, null);
+					refreshDocuments();
 					documentsGrid.SelectedItem = instance;
 				}
 				catch (Exception error)
