@@ -42,6 +42,7 @@ namespace ComfortIsland
 			documentsWeekClick(null, null);
 			// отчёты
 			listReports.ItemsSource = ReportDescriptor.All;
+			clearReports();
 			// справочники
 			productsGrid.ItemsSource = _database.Products;
 			reloadComplexProducts();
@@ -151,9 +152,7 @@ namespace ComfortIsland
 				}
 				new Xml.Database(_database).Save();
 				documentStateFilterChecked(this, null);
-				reportHeader.Text = string.Empty;
-				reportGrid.ItemsSource = null;
-				buttonPrintReport.IsEnabled = false;
+				clearReports();
 			}
 			else
 			{
@@ -186,8 +185,7 @@ namespace ComfortIsland
 				{
 					MessageBox.Show(error.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
 				}
-				reportGrid.ItemsSource = null;
-				buttonPrintReport.IsEnabled = false;
+				clearReports();
 			}
 		}
 
@@ -221,8 +219,7 @@ namespace ComfortIsland
 				{
 					MessageBox.Show(error.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
 				}
-				reportGrid.ItemsSource = null;
-				buttonPrintReport.IsEnabled = false;
+				clearReports();
 			}
 		}
 
@@ -573,6 +570,13 @@ namespace ComfortIsland
 		}
 
 		#region Отчёты
+
+		private void clearReports()
+		{
+			reportHeader.Text = string.Empty;
+			reportGrid.ItemsSource = null;
+			buttonPrintReport.IsEnabled = false;
+		}
 
 		private void newReportClick(object sender, MouseButtonEventArgs e)
 		{

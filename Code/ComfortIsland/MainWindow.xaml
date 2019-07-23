@@ -28,6 +28,10 @@
 	<TabControl>
 		<TabItem Header="Документы" Height="24" VerticalAlignment="Top">
 			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="64*"/>
+					<ColumnDefinition Width="479*"/>
+				</Grid.ColumnDefinitions>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
@@ -35,7 +39,7 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="*" MinHeight="100" />
 				</Grid.RowDefinitions>
-				<StackPanel Orientation="Horizontal" Grid.Row="0">
+				<StackPanel Orientation="Horizontal" Grid.Row="0" Grid.ColumnSpan="2">
 					<Button Content="Приход на склад" Margin="5" Padding="5,2,5,2" Click="incomeClick" />
 					<Button Content="Продажа со склада" Margin="5" Padding="5,2,5,2" Click="outcomeClick" />
 					<Button Content="Производство" Margin="5" Padding="5,2,5,2" Click="produceClick" />
@@ -44,7 +48,7 @@
 					<Button Content="Удалить" Margin="5" Padding="5,2,5,2" Click="deleteDocumentsClick" Name="deleteDocumentsButton" />
 					<Button Content="Редактировать" Margin="5" Padding="5,2,5,2" Click="editDocumentClick" Name="editDocumentButton" />
 				</StackPanel>
-				<Expander Grid.Row="01" Header="Фильтр документов">
+				<Expander Grid.Row="01" Header="Фильтр документов" Grid.ColumnSpan="2">
 					<StackPanel Orientation="Vertical">
 						<CheckBox Margin="5" Content="Отображать удалённые и отредактированные" Name="checkBoxShowObsoleteDocuments" Checked="documentStateFilterChecked" Unchecked="documentStateFilterChecked" />
 						<StackPanel Orientation="Horizontal">
@@ -59,7 +63,7 @@
 						</StackPanel>
 					</StackPanel>
 				</Expander>
-				<GroupBox Grid.Row="4" Header="Список позиций:">
+				<GroupBox Grid.Row="4" Header="Список позиций:" Grid.ColumnSpan="2">
 					<DataGrid IsReadOnly="False" AutoGenerateColumns="False" Name="positionsGrid" ItemsSource="{Binding ElementName=documentsGrid, Path=SelectedItem.Positions, Mode=OneWay}">
 						<DataGrid.Columns>
 							<DataGridTextColumn Header="Товар" Binding="{Binding Path=Key.DisplayMember, Mode=OneTime}" MinWidth="50"/>
@@ -67,7 +71,7 @@
 						</DataGrid.Columns>
 					</DataGrid>
 				</GroupBox>
-				<DataGrid Grid.Row="2" Name="documentsGrid" IsReadOnly="True" AutoGenerateColumns="False" MouseDoubleClick="documentsGridDoubleClick" SelectionChanged="selectedDocumentsChanged">
+				<DataGrid Grid.Row="2" Name="documentsGrid" IsReadOnly="True" AutoGenerateColumns="False" MouseDoubleClick="documentsGridDoubleClick" SelectionChanged="selectedDocumentsChanged" Grid.ColumnSpan="2">
 					<DataGrid.Columns>
 						<DataGridTextColumn Header="Дата" Binding="{Binding Path=Date, Mode=OneTime, Converter={StaticResource dateConverter}}" MinWidth="100"/>
 						<DataGridTextColumn Header="Номер" Binding="{Binding Path=Number, Mode=OneTime}" MinWidth="150" />
@@ -75,7 +79,7 @@
 						<DataGridTextColumn Header="Состояние" Binding="{Binding Path=State.Name, Mode=OneTime}" MinWidth="100" x:Name="stateColumn" />
 					</DataGrid.Columns>
 				</DataGrid>
-				<GridSplitter Grid.Row="3" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+				<GridSplitter Grid.Row="3" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.ColumnSpan="2" />
 			</Grid>
 		</TabItem>
 		<TabItem Header="Отчёты">
@@ -84,8 +88,8 @@
 					<ListBox Name="listReports" DisplayMemberPath="Title" MouseDoubleClick="newReportClick" />
 				</GroupBox>
 				<DockPanel LastChildFill="True" DockPanel.Dock="Top">
-					<Button DockPanel.Dock="Left" Margin="5" Padding="5,2,5,2" Content="Печать" IsEnabled="False" Name="buttonPrintReport" Click="printReportClick" />
-					<TextBlock  Margin="0,10,0,10" FontWeight="Bold" Name="reportHeader" TextAlignment="Center" Text="&lt; ЗАГОЛОВОК ОТЧЁТА &gt;" />
+					<Button DockPanel.Dock="Left" Margin="5" Padding="5,2,5,2" Content="Печать" Name="buttonPrintReport" Click="printReportClick" />
+					<TextBlock  Margin="0,10,0,10" FontWeight="Bold" Name="reportHeader" TextAlignment="Center" />
 				</DockPanel>
 				<DataGrid Name="reportGrid" IsReadOnly="True" AutoGenerateColumns="False" />
 			</DockPanel>
