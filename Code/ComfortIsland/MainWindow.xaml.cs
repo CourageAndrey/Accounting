@@ -10,11 +10,7 @@ using System.Windows.Input;
 
 using ComfortIsland.BusinessLogic;
 using ComfortIsland.Dialogs;
-using ComfortIsland.Helpers;
 using ComfortIsland.Reports;
-
-using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.Packaging;
 
 namespace ComfortIsland
 {
@@ -42,7 +38,7 @@ namespace ComfortIsland
 			documentsWeekClick(null, null);
 			// отчёты
 			listReports.ItemsSource = ReportDescriptor.All;
-			clearReports();
+			reportControl.Report = null;
 			// справочники
 			productsGrid.ItemsSource = _database.Products;
 			reloadComplexProducts();
@@ -152,7 +148,7 @@ namespace ComfortIsland
 				}
 				new Xml.Database(_database).Save();
 				documentStateFilterChecked(this, null);
-				clearReports();
+				reportControl.Report = null;
 			}
 			else
 			{
@@ -185,7 +181,7 @@ namespace ComfortIsland
 				{
 					MessageBox.Show(error.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
 				}
-				clearReports();
+				reportControl.Report = null;
 			}
 		}
 
@@ -219,7 +215,7 @@ namespace ComfortIsland
 				{
 					MessageBox.Show(error.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
 				}
-				clearReports();
+				reportControl.Report = null;
 			}
 		}
 
@@ -569,15 +565,6 @@ namespace ComfortIsland
 			deleteButton.IsEnabled = itemsCount > 0;
 		}
 
-		#region Отчёты
-
-		private void clearReports()
-		{
-			reportHeader.Text = string.Empty;
-			reportGrid.ItemsSource = null;
-			buttonPrintReport.IsEnabled = false;
-		}
-
 		private void newReportClick(object sender, MouseButtonEventArgs e)
 		{
 			var reportDescriptor = listReports.SelectedItem as ReportDescriptor;
@@ -586,33 +573,9 @@ namespace ComfortIsland
 				IReport report;
 				if (reportDescriptor.CreateReport(_database, out report))
 				{
-					reportGrid.ItemsSource = null;
-					reportGrid.Columns.Clear();
-					reportHeader.Text = report.Title;
-					foreach (var column in reportDescriptor.GetColumns())
-					{
-						reportGrid.Columns.Add(column);
-					}
-					reportGrid.ItemsSource = report.Items;
-					buttonPrintReport.IsEnabled = true;
+					reportControl.Report = report;
 				}
 			}
 		}
-
-		private static readonly Microsoft.Win32.SaveFileDialog _saveDocumentDialog = ExcelHelper.CreateSaveDialog();
-
-		private void printReportClick(object sender, RoutedEventArgs e)
-		{
-			if (_saveDocumentDialog.ShowDialog() == true)
-			{
-				using (SpreadsheetDocument spreadsheet = SpreadsheetDocument.Create(_saveDocumentDialog.FileName, SpreadsheetDocumentType.Workbook))
-				{
-					ExcelHelper.ExportReport(spreadsheet, reportHeader.Text, reportGrid);
-				}
-				_saveDocumentDialog.FileName.ShellOpen();
-			}
-		}
-
-		#endregion
 	}
 }

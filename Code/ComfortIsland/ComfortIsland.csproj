@@ -67,6 +67,9 @@
     <Compile Include="BusinessLogic\DatabaseExtension.cs" />
     <Compile Include="BusinessLogic\BalanceValidationStrategy.cs" />
     <Compile Include="BusinessLogic\Warehouse.cs" />
+    <Compile Include="Controls\ReportControl.xaml.cs">
+      <DependentUpon>ReportControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\DictionaryComparer.cs" />
     <Compile Include="ViewModels\PositionType.cs" />
     <Compile Include="ViewModels\NotifyDataErrorInfo.cs" />
@@ -102,6 +105,10 @@
     <Compile Include="Reports\ReportDescriptor.cs" />
     <Compile Include="Reports\TradeReport.cs" />
     <Compile Include="Settings.cs" />
+    <Page Include="Controls\ReportControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\SelectProductDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

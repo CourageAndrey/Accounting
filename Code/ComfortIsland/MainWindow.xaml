@@ -5,6 +5,7 @@
 		xmlns:viewModels="clr-namespace:ComfortIsland.ViewModels"
 		xmlns:comfortIsland="clr-namespace:ComfortIsland"
 		xmlns:helpers="clr-namespace:ComfortIsland.Helpers"
+		xmlns:controls="clr-namespace:ComfortIsland.Controls"
 		Title="Остров комфорта - Учёт" Width="1100" Height="750"
 		Loaded="formLoaded" Icon="Icon.ico"
 		FontSize="{x:Static comfortIsland:Settings.FontSize}">
@@ -87,11 +88,7 @@
 				<GroupBox DockPanel.Dock="Left" Header="Список отчётов" Width="200">
 					<ListBox Name="listReports" DisplayMemberPath="Title" MouseDoubleClick="newReportClick" />
 				</GroupBox>
-				<DockPanel LastChildFill="True" DockPanel.Dock="Top">
-					<Button DockPanel.Dock="Left" Margin="5" Padding="5,2,5,2" Content="Печать" Name="buttonPrintReport" Click="printReportClick" />
-					<TextBlock  Margin="0,10,0,10" FontWeight="Bold" Name="reportHeader" TextAlignment="Center" />
-				</DockPanel>
-				<DataGrid Name="reportGrid" IsReadOnly="True" AutoGenerateColumns="False" />
+				<controls:ReportControl x:Name="reportControl" />
 			</DockPanel>
 		</TabItem>
 		<TabItem Header="Справочники">
