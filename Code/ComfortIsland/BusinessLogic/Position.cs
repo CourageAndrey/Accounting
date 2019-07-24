@@ -63,7 +63,7 @@ namespace ComfortIsland.BusinessLogic
 		{
 			if (count <= 0)
 			{
-				errors.AppendLine(string.Format(CultureInfo.InvariantCulture, "Заданное в {0} строке количество меньше ноля.", lineNumber));
+				errors.AppendLine(string.Format(CultureInfo.InvariantCulture, "Заданное в {0} строке количество должно быть больше ноля.", lineNumber));
 				return false;
 			}
 			else
