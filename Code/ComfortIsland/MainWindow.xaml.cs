@@ -244,13 +244,13 @@ namespace ComfortIsland
 
 		private void documentsDateFilterChanged(object sender, SelectionChangedEventArgs e)
 		{
-			if (!_suppressDocumentChangeFilter)
+			if (!_suppressDocumentRefresh)
 			{
 				refreshDocuments();
 			}
 		}
 
-		private bool _suppressDocumentChangeFilter;
+		private bool _suppressDocumentRefresh;
 
 		private void refreshDocuments()
 		{
@@ -350,10 +350,10 @@ namespace ComfortIsland
 
 		private void filterDocuments(DateTime fromDate, DateTime toDate)
 		{
-			_suppressDocumentChangeFilter = true;
+			_suppressDocumentRefresh = true;
 			documentsFromDatePicker.SelectedDate = fromDate;
 			documentsToDatePicker.SelectedDate = toDate;
-			_suppressDocumentChangeFilter = false;
+			_suppressDocumentRefresh = false;
 			refreshDocuments();
 		}
 
