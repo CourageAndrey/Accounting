@@ -6,7 +6,7 @@ using NUnit.Framework;
 
 using ComfortIsland.Helpers;
 
-namespace ComfortIsland.UnitTests
+namespace ComfortIsland.UnitTests.Helpers
 {
 	public class IdGeneratorTest
 	{
@@ -48,7 +48,7 @@ namespace ComfortIsland.UnitTests
 		{
 			public long ID { get; set; }
 
-			public StringBuilder FindUsages(BusinessLogic.Database database)
+			public StringBuilder FindUsages(ComfortIsland.BusinessLogic.Database database)
 			{
 				throw new NotSupportedException();
 			}

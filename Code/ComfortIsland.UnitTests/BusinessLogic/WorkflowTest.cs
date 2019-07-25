@@ -6,7 +6,7 @@ using NUnit.Framework;
 using ComfortIsland.BusinessLogic;
 using ComfortIsland.Helpers;
 
-namespace ComfortIsland.UnitTests
+namespace ComfortIsland.UnitTests.BusinessLogic
 {
 	public class WorkflowTest
 	{

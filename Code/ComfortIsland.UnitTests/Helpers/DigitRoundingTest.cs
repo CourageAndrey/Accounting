@@ -2,7 +2,7 @@
 
 using NUnit.Framework;
 
-namespace ComfortIsland.UnitTests
+namespace ComfortIsland.UnitTests.Helpers
 {
 	public class DigitRoundingTest
 	{

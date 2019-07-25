@@ -6,7 +6,7 @@ using NUnit.Framework;
 
 using ComfortIsland.BusinessLogic;
 
-namespace ComfortIsland.UnitTests.BalanceValidationStrategies
+namespace ComfortIsland.UnitTests.BusinessLogic.BalanceValidation
 {
 	public class AnyTypeTest
 	{

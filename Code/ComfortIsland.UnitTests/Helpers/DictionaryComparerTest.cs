@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 using ComfortIsland.Helpers;
 
-namespace ComfortIsland.UnitTests
+namespace ComfortIsland.UnitTests.Helpers
 {
 	public class DictionaryComparerTest
 	{

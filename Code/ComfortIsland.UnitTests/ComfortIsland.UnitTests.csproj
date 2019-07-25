@@ -75,24 +75,24 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="BalanceValidationStrategies\AnyTypeTest.cs" />
-    <Compile Include="BalanceValidationStrategies\BalanceCheckWorkflowHelper.cs" />
-    <Compile Include="BalanceValidationStrategies\FinalOnlyTest.cs" />
-    <Compile Include="BalanceValidationStrategies\PerDayTest.cs" />
-    <Compile Include="BalanceValidationStrategies\PerDocumentTest.cs" />
-    <Compile Include="BalanceValidationStrategies\NoVerifyTest.cs" />
-    <Compile Include="DictionaryComparerTest.cs" />
-    <Compile Include="DigitRoundingTest.cs" />
-    <Compile Include="EnumerationsTest.cs" />
-    <Compile Include="IdGeneratorTest.cs" />
+    <Compile Include="BusinessLogic\BalanceValidation\AnyTypeTest.cs" />
+    <Compile Include="BusinessLogic\BalanceValidation\BalanceCheckWorkflowHelper.cs" />
+    <Compile Include="BusinessLogic\BalanceValidation\FinalOnlyTest.cs" />
+    <Compile Include="BusinessLogic\BalanceValidation\PerDayTest.cs" />
+    <Compile Include="BusinessLogic\BalanceValidation\PerDocumentTest.cs" />
+    <Compile Include="BusinessLogic\BalanceValidation\NoVerifyTest.cs" />
+    <Compile Include="Helpers\DictionaryComparerTest.cs" />
+    <Compile Include="Helpers\DigitRoundingTest.cs" />
+    <Compile Include="BusinessLogic\EnumerationsTest.cs" />
+    <Compile Include="Helpers\IdGeneratorTest.cs" />
     <Compile Include="Reports\BalanceReportTest.cs" />
     <Compile Include="Reports\TradeReportTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SerializationTest.cs" />
+    <Compile Include="Xml\SerializationTest.cs" />
     <Compile Include="ViewModels\DocumentTest.cs" />
     <Compile Include="ViewModels\ProductTest.cs" />
     <Compile Include="ViewModels\UnitTest.cs" />
-    <Compile Include="WorkflowTest.cs" />
+    <Compile Include="BusinessLogic\WorkflowTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

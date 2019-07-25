@@ -13,23 +13,23 @@ namespace ComfortIsland.UnitTests.ViewModels
 		public void Constructor()
 		{
 			// arrange
-			var unit = new BusinessLogic.Unit
+			var unit = new ComfortIsland.BusinessLogic.Unit
 			{
 				ID = 1,
 				Name = "unit",
 				ShortName = "u",
 			};
-			var child = new BusinessLogic.Product
+			var child = new ComfortIsland.BusinessLogic.Product
 			{
 				ID = 1,
 				Name = "Child",
 				Unit = unit,
 			};
-			var businessObject = new BusinessLogic.Product
+			var businessObject = new ComfortIsland.BusinessLogic.Product
 			{
 				Name = "Product",
 				Unit = unit,
-				Children = new Dictionary<BusinessLogic.Product, decimal> { { child, 75 } },
+				Children = new Dictionary<ComfortIsland.BusinessLogic.Product, decimal> { { child, 75 } },
 			};
 
 			// act
@@ -47,24 +47,24 @@ namespace ComfortIsland.UnitTests.ViewModels
 		public void CreateNew()
 		{
 			// arrange
-			var unit = new BusinessLogic.Unit
+			var unit = new ComfortIsland.BusinessLogic.Unit
 			{
 				ID = 1,
 				Name = "unit",
 				ShortName = "u",
 			};
-			var child = new BusinessLogic.Product
+			var child = new ComfortIsland.BusinessLogic.Product
 			{
 				ID = 1,
 				Name = "Child product",
 				Unit = unit,
-				Children = new Dictionary<BusinessLogic.Product, decimal>(),
+				Children = new Dictionary<ComfortIsland.BusinessLogic.Product, decimal>(),
 			};
-			var database = new BusinessLogic.Database(
+			var database = new ComfortIsland.BusinessLogic.Database(
 				new[] { unit },
 				new[] { child },
 				new Dictionary<long, decimal>(),
-				new BusinessLogic.Document[0]);
+				new ComfortIsland.BusinessLogic.Document[0]);
 
 			// act
 			var viewModel = new Product
@@ -72,7 +72,7 @@ namespace ComfortIsland.UnitTests.ViewModels
 				Name = "Product",
 				Unit = unit,
 			};
-			viewModel.Children.Add(new BusinessLogic.Position(child.ID, 5));
+			viewModel.Children.Add(new ComfortIsland.BusinessLogic.Position(child.ID, 5));
 			var businessObject = viewModel.ConvertToBusinessLogic(database);
 
 			// assert
@@ -88,51 +88,51 @@ namespace ComfortIsland.UnitTests.ViewModels
 		public void EditExisting()
 		{
 			// arrange
-			var unitOld = new BusinessLogic.Unit
+			var unitOld = new ComfortIsland.BusinessLogic.Unit
 			{
 				ID = 1,
 				Name = "old unit",
 				ShortName = "o/u",
 			};
-			var unitNew = new BusinessLogic.Unit
+			var unitNew = new ComfortIsland.BusinessLogic.Unit
 			{
 				ID = 2,
 				Name = "new unit",
 				ShortName = "n/u",
 			};
-			var childOld = new BusinessLogic.Product
+			var childOld = new ComfortIsland.BusinessLogic.Product
 			{
 				ID = 3,
 				Name = "old child",
 				Unit = unitOld,
-				Children = new Dictionary<BusinessLogic.Product, decimal>(),
+				Children = new Dictionary<ComfortIsland.BusinessLogic.Product, decimal>(),
 			};
-			var childNew = new BusinessLogic.Product
+			var childNew = new ComfortIsland.BusinessLogic.Product
 			{
 				ID = 4,
 				Name = "new child",
 				Unit = unitNew,
-				Children = new Dictionary<BusinessLogic.Product, decimal>(),
+				Children = new Dictionary<ComfortIsland.BusinessLogic.Product, decimal>(),
 			};
-			var initialBusinessObject = new BusinessLogic.Product
+			var initialBusinessObject = new ComfortIsland.BusinessLogic.Product
 			{
 				ID = 5,
 				Name = "Product",
 				Unit = unitOld,
-				Children = new Dictionary<BusinessLogic.Product, decimal> { { childOld, 6 } },
+				Children = new Dictionary<ComfortIsland.BusinessLogic.Product, decimal> { { childOld, 6 } },
 			};
-			var database = new BusinessLogic.Database(
+			var database = new ComfortIsland.BusinessLogic.Database(
 				new[] { unitOld, unitNew },
 				new[] { childOld, childNew, initialBusinessObject },
 				new Dictionary<long, decimal>(),
-				new BusinessLogic.Document[0]);
+				new ComfortIsland.BusinessLogic.Document[0]);
 
 			// act
 			var viewModel = new Product(initialBusinessObject);
 			viewModel.Name = "Changed";
 			viewModel.Unit = unitNew;
 			viewModel.Children.Clear();
-			viewModel.Children.Add(new BusinessLogic.Position(childNew.ID, 7));
+			viewModel.Children.Add(new ComfortIsland.BusinessLogic.Position(childNew.ID, 7));
 			var resultBusinessObject = viewModel.ConvertToBusinessLogic(database);
 
 			// assert

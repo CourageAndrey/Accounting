@@ -13,7 +13,7 @@ namespace ComfortIsland.UnitTests.ViewModels
 		public void Constructor()
 		{
 			// arrange
-			var businessObject = new BusinessLogic.Unit
+			var businessObject = new ComfortIsland.BusinessLogic.Unit
 			{
 				Name = "unit",
 				ShortName = "u",
@@ -31,11 +31,11 @@ namespace ComfortIsland.UnitTests.ViewModels
 		public void CreateNew()
 		{
 			// arrange
-			var database = new BusinessLogic.Database(
-				new BusinessLogic.Unit[0],
-				new BusinessLogic.Product[0],
+			var database = new ComfortIsland.BusinessLogic.Database(
+				new ComfortIsland.BusinessLogic.Unit[0],
+				new ComfortIsland.BusinessLogic.Product[0],
 				new Dictionary<long, decimal>(),
-				new BusinessLogic.Document[0]);
+				new ComfortIsland.BusinessLogic.Document[0]);
 
 			// act
 			var viewModel = new Unit
@@ -56,17 +56,17 @@ namespace ComfortIsland.UnitTests.ViewModels
 		public void EditExisting()
 		{
 			// arrange
-			var initialBusinessObject = new BusinessLogic.Unit
+			var initialBusinessObject = new ComfortIsland.BusinessLogic.Unit
 			{
 				ID = 1,
 				Name = "unit",
 				ShortName = "u",
 			};
-			var database = new BusinessLogic.Database(
+			var database = new ComfortIsland.BusinessLogic.Database(
 				new[] { initialBusinessObject },
-				new BusinessLogic.Product[0],
+				new ComfortIsland.BusinessLogic.Product[0],
 				new Dictionary<long, decimal>(),
-				new BusinessLogic.Document[0]);
+				new ComfortIsland.BusinessLogic.Document[0]);
 
 			// act
 			var viewModel = new Unit(initialBusinessObject);
