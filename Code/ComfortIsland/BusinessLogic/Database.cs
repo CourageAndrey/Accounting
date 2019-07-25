@@ -21,16 +21,6 @@ namespace ComfortIsland.BusinessLogic
 
 		#endregion
 
-		#region Constructors
-
-		public Database()
-			: this(
-				new Registry<Unit>(),
-				new Registry<Product>(),
-				new Dictionary<long, decimal>(),
-				new Registry<Document>())
-		{ }
-
 		public Database(
 			IEnumerable<Unit> units,
 			IEnumerable<Product> products,
@@ -51,7 +41,5 @@ namespace ComfortIsland.BusinessLogic
 				Balance.ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
 				new Document[0]);
 		}
-
-		#endregion
 	}
 }

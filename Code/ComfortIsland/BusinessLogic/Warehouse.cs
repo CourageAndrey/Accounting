@@ -56,11 +56,6 @@ namespace ComfortIsland.BusinessLogic
 			return _data.Select(b => new Position(b.Key, b.Value)).ToList();
 		}
 
-		public Warehouse Clone()
-		{
-			return new Warehouse(new Dictionary<long, decimal>(_data));
-		}
-
 		public bool Check(Registry<Product> products, StringBuilder errors, ICollection<long> productsFilter = null)
 		{
 			IEnumerable<KeyValuePair<long, decimal>> wrongPositions = _data.Where(position => position.Value < 0);
@@ -89,10 +84,6 @@ namespace ComfortIsland.BusinessLogic
 		#endregion
 
 		#region Constructors
-
-		public Warehouse()
-			: this(new Dictionary<long, decimal>())
-		{ }
 
 		public Warehouse(IDictionary<long, decimal> data)
 		{
