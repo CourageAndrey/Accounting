@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 
 using ComfortIsland.BusinessLogic;
@@ -21,6 +21,8 @@ namespace ComfortIsland
 		public MainWindow()
 		{
 			InitializeComponent();
+
+			_documentsViewSource = (CollectionViewSource) Resources["documentsCollectionViewSource"];
 		}
 
 		private Database _database;
@@ -33,8 +35,8 @@ namespace ComfortIsland
 
 			// документы
 			stateColumn.Visibility = checkBoxShowObsoleteDocuments.IsChecked == true ? Visibility.Visible : Visibility.Collapsed;
-			documentsGrid.Columns[0].SortDirection = ListSortDirection.Ascending;
-			documentsGrid.Items.SortDescriptions.Add(new SortDescription("Date", ListSortDirection.Ascending));
+			_documentsViewSource.Source = _database.Documents;
+			_documentsCollectionView = CollectionViewSource.GetDefaultView(documentsGrid.ItemsSource);
 			documentsWeekClick(null, null);
 
 			// отчёты
@@ -54,6 +56,17 @@ namespace ComfortIsland
 		#endregion
 
 		#region Работа с документами
+
+		private readonly CollectionViewSource _documentsViewSource;
+		private ICollectionView _documentsCollectionView;
+
+		private void documentsFilter(object sender, FilterEventArgs e)
+		{
+			var document = (Document) e.Item;
+			e.Accepted =	(documentsFromDatePicker.SelectedDate == null || document.Date.Date >= documentsFromDatePicker.SelectedDate.Value.Date) &&
+							(documentsToDatePicker.SelectedDate == null || document.Date.Date <= documentsToDatePicker.SelectedDate.Value.Date) &&
+							((checkBoxShowObsoleteDocuments.IsChecked == true) || document.State == DocumentState.Active);
+		}
 
 		private void incomeClick(object sender, RoutedEventArgs e)
 		{
@@ -254,32 +267,9 @@ namespace ComfortIsland
 
 		private void refreshDocuments()
 		{
-			var sortDescriptors = documentsGrid.Items.SortDescriptions.ToList();
-			var sortColumns = documentsGrid.Columns.Select(c => c.SortDirection).ToList();
-
-			documentsGrid.ItemsSource = null;
-			IEnumerable<Document> documents = _database.Documents;
-			if (checkBoxShowObsoleteDocuments.IsChecked != true)
+			if (!_suppressDocumentRefresh)
 			{
-				documents = documents.Where(d => d.State == DocumentState.Active);
-			}
-			if (documentsFromDatePicker.SelectedDate.HasValue)
-			{
-				documents = documents.Where(d => d.Date >= documentsFromDatePicker.SelectedDate.Value.Date);
-			}
-			if (documentsToDatePicker.SelectedDate.HasValue)
-			{
-				documents = documents.Where(d => d.Date < documentsToDatePicker.SelectedDate.Value.Date.AddDays(1));
-			}
-			documentsGrid.ItemsSource = documents.ToList();
-
-			foreach (var sortDescription in sortDescriptors)
-			{
-				documentsGrid.Items.SortDescriptions.Add(sortDescription);
-			}
-			for (int c = 0; c < sortColumns.Count; c++)
-			{
-				documentsGrid.Columns[c].SortDirection = sortColumns[c];
+				_documentsCollectionView.Refresh();
 			}
 		}
 

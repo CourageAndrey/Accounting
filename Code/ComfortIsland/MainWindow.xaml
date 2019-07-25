@@ -6,6 +6,7 @@
 		xmlns:comfortIsland="clr-namespace:ComfortIsland"
 		xmlns:helpers="clr-namespace:ComfortIsland.Helpers"
 		xmlns:controls="clr-namespace:ComfortIsland.Controls"
+		xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
 		Title="Остров комфорта - Учёт" Width="1100" Height="750"
 		Loaded="formLoaded" Icon="Icon.ico"
 		FontSize="{x:Static comfortIsland:Settings.FontSize}">
@@ -25,6 +26,11 @@
 			</StackPanel>
 		</DataTemplate>
 		<helpers:DateConverter x:Key="dateConverter" />
+		<CollectionViewSource x:Key="documentsCollectionViewSource" Filter="documentsFilter">
+			<CollectionViewSource.SortDescriptions>
+				<componentModel:SortDescription PropertyName="Date" Direction="Ascending"/>
+			</CollectionViewSource.SortDescriptions>
+		</CollectionViewSource>
 	</Window.Resources>
 	<TabControl>
 		<TabItem Header="Документы" Height="24" VerticalAlignment="Top">
@@ -72,7 +78,9 @@
 						</DataGrid.Columns>
 					</DataGrid>
 				</GroupBox>
-				<DataGrid Grid.Row="2" Name="documentsGrid" IsReadOnly="True" AutoGenerateColumns="False" MouseDoubleClick="documentsGridDoubleClick" SelectionChanged="selectedDocumentsChanged" Grid.ColumnSpan="2">
+				<DataGrid Grid.Row="2" Grid.ColumnSpan="2" Name="documentsGrid" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False"
+						  MouseDoubleClick="documentsGridDoubleClick" SelectionChanged="selectedDocumentsChanged"
+						  ItemsSource="{Binding Source={StaticResource documentsCollectionViewSource}}">
 					<DataGrid.Columns>
 						<DataGridTextColumn Header="Дата" Binding="{Binding Path=Date, Mode=OneTime, Converter={StaticResource dateConverter}}" MinWidth="100"/>
 						<DataGridTextColumn Header="Номер" Binding="{Binding Path=Number, Mode=OneTime}" MinWidth="150" />
