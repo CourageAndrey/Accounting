@@ -49,7 +49,7 @@
 					<Button Content="Удалить" Margin="5" Padding="5,2,5,2" Click="deleteDocumentsClick" Name="deleteDocumentsButton" />
 					<Button Content="Редактировать" Margin="5" Padding="5,2,5,2" Click="editDocumentClick" Name="editDocumentButton" />
 				</StackPanel>
-				<Expander Grid.Row="01" Header="Фильтр документов" Grid.ColumnSpan="2">
+				<Expander Grid.Row="1" Header="Фильтр документов" Grid.ColumnSpan="2">
 					<StackPanel Orientation="Vertical">
 						<CheckBox Margin="5" Content="Отображать удалённые и отредактированные" Name="checkBoxShowObsoleteDocuments" Checked="documentStateFilterChecked" Unchecked="documentStateFilterChecked" />
 						<StackPanel Orientation="Horizontal">
