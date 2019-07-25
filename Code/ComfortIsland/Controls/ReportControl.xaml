@@ -4,7 +4,12 @@
              MinHeight="100" MinWidth="200">
 	<DockPanel LastChildFill="True">
 		<DockPanel LastChildFill="True" DockPanel.Dock="Top">
-			<Button DockPanel.Dock="Left" Margin="5" Padding="5,2,5,2" Content="Печать" Name="buttonPrint" Click="printClick" />
+			<Button DockPanel.Dock="Left" Margin="5" Padding="5,2,5,2" Name="buttonPrint" Click="printClick">
+				<StackPanel Orientation="Horizontal">
+					<Image Width="32" Height="32" Source="../Resources/Excel.png" Margin="2" />
+					<TextBlock VerticalAlignment="Center" Padding="5,0,2,0">Печать</TextBlock>
+				</StackPanel>
+			</Button>
 			<TextBlock  Margin="0,10,0,10" FontWeight="Bold" Name="header" TextAlignment="Center" />
 		</DockPanel>
 		<DataGrid Name="itemsGrid" IsReadOnly="True" AutoGenerateColumns="False" />
