@@ -114,7 +114,7 @@ namespace ComfortIsland.BusinessLogic
 			return delta;
 		}
 
-		public void Edit(Warehouse balance)
+		public void MakeEdited(Warehouse balance)
 		{
 			if (State == DocumentState.Active)
 			{
@@ -123,7 +123,7 @@ namespace ComfortIsland.BusinessLogic
 			}
 		}
 
-		public void Delete(Warehouse balance)
+		public void MakeDeleted(Warehouse balance)
 		{
 			if (State == DocumentState.Active)
 			{
