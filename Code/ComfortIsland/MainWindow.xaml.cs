@@ -94,44 +94,10 @@ namespace ComfortIsland
 			dialog.Initialize(_database);
 			if (dialog.ShowDialog() == true)
 			{
-				var product = dialog.EditValue;
-				var balance = _database.Balance;
-				var getBalance = new Func<Product, decimal>(p =>
-				{
-					decimal count;
-					return balance.TryGetValue(p.ID, out count)
-						? count
-						: 0;
-				});
-
-				var message = new StringBuilder();
-				message.AppendLine("Имеется на складе: " + getBalance(product));
-
-				if (product.Children.Count > 0)
-				{
-					decimal minCount = decimal.MaxValue;
-					var children = new StringBuilder();
-					foreach (var child in product.Children)
-					{
-						decimal childBalance = getBalance(child.Key);
-						decimal canProduce = childBalance / child.Value;
-						minCount = Math.Min(minCount, canProduce);
-						children.AppendLine(string.Format(
-							CultureInfo.InvariantCulture,
-							"... {0} х \"{1}\", что хватит для производства {2} единиц товара",
-							childBalance,
-							child.Key.DisplayMember,
-							canProduce));
-					}
-					message.AppendLine("Может быть произведено: " + minCount);
-					message.AppendLine();
-					message.AppendLine("Комплектующие на складе:");
-					message.Append(children);
-				}
-
+				var report = new ProductBalance(dialog.EditValue, _database.Balance);
 				MessageBox.Show(
-					message.ToString(),
-					"Товар - " + product.DisplayMember,
+					report.ToString(),
+					"Товар - " + report.Product.DisplayMember,
 					MessageBoxButton.OK,
 					MessageBoxImage.Information);
 			}
