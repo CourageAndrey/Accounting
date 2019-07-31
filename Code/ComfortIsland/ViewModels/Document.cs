@@ -66,7 +66,7 @@ namespace ComfortIsland.ViewModels
 			}
 			database.Documents.Add(instance);
 			ApplyChanges(instance, database.Products);
-			instance.Apply(database);
+			instance.ApplyBalanceChanges(database);
 			return instance;
 		}
 

@@ -21,7 +21,7 @@ namespace ComfortIsland.UnitTests.BusinessLogic.BalanceValidation
 			// act and assert
 			bool result = BalanceCheckWorkflowHelper.TryToAddAfterSecond(database, 10, validationStrategy, errors, out income);
 			Assert.IsTrue(result);
-			income.Apply(database);
+			income.ApplyBalanceChanges(database);
 			database.Documents.Add(income);
 
 			result = BalanceCheckWorkflowHelper.TryToAddAfterFirst(database, -10, validationStrategy, errors, out document);
@@ -40,7 +40,7 @@ namespace ComfortIsland.UnitTests.BusinessLogic.BalanceValidation
 			// act and assert
 			bool result = BalanceCheckWorkflowHelper.TryToAddAfterSecond(database, 10, validationStrategy, errors, out income);
 			Assert.IsTrue(result);
-			income.Apply(database);
+			income.ApplyBalanceChanges(database);
 			database.Documents.Add(income);
 
 			result = BalanceCheckWorkflowHelper.TryToEditSecond(database, doc => new Tuple<decimal, int>(5, 0), validationStrategy, errors, out document);
@@ -59,7 +59,7 @@ namespace ComfortIsland.UnitTests.BusinessLogic.BalanceValidation
 			// act and assert
 			bool result = BalanceCheckWorkflowHelper.TryToAddAfterAll(database, 10, validationStrategy, errors, out income);
 			Assert.IsTrue(result);
-			income.Apply(database);
+			income.ApplyBalanceChanges(database);
 			database.Documents.Add(income);
 
 			result = BalanceCheckWorkflowHelper.TryToDelete(database, new[] { database.Documents[3] }, validationStrategy, errors);

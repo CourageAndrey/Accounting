@@ -25,9 +25,9 @@ namespace ComfortIsland.UnitTests.BusinessLogic.BalanceValidation
 				bool result = checkMethod(database, -100, validationStrategy, errors, out document);
 				Assert.IsTrue(result);
 
-				document.Apply(database);
+				document.ApplyBalanceChanges(database);
 				Assert.AreEqual(-99, database.Balance.First().Value);
-				document.Rollback(database);
+				document.RollbackBalanceChanges(database);
 			}
 		}
 
@@ -48,7 +48,7 @@ namespace ComfortIsland.UnitTests.BusinessLogic.BalanceValidation
 				errors);
 			foreach (var document in documentsToDelete)
 			{
-				document.Rollback(database);
+				document.RollbackBalanceChanges(database);
 			}
 
 			// assert
@@ -73,7 +73,7 @@ namespace ComfortIsland.UnitTests.BusinessLogic.BalanceValidation
 				errors);
 			foreach (var document in documentsToDelete)
 			{
-				document.Rollback(database);
+				document.RollbackBalanceChanges(database);
 			}
 
 			// assert
@@ -109,11 +109,11 @@ namespace ComfortIsland.UnitTests.BusinessLogic.BalanceValidation
 					out edited);
 				Assert.IsTrue(result);
 
-				original.Rollback(database);
-				edited.Apply(database);
+				original.RollbackBalanceChanges(database);
+				edited.ApplyBalanceChanges(database);
 				Assert.Greater(0, database.Balance.First().Value);
-				edited.Rollback(database);
-				original.Apply(database);
+				edited.RollbackBalanceChanges(database);
+				original.ApplyBalanceChanges(database);
 			}
 		}
 	}

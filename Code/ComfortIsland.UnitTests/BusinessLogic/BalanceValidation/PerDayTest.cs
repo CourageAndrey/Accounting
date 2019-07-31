@@ -21,7 +21,7 @@ namespace ComfortIsland.UnitTests.BusinessLogic.BalanceValidation
 
 			// act
 			bool result = BalanceCheckWorkflowHelper.TryToAddAfterFirst(database, -5, validationStrategy, errors, out document);
-			document.Apply(database);
+			document.ApplyBalanceChanges(database);
 
 			// assert
 			Assert.IsFalse(result);
@@ -52,7 +52,7 @@ namespace ComfortIsland.UnitTests.BusinessLogic.BalanceValidation
 
 			result = BalanceCheckWorkflowHelper.TryToAddAfterSecond(database, 1, validationStrategy, errors, out income);
 			Assert.IsTrue(result);
-			income.Apply(database);
+			income.ApplyBalanceChanges(database);
 
 			result = BalanceCheckWorkflowHelper.TryToEditSecond(
 				database,
@@ -77,8 +77,8 @@ namespace ComfortIsland.UnitTests.BusinessLogic.BalanceValidation
 				errors,
 				out edited);
 			Assert.IsTrue(result);
-			original.Rollback(database);
-			edited.Apply(database);
+			original.RollbackBalanceChanges(database);
+			edited.ApplyBalanceChanges(database);
 
 			Assert.AreEqual(0, database.Balance.Single().Value);
 		}
@@ -98,11 +98,11 @@ namespace ComfortIsland.UnitTests.BusinessLogic.BalanceValidation
 
 			result = BalanceCheckWorkflowHelper.TryToAddAfterSecond(database, 10, validationStrategy, errors, out income);
 			Assert.IsTrue(result);
-			income.Apply(database);
+			income.ApplyBalanceChanges(database);
 
 			result = BalanceCheckWorkflowHelper.TryToAddAfterFirst(database, -10, validationStrategy, errors, out document);
 			Assert.IsTrue(result);
-			document.Apply(database);
+			document.ApplyBalanceChanges(database);
 
 			// assert
 			Assert.AreEqual(1, database.Balance.Single().Value);
@@ -129,8 +129,8 @@ namespace ComfortIsland.UnitTests.BusinessLogic.BalanceValidation
 				errors,
 				out edited);
 			Assert.IsTrue(result);
-			edited.Apply(database);
-			original.Rollback(database);
+			edited.ApplyBalanceChanges(database);
+			original.RollbackBalanceChanges(database);
 			database.Documents.Add(edited);
 
 			result = BalanceCheckWorkflowHelper.TryToEditSecond(
@@ -167,8 +167,8 @@ namespace ComfortIsland.UnitTests.BusinessLogic.BalanceValidation
 				errors,
 				out edited);
 			Assert.IsTrue(result);
-			edited.Apply(database);
-			original.Rollback(database);
+			edited.ApplyBalanceChanges(database);
+			original.RollbackBalanceChanges(database);
 			database.Documents.Add(edited);
 
 			result = BalanceCheckWorkflowHelper.TryToDelete(database, new[] { database.Documents[1] }, validationStrategy, errors);

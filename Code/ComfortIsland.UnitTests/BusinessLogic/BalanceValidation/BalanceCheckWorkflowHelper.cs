@@ -40,7 +40,7 @@ namespace ComfortIsland.UnitTests.BusinessLogic.BalanceValidation
 				Number = "income +5",
 				Positions = new Dictionary<Product, decimal> { { product, 5 } },
 			});
-			document.Apply(database);
+			document.ApplyBalanceChanges(database);
 
 			database.Documents.Add(document = new Document(DocumentType.Outcome)
 			{
@@ -48,7 +48,7 @@ namespace ComfortIsland.UnitTests.BusinessLogic.BalanceValidation
 				Number = "outcome -12",
 				Positions = new Dictionary<Product, decimal> { { product, 12 } },
 			});
-			document.Apply(database);
+			document.ApplyBalanceChanges(database);
 
 			database.Documents.Add(document = new Document(DocumentType.Income)
 			{
@@ -56,7 +56,7 @@ namespace ComfortIsland.UnitTests.BusinessLogic.BalanceValidation
 				Number = "income +8",
 				Positions = new Dictionary<Product, decimal> { { product, 8 } },
 			});
-			document.Apply(database);
+			document.ApplyBalanceChanges(database);
 
 			database.Documents.Add(document = new Document(DocumentType.Outcome)
 			{
@@ -64,7 +64,7 @@ namespace ComfortIsland.UnitTests.BusinessLogic.BalanceValidation
 				Number = "outcome -10",
 				Positions = new Dictionary<Product, decimal> { { product, 10 } },
 			});
-			document.Apply(database);
+			document.ApplyBalanceChanges(database);
 
 			Assert.AreEqual(1, database.Balance.Single().Value);
 

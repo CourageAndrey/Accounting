@@ -65,12 +65,12 @@ namespace ComfortIsland.BusinessLogic
 			var documentsRolledBack = new Stack<Document>();
 			foreach (var doc in database.GetActiveDocuments().Where(d => d.Date > document.Date))
 			{
-				doc.Rollback(databaseMock);
+				doc.RollbackBalanceChanges(databaseMock);
 				documentsRolledBack.Push(doc);
 			}
 
 			// применение нового документа
-			productsToCheck = document.Apply(databaseMock).Keys;
+			productsToCheck = document.ApplyBalanceChanges(databaseMock).Keys;
 			if (!databaseMock.Balance.Check(database.Products, errors, productsToCheck))
 			{
 				return false;
@@ -80,7 +80,7 @@ namespace ComfortIsland.BusinessLogic
 			while (documentsRolledBack.Any())
 			{
 				var doc = documentsRolledBack.Pop();
-				productsToCheck = doc.Apply(databaseMock).Keys;
+				productsToCheck = doc.ApplyBalanceChanges(databaseMock).Keys;
 				if (!databaseMock.Balance.Check(database.Products, errors, productsToCheck))
 				{
 					return false;
@@ -104,7 +104,7 @@ namespace ComfortIsland.BusinessLogic
 			bool needToRevertOriginal = true;
 			foreach (var doc in database.GetActiveDocuments().Where(d => d.Date > firstDate))
 			{
-				doc.Rollback(databaseMock);
+				doc.RollbackBalanceChanges(databaseMock);
 				if (doc != original)
 				{
 					documentsRolledBack.Push(doc);
@@ -118,7 +118,7 @@ namespace ComfortIsland.BusinessLogic
 			// откат оригинального
 			if (needToRevertOriginal)
 			{
-				original.Rollback(databaseMock);
+				original.RollbackBalanceChanges(databaseMock);
 			}
 
 			// обратный накат документов
@@ -128,14 +128,14 @@ namespace ComfortIsland.BusinessLogic
 				var doc = documentsRolledBack.Pop();
 				if (!editVersionApplied && doc.Date > document.Date)
 				{
-					productsToCheck = document.Apply(databaseMock).Keys;
+					productsToCheck = document.ApplyBalanceChanges(databaseMock).Keys;
 					if (!databaseMock.Balance.Check(database.Products, errors, productsToCheck))
 					{
 						return false;
 					}
 					editVersionApplied = true;
 				}
-				productsToCheck = doc.Apply(databaseMock).Keys;
+				productsToCheck = doc.ApplyBalanceChanges(databaseMock).Keys;
 				if (!databaseMock.Balance.Check(database.Products, errors, productsToCheck))
 				{
 					return false;
@@ -143,7 +143,7 @@ namespace ComfortIsland.BusinessLogic
 			}
 			if (!editVersionApplied)
 			{
-				productsToCheck = document.Apply(databaseMock).Keys;
+				productsToCheck = document.ApplyBalanceChanges(databaseMock).Keys;
 				if (!databaseMock.Balance.Check(database.Products, errors, productsToCheck))
 				{
 					return false;
@@ -165,7 +165,7 @@ namespace ComfortIsland.BusinessLogic
 			var documentsRolledBack = new Stack<Document>();
 			foreach (var doc in database.GetActiveDocuments())
 			{
-				doc.Rollback(databaseMock);
+				doc.RollbackBalanceChanges(databaseMock);
 				if (documentsToDelete.Contains(doc))
 				{
 					documentsToDelete.Remove(doc);
@@ -184,7 +184,7 @@ namespace ComfortIsland.BusinessLogic
 			while (documentsRolledBack.Any())
 			{
 				var doc = documentsRolledBack.Pop();
-				productsToCheck = doc.Apply(databaseMock).Keys;
+				productsToCheck = doc.ApplyBalanceChanges(databaseMock).Keys;
 				if (!databaseMock.Balance.Check(database.Products, errors, productsToCheck))
 				{
 					return false;
@@ -207,7 +207,7 @@ namespace ComfortIsland.BusinessLogic
 			{
 				foreach (var doc in date)
 				{
-					doc.Rollback(databaseMock);
+					doc.RollbackBalanceChanges(databaseMock);
 				}
 				documentsRolledBack.Push(date.ToList());
 			}
@@ -227,7 +227,7 @@ namespace ComfortIsland.BusinessLogic
 				productsToCheck = new List<long>();
 				foreach (var doc in date)
 				{
-					productsToCheck.AddRange(doc.Apply(databaseMock).Keys);
+					productsToCheck.AddRange(doc.ApplyBalanceChanges(databaseMock).Keys);
 				}
 				if (!databaseMock.Balance.Check(database.Products, errors, productsToCheck.Distinct().ToList()))
 				{
@@ -253,7 +253,7 @@ namespace ComfortIsland.BusinessLogic
 			{
 				foreach (var doc in date)
 				{
-					doc.Rollback(databaseMock);
+					doc.RollbackBalanceChanges(databaseMock);
 				}
 				var dateList = date.Where(doc => doc != original).ToList();
 				if (date.Key == document.Date.Date)
@@ -267,7 +267,7 @@ namespace ComfortIsland.BusinessLogic
 			bool newVersionApplied = false;
 			if (documentsRolledBack.Peek().First().Date.Date > document.Date)
 			{
-				productsToCheck = document.Apply(databaseMock).Keys.ToList();
+				productsToCheck = document.ApplyBalanceChanges(databaseMock).Keys.ToList();
 				if (!databaseMock.Balance.Check(database.Products, errors, productsToCheck))
 				{
 					return false;
@@ -284,7 +284,7 @@ namespace ComfortIsland.BusinessLogic
 				productsToCheck = new List<long>();
 				foreach (var doc in date)
 				{
-					productsToCheck.AddRange(doc.Apply(databaseMock).Keys);
+					productsToCheck.AddRange(doc.ApplyBalanceChanges(databaseMock).Keys);
 					if (doc == document)
 					{
 						newVersionApplied = true;
@@ -298,7 +298,7 @@ namespace ComfortIsland.BusinessLogic
 
 			if (!newVersionApplied)
 			{
-				productsToCheck = document.Apply(databaseMock).Keys.ToList();
+				productsToCheck = document.ApplyBalanceChanges(databaseMock).Keys.ToList();
 				if (!databaseMock.Balance.Check(database.Products, errors, productsToCheck))
 				{
 					return false;
@@ -323,7 +323,7 @@ namespace ComfortIsland.BusinessLogic
 			{
 				foreach (var doc in date)
 				{
-					doc.Rollback(databaseMock);
+					doc.RollbackBalanceChanges(databaseMock);
 				}
 				documentsRolledBack.Push(date.Where(doc => !documentsToDelete.Contains(doc)).ToList());
 			}
@@ -335,7 +335,7 @@ namespace ComfortIsland.BusinessLogic
 				productsToCheck = new List<long>();
 				foreach (var doc in date)
 				{
-					productsToCheck.AddRange(doc.Apply(databaseMock).Keys);
+					productsToCheck.AddRange(doc.ApplyBalanceChanges(databaseMock).Keys);
 				}
 				if (!databaseMock.Balance.Check(database.Products, errors, productsToCheck.Distinct().ToList()))
 				{
@@ -352,7 +352,7 @@ namespace ComfortIsland.BusinessLogic
 			var databaseMock = database.CreateMockup();
 
 			// применение нового документа
-			var productsToCheck = document.Apply(databaseMock).Keys;
+			var productsToCheck = document.ApplyBalanceChanges(databaseMock).Keys;
 
 			// проверка итогового баланса
 			return databaseMock.Balance.Check(database.Products, errors, productsToCheck);
@@ -364,10 +364,10 @@ namespace ComfortIsland.BusinessLogic
 			var databaseMock = database.CreateMockup();
 
 			// откат старой версии документа
-			var productsToCheck = new HashSet<long>(database.Documents[document.PreviousVersionId.Value].Rollback(databaseMock).Keys);
+			var productsToCheck = new HashSet<long>(database.Documents[document.PreviousVersionId.Value].RollbackBalanceChanges(databaseMock).Keys);
 
 			// применение новой версии документа
-			foreach (long productId in document.Apply(databaseMock).Keys)
+			foreach (long productId in document.ApplyBalanceChanges(databaseMock).Keys)
 			{
 				productsToCheck.Add(productId);
 			}
@@ -385,7 +385,7 @@ namespace ComfortIsland.BusinessLogic
 			var productsToCheck = new HashSet<long>();
 			foreach (var document in documents)
 			{
-				foreach (long productId in document.Rollback(databaseMock).Keys)
+				foreach (long productId in document.RollbackBalanceChanges(databaseMock).Keys)
 				{
 					productsToCheck.Add(productId);
 				}

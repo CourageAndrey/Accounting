@@ -56,11 +56,11 @@ namespace ComfortIsland.UnitTests.BusinessLogic.BalanceValidation
 						out edited);
 					Assert.IsTrue(result);
 
-					original.Rollback(database);
-					edited.Apply(database);
+					original.RollbackBalanceChanges(database);
+					edited.ApplyBalanceChanges(database);
 					Assert.AreEqual(0, database.Balance.First().Value);
-					edited.Rollback(database);
-					original.Apply(database);
+					edited.RollbackBalanceChanges(database);
+					original.ApplyBalanceChanges(database);
 				}
 			}
 		}
@@ -141,11 +141,11 @@ namespace ComfortIsland.UnitTests.BusinessLogic.BalanceValidation
 						out edited);
 					Assert.IsTrue(result);
 
-					original.Rollback(database);
-					edited.Apply(database);
+					original.RollbackBalanceChanges(database);
+					edited.ApplyBalanceChanges(database);
 					Assert.Greater(database.Balance.First().Value, 0);
-					edited.Rollback(database);
-					original.Apply(database);
+					edited.RollbackBalanceChanges(database);
+					original.ApplyBalanceChanges(database);
 				}
 			}
 		}
