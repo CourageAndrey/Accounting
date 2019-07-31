@@ -94,41 +94,41 @@ namespace ComfortIsland.BusinessLogic
 
 		#region Workflow
 
-		public IDictionary<long, decimal> ApplyBalanceChanges(Database database)
+		public IDictionary<long, decimal> ApplyBalanceChanges(Warehouse balance)
 		{
 			var delta = Type.GetBalanceDelta(Positions);
 			foreach (var position in delta)
 			{
-				database.Balance.Increase(position.Key, position.Value);
+				balance.Increase(position.Key, position.Value);
 			}
 			return delta;
 		}
 
-		public IDictionary<long, decimal> RollbackBalanceChanges(Database database)
+		public IDictionary<long, decimal> RollbackBalanceChanges(Warehouse balance)
 		{
 			var delta = Type.GetBalanceDelta(Positions);
 			foreach (var position in delta)
 			{
-				database.Balance.Decrease(position.Key, position.Value);
+				balance.Decrease(position.Key, position.Value);
 			}
 			return delta;
 		}
 
-		public void Edit(Database database)
+		public void Edit(Warehouse balance)
 		{
 			if (State == DocumentState.Active)
 			{
 				State = DocumentState.Edited;
-				RollbackBalanceChanges(database);
+				RollbackBalanceChanges(balance);
 			}
 		}
 
-		public void Delete(Database database)
+		public void Delete(Warehouse balance)
 		{
 			if (State == DocumentState.Active)
 			{
 				State = DocumentState.Deleted;
-				RollbackBalanceChanges(database);
+				RollbackBalanceChanges(balance);
 			}
 		}
 

@@ -31,16 +31,16 @@ namespace ComfortIsland.Reports
 		{
 			Date = date.Date.AddDays(1).AddMilliseconds(-1);
 
-			var databaseMock = database.CreateMockup();
+			var balance = database.Balance.Clone();
 			var activeDocuments = database.GetActiveDocuments().ToList();
 
 			foreach (var document in activeDocuments.Where(d => d.Date > Date))
 			{
-				document.RollbackBalanceChanges(databaseMock);
+				document.RollbackBalanceChanges(balance);
 			}
 
 			var products = database.Products.ToDictionary(product => product.ID, product => (decimal?) null);
-			foreach (var position in databaseMock.Balance)
+			foreach (var position in balance)
 			{
 				products[position.Key] = position.Value;
 			}

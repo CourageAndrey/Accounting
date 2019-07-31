@@ -58,7 +58,7 @@ namespace ComfortIsland.ViewModels
 			{
 				var previousVersion = database.Documents[ID.Value];
 				instance = new BusinessLogic.Document(previousVersion.ID, previousVersion.Type, BusinessLogic.DocumentState.Active);
-				previousVersion.Edit(database);
+				previousVersion.Edit(database.Balance);
 			}
 			else
 			{
@@ -66,7 +66,7 @@ namespace ComfortIsland.ViewModels
 			}
 			database.Documents.Add(instance);
 			ApplyChanges(instance, database.Products);
-			instance.ApplyBalanceChanges(database);
+			instance.ApplyBalanceChanges(database.Balance);
 			return instance;
 		}
 

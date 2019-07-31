@@ -92,6 +92,11 @@ namespace ComfortIsland.BusinessLogic
 			_data = data;
 		}
 
+		public Warehouse Clone()
+		{
+			return new Warehouse(new Dictionary<long, decimal>(_data));
+		}
+
 		#endregion
 
 		#region Enumeration

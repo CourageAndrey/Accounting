@@ -59,19 +59,19 @@ namespace ComfortIsland.BusinessLogic
 			ICollection<long> productsToCheck;
 
 			// создание временной копии таблицы баланса
-			var databaseMock = database.CreateMockup();
+			var balance = database.Balance.Clone();
 
 			// откат предыдущих документов
 			var documentsRolledBack = new Stack<Document>();
 			foreach (var doc in database.GetActiveDocuments().Where(d => d.Date > document.Date))
 			{
-				doc.RollbackBalanceChanges(databaseMock);
+				doc.RollbackBalanceChanges(balance);
 				documentsRolledBack.Push(doc);
 			}
 
 			// применение нового документа
-			productsToCheck = document.ApplyBalanceChanges(databaseMock).Keys;
-			if (!databaseMock.Balance.Check(database.Products, errors, productsToCheck))
+			productsToCheck = document.ApplyBalanceChanges(balance).Keys;
+			if (!balance.Check(database.Products, errors, productsToCheck))
 			{
 				return false;
 			}
@@ -80,8 +80,8 @@ namespace ComfortIsland.BusinessLogic
 			while (documentsRolledBack.Any())
 			{
 				var doc = documentsRolledBack.Pop();
-				productsToCheck = doc.ApplyBalanceChanges(databaseMock).Keys;
-				if (!databaseMock.Balance.Check(database.Products, errors, productsToCheck))
+				productsToCheck = doc.ApplyBalanceChanges(balance).Keys;
+				if (!balance.Check(database.Products, errors, productsToCheck))
 				{
 					return false;
 				}
@@ -96,7 +96,7 @@ namespace ComfortIsland.BusinessLogic
 			var original = database.Documents[document.PreviousVersionId.Value];
 
 			// создание временной копии таблицы баланса
-			var databaseMock = database.CreateMockup();
+			var balance = database.Balance.Clone();
 
 			// откат документов до самой маленькой даты
 			var firstDate = document.Date > original.Date ? original.Date : document.Date;
@@ -104,7 +104,7 @@ namespace ComfortIsland.BusinessLogic
 			bool needToRevertOriginal = true;
 			foreach (var doc in database.GetActiveDocuments().Where(d => d.Date > firstDate))
 			{
-				doc.RollbackBalanceChanges(databaseMock);
+				doc.RollbackBalanceChanges(balance);
 				if (doc != original)
 				{
 					documentsRolledBack.Push(doc);
@@ -118,7 +118,7 @@ namespace ComfortIsland.BusinessLogic
 			// откат оригинального
 			if (needToRevertOriginal)
 			{
-				original.RollbackBalanceChanges(databaseMock);
+				original.RollbackBalanceChanges(balance);
 			}
 
 			// обратный накат документов
@@ -128,23 +128,23 @@ namespace ComfortIsland.BusinessLogic
 				var doc = documentsRolledBack.Pop();
 				if (!editVersionApplied && doc.Date > document.Date)
 				{
-					productsToCheck = document.ApplyBalanceChanges(databaseMock).Keys;
-					if (!databaseMock.Balance.Check(database.Products, errors, productsToCheck))
+					productsToCheck = document.ApplyBalanceChanges(balance).Keys;
+					if (!balance.Check(database.Products, errors, productsToCheck))
 					{
 						return false;
 					}
 					editVersionApplied = true;
 				}
-				productsToCheck = doc.ApplyBalanceChanges(databaseMock).Keys;
-				if (!databaseMock.Balance.Check(database.Products, errors, productsToCheck))
+				productsToCheck = doc.ApplyBalanceChanges(balance).Keys;
+				if (!balance.Check(database.Products, errors, productsToCheck))
 				{
 					return false;
 				}
 			}
 			if (!editVersionApplied)
 			{
-				productsToCheck = document.ApplyBalanceChanges(databaseMock).Keys;
-				if (!databaseMock.Balance.Check(database.Products, errors, productsToCheck))
+				productsToCheck = document.ApplyBalanceChanges(balance).Keys;
+				if (!balance.Check(database.Products, errors, productsToCheck))
 				{
 					return false;
 				}
@@ -158,14 +158,14 @@ namespace ComfortIsland.BusinessLogic
 			ICollection<long> productsToCheck;
 
 			// создание временной копии таблицы баланса
-			var databaseMock = database.CreateMockup();
+			var balance = database.Balance.Clone();
 
 			// откат предыдущих документов
 			var documentsToDelete = new HashSet<Document>(documents);
 			var documentsRolledBack = new Stack<Document>();
 			foreach (var doc in database.GetActiveDocuments())
 			{
-				doc.RollbackBalanceChanges(databaseMock);
+				doc.RollbackBalanceChanges(balance);
 				if (documentsToDelete.Contains(doc))
 				{
 					documentsToDelete.Remove(doc);
@@ -184,8 +184,8 @@ namespace ComfortIsland.BusinessLogic
 			while (documentsRolledBack.Any())
 			{
 				var doc = documentsRolledBack.Pop();
-				productsToCheck = doc.ApplyBalanceChanges(databaseMock).Keys;
-				if (!databaseMock.Balance.Check(database.Products, errors, productsToCheck))
+				productsToCheck = doc.ApplyBalanceChanges(balance).Keys;
+				if (!balance.Check(database.Products, errors, productsToCheck))
 				{
 					return false;
 				}
@@ -199,7 +199,7 @@ namespace ComfortIsland.BusinessLogic
 			List<long> productsToCheck;
 
 			// создание временной копии таблицы баланса
-			var databaseMock = database.CreateMockup();
+			var balance = database.Balance.Clone();
 
 			// откат предыдущих документов
 			var documentsRolledBack = new Stack<ICollection<Document>>();
@@ -207,7 +207,7 @@ namespace ComfortIsland.BusinessLogic
 			{
 				foreach (var doc in date)
 				{
-					doc.RollbackBalanceChanges(databaseMock);
+					doc.RollbackBalanceChanges(balance);
 				}
 				documentsRolledBack.Push(date.ToList());
 			}
@@ -227,9 +227,9 @@ namespace ComfortIsland.BusinessLogic
 				productsToCheck = new List<long>();
 				foreach (var doc in date)
 				{
-					productsToCheck.AddRange(doc.ApplyBalanceChanges(databaseMock).Keys);
+					productsToCheck.AddRange(doc.ApplyBalanceChanges(balance).Keys);
 				}
-				if (!databaseMock.Balance.Check(database.Products, errors, productsToCheck.Distinct().ToList()))
+				if (!balance.Check(database.Products, errors, productsToCheck.Distinct().ToList()))
 				{
 					return false;
 				}
@@ -244,7 +244,7 @@ namespace ComfortIsland.BusinessLogic
 			var original = database.Documents[document.PreviousVersionId.Value];
 
 			// создание временной копии таблицы баланса
-			var databaseMock = database.CreateMockup();
+			var balance = database.Balance.Clone();
 
 			// откат документов до самой маленькой даты
 			var firstDate = document.Date.Date > original.Date.Date ? original.Date.Date : document.Date.Date;
@@ -253,7 +253,7 @@ namespace ComfortIsland.BusinessLogic
 			{
 				foreach (var doc in date)
 				{
-					doc.RollbackBalanceChanges(databaseMock);
+					doc.RollbackBalanceChanges(balance);
 				}
 				var dateList = date.Where(doc => doc != original).ToList();
 				if (date.Key == document.Date.Date)
@@ -267,8 +267,8 @@ namespace ComfortIsland.BusinessLogic
 			bool newVersionApplied = false;
 			if (documentsRolledBack.Peek().First().Date.Date > document.Date)
 			{
-				productsToCheck = document.ApplyBalanceChanges(databaseMock).Keys.ToList();
-				if (!databaseMock.Balance.Check(database.Products, errors, productsToCheck))
+				productsToCheck = document.ApplyBalanceChanges(balance).Keys.ToList();
+				if (!balance.Check(database.Products, errors, productsToCheck))
 				{
 					return false;
 				}
@@ -284,13 +284,13 @@ namespace ComfortIsland.BusinessLogic
 				productsToCheck = new List<long>();
 				foreach (var doc in date)
 				{
-					productsToCheck.AddRange(doc.ApplyBalanceChanges(databaseMock).Keys);
+					productsToCheck.AddRange(doc.ApplyBalanceChanges(balance).Keys);
 					if (doc == document)
 					{
 						newVersionApplied = true;
 					}
 				}
-				if (!databaseMock.Balance.Check(database.Products, errors, productsToCheck.Distinct().ToList()))
+				if (!balance.Check(database.Products, errors, productsToCheck.Distinct().ToList()))
 				{
 					return false;
 				}
@@ -298,8 +298,8 @@ namespace ComfortIsland.BusinessLogic
 
 			if (!newVersionApplied)
 			{
-				productsToCheck = document.ApplyBalanceChanges(databaseMock).Keys.ToList();
-				if (!databaseMock.Balance.Check(database.Products, errors, productsToCheck))
+				productsToCheck = document.ApplyBalanceChanges(balance).Keys.ToList();
+				if (!balance.Check(database.Products, errors, productsToCheck))
 				{
 					return false;
 				}
@@ -313,7 +313,7 @@ namespace ComfortIsland.BusinessLogic
 			List<long> productsToCheck;
 
 			// создание временной копии таблицы баланса
-			var databaseMock = database.CreateMockup();
+			var balance = database.Balance.Clone();
 
 			// откат предыдущих документов
 			var minDate = documents.Min(doc => doc.Date.Date);
@@ -323,7 +323,7 @@ namespace ComfortIsland.BusinessLogic
 			{
 				foreach (var doc in date)
 				{
-					doc.RollbackBalanceChanges(databaseMock);
+					doc.RollbackBalanceChanges(balance);
 				}
 				documentsRolledBack.Push(date.Where(doc => !documentsToDelete.Contains(doc)).ToList());
 			}
@@ -335,9 +335,9 @@ namespace ComfortIsland.BusinessLogic
 				productsToCheck = new List<long>();
 				foreach (var doc in date)
 				{
-					productsToCheck.AddRange(doc.ApplyBalanceChanges(databaseMock).Keys);
+					productsToCheck.AddRange(doc.ApplyBalanceChanges(balance).Keys);
 				}
-				if (!databaseMock.Balance.Check(database.Products, errors, productsToCheck.Distinct().ToList()))
+				if (!balance.Check(database.Products, errors, productsToCheck.Distinct().ToList()))
 				{
 					return false;
 				}
@@ -349,50 +349,50 @@ namespace ComfortIsland.BusinessLogic
 		private static bool createFinalOnly(Database database, Document document, StringBuilder errors)
 		{
 			// создание временной копии таблицы баланса
-			var databaseMock = database.CreateMockup();
+			var balance = database.Balance.Clone();
 
 			// применение нового документа
-			var productsToCheck = document.ApplyBalanceChanges(databaseMock).Keys;
+			var productsToCheck = document.ApplyBalanceChanges(balance).Keys;
 
 			// проверка итогового баланса
-			return databaseMock.Balance.Check(database.Products, errors, productsToCheck);
+			return balance.Check(database.Products, errors, productsToCheck);
 		}
 
 		private static bool editFinalOnly(Database database, Document document, StringBuilder errors)
 		{
 			// создание временной копии таблицы баланса
-			var databaseMock = database.CreateMockup();
+			var balance = database.Balance.Clone();
 
 			// откат старой версии документа
-			var productsToCheck = new HashSet<long>(database.Documents[document.PreviousVersionId.Value].RollbackBalanceChanges(databaseMock).Keys);
+			var productsToCheck = new HashSet<long>(database.Documents[document.PreviousVersionId.Value].RollbackBalanceChanges(balance).Keys);
 
 			// применение новой версии документа
-			foreach (long productId in document.ApplyBalanceChanges(databaseMock).Keys)
+			foreach (long productId in document.ApplyBalanceChanges(balance).Keys)
 			{
 				productsToCheck.Add(productId);
 			}
 
 			// проверка итогового баланса
-			return databaseMock.Balance.Check(database.Products, errors, productsToCheck);
+			return balance.Check(database.Products, errors, productsToCheck);
 		}
 
 		private static bool deleteFinalOnly(Database database, IReadOnlyCollection<Document> documents, StringBuilder errors)
 		{
 			// создание временной копии таблицы баланса
-			var databaseMock = database.CreateMockup();
+			var balance = database.Balance.Clone();
 
 			// последовательный откат документов
 			var productsToCheck = new HashSet<long>();
 			foreach (var document in documents)
 			{
-				foreach (long productId in document.RollbackBalanceChanges(databaseMock).Keys)
+				foreach (long productId in document.RollbackBalanceChanges(balance).Keys)
 				{
 					productsToCheck.Add(productId);
 				}
 			}
 
 			// проверка итогового баланса
-			return databaseMock.Balance.Check(database.Products, errors, productsToCheck);
+			return balance.Check(database.Products, errors, productsToCheck);
 		}
 
 		private static bool createNoVerify(Database database, Document document, StringBuilder errors)
