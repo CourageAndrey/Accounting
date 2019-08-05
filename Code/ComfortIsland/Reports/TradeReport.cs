@@ -35,7 +35,7 @@ namespace ComfortIsland.Reports
 		public TradeReport(Database database, Period period)
 		{
 			FromDate = period.From.Date;
-			ToDate = period.To.Date.AddDays(1).AddMilliseconds(-1);
+			ToDate = period.To.EndOfDay();
 			var items = database.Products.ToDictionary(p => p.ID, p => new TradeItem(p));
 			var balance = database.Balance.Clone();
 			var activeDocuments = database.GetActiveDocuments().ToList();

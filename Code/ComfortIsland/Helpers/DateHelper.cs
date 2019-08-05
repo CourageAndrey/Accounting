@@ -20,5 +20,10 @@ namespace ComfortIsland.Helpers
 		{
 			return dateTime.AddDays(_mondayOffset[dateTime.DayOfWeek]);
 		}
+
+		public static DateTime EndOfDay(this DateTime dateTime)
+		{
+			return dateTime.Date.AddDays(1).AddMilliseconds(-1);
+		}
 	}
 }

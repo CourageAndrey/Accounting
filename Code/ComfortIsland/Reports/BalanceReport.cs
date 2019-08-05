@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using ComfortIsland.BusinessLogic;
+using ComfortIsland.Helpers;
 
 namespace ComfortIsland.Reports
 {
@@ -29,7 +30,7 @@ namespace ComfortIsland.Reports
 
 		public BalanceReport(Database database, DateTime date, bool showAllProducts)
 		{
-			Date = date.Date.AddDays(1).AddMilliseconds(-1);
+			Date = date.EndOfDay();
 
 			var balance = database.Balance.Clone();
 			var activeDocuments = database.GetActiveDocuments().ToList();
