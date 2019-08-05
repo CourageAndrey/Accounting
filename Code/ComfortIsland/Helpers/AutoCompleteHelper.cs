@@ -16,19 +16,17 @@ namespace ComfortIsland.Helpers
 
 			comboBox.IsDropDownOpen = true;
 
+			var items = comboBox.getOriginalItemSource();
 			if (!string.IsNullOrEmpty(comboBox.Text))
 			{
 				string fullText = comboBox.Text.Insert(getChildOfType<TextBox>(comboBox).CaretIndex, e.Text);
-				comboBox.ItemsSource = comboBox.getOriginalItemSource().filter(fullText).ToList();
+				items = items.filter(fullText);
 			}
 			else if (!string.IsNullOrEmpty(e.Text))
 			{
-				comboBox.ItemsSource = comboBox.getOriginalItemSource().filter(e.Text).ToList();
+				items = items.filter(e.Text);
 			}
-			else
-			{
-				comboBox.ItemsSource = comboBox.getOriginalItemSource();
-			}
+			comboBox.ItemsSource = items;
 		}
 
 		public static void Pasting(ComboBox comboBox, DataObjectPastingEventArgs e)
@@ -40,14 +38,12 @@ namespace ComfortIsland.Helpers
 			string pastedText = (string)e.DataObject.GetData(typeof(string));
 			string fullText = comboBox.Text.Insert(getChildOfType<TextBox>(comboBox).CaretIndex, pastedText);
 
+			var items = comboBox.getOriginalItemSource();
 			if (!string.IsNullOrEmpty(fullText))
 			{
-				comboBox.ItemsSource = comboBox.getOriginalItemSource().filter(fullText).ToList();
+				items = items.filter(fullText);
 			}
-			else
-			{
-				comboBox.ItemsSource = comboBox.getOriginalItemSource();
-			}
+			comboBox.ItemsSource = items;
 		}
 
 		public static void PreviewKeyUp(ComboBox comboBox, KeyEventArgs e)
@@ -58,14 +54,12 @@ namespace ComfortIsland.Helpers
 			{
 				comboBox.IsDropDownOpen = true;
 
+				var items = comboBox.getOriginalItemSource();
 				if (!string.IsNullOrEmpty(comboBox.Text))
 				{
-					comboBox.ItemsSource = comboBox.getOriginalItemSource().filter(comboBox.Text).ToList();
+					items = items.filter(comboBox.Text);
 				}
-				else
-				{
-					comboBox.ItemsSource = comboBox.getOriginalItemSource();
-				}
+				comboBox.ItemsSource = items;
 			}
 		}
 
