@@ -71,6 +71,7 @@
     <Compile Include="Controls\ReportControl.xaml.cs">
       <DependentUpon>ReportControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\DateHelper.cs" />
     <Compile Include="Helpers\DictionaryComparer.cs" />
     <Compile Include="ViewModels\PositionType.cs" />
     <Compile Include="ViewModels\NotifyDataErrorInfo.cs" />

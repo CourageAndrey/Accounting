@@ -10,6 +10,7 @@ using System.Windows.Input;
 
 using ComfortIsland.BusinessLogic;
 using ComfortIsland.Dialogs;
+using ComfortIsland.Helpers;
 using ComfortIsland.Reports;
 
 namespace ComfortIsland
@@ -250,35 +251,7 @@ namespace ComfortIsland
 
 		private void documentsWeekClick(object sender, RoutedEventArgs e)
 		{
-			var now = DateTime.Now;
-			DateTime beginDate;
-			switch (now.DayOfWeek)
-			{
-				case DayOfWeek.Monday:
-					beginDate = now;
-					break;
-				case DayOfWeek.Tuesday:
-					beginDate = now.AddDays(-1);
-					break;
-				case DayOfWeek.Wednesday:
-					beginDate = now.AddDays(-2);
-					break;
-				case DayOfWeek.Thursday:
-					beginDate = now.AddDays(-3);
-					break;
-				case DayOfWeek.Friday:
-					beginDate = now.AddDays(-4);
-					break;
-				case DayOfWeek.Saturday:
-					beginDate = now.AddDays(-5);
-					break;
-				case DayOfWeek.Sunday:
-					beginDate = now.AddDays(-6);
-					break;
-				default:
-					throw new Exception("Ошибка календаря: сегодня неизвестный день недели.");
-			}
-
+			DateTime beginDate = DateTime.Now.GetBeginOfWeek();
 			filterDocuments(
 				beginDate,
 				beginDate.AddDays(6));
