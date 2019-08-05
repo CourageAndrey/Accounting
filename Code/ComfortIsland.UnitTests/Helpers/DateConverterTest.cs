@@ -39,7 +39,7 @@ namespace ComfortIsland.UnitTests.Helpers
 
 			// assert
 			Assert.IsTrue(dateString.Contains(date.ToLongDateString()));
-			Assert.IsTrue(dateString.Contains(date.ToLongDateString()));
+			Assert.IsTrue(dateString.Contains(date.ToLongTimeString()));
 		}
 
 		[Test]
