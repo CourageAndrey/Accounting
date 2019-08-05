@@ -50,7 +50,9 @@ namespace ComfortIsland.Helpers
 		{
 			comboBox.Tag = comboBox.Tag ?? comboBox.ItemsSource;
 
-			if (e.Key == Key.Back || e.Key == Key.Delete || (e.Key == Key.X && (e.KeyboardDevice.Modifiers & ModifierKeys.Control) == ModifierKeys.Control))
+			bool isCut = e.Key == Key.X && (e.KeyboardDevice.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
+			bool isKeyDeleting = e.Key == Key.Back || e.Key == Key.Delete || isCut;
+			if (isKeyDeleting)
 			{
 				comboBox.IsDropDownOpen = true;
 
