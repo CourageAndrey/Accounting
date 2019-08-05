@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 
 using ComfortIsland.BusinessLogic;
+using ComfortIsland.Helpers;
 
 namespace ComfortIsland.Reports
 {
@@ -31,10 +32,10 @@ namespace ComfortIsland.Reports
 
 		#endregion
 
-		public TradeReport(Database database, DateTime fromDate, DateTime toDate)
+		public TradeReport(Database database, Period period)
 		{
-			FromDate = fromDate.Date;
-			ToDate = toDate.Date.AddDays(1).AddMilliseconds(-1);
+			FromDate = period.From.Date;
+			ToDate = period.To.Date.AddDays(1).AddMilliseconds(-1);
 			var items = database.Products.ToDictionary(p => p.ID, p => new TradeItem(p));
 			var balance = database.Balance.Clone();
 			var activeDocuments = database.GetActiveDocuments().ToList();

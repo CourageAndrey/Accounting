@@ -1,24 +1,24 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 
 using ComfortIsland.BusinessLogic;
+using ComfortIsland.Helpers;
 
 namespace ComfortIsland.Dialogs
 {
-	public partial class SelectPeriodDialog : IEditDialog<Tuple<DateTime, DateTime>>
+	public partial class SelectPeriodDialog : IEditDialog<Period>
 	{
 		public SelectPeriodDialog()
 		{
 			InitializeComponent();
 		}
 
-		public Tuple<DateTime, DateTime> EditValue
+		public Period EditValue
 		{
-			get { return new Tuple<DateTime, DateTime>(fromDatePicker.SelectedDate.Value, toDatePicker.SelectedDate.Value); }
+			get { return new Period(fromDatePicker.SelectedDate.Value, toDatePicker.SelectedDate.Value); }
 			set
 			{
-				fromDatePicker.SelectedDate = value.Item1;
-				toDatePicker.SelectedDate = value.Item2;
+				fromDatePicker.SelectedDate = value.From;
+				toDatePicker.SelectedDate = value.To;
 			}
 		}
 

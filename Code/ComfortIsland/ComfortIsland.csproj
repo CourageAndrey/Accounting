@@ -73,6 +73,7 @@
     </Compile>
     <Compile Include="Helpers\DateHelper.cs" />
     <Compile Include="Helpers\DictionaryComparer.cs" />
+    <Compile Include="Helpers\Period.cs" />
     <Compile Include="ViewModels\PositionType.cs" />
     <Compile Include="ViewModels\NotifyDataErrorInfo.cs" />
     <Compile Include="BusinessLogic\Registry.cs" />

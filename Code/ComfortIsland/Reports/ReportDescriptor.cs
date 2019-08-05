@@ -161,10 +161,10 @@ namespace ComfortIsland.Reports
 
 		private static bool createTradeReport(Database database, out IReport report)
 		{
-			var dialog = new SelectPeriodDialog { EditValue = new Tuple<DateTime, DateTime>(DateTime.Now.AddDays(-7), DateTime.Now) };
+			var dialog = new SelectPeriodDialog { EditValue = new Period(DateTime.Now.AddDays(-7), DateTime.Now) };
 			if (dialog.ShowDialog() == true)
 			{
-				report = new TradeReport(database, dialog.EditValue.Item1, dialog.EditValue.Item2);
+				report = new TradeReport(database, dialog.EditValue);
 				return true;
 			}
 			else
