@@ -15,24 +15,12 @@ namespace ComfortIsland.BusinessLogic
 
 		public void Increase(long id, decimal value)
 		{
-			decimal count;
-			if (!_data.TryGetValue(id, out count))
-			{
-				count = 0;
-			}
-			count += value;
-			_data[id] = count;
+			_data[id] = this[id] + value;
 		}
 
 		public void Decrease(long id, decimal value)
 		{
-			decimal count;
-			if (!_data.TryGetValue(id, out count))
-			{
-				count = 0;
-			}
-			count -= value;
-			_data[id] = count;
+			_data[id] = this[id] - value;
 		}
 
 		public bool TryGetValue(long id, out decimal value)
