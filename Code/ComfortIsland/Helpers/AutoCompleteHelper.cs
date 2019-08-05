@@ -76,7 +76,7 @@ namespace ComfortIsland.Helpers
 
 		private static IEnumerable<IListBoxItem> filter(this IEnumerable<IListBoxItem> items, string searchPattern)
 		{
-			return items.Where(p => p.DisplayMember.ToString().IndexOf(searchPattern, StringComparison.InvariantCultureIgnoreCase) >= 0);
+			return items.Where(p => p.DisplayMember.IndexOf(searchPattern, StringComparison.InvariantCultureIgnoreCase) >= 0);
 		}
 
 		private static T getChildOfType<T>(DependencyObject dependencyObject)
