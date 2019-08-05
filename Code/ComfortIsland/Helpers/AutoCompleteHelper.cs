@@ -12,10 +12,7 @@ namespace ComfortIsland.Helpers
 	{
 		public static void PreviewTextInput(ComboBox comboBox, TextCompositionEventArgs e)
 		{
-			if (comboBox.Tag == null)
-			{
-				comboBox.Tag = comboBox.ItemsSource;
-			}
+			comboBox.Tag = comboBox.Tag ?? comboBox.ItemsSource;
 
 			comboBox.IsDropDownOpen = true;
 
@@ -36,10 +33,7 @@ namespace ComfortIsland.Helpers
 
 		public static void Pasting(ComboBox comboBox, DataObjectPastingEventArgs e)
 		{
-			if (comboBox.Tag == null)
-			{
-				comboBox.Tag = comboBox.ItemsSource;
-			}
+			comboBox.Tag = comboBox.Tag ?? comboBox.ItemsSource;
 
 			comboBox.IsDropDownOpen = true;
 
@@ -58,10 +52,7 @@ namespace ComfortIsland.Helpers
 
 		public static void PreviewKeyUp(ComboBox comboBox, KeyEventArgs e)
 		{
-			if (comboBox.Tag == null)
-			{
-				comboBox.Tag = comboBox.ItemsSource;
-			}
+			comboBox.Tag = comboBox.Tag ?? comboBox.ItemsSource;
 
 			if (e.Key == Key.Back || e.Key == Key.Delete || (e.Key == Key.X && (e.KeyboardDevice.Modifiers & ModifierKeys.Control) == ModifierKeys.Control))
 			{
