@@ -9,13 +9,20 @@ namespace ComfortIsland.Helpers
 	{
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			var timestamp = (DateTime) value;
-			return string.Format(CultureInfo.InvariantCulture, "{0}, {1}", timestamp.ToLongDateString(), timestamp.ToShortTimeString());
+			return ((DateTime) value).ToConvinientStringRepresentation();
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			throw new NotSupportedException();
+		}
+	}
+
+	public static class DateTimeRepresentation
+	{
+		public static string ToConvinientStringRepresentation(this DateTime value)
+		{
+			return string.Format(CultureInfo.InvariantCulture, "{0}, {1}", value.ToLongDateString(), value.ToShortTimeString());
 		}
 	}
 }
