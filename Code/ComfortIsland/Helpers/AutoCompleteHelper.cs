@@ -19,7 +19,7 @@ namespace ComfortIsland.Helpers
 			var items = comboBox.getOriginalItemSource();
 			if (!string.IsNullOrEmpty(comboBox.Text))
 			{
-				string fullText = comboBox.Text.Insert(getChildOfType<TextBox>(comboBox).CaretIndex, e.Text);
+				string fullText = comboBox.insertFullText(e.Text);
 				items = items.filter(fullText);
 			}
 			else if (!string.IsNullOrEmpty(e.Text))
@@ -35,8 +35,8 @@ namespace ComfortIsland.Helpers
 
 			comboBox.IsDropDownOpen = true;
 
-			string pastedText = (string)e.DataObject.GetData(typeof(string));
-			string fullText = comboBox.Text.Insert(getChildOfType<TextBox>(comboBox).CaretIndex, pastedText);
+			string pastedText = (string) e.DataObject.GetData(typeof(string));
+			string fullText = comboBox.insertFullText(pastedText);
 
 			var items = comboBox.getOriginalItemSource();
 			if (!string.IsNullOrEmpty(fullText))
@@ -73,6 +73,11 @@ namespace ComfortIsland.Helpers
 		private static IEnumerable<IListBoxItem> filter(this IEnumerable<IListBoxItem> items, string searchPattern)
 		{
 			return items.Where(p => p.DisplayMember.IndexOf(searchPattern, StringComparison.InvariantCultureIgnoreCase) >= 0);
+		}
+
+		private static string insertFullText(this ComboBox comboBox, string searchPattern)
+		{
+			return comboBox.Text.Insert(getChildOfType<TextBox>(comboBox).CaretIndex, searchPattern);
 		}
 
 		private static T getChildOfType<T>(DependencyObject dependencyObject)
