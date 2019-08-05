@@ -17,7 +17,7 @@ namespace ComfortIsland.UnitTests.Helpers
 			var entities = new List<TestEntity>();
 
 			// act
-			long id = IdGenerator.NewId(entities);
+			long id = entities.NewId();
 
 			// assert
 			Assert.AreEqual(1, id);
@@ -38,7 +38,7 @@ namespace ComfortIsland.UnitTests.Helpers
 			};
 
 			// act
-			long id = IdGenerator.NewId(entities);
+			long id = entities.NewId();
 
 			// assert
 			Assert.AreEqual(7, id);

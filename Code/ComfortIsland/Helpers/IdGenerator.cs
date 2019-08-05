@@ -5,7 +5,7 @@ namespace ComfortIsland.Helpers
 {
 	public static class IdGenerator
 	{
-		public static long NewId<T>(ICollection<T> list)
+		public static long NewId<T>(this ICollection<T> list)
 			where T: IEntity
 		{
 			return list.Count > 0
