@@ -114,20 +114,11 @@ namespace ComfortIsland.BusinessLogic
 			return delta;
 		}
 
-		public void MakeEdited(Warehouse balance)
+		public void MakeObsolete(Warehouse balance, DocumentState newState)
 		{
 			if (State == DocumentState.Active)
 			{
-				State = DocumentState.Edited;
-				RollbackBalanceChanges(balance);
-			}
-		}
-
-		public void MakeDeleted(Warehouse balance)
-		{
-			if (State == DocumentState.Active)
-			{
-				State = DocumentState.Deleted;
+				State = newState;
 				RollbackBalanceChanges(balance);
 			}
 		}
