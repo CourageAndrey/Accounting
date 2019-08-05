@@ -40,10 +40,7 @@ namespace ComfortIsland.Reports
 				var binding = column.Binding as Binding;
 				if (binding != null && binding.Converter == DigitRoundingConverter.Instance)
 				{
-					if (column.CellStyle == null)
-					{
-						column.CellStyle = new Style();
-					}
+					column.CellStyle = column.CellStyle ?? new Style();
 					column.CellStyle.Setters.Add(new Setter(TextBlock.HorizontalAlignmentProperty, HorizontalAlignment.Right));
 				}
 			}
