@@ -19,11 +19,11 @@ namespace ComfortIsland.Helpers
 			if (!string.IsNullOrEmpty(comboBox.Text))
 			{
 				string fullText = comboBox.Text.Insert(getChildOfType<TextBox>(comboBox).CaretIndex, e.Text);
-				comboBox.ItemsSource = comboBox.getOriginalItemSource().Where(p => p.DisplayMember.ToString().IndexOf(fullText, StringComparison.InvariantCultureIgnoreCase) >= 0).ToList();
+				comboBox.ItemsSource = comboBox.getOriginalItemSource().filter(fullText).ToList();
 			}
 			else if (!string.IsNullOrEmpty(e.Text))
 			{
-				comboBox.ItemsSource = comboBox.getOriginalItemSource().Where(p => p.DisplayMember.ToString().IndexOf(e.Text, StringComparison.InvariantCultureIgnoreCase) >= 0).ToList();
+				comboBox.ItemsSource = comboBox.getOriginalItemSource().filter(e.Text).ToList();
 			}
 			else
 			{
@@ -42,7 +42,7 @@ namespace ComfortIsland.Helpers
 
 			if (!string.IsNullOrEmpty(fullText))
 			{
-				comboBox.ItemsSource = comboBox.getOriginalItemSource().Where(p => p.DisplayMember.ToString().IndexOf(fullText, StringComparison.InvariantCultureIgnoreCase) >= 0).ToList();
+				comboBox.ItemsSource = comboBox.getOriginalItemSource().filter(fullText).ToList();
 			}
 			else
 			{
@@ -60,7 +60,7 @@ namespace ComfortIsland.Helpers
 
 				if (!string.IsNullOrEmpty(comboBox.Text))
 				{
-					comboBox.ItemsSource = comboBox.getOriginalItemSource().Where(p => p.DisplayMember.ToString().IndexOf(comboBox.Text, StringComparison.InvariantCultureIgnoreCase) >= 0).ToList();
+					comboBox.ItemsSource = comboBox.getOriginalItemSource().filter(comboBox.Text).ToList();
 				}
 				else
 				{
@@ -72,6 +72,11 @@ namespace ComfortIsland.Helpers
 		private static IEnumerable<IListBoxItem> getOriginalItemSource(this ComboBox comboBox)
 		{
 			return (comboBox.Tag as System.Collections.IEnumerable ?? new IListBoxItem[0]).OfType<IListBoxItem>();
+		}
+
+		private static IEnumerable<IListBoxItem> filter(this IEnumerable<IListBoxItem> items, string searchPattern)
+		{
+			return items.Where(p => p.DisplayMember.ToString().IndexOf(searchPattern, StringComparison.InvariantCultureIgnoreCase) >= 0);
 		}
 
 		private static T getChildOfType<T>(DependencyObject dependencyObject)
