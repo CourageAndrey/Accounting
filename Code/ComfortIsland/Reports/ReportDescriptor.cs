@@ -59,19 +59,19 @@ namespace ComfortIsland.Reports
 			new DataGridTextColumn
 			{
 				Header = "Товар",
-				Binding = new Binding { Path = new PropertyPath("BoundProduct.Name"), Mode = BindingMode.OneTime },
+				Binding = bind("BoundProduct.Name"),
 				MinWidth = 300,
 			},
 			new DataGridTextColumn
 			{
 				Header = "Ед/изм",
-				Binding = new Binding { Path = new PropertyPath("BoundProduct.Unit.Name"), Mode = BindingMode.OneTime },
+				Binding = bind("BoundProduct.Unit.Name"),
 				MinWidth = 50,
 			},
 			new DataGridTextColumn
 			{
 				Header = "Остатки",
-				Binding = new Binding { Path = new PropertyPath("Count"), Mode = BindingMode.OneTime, Converter = DigitRoundingConverter.Instance },
+				Binding = bind("Count", DigitRoundingConverter.Instance),
 				MinWidth = 100,
 			},
 		}, createBalanceReport);
@@ -81,55 +81,55 @@ namespace ComfortIsland.Reports
 			new DataGridTextColumn
 			{
 				Header = "Товар",
-				Binding = new Binding { Path = new PropertyPath("ProductName"), Mode = BindingMode.OneTime },
+				Binding = bind("ProductName"),
 				MinWidth = 300,
 			},
 			new DataGridTextColumn
 			{
 				Header = "Ед/изм",
-				Binding = new Binding { Path = new PropertyPath("ProductUnit"), Mode = BindingMode.OneTime },
+				Binding = bind("ProductUnit"),
 				MinWidth = 50,
 			},
 			new DataGridTextColumn
 			{
 				Header = "На начало периода",
-				Binding = new Binding { Path = new PropertyPath("InitialBalance"), Mode = BindingMode.OneTime, Converter = DigitRoundingConverter.Instance },
+				Binding = bind("InitialBalance", DigitRoundingConverter.Instance),
 				MinWidth = 100,
 			},
 			new DataGridTextColumn
 			{
 				Header = "Приобретено",
-				Binding = new Binding { Path = new PropertyPath("Income"), Mode = BindingMode.OneTime, Converter = DigitRoundingConverter.Instance },
+				Binding = bind("Income", DigitRoundingConverter.Instance),
 				MinWidth = 100,
 			},
 			new DataGridTextColumn
 			{
 				Header = "Произведено",
-				Binding = new Binding { Path = new PropertyPath("Produced"), Mode = BindingMode.OneTime, Converter = DigitRoundingConverter.Instance },
+				Binding = bind("Produced", DigitRoundingConverter.Instance),
 				MinWidth = 100,
 			},
 			new DataGridTextColumn
 			{
 				Header = "Продано",
-				Binding = new Binding { Path = new PropertyPath("Selled"), Mode = BindingMode.OneTime, Converter = DigitRoundingConverter.Instance },
+				Binding = bind("Selled", DigitRoundingConverter.Instance),
 				MinWidth = 100,
 			},
 			new DataGridTextColumn
 			{
 				Header = "Израсходовано",
-				Binding = new Binding { Path = new PropertyPath("UsedToProduce"), Mode = BindingMode.OneTime, Converter = DigitRoundingConverter.Instance },
+				Binding = bind("UsedToProduce", DigitRoundingConverter.Instance),
 				MinWidth = 100,
 			},
 			new DataGridTextColumn
 			{
 				Header = "Отправлено на склад",
-				Binding = new Binding { Path = new PropertyPath("SentToWarehouse"), Mode = BindingMode.OneTime, Converter = DigitRoundingConverter.Instance },
+				Binding = bind("SentToWarehouse", DigitRoundingConverter.Instance),
 				MinWidth = 100,
 			},
 			new DataGridTextColumn
 			{
 				Header = "На конец периода",
-				Binding = new Binding { Path = new PropertyPath("FinalBalance"), Mode = BindingMode.OneTime, Converter = DigitRoundingConverter.Instance },
+				Binding = bind("FinalBalance", DigitRoundingConverter.Instance),
 				MinWidth = 100,
 			},
 		}, createTradeReport);
@@ -169,6 +169,20 @@ namespace ComfortIsland.Reports
 				report = null;
 				return false;
 			}
+		}
+
+		private static Binding bind(string propertyPath, IValueConverter valueConverter = null)
+		{
+			var binding = new Binding
+			{
+				Path = new PropertyPath(propertyPath),
+				Mode = BindingMode.OneTime,
+			};
+			if (valueConverter != null)
+			{
+				binding.Converter = valueConverter;
+			}
+			return binding;
 		}
 
 		#endregion
