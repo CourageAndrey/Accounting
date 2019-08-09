@@ -50,43 +50,11 @@ namespace ComfortIsland.Reports
 				items[position.Key].FinalBalance = position.Value;
 			}
 
+			// обработка всех документов по списку
 			foreach (var document in activeDocuments.Where(d => d.Date <= ToDate && d.Date >= FromDate))
 			{
 				document.RollbackBalanceChanges(balance);
-				switch (document.Type.Enum)
-				{
-					case Xml.DocumentType.Income:
-						foreach (var position in document.Positions)
-						{
-							items[position.Key.ID].Income += position.Value;
-						}
-						break;
-					case Xml.DocumentType.Outcome:
-						foreach (var position in document.Positions)
-						{
-							items[position.Key.ID].Selled += position.Value;
-						}
-						break;
-					case Xml.DocumentType.Produce:
-						foreach (var position in document.Positions)
-						{
-							var product = position.Key;
-							items[product.ID].Produced += position.Value;
-							foreach (var child in product.Children)
-							{
-								items[child.Key.ID].UsedToProduce += (position.Value * child.Value);
-							}
-						}
-						break;
-					case Xml.DocumentType.ToWarehouse:
-						foreach (var position in document.Positions)
-						{
-							items[position.Key.ID].SentToWarehouse += position.Value;
-						}
-						break;
-					default:
-						throw new NotSupportedException();
-				}
+				DocumentTypes[document.Type.Enum](items, document.Positions);
 			}
 
 			// сохраняем баланс на начало периода
@@ -97,5 +65,51 @@ namespace ComfortIsland.Reports
 
 			TradeItems = items.Values;
 		}
+
+		private delegate void UpdateTradeItem(IDictionary<long, TradeItem> items, IDictionary<Product, decimal> positions);
+		private static readonly IDictionary<Xml.DocumentType, UpdateTradeItem> DocumentTypes = new Dictionary<Xml.DocumentType, UpdateTradeItem>
+		{
+			{
+				Xml.DocumentType.Income, (items, positions) =>
+				{
+					foreach (var position in positions)
+					{
+						items[position.Key.ID].Income += position.Value;
+					}
+				}
+			},
+			{
+				Xml.DocumentType.Outcome, (items, positions) =>
+				{
+					foreach (var position in positions)
+					{
+						items[position.Key.ID].Selled += position.Value;
+					}
+				}
+			},
+			{
+				Xml.DocumentType.Produce, (items, positions) =>
+				{
+					foreach (var position in positions)
+					{
+						var product = position.Key;
+						items[product.ID].Produced += position.Value;
+						foreach (var child in product.Children)
+						{
+							items[child.Key.ID].UsedToProduce += (position.Value * child.Value);
+						}
+					}
+				}
+			},
+			{
+				Xml.DocumentType.ToWarehouse, (items, positions) =>
+				{
+					foreach (var position in positions)
+					{
+						items[position.Key.ID].SentToWarehouse += position.Value;
+					}
+				}
+			},
+		};
 	}
 }
