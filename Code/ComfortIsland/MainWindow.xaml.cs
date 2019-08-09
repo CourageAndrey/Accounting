@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
@@ -34,6 +35,10 @@ namespace ComfortIsland
 			var databaseXml = Xml.Database.TryLoad();
 			_database = databaseXml.ConvertToBusinessLogic();
 
+			// подготовка таблиц к заполнению
+			unitsGrid.Tag = _database.Units;
+			productsGrid.Tag = _database.Products;
+
 			// документы
 			stateColumn.Visibility = checkBoxShowObsoleteDocuments.IsChecked == true ? Visibility.Visible : Visibility.Collapsed;
 			_documentsViewSource.Source = _database.Documents;
@@ -45,9 +50,9 @@ namespace ComfortIsland
 			reportControl.Report = null;
 
 			// справочники
-			productsGrid.ItemsSource = _database.Products;
+			refreshGrid(productsGrid);
 			reloadComplexProducts();
-			unitsGrid.ItemsSource = _database.Units;
+			refreshGrid(unitsGrid);
 			documentTypesGrid.ItemsSource = DocumentType.AllTypes.Values;
 
 			updateButtonsAvailability(productsGrid, buttonEditProduct, buttonDeleteProduct);
@@ -309,9 +314,7 @@ namespace ComfortIsland
 				{
 					var instance = viewModel.ConvertToBusinessLogic(_database);
 					new Xml.Database(_database).Save();
-					productsGrid.ItemsSource = null;
-					productsGrid.ItemsSource = _database.Products;
-					productsGrid.SelectedItem = instance;
+					refreshGrid(productsGrid, instance);
 				}
 				catch (Exception error)
 				{
@@ -348,9 +351,7 @@ namespace ComfortIsland
 					{
 						instance = viewModel.ConvertToBusinessLogic(_database);
 						new Xml.Database(_database).Save();
-						productsGrid.ItemsSource = null;
-						productsGrid.ItemsSource = _database.Products;
-						productsGrid.SelectedItem = instance;
+						refreshGrid(productsGrid, instance);
 						reloadComplexProducts();
 					}
 					catch (Exception error)
@@ -384,8 +385,7 @@ namespace ComfortIsland
 				_database.Products.Remove(item.ID);
 			}
 			new Xml.Database(_database).Save();
-			productsGrid.ItemsSource = null;
-			productsGrid.ItemsSource = _database.Products;
+			refreshGrid(productsGrid);
 			reloadComplexProducts();
 		}
 
@@ -410,9 +410,7 @@ namespace ComfortIsland
 				{
 					var instance = viewModel.ConvertToBusinessLogic(_database);
 					new Xml.Database(_database).Save();
-					unitsGrid.ItemsSource = null;
-					unitsGrid.ItemsSource = _database.Units;
-					unitsGrid.SelectedItem = instance;
+					refreshGrid(unitsGrid, instance);
 				}
 				catch (Exception error)
 				{
@@ -448,9 +446,7 @@ namespace ComfortIsland
 					{
 						instance = viewModel.ConvertToBusinessLogic(_database);
 						new Xml.Database(_database).Save();
-						unitsGrid.ItemsSource = null;
-						unitsGrid.ItemsSource = _database.Units;
-						unitsGrid.SelectedItem = instance;
+						refreshGrid(unitsGrid, instance);
 					}
 					catch (Exception error)
 					{
@@ -483,8 +479,7 @@ namespace ComfortIsland
 				_database.Units.Remove(item.ID);
 			}
 			new Xml.Database(_database).Save();
-			unitsGrid.ItemsSource = null;
-			unitsGrid.ItemsSource = _database.Units;
+			refreshGrid(unitsGrid);
 		}
 
 		private void selectedUnitsChanged(object sender, SelectionChangedEventArgs e)
@@ -495,6 +490,16 @@ namespace ComfortIsland
 		#endregion
 
 		#endregion
+
+		private void refreshGrid(DataGrid grid, object selectedItem = null)
+		{
+			grid.ItemsSource = null;
+			grid.ItemsSource = (IEnumerable) grid.Tag;
+			if (selectedItem != null)
+			{
+				grid.SelectedItem = selectedItem;
+			}
+		}
 
 		private void updateButtonsAvailability(DataGrid grid, Button editButton, Button deleteButton)
 		{
