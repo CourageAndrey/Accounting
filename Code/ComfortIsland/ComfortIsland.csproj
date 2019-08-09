@@ -83,6 +83,7 @@
     <Compile Include="ViewModels\Unit.cs" />
     <Compile Include="Xml\Balance.cs" />
     <Compile Include="Xml\Database.cs" />
+    <Compile Include="Xml\DatabaseDriver.cs" />
     <Compile Include="Xml\Document.cs" />
     <Compile Include="Xml\DocumentState.cs" />
     <Compile Include="Xml\DocumentType.cs" />

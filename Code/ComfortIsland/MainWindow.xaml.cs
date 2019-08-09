@@ -32,8 +32,7 @@ namespace ComfortIsland
 		private void formLoaded(object sender, RoutedEventArgs e)
 		{
 			// вычитка базы данных
-			var databaseXml = Xml.Database.TryLoad();
-			_database = databaseXml.ConvertToBusinessLogic();
+			_database = Settings.DatabaseDriver.TryLoad();
 
 			// подготовка таблиц к заполнению
 			unitsGrid.Tag = _database.Units;
@@ -133,7 +132,7 @@ namespace ComfortIsland
 				{
 					document.MakeObsolete(_database.Balance, DocumentState.Deleted);
 				}
-				new Xml.Database(_database).Save();
+				Settings.DatabaseDriver.Save(_database);
 				refreshDocuments();
 				reportControl.Report = null;
 			}
@@ -159,7 +158,7 @@ namespace ComfortIsland
 				try
 				{
 					instance = viewModel.ConvertToBusinessLogic(_database);
-					new Xml.Database(_database).Save();
+					Settings.DatabaseDriver.Save(_database);
 
 					refreshDocuments();
 					documentsGrid.SelectedItem = instance;
@@ -194,7 +193,7 @@ namespace ComfortIsland
 				try
 				{
 					var instance = viewModel.ConvertToBusinessLogic(_database);
-					new Xml.Database(_database).Save();
+					Settings.DatabaseDriver.Save(_database);
 					refreshDocuments();
 					documentsGrid.SelectedItem = instance;
 				}
@@ -313,7 +312,7 @@ namespace ComfortIsland
 				try
 				{
 					var instance = viewModel.ConvertToBusinessLogic(_database);
-					new Xml.Database(_database).Save();
+					Settings.DatabaseDriver.Save(_database);
 					refreshGrid(productsGrid, instance);
 				}
 				catch (Exception error)
@@ -350,7 +349,7 @@ namespace ComfortIsland
 					try
 					{
 						instance = viewModel.ConvertToBusinessLogic(_database);
-						new Xml.Database(_database).Save();
+						Settings.DatabaseDriver.Save(_database);
 						refreshGrid(productsGrid, instance);
 						reloadComplexProducts();
 					}
@@ -384,7 +383,7 @@ namespace ComfortIsland
 			{
 				_database.Products.Remove(item.ID);
 			}
-			new Xml.Database(_database).Save();
+			Settings.DatabaseDriver.Save(_database);
 			refreshGrid(productsGrid);
 			reloadComplexProducts();
 		}
@@ -409,7 +408,7 @@ namespace ComfortIsland
 				try
 				{
 					var instance = viewModel.ConvertToBusinessLogic(_database);
-					new Xml.Database(_database).Save();
+					Settings.DatabaseDriver.Save(_database);
 					refreshGrid(unitsGrid, instance);
 				}
 				catch (Exception error)
@@ -445,7 +444,7 @@ namespace ComfortIsland
 					try
 					{
 						instance = viewModel.ConvertToBusinessLogic(_database);
-						new Xml.Database(_database).Save();
+						Settings.DatabaseDriver.Save(_database);
 						refreshGrid(unitsGrid, instance);
 					}
 					catch (Exception error)
@@ -478,7 +477,7 @@ namespace ComfortIsland
 			{
 				_database.Units.Remove(item.ID);
 			}
-			new Xml.Database(_database).Save();
+			Settings.DatabaseDriver.Save(_database);
 			refreshGrid(unitsGrid);
 		}
 

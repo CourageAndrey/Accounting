@@ -9,5 +9,9 @@ namespace ComfortIsland
 
 		public static BalanceValidationStrategy BalanceValidationStrategy
 		{ get { return BalanceValidationStrategy.FinalOnly; } }
+
+		public static IDatabaseDriver DatabaseDriver
+		{ get { return _databaseDriver; } }
+		private static readonly IDatabaseDriver _databaseDriver = new Xml.DatabaseDriver();
 	}
 }

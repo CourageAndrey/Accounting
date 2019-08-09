@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Xml;
 using System.Xml.Serialization;
 
 namespace ComfortIsland.Xml
@@ -78,56 +75,5 @@ namespace ComfortIsland.Xml
 
 			return database;
 		}
-
-		#region [De]Serialization
-
-		[XmlIgnore]
-		private static readonly string filePath;
-		[XmlIgnore]
-		private static readonly XmlSerializer xmlSerializer;
-
-		static Database()
-		{
-			filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Database.xml");
-			xmlSerializer = new XmlSerializer(typeof(Database));
-		}
-
-		public static Database TryLoad()
-		{
-			Database database;
-			if (File.Exists(filePath))
-			{
-				using (var xmlReader = XmlReader.Create(filePath))
-				{
-					database = (Database) xmlSerializer.Deserialize(xmlReader);
-				}
-			}
-			else
-			{
-				database = new Database
-				{
-					Units =
-					{
-						new Unit { ID = 1, Name = "штука", ShortName = "шт" },
-						new Unit { ID = 2, Name = "метр погонный", ShortName = "м/пог" },
-					}
-				};
-				database.Save();
-			}
-			return database;
-		}
-
-		public void Save()
-		{
-			var document = new XmlDocument();
-			using (var writer = new StringWriter())
-			{
-				xmlSerializer.Serialize(writer, this);
-				document.LoadXml(writer.ToString());
-				document.Save(filePath);
-			}
-		}
-
-		#endregion
 	}
 }

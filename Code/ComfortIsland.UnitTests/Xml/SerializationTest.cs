@@ -98,23 +98,22 @@ namespace ComfortIsland.UnitTests.Xml
 				position => position.Value);
 
 			// act
-			var fileNameField = typeof(ComfortIsland.Xml.Database).GetField("filePath", BindingFlags.GetField | BindingFlags.Static | BindingFlags.NonPublic);
+			var fileNameField = typeof(ComfortIsland.Xml.DatabaseDriver).GetField("_filePath", BindingFlags.GetField | BindingFlags.Instance | BindingFlags.NonPublic);
 
-			var snapshot = new ComfortIsland.Xml.Database(originalDatabase);
+			var xmlDriver = new ComfortIsland.Xml.DatabaseDriver();
 			string fileName = Path.ChangeExtension(Path.GetTempFileName(), "xml");
 			string originalFileName = null;
 			Database deserialized = null;
 			try
 			{
-				originalFileName = (string) fileNameField.GetValue(null);
-				fileNameField.SetValue(null, fileName);
-				snapshot.Save();
-				var deserializedSnapshot = ComfortIsland.Xml.Database.TryLoad();
-				deserialized = deserializedSnapshot.ConvertToBusinessLogic();
+				originalFileName = (string) fileNameField.GetValue(xmlDriver);
+				fileNameField.SetValue(xmlDriver, fileName);
+				xmlDriver.Save(originalDatabase);
+				deserialized = xmlDriver.TryLoad();
 			}
 			finally
 			{
-				fileNameField.SetValue(null, originalFileName);
+				fileNameField.SetValue(xmlDriver, originalFileName);
 				if (File.Exists(fileName))
 				{
 					File.Delete(fileName);

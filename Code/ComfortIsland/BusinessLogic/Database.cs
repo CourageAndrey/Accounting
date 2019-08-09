@@ -31,5 +31,18 @@ namespace ComfortIsland.BusinessLogic
 			Balance = new Warehouse(balance);
 			Documents = new Registry<Document>(documents);
 		}
+
+		public static Database CreateDefault()
+		{
+			return new Database(
+				new[]
+				{
+					new Unit { ID = 1, Name = "штука", ShortName = "шт" },
+					new Unit { ID = 2, Name = "метр погонный", ShortName = "м/пог" },
+				},
+				new Product[0],
+				new Dictionary<long, decimal>(),
+				new Document[0]);
+		}
 	}
 }
