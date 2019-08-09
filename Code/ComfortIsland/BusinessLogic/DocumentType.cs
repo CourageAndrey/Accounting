@@ -64,14 +64,15 @@ namespace ComfortIsland.BusinessLogic
 				result[position.Key.ID] = position.Value;
 				foreach (var child in position.Key.Children)
 				{
+					decimal delta = position.Value * child.Value;
 					decimal count;
 					if (result.TryGetValue(child.Key.ID, out count))
 					{
-						count -= (position.Value * child.Value);
+						count -= delta;
 					}
 					else
 					{
-						count = -(position.Value * child.Value);
+						count = -delta;
 					}
 					result[child.Key.ID] = count;
 				}
