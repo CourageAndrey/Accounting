@@ -9,7 +9,7 @@ using ComfortIsland.Helpers;
 
 namespace ComfortIsland.Dialogs
 {
-	public partial class ProductDialog : IEditDialog<ViewModels.Product>, IApplicationClient
+	public partial class ProductDialog : IEditDialog<ViewModels.Product>
 	{
 		public ProductDialog()
 		{
@@ -20,6 +20,8 @@ namespace ComfortIsland.Dialogs
 		{
 			_application = application;
 			FontSize = application.Settings.FontSize;
+			comboBoxUnit.ItemsSource = application.Database.Units;
+			comboBoxProducts.ItemsSource = application.Database.Products;
 		}
 
 		private IApplication _application;
@@ -35,15 +37,6 @@ namespace ComfortIsland.Dialogs
 			}
 		}
 
-		private Database _database;
-
-		public void Initialize(Database database)
-		{
-			_database = database;
-			comboBoxUnit.ItemsSource = database.Units;
-			comboBoxProducts.ItemsSource = database.Products;
-		}
-
 		private void okClick(object sender, RoutedEventArgs e)
 		{
 			if (!EditValue.HasErrors)
@@ -55,7 +48,7 @@ namespace ComfortIsland.Dialogs
 					isValid &= Position.ProductIsSet(EditValue.Children[line].ID, line + 1, errors);
 					isValid &= Position.CountIsPositive(EditValue.Children[line].Count, line + 1, errors);
 				}
-				if (isValid & Product.ChildrenAreNotRecursive(EditValue.ID, EditValue.Children.Select(position => _database.Products[position.ID]), errors))
+				if (isValid & Product.ChildrenAreNotRecursive(EditValue.ID, EditValue.Children.Select(position => _application.Database.Products[position.ID]), errors))
 				{
 					DialogResult = true;
 				}

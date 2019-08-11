@@ -34,20 +34,16 @@ namespace ComfortIsland
 		}
 
 		private IApplication _application;
-		private Database _database;
 
 		private void formLoaded(object sender, RoutedEventArgs e)
 		{
-			// вычитка базы данных
-			_database = _application.Settings.DatabaseDriver.TryLoad();
-
 			// подготовка таблиц к заполнению
-			unitsGrid.Tag = _database.Units;
-			productsGrid.Tag = _database.Products;
+			unitsGrid.Tag = _application.Database.Units;
+			productsGrid.Tag = _application.Database.Products;
 
 			// документы
 			stateColumn.Visibility = checkBoxShowObsoleteDocuments.IsChecked == true ? Visibility.Visible : Visibility.Collapsed;
-			_documentsViewSource.Source = _database.Documents;
+			_documentsViewSource.Source = _application.Database.Documents;
 			_documentsCollectionView = CollectionViewSource.GetDefaultView(documentsGrid.ItemsSource);
 			documentsWeekClick(null, null);
 
@@ -104,10 +100,9 @@ namespace ComfortIsland
 		{
 			var dialog = new SelectProductDialog();
 			dialog.ConnectTo(_application);
-			dialog.Initialize(_database);
 			if (dialog.ShowDialog() == true)
 			{
-				var report = new ProductBalance(dialog.EditValue, _database.Balance);
+				var report = new ProductBalance(dialog.EditValue, _application.Database.Balance);
 				MessageBox.Show(
 					report.ToString(),
 					"Товар - " + report.Product.DisplayMember,
@@ -134,13 +129,13 @@ namespace ComfortIsland
 			}
 
 			var errors = new StringBuilder();
-			if (_application.Settings.BalanceValidationStrategy.VerifyDelete(_database, documentsToDelete, errors))
+			if (_application.Settings.BalanceValidationStrategy.VerifyDelete(_application.Database, documentsToDelete, errors))
 			{
 				foreach (var document in documentsToDelete)
 				{
-					document.MakeObsolete(_database.Balance, DocumentState.Deleted);
+					document.MakeObsolete(_application.Database.Balance, DocumentState.Deleted);
 				}
-				_application.Settings.DatabaseDriver.Save(_database);
+				_application.Settings.DatabaseDriver.Save(_application.Database);
 				refreshDocuments();
 				reportControl.Report = null;
 			}
@@ -160,14 +155,13 @@ namespace ComfortIsland
 				dialog.ProductsGetter = db => db.Products.Where(p => p.Children.Count > 0);
 			}
 			dialog.ConnectTo(_application);
-			dialog.Initialize(_database);
 			dialog.EditValue = viewModel;
 			if (dialog.ShowDialog() == true)
 			{
 				try
 				{
-					instance = viewModel.ConvertToBusinessLogic(_database);
-					_application.Settings.DatabaseDriver.Save(_database);
+					instance = viewModel.ConvertToBusinessLogic(_application.Database);
+					_application.Settings.DatabaseDriver.Save(_application.Database);
 
 					refreshDocuments();
 					documentsGrid.SelectedItem = instance;
@@ -196,14 +190,13 @@ namespace ComfortIsland
 				dialog.ProductsGetter = db => db.Products.Where(p => p.Children.Count > 0);
 			}
 			dialog.ConnectTo(_application);
-			dialog.Initialize(_database);
 			dialog.EditValue = viewModel;
 			if (dialog.ShowDialog() == true)
 			{
 				try
 				{
-					var instance = viewModel.ConvertToBusinessLogic(_database);
-					_application.Settings.DatabaseDriver.Save(_database);
+					var instance = viewModel.ConvertToBusinessLogic(_application.Database);
+					_application.Settings.DatabaseDriver.Save(_application.Database);
 					refreshDocuments();
 					documentsGrid.SelectedItem = instance;
 				}
@@ -223,7 +216,6 @@ namespace ComfortIsland
 				var dialog = new DocumentDialog();
 				dialog.SetReadOnly();
 				dialog.ConnectTo(_application);
-				dialog.Initialize(_database);
 				dialog.EditValue = new ViewModels.Document(selectedItem);
 				dialog.ShowDialog();
 			}
@@ -309,7 +301,7 @@ namespace ComfortIsland
 
 		private void reloadComplexProducts()
 		{
-			treeViewComplexProducts.ItemsSource = _database.Products.Where(p => p.Children.Count > 0).ToList();
+			treeViewComplexProducts.ItemsSource = _application.Database.Products.Where(p => p.Children.Count > 0).ToList();
 		}
 
 		private void productAddClick(object sender, RoutedEventArgs e)
@@ -317,14 +309,13 @@ namespace ComfortIsland
 			var viewModel = new ViewModels.Product();
 			var dialog = new ProductDialog();
 			dialog.ConnectTo(_application);
-			dialog.Initialize(_database);
 			dialog.EditValue = viewModel;
 			if (dialog.ShowDialog() == true)
 			{
 				try
 				{
-					var instance = viewModel.ConvertToBusinessLogic(_database);
-					_application.Settings.DatabaseDriver.Save(_database);
+					var instance = viewModel.ConvertToBusinessLogic(_application.Database);
+					_application.Settings.DatabaseDriver.Save(_application.Database);
 					refreshGrid(productsGrid, instance);
 				}
 				catch (Exception error)
@@ -342,7 +333,7 @@ namespace ComfortIsland
 			{
 				var instance = selectedItems[0];
 
-				var message = instance.FindUsages(_database);
+				var message = instance.FindUsages(_application.Database);
 				if (message.Length > 0 && MessageBox.Show(
 						message.ToString(),
 						"Редактирование приведёт к дополнительным изменениям. Продолжить?",
@@ -355,14 +346,13 @@ namespace ComfortIsland
 				var viewModel = new ViewModels.Product(instance);
 				var dialog = new ProductDialog();
 				dialog.ConnectTo(_application);
-				dialog.Initialize(_database);
 				dialog.EditValue = viewModel;
 				if (dialog.ShowDialog() == true)
 				{
 					try
 					{
-						instance = viewModel.ConvertToBusinessLogic(_database);
-						_application.Settings.DatabaseDriver.Save(_database);
+						instance = viewModel.ConvertToBusinessLogic(_application.Database);
+						_application.Settings.DatabaseDriver.Save(_application.Database);
 						refreshGrid(productsGrid, instance);
 						reloadComplexProducts();
 					}
@@ -381,7 +371,7 @@ namespace ComfortIsland
 			var message = new StringBuilder();
 			foreach (var item in selectedItems)
 			{
-				message.Append(item.FindUsages(_database));
+				message.Append(item.FindUsages(_application.Database));
 			}
 			if (message.Length > 0)
 			{
@@ -394,9 +384,9 @@ namespace ComfortIsland
 			}
 			foreach (var item in selectedItems)
 			{
-				_database.Products.Remove(item.ID);
+				_application.Database.Products.Remove(item.ID);
 			}
-			_application.Settings.DatabaseDriver.Save(_database);
+			_application.Settings.DatabaseDriver.Save(_application.Database);
 			refreshGrid(productsGrid);
 			reloadComplexProducts();
 		}
@@ -415,14 +405,13 @@ namespace ComfortIsland
 			var viewModel = new ViewModels.Unit();
 			var dialog = new UnitDialog();
 			dialog.ConnectTo(_application);
-			dialog.Initialize(_database);
 			dialog.EditValue = viewModel;
 			if (dialog.ShowDialog() == true)
 			{
 				try
 				{
-					var instance = viewModel.ConvertToBusinessLogic(_database);
-					_application.Settings.DatabaseDriver.Save(_database);
+					var instance = viewModel.ConvertToBusinessLogic(_application.Database);
+					_application.Settings.DatabaseDriver.Save(_application.Database);
 					refreshGrid(unitsGrid, instance);
 				}
 				catch (Exception error)
@@ -439,7 +428,7 @@ namespace ComfortIsland
 			{
 				var instance = selectedItems[0];
 
-				var message = instance.FindUsages(_database);
+				var message = instance.FindUsages(_application.Database);
 				if (message.Length > 0 && MessageBox.Show(
 					message.ToString(),
 					"Редактирование приведёт к дополнительным изменениям. Продолжить?",
@@ -452,14 +441,13 @@ namespace ComfortIsland
 				var viewModel = new ViewModels.Unit(instance);
 				var dialog = new UnitDialog();
 				dialog.ConnectTo(_application);
-				dialog.Initialize(_database);
 				dialog.EditValue = viewModel;
 				if (dialog.ShowDialog() == true)
 				{
 					try
 					{
-						instance = viewModel.ConvertToBusinessLogic(_database);
-						_application.Settings.DatabaseDriver.Save(_database);
+						instance = viewModel.ConvertToBusinessLogic(_application.Database);
+						_application.Settings.DatabaseDriver.Save(_application.Database);
 						refreshGrid(unitsGrid, instance);
 					}
 					catch (Exception error)
@@ -477,7 +465,7 @@ namespace ComfortIsland
 			var message = new StringBuilder();
 			foreach (var item in selectedItems)
 			{
-				message.Append(item.FindUsages(_database));
+				message.Append(item.FindUsages(_application.Database));
 			}
 			if (message.Length > 0)
 			{
@@ -490,9 +478,9 @@ namespace ComfortIsland
 			}
 			foreach (var item in selectedItems)
 			{
-				_database.Units.Remove(item.ID);
+				_application.Database.Units.Remove(item.ID);
 			}
-			_application.Settings.DatabaseDriver.Save(_database);
+			_application.Settings.DatabaseDriver.Save(_application.Database);
 			refreshGrid(unitsGrid);
 		}
 
@@ -530,7 +518,7 @@ namespace ComfortIsland
 			if (reportDescriptor != null)
 			{
 				IReport report;
-				if (reportDescriptor.CreateReport(_application, _database, out report))
+				if (reportDescriptor.CreateReport(_application, _application.Database, out report))
 				{
 					reportControl.Report = report;
 				}

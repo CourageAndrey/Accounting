@@ -10,7 +10,7 @@ using ComfortIsland.Helpers;
 
 namespace ComfortIsland.Dialogs
 {
-	public partial class DocumentDialog : IEditDialog<ViewModels.Document>, IApplicationClient
+	public partial class DocumentDialog : IEditDialog<ViewModels.Document>
 	{
 		public DocumentDialog()
 		{
@@ -21,6 +21,9 @@ namespace ComfortIsland.Dialogs
 		{
 			_application = application;
 			FontSize = application.Settings.FontSize;
+			comboBoxProducts.ItemsSource = ProductsGetter != null
+				 ? ProductsGetter(application.Database)
+				 : application.Database.Products;
 		}
 
 		private IApplication _application;
@@ -34,16 +37,6 @@ namespace ComfortIsland.Dialogs
 				value.ErrorsChanged += (sender, args) => { buttonOk.IsEnabled = !value.HasErrors; };
 				contextControl.DataContext = value;
 			}
-		}
-
-		private Database _database;
-
-		public void Initialize(Database database)
-		{
-			_database = database;
-			comboBoxProducts.ItemsSource = ProductsGetter != null
-				? ProductsGetter(database)
-				: database.Products;
 		}
 
 		public Func<Database, IEnumerable<Product>> ProductsGetter
@@ -64,10 +57,10 @@ namespace ComfortIsland.Dialogs
 				if (isValid)
 				{
 					var documentStub = new Document(EditValue.ID, EditValue.Type, DocumentState.Active);
-					EditValue.ApplyChanges(documentStub, _database.Products);
-					isValid &= (!EditValue.ID.HasValue || _database.Documents[EditValue.ID.Value].State != DocumentState.Active)
-						? _application.Settings.BalanceValidationStrategy.VerifyCreate(_database, documentStub, errors)
-						: _application.Settings.BalanceValidationStrategy.VerifyEdit(_database, documentStub, errors);
+					EditValue.ApplyChanges(documentStub, _application.Database.Products);
+					isValid &= (!EditValue.ID.HasValue || _application.Database.Documents[EditValue.ID.Value].State != DocumentState.Active)
+						? _application.Settings.BalanceValidationStrategy.VerifyCreate(_application.Database, documentStub, errors)
+						: _application.Settings.BalanceValidationStrategy.VerifyEdit(_application.Database, documentStub, errors);
 				}
 				if (isValid)
 				{

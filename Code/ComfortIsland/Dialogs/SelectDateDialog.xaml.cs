@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Windows;
 
-using ComfortIsland.BusinessLogic;
-
 namespace ComfortIsland.Dialogs
 {
-	public partial class SelectDateDialog : IEditDialog<DateTime>, IApplicationClient
+	public partial class SelectDateDialog : IEditDialog<DateTime>
 	{
 		public SelectDateDialog()
 		{
@@ -25,9 +23,6 @@ namespace ComfortIsland.Dialogs
 			get { return datePicker.SelectedDate.Value; }
 			set { datePicker.SelectedDate = value; }
 		}
-
-		public void Initialize(Database database)
-		{ }
 
 		public bool IncludeAllProducts
 		{

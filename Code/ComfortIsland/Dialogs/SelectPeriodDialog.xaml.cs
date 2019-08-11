@@ -1,11 +1,10 @@
 ﻿using System.Windows;
 
-using ComfortIsland.BusinessLogic;
 using ComfortIsland.Helpers;
 
 namespace ComfortIsland.Dialogs
 {
-	public partial class SelectPeriodDialog : IEditDialog<Period>, IApplicationClient
+	public partial class SelectPeriodDialog : IEditDialog<Period>
 	{
 		public SelectPeriodDialog()
 		{
@@ -29,9 +28,6 @@ namespace ComfortIsland.Dialogs
 				toDatePicker.SelectedDate = value.To;
 			}
 		}
-
-		public void Initialize(Database database)
-		{ }
 
 		private void okClick(object sender, RoutedEventArgs e)
 		{

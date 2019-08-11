@@ -15,6 +15,9 @@ namespace ComfortIsland
 		public Settings Settings
 		{ get; }
 
+		public BusinessLogic.Database Database
+		{ get; }
+
 		#endregion
 
 		public AccountingApplication()
@@ -24,6 +27,7 @@ namespace ComfortIsland
 
 			StartupPath = AppDomain.CurrentDomain.BaseDirectory;
 			Settings = new Settings(Path.Combine(StartupPath, "Database.xml"));
+			Database = Settings.DatabaseDriver.TryLoad();
 
 			var mainWindow = new MainWindow();
 			mainWindow.ConnectTo(this);

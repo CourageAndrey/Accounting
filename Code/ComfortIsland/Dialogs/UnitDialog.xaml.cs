@@ -1,10 +1,8 @@
 ﻿using System.Windows;
 
-using ComfortIsland.BusinessLogic;
-
 namespace ComfortIsland.Dialogs
 {
-	public partial class UnitDialog : IEditDialog<ViewModels.Unit>, IApplicationClient
+	public partial class UnitDialog : IEditDialog<ViewModels.Unit>
 	{
 		public UnitDialog()
 		{
@@ -29,9 +27,6 @@ namespace ComfortIsland.Dialogs
 				contextControl.DataContext = value;
 			}
 		}
-
-		public void Initialize(Database database)
-		{ }
 
 		private void okClick(object sender, RoutedEventArgs e)
 		{

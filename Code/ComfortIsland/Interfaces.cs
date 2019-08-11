@@ -13,11 +13,9 @@ namespace ComfortIsland
 		StringBuilder FindUsages(Database database);
 	}
 
-	public interface IEditDialog<T>
+	public interface IEditDialog<T> : IApplicationClient
 	{
 		T EditValue { get; set; }
-
-		void Initialize(Database database);
 	}
 
 	public interface IReport
@@ -54,6 +52,8 @@ namespace ComfortIsland
 		string StartupPath { get; }
 
 		Settings Settings { get; }
+
+		Database Database { get; }
 	}
 
 	public interface IApplicationClient

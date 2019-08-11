@@ -7,7 +7,7 @@ using ComfortIsland.Helpers;
 
 namespace ComfortIsland.Dialogs
 {
-	public partial class SelectProductDialog : IEditDialog<Product>, IApplicationClient
+	public partial class SelectProductDialog : IEditDialog<Product>
 	{
 		public SelectProductDialog()
 		{
@@ -18,6 +18,7 @@ namespace ComfortIsland.Dialogs
 		{
 			_application = application;
 			FontSize = application.Settings.FontSize;
+			productsList.ItemsSource = _application.Database.Products;
 		}
 
 		private IApplication _application;
@@ -26,11 +27,6 @@ namespace ComfortIsland.Dialogs
 		{
 			get { return productsList.SelectedItem as Product; }
 			set { productsList.SelectedItem = value; }
-		}
-
-		public void Initialize(Database database)
-		{
-			productsList.ItemsSource = database.Products;
 		}
 
 		private void okClick(object sender, RoutedEventArgs e)
