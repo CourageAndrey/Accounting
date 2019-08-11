@@ -21,7 +21,7 @@ namespace ComfortIsland
 		{
 			FontSize = 16;
 			BalanceValidationStrategy = BalanceValidationStrategy.FinalOnly;
-			DatabaseDriver = new DataAccessLayer.Xml.DatabaseDriver(databaseFileName);
+			DatabaseDriver = DataAccessLayer.DatabaseDriverFactory.CreateDatabaseDriver(databaseFileName);
 		}
 	}
 }

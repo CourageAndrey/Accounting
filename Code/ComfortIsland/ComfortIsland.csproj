@@ -68,6 +68,7 @@
     <Compile Include="Controls\ReportControl.xaml.cs">
       <DependentUpon>ReportControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DataAccessLayer\DatabaseDriverFactory.cs" />
     <Compile Include="DataAccessLayer\IDatabaseDriver.cs" />
     <Compile Include="Helpers\DateHelper.cs" />
     <Compile Include="Helpers\DictionaryComparer.cs" />
