@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 
 using NUnit.Framework;
 
@@ -98,22 +97,16 @@ namespace ComfortIsland.UnitTests.Xml
 				position => position.Value);
 
 			// act
-			var fileNameField = typeof(ComfortIsland.Xml.DatabaseDriver).GetField("_filePath", BindingFlags.GetField | BindingFlags.Instance | BindingFlags.NonPublic);
-
-			var xmlDriver = new ComfortIsland.Xml.DatabaseDriver();
 			string fileName = Path.ChangeExtension(Path.GetTempFileName(), "xml");
-			string originalFileName = null;
+			var xmlDriver = new ComfortIsland.Xml.DatabaseDriver(fileName);
 			Database deserialized = null;
 			try
 			{
-				originalFileName = (string) fileNameField.GetValue(xmlDriver);
-				fileNameField.SetValue(xmlDriver, fileName);
 				xmlDriver.Save(originalDatabase);
 				deserialized = xmlDriver.TryLoad();
 			}
 			finally
 			{
-				fileNameField.SetValue(xmlDriver, originalFileName);
 				if (File.Exists(fileName))
 				{
 					File.Delete(fileName);

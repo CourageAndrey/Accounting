@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -7,8 +6,13 @@ namespace ComfortIsland.Xml
 {
 	public class DatabaseDriver : IDatabaseDriver
 	{
-		private readonly string _filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Database.xml");
+		private readonly string _filePath;
 		private readonly XmlSerializer _xmlSerializer = new XmlSerializer(typeof(Database));
+
+		public DatabaseDriver(string filePath)
+		{
+			_filePath = filePath;
+		}
 
 		private BusinessLogic.Database load()
 		{

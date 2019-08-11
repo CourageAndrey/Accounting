@@ -1,4 +1,7 @@
-﻿using ComfortIsland.BusinessLogic;
+﻿using System;
+using System.IO;
+
+using ComfortIsland.BusinessLogic;
 
 namespace ComfortIsland
 {
@@ -12,6 +15,6 @@ namespace ComfortIsland
 
 		public static IDatabaseDriver DatabaseDriver
 		{ get { return _databaseDriver; } }
-		private static readonly IDatabaseDriver _databaseDriver = new Xml.DatabaseDriver();
+		private static readonly IDatabaseDriver _databaseDriver = new Xml.DatabaseDriver(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Database.xml"));
 	}
 }
