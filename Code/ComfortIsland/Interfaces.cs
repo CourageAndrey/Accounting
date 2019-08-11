@@ -40,13 +40,6 @@ namespace ComfortIsland
 		T ConvertToBusinessLogic(Database database);
 	}
 
-	public interface IDatabaseDriver
-	{
-		void Save(Database database);
-
-		Database TryLoad();
-	}
-
 	public interface IApplication
 	{
 		string StartupPath { get; }

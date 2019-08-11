@@ -1,14 +1,14 @@
 ﻿using System.Xml.Serialization;
 
-namespace ComfortIsland.Xml
+namespace ComfortIsland.DataAccessLayer.Xml
 {
 	[XmlType]
-	public class Position
+	public class Balance
 	{
 		#region Properties
 
 		[XmlAttribute]
-		public long ID
+		public long Product
 		{ get; set; }
 
 		[XmlAttribute]
@@ -19,13 +19,13 @@ namespace ComfortIsland.Xml
 
 		#region Constructors
 
-		public Position()
+		public Balance()
 		{ }
 
-		public Position(BusinessLogic.Position position)
+		public Balance(long product, decimal count)
 		{
-			ID = position.ID;
-			Count = position.Count;
+			Product = product;
+			Count = count;
 		}
 
 		#endregion
@@ -34,7 +34,7 @@ namespace ComfortIsland.Xml
 		{
 			return new BusinessLogic.Position
 			{
-				ID = ID,
+				ID = Product,
 				Count = Count,
 			};
 		}

@@ -68,6 +68,7 @@
     <Compile Include="Controls\ReportControl.xaml.cs">
       <DependentUpon>ReportControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DataAccessLayer\IDatabaseDriver.cs" />
     <Compile Include="Helpers\DateHelper.cs" />
     <Compile Include="Helpers\DictionaryComparer.cs" />
     <Compile Include="Helpers\Period.cs" />
@@ -78,15 +79,15 @@
     <Compile Include="ViewModels\Document.cs" />
     <Compile Include="ViewModels\Product.cs" />
     <Compile Include="ViewModels\Unit.cs" />
-    <Compile Include="Xml\Balance.cs" />
-    <Compile Include="Xml\Database.cs" />
-    <Compile Include="Xml\DatabaseDriver.cs" />
-    <Compile Include="Xml\Document.cs" />
-    <Compile Include="Xml\DocumentState.cs" />
-    <Compile Include="Xml\DocumentType.cs" />
-    <Compile Include="Xml\Position.cs" />
-    <Compile Include="Xml\Product.cs" />
-    <Compile Include="Xml\Unit.cs" />
+    <Compile Include="DataAccessLayer\Xml\Balance.cs" />
+    <Compile Include="DataAccessLayer\Xml\Database.cs" />
+    <Compile Include="DataAccessLayer\Xml\DatabaseDriver.cs" />
+    <Compile Include="DataAccessLayer\Xml\Document.cs" />
+    <Compile Include="DataAccessLayer\Xml\DocumentState.cs" />
+    <Compile Include="DataAccessLayer\Xml\DocumentType.cs" />
+    <Compile Include="DataAccessLayer\Xml\Position.cs" />
+    <Compile Include="DataAccessLayer\Xml\Product.cs" />
+    <Compile Include="DataAccessLayer\Xml\Unit.cs" />
     <Compile Include="BusinessLogic\DocumentState.cs" />
     <Compile Include="Helpers\AutoCompleteHelper.cs" />
     <Compile Include="Helpers\DateConverter.cs" />

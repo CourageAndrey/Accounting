@@ -1,4 +1,4 @@
-﻿namespace ComfortIsland.Xml
+﻿namespace ComfortIsland.DataAccessLayer.Xml
 {
 	public enum DocumentType
 	{

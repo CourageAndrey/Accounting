@@ -10,14 +10,14 @@ namespace ComfortIsland.UnitTests.BusinessLogic
 		[Test]
 		public void DocumentType()
 		{
-			var values = Enum.GetValues(typeof(ComfortIsland.Xml.DocumentType)).OfType<ComfortIsland.Xml.DocumentType>().ToList();
+			var values = Enum.GetValues(typeof(ComfortIsland.DataAccessLayer.Xml.DocumentType)).OfType<ComfortIsland.DataAccessLayer.Xml.DocumentType>().ToList();
 			Assert.IsTrue(values.SequenceEqual(ComfortIsland.BusinessLogic.DocumentType.AllTypes.Keys));
 		}
 
 		[Test]
 		public void DocumentState()
 		{
-			var values = Enum.GetValues(typeof(ComfortIsland.Xml.DocumentState)).OfType<ComfortIsland.Xml.DocumentState>().ToList();
+			var values = Enum.GetValues(typeof(ComfortIsland.DataAccessLayer.Xml.DocumentState)).OfType<ComfortIsland.DataAccessLayer.Xml.DocumentState>().ToList();
 			Assert.IsTrue(values.SequenceEqual(ComfortIsland.BusinessLogic.DocumentState.AllStates.Keys));
 		}
 	}

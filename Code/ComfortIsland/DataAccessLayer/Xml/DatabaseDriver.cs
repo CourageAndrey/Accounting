@@ -2,14 +2,14 @@
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace ComfortIsland.Xml
+namespace ComfortIsland.DataAccessLayer.Xml
 {
 	public class DatabaseDriver : IDatabaseDriver
 	{
 		private readonly string _filePath;
 		private readonly XmlSerializer _xmlSerializer = new XmlSerializer(typeof(Database));
 
-		public DatabaseDriver(string filePath)
+		internal DatabaseDriver(string filePath)
 		{
 			_filePath = filePath;
 		}

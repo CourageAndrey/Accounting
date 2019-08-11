@@ -9,7 +9,7 @@ namespace ComfortIsland.BusinessLogic
 
 		#region Properties
 
-		public Xml.DocumentType Enum
+		public DataAccessLayer.Xml.DocumentType Enum
 		{ get; }
 
 		public string Name
@@ -19,7 +19,7 @@ namespace ComfortIsland.BusinessLogic
 
 		#endregion
 
-		private DocumentType(Xml.DocumentType enumValue, string name, GetBalanceDeltaDelegate getBalanceDelta)
+		private DocumentType(DataAccessLayer.Xml.DocumentType enumValue, string name, GetBalanceDeltaDelegate getBalanceDelta)
 		{
 			Enum = enumValue;
 			Name = name;
@@ -33,12 +33,12 @@ namespace ComfortIsland.BusinessLogic
 
 		#region List
 
-		public static readonly DocumentType Income = new DocumentType(Xml.DocumentType.Income, "приход", getBalanceDeltaIncome);
-		public static readonly DocumentType Outcome = new DocumentType(Xml.DocumentType.Outcome, "продажа", getBalanceDeltaOutcome);
-		public static readonly DocumentType Produce = new DocumentType(Xml.DocumentType.Produce, "производство", getBalanceDeltaProduce);
-		public static readonly DocumentType ToWarehouse = new DocumentType(Xml.DocumentType.ToWarehouse, "перемещение на склад", getBalanceDeltaOutcome);
+		public static readonly DocumentType Income = new DocumentType(DataAccessLayer.Xml.DocumentType.Income, "приход", getBalanceDeltaIncome);
+		public static readonly DocumentType Outcome = new DocumentType(DataAccessLayer.Xml.DocumentType.Outcome, "продажа", getBalanceDeltaOutcome);
+		public static readonly DocumentType Produce = new DocumentType(DataAccessLayer.Xml.DocumentType.Produce, "производство", getBalanceDeltaProduce);
+		public static readonly DocumentType ToWarehouse = new DocumentType(DataAccessLayer.Xml.DocumentType.ToWarehouse, "перемещение на склад", getBalanceDeltaOutcome);
 
-		public static readonly IDictionary<Xml.DocumentType, DocumentType> AllTypes = new[] { Income, Outcome, Produce, ToWarehouse }.ToDictionary(
+		public static readonly IDictionary<DataAccessLayer.Xml.DocumentType, DocumentType> AllTypes = new[] { Income, Outcome, Produce, ToWarehouse }.ToDictionary(
 			type => type.Enum,
 			type => type);
 

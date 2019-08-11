@@ -8,7 +8,7 @@ using NUnit.Framework;
 using ComfortIsland.BusinessLogic;
 using ComfortIsland.Helpers;
 
-namespace ComfortIsland.UnitTests.Xml
+namespace ComfortIsland.UnitTests.DataAccessLayer.Xml
 {
 	public class SerializationTest
 	{
@@ -98,7 +98,7 @@ namespace ComfortIsland.UnitTests.Xml
 
 			// act
 			string fileName = Path.ChangeExtension(Path.GetTempFileName(), "xml");
-			var xmlDriver = new ComfortIsland.Xml.DatabaseDriver(fileName);
+			var xmlDriver = new ComfortIsland.DataAccessLayer.Xml.DatabaseDriver(fileName);
 			Database deserialized = null;
 			try
 			{

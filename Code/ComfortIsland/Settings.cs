@@ -12,7 +12,7 @@ namespace ComfortIsland
 		public BalanceValidationStrategy BalanceValidationStrategy
 		{ get; }
 
-		public IDatabaseDriver DatabaseDriver
+		public DataAccessLayer.IDatabaseDriver DatabaseDriver
 		{ get; }
 
 		#endregion
@@ -21,7 +21,7 @@ namespace ComfortIsland
 		{
 			FontSize = 16;
 			BalanceValidationStrategy = BalanceValidationStrategy.FinalOnly;
-			DatabaseDriver = new Xml.DatabaseDriver(databaseFileName);
+			DatabaseDriver = new DataAccessLayer.Xml.DatabaseDriver(databaseFileName);
 		}
 	}
 }

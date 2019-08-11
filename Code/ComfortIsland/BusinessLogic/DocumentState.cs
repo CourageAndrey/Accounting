@@ -7,7 +7,7 @@ namespace ComfortIsland.BusinessLogic
 	{
 		#region Properties
 
-		public Xml.DocumentState Enum
+		public DataAccessLayer.Xml.DocumentState Enum
 		{ get; }
 
 		public string Name
@@ -15,7 +15,7 @@ namespace ComfortIsland.BusinessLogic
 
 		#endregion
 
-		private DocumentState(Xml.DocumentState enumValue, string name)
+		private DocumentState(DataAccessLayer.Xml.DocumentState enumValue, string name)
 		{
 			Enum = enumValue;
 			Name = name;
@@ -28,11 +28,11 @@ namespace ComfortIsland.BusinessLogic
 
 		#region List
 
-		public static readonly DocumentState Active = new DocumentState(Xml.DocumentState.Active, "действует");
-		public static readonly DocumentState Edited = new DocumentState(Xml.DocumentState.Edited, "был изменён");
-		public static readonly DocumentState Deleted = new DocumentState(Xml.DocumentState.Deleted, "был удалён");
+		public static readonly DocumentState Active = new DocumentState(DataAccessLayer.Xml.DocumentState.Active, "действует");
+		public static readonly DocumentState Edited = new DocumentState(DataAccessLayer.Xml.DocumentState.Edited, "был изменён");
+		public static readonly DocumentState Deleted = new DocumentState(DataAccessLayer.Xml.DocumentState.Deleted, "был удалён");
 
-		public static readonly IDictionary<Xml.DocumentState, DocumentState> AllStates = new[] { Active, Edited, Deleted }.ToDictionary(
+		public static readonly IDictionary<DataAccessLayer.Xml.DocumentState, DocumentState> AllStates = new[] { Active, Edited, Deleted }.ToDictionary(
 			state => state.Enum,
 			state => state);
 

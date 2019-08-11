@@ -67,10 +67,10 @@ namespace ComfortIsland.Reports
 		}
 
 		private delegate void UpdateTradeItem(IDictionary<long, TradeItem> items, IDictionary<Product, decimal> positions);
-		private static readonly IDictionary<Xml.DocumentType, UpdateTradeItem> DocumentTypes = new Dictionary<Xml.DocumentType, UpdateTradeItem>
+		private static readonly IDictionary<DataAccessLayer.Xml.DocumentType, UpdateTradeItem> DocumentTypes = new Dictionary<DataAccessLayer.Xml.DocumentType, UpdateTradeItem>
 		{
 			{
-				Xml.DocumentType.Income, (items, positions) =>
+				DataAccessLayer.Xml.DocumentType.Income, (items, positions) =>
 				{
 					foreach (var position in positions)
 					{
@@ -79,7 +79,7 @@ namespace ComfortIsland.Reports
 				}
 			},
 			{
-				Xml.DocumentType.Outcome, (items, positions) =>
+				DataAccessLayer.Xml.DocumentType.Outcome, (items, positions) =>
 				{
 					foreach (var position in positions)
 					{
@@ -88,7 +88,7 @@ namespace ComfortIsland.Reports
 				}
 			},
 			{
-				Xml.DocumentType.Produce, (items, positions) =>
+				DataAccessLayer.Xml.DocumentType.Produce, (items, positions) =>
 				{
 					foreach (var position in positions)
 					{
@@ -102,7 +102,7 @@ namespace ComfortIsland.Reports
 				}
 			},
 			{
-				Xml.DocumentType.ToWarehouse, (items, positions) =>
+				DataAccessLayer.Xml.DocumentType.ToWarehouse, (items, positions) =>
 				{
 					foreach (var position in positions)
 					{

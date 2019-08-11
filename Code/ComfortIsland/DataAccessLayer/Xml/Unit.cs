@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace ComfortIsland.Xml
+namespace ComfortIsland.DataAccessLayer.Xml
 {
 	[XmlType]
 	public class Unit
