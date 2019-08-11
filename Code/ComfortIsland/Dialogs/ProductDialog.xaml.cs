@@ -19,7 +19,7 @@ namespace ComfortIsland.Dialogs
 		public void ConnectTo(IApplication application)
 		{
 			_application = application;
-			FontSize = application.Settings.FontSize;
+			FontSize = application.Settings.UserInterface.FontSize;
 			comboBoxUnit.ItemsSource = application.Database.Units;
 			comboBoxProducts.ItemsSource = application.Database.Products;
 		}

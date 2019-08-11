@@ -3,6 +3,8 @@ using System.IO;
 using System.Text;
 using System.Windows;
 
+using ComfortIsland.Configuration;
+
 namespace ComfortIsland
 {
 	internal class AccountingApplication : Application, IApplication
@@ -26,8 +28,8 @@ namespace ComfortIsland
 			setupExceptionHandling(appDomain);
 
 			StartupPath = AppDomain.CurrentDomain.BaseDirectory;
-			Settings = new Settings(Path.Combine(StartupPath, "Database.xml"));
-			Database = Settings.DatabaseDriver.TryLoad();
+			Settings = new Settings(Configuration.Xml.Settings.Load(StartupPath));
+			Database = Settings.DataAccessLayer.DatabaseDriver.TryLoad();
 
 			var mainWindow = new MainWindow();
 			mainWindow.ConnectTo(this);

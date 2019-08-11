@@ -44,7 +44,7 @@ namespace ComfortIsland
 	{
 		string StartupPath { get; }
 
-		Settings Settings { get; }
+		Configuration.Settings Settings { get; }
 
 		Database Database { get; }
 	}

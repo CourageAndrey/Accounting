@@ -65,10 +65,18 @@
     <Compile Include="BusinessLogic\BalanceValidationStrategy.cs" />
     <Compile Include="BusinessLogic\ProductBalance.cs" />
     <Compile Include="BusinessLogic\Warehouse.cs" />
+    <Compile Include="Configuration\BusinessLogicSettings.cs" />
+    <Compile Include="Configuration\DataAccessLayerSettings.cs" />
+    <Compile Include="Configuration\Xml\DatabaseDriver.cs" />
+    <Compile Include="Configuration\Xml\BusinessLogicSettings.cs" />
+    <Compile Include="Configuration\Xml\DataAccessLayerSettings.cs" />
+    <Compile Include="Configuration\Xml\DatabaseDrivers\XmlDatabaseDriver.cs" />
+    <Compile Include="Configuration\UserInterfaceSettings.cs" />
+    <Compile Include="Configuration\Xml\Settings.cs" />
+    <Compile Include="Configuration\Xml\UserInterfaceSettings.cs" />
     <Compile Include="Controls\ReportControl.xaml.cs">
       <DependentUpon>ReportControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DataAccessLayer\DatabaseDriverFactory.cs" />
     <Compile Include="DataAccessLayer\IDatabaseDriver.cs" />
     <Compile Include="Helpers\DateHelper.cs" />
     <Compile Include="Helpers\DictionaryComparer.cs" />
@@ -108,7 +116,7 @@
     <Compile Include="Reports\ExcelHelper.cs" />
     <Compile Include="Reports\ReportDescriptor.cs" />
     <Compile Include="Reports\TradeReport.cs" />
-    <Compile Include="Settings.cs" />
+    <Compile Include="Configuration\Settings.cs" />
     <Page Include="Controls\ReportControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -188,7 +196,9 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

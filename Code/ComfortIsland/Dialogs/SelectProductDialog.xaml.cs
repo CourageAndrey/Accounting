@@ -17,7 +17,7 @@ namespace ComfortIsland.Dialogs
 		public void ConnectTo(IApplication application)
 		{
 			_application = application;
-			FontSize = application.Settings.FontSize;
+			FontSize = application.Settings.UserInterface.FontSize;
 			productsList.ItemsSource = _application.Database.Products;
 		}
 

@@ -20,7 +20,7 @@ namespace ComfortIsland.Dialogs
 		public void ConnectTo(IApplication application)
 		{
 			_application = application;
-			FontSize = application.Settings.FontSize;
+			FontSize = application.Settings.UserInterface.FontSize;
 			comboBoxProducts.ItemsSource = ProductsGetter != null
 				 ? ProductsGetter(application.Database)
 				 : application.Database.Products;
@@ -59,8 +59,8 @@ namespace ComfortIsland.Dialogs
 					var documentStub = new Document(EditValue.ID, EditValue.Type, DocumentState.Active);
 					EditValue.ApplyChanges(documentStub, _application.Database.Products);
 					isValid &= (!EditValue.ID.HasValue || _application.Database.Documents[EditValue.ID.Value].State != DocumentState.Active)
-						? _application.Settings.BalanceValidationStrategy.VerifyCreate(_application.Database, documentStub, errors)
-						: _application.Settings.BalanceValidationStrategy.VerifyEdit(_application.Database, documentStub, errors);
+						? _application.Settings.BusinessLogic.BalanceValidationStrategy.VerifyCreate(_application.Database, documentStub, errors)
+						: _application.Settings.BusinessLogic.BalanceValidationStrategy.VerifyEdit(_application.Database, documentStub, errors);
 				}
 				if (isValid)
 				{
