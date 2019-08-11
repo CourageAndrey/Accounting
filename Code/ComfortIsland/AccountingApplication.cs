@@ -9,20 +9,29 @@ namespace ComfortIsland
 	{
 		public AccountingApplication()
 		{
+			var appDomain = AppDomain.CurrentDomain;
+			setupExceptionHandling(appDomain);
+
+			MainWindow = new MainWindow();
+			ShutdownMode = ShutdownMode.OnMainWindowClose;
+		}
+
+		#region Обработка ошибок
+
+		private void setupExceptionHandling(AppDomain appDomain)
+		{
 			DispatcherUnhandledException += (sender, exceptionArgs) =>
 			{
 				LogError("Application.DispatcherUnhandledException", exceptionArgs.Exception);
 			};
-			AppDomain.CurrentDomain.UnhandledException += (sender, exceptionArgs) =>
+
+			appDomain.UnhandledException += (sender, exceptionArgs) =>
 			{
 				var error = exceptionArgs.ExceptionObject as Exception;
 				LogError(
 					"AppDomain.CurrentDomain.UnhandledException",
 					error ?? new Exception("" + exceptionArgs.ExceptionObject));
 			};
-
-			MainWindow = new MainWindow();
-			ShutdownMode = ShutdownMode.OnMainWindowClose;
 		}
 
 		private static void LogError(string source, Exception error)
@@ -43,6 +52,8 @@ namespace ComfortIsland
 
 			File.AppendAllText("Exception.txt", text.ToString());
 		}
+
+		#endregion
 
 		[STAThread]
 		static void Main()
