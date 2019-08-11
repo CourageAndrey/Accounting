@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
@@ -42,13 +43,14 @@ namespace ComfortIsland.BusinessLogic
 			editNoVerify,
 			deleteNoVerify);
 
-		public static readonly IReadOnlyCollection<BalanceValidationStrategy> All = new[]
-		{
-			PerDocument,
-			PerDay,
-			FinalOnly,
-			NoVerify,
-		};
+		internal static readonly IReadOnlyDictionary<string, BalanceValidationStrategy> All = new ReadOnlyDictionary<string, BalanceValidationStrategy>(
+			new Dictionary<string, BalanceValidationStrategy>
+			{
+				{ "PerDocument", PerDocument },
+				{ "PerDay", PerDay },
+				{ "FinalOnly", FinalOnly },
+				{ "NoVerify", NoVerify },
+			});
 
 		#endregion
 

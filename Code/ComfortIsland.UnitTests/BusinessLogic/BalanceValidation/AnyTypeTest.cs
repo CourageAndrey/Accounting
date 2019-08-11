@@ -103,7 +103,7 @@ namespace ComfortIsland.UnitTests.BusinessLogic.BalanceValidation
 			var errors = new StringBuilder();
 
 			// act and assert
-			foreach (var validationStrategy in BalanceValidationStrategy.All)
+			foreach (var validationStrategy in BalanceValidationStrategy.All.Values)
 			{
 				foreach (var document in database.Documents.Where(doc => doc.Type == DocumentType.Outcome))
 				{
@@ -121,7 +121,7 @@ namespace ComfortIsland.UnitTests.BusinessLogic.BalanceValidation
 			Document original = null, edited;
 
 			// act and assert
-			foreach (var validationStrategy in BalanceValidationStrategy.All)
+			foreach (var validationStrategy in BalanceValidationStrategy.All.Values)
 			{
 				foreach (var checkMethod in BalanceCheckWorkflowHelper.EditCheckers)
 				{
@@ -159,7 +159,7 @@ namespace ComfortIsland.UnitTests.BusinessLogic.BalanceValidation
 			Document document;
 
 			// act and assert
-			foreach (var validationStrategy in BalanceValidationStrategy.All)
+			foreach (var validationStrategy in BalanceValidationStrategy.All.Values)
 			{
 				foreach (var checkMethod in BalanceCheckWorkflowHelper.AddCheckers)
 				{
@@ -178,7 +178,7 @@ namespace ComfortIsland.UnitTests.BusinessLogic.BalanceValidation
 			Document edited;
 
 			// act and assert
-			foreach (var validationStrategy in BalanceValidationStrategy.All)
+			foreach (var validationStrategy in BalanceValidationStrategy.All.Values)
 			{
 				bool result = BalanceCheckWorkflowHelper.TryToEditFirst(
 					database,
@@ -207,7 +207,7 @@ namespace ComfortIsland.UnitTests.BusinessLogic.BalanceValidation
 			Document edited;
 
 			// act and assert
-			foreach (var validationStrategy in BalanceValidationStrategy.All)
+			foreach (var validationStrategy in BalanceValidationStrategy.All.Values)
 			{
 				bool result = BalanceCheckWorkflowHelper.TryToEditSecond(
 					database,
