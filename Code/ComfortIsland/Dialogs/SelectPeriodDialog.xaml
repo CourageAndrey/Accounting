@@ -1,9 +1,7 @@
 ﻿<Window x:Class="ComfortIsland.Dialogs.SelectPeriodDialog"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:comfortIsland="clr-namespace:ComfortIsland"
-		Title="Выбор периода" SizeToContent="WidthAndHeight"
-		FontSize="{x:Static comfortIsland:Settings.FontSize}">
+		Title="Выбор периода" SizeToContent="WidthAndHeight">
 	<DockPanel LastChildFill="True">
 		<StackPanel DockPanel.Dock="Bottom" Margin="2" Orientation="Horizontal">
 			<Button Padding="5,2,5,2" Margin="2" Content="OK" Click="okClick"/>

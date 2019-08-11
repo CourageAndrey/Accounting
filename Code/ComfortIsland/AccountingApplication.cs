@@ -5,14 +5,25 @@ using System.Windows;
 
 namespace ComfortIsland
 {
-	internal class AccountingApplication : Application
+	internal class AccountingApplication : Application, IApplication
 	{
+		#region Свойства
+
+		public Settings Settings
+		{ get; }
+
+		#endregion
+
 		public AccountingApplication()
 		{
 			var appDomain = AppDomain.CurrentDomain;
 			setupExceptionHandling(appDomain);
 
-			MainWindow = new MainWindow();
+			Settings = new Settings();
+
+			var mainWindow = new MainWindow();
+			mainWindow.ConnectTo(this);
+			MainWindow = mainWindow;
 			ShutdownMode = ShutdownMode.OnMainWindowClose;
 		}
 

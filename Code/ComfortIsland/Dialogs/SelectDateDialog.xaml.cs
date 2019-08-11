@@ -5,12 +5,20 @@ using ComfortIsland.BusinessLogic;
 
 namespace ComfortIsland.Dialogs
 {
-	public partial class SelectDateDialog : IEditDialog<DateTime>
+	public partial class SelectDateDialog : IEditDialog<DateTime>, IApplicationClient
 	{
 		public SelectDateDialog()
 		{
 			InitializeComponent();
 		}
+
+		public void ConnectTo(IApplication application)
+		{
+			_application = application;
+			FontSize = application.Settings.FontSize;
+		}
+
+		private IApplication _application;
 
 		public DateTime EditValue
 		{

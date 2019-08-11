@@ -5,16 +5,16 @@ using ComfortIsland.BusinessLogic;
 
 namespace ComfortIsland
 {
-	public static class Settings
+	public class Settings
 	{
-		public static double FontSize
+		public double FontSize
 		{ get { return 16; } }
 
-		public static BalanceValidationStrategy BalanceValidationStrategy
+		public BalanceValidationStrategy BalanceValidationStrategy
 		{ get { return BalanceValidationStrategy.FinalOnly; } }
 
-		public static IDatabaseDriver DatabaseDriver
+		public IDatabaseDriver DatabaseDriver
 		{ get { return _databaseDriver; } }
-		private static readonly IDatabaseDriver _databaseDriver = new Xml.DatabaseDriver(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Database.xml"));
+		private readonly IDatabaseDriver _databaseDriver = new Xml.DatabaseDriver(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Database.xml"));
 	}
 }

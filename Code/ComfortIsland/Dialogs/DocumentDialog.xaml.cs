@@ -10,12 +10,20 @@ using ComfortIsland.Helpers;
 
 namespace ComfortIsland.Dialogs
 {
-	public partial class DocumentDialog : IEditDialog<ViewModels.Document>
+	public partial class DocumentDialog : IEditDialog<ViewModels.Document>, IApplicationClient
 	{
 		public DocumentDialog()
 		{
 			InitializeComponent();
 		}
+
+		public void ConnectTo(IApplication application)
+		{
+			_application = application;
+			FontSize = application.Settings.FontSize;
+		}
+
+		private IApplication _application;
 
 		public ViewModels.Document EditValue
 		{
@@ -58,8 +66,8 @@ namespace ComfortIsland.Dialogs
 					var documentStub = new Document(EditValue.ID, EditValue.Type, DocumentState.Active);
 					EditValue.ApplyChanges(documentStub, _database.Products);
 					isValid &= (!EditValue.ID.HasValue || _database.Documents[EditValue.ID.Value].State != DocumentState.Active)
-						? Settings.BalanceValidationStrategy.VerifyCreate(_database, documentStub, errors)
-						: Settings.BalanceValidationStrategy.VerifyEdit(_database, documentStub, errors);
+						? _application.Settings.BalanceValidationStrategy.VerifyCreate(_database, documentStub, errors)
+						: _application.Settings.BalanceValidationStrategy.VerifyEdit(_database, documentStub, errors);
 				}
 				if (isValid)
 				{

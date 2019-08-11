@@ -1,9 +1,7 @@
 ﻿<Window x:Class="ComfortIsland.Dialogs.ProductDialog"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:comfortIsland="clr-namespace:ComfortIsland"
-		Title="Товар" SizeToContent="WidthAndHeight"
-		FontSize="{x:Static comfortIsland:Settings.FontSize}">
+		Title="Товар" SizeToContent="WidthAndHeight">
 	<Window.Resources>
 		<Style x:Key="errorStyle" TargetType="{x:Type Control}">
 			<Style.Triggers>

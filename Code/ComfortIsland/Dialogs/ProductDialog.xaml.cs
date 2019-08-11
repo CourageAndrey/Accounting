@@ -9,12 +9,20 @@ using ComfortIsland.Helpers;
 
 namespace ComfortIsland.Dialogs
 {
-	public partial class ProductDialog : IEditDialog<ViewModels.Product>
+	public partial class ProductDialog : IEditDialog<ViewModels.Product>, IApplicationClient
 	{
 		public ProductDialog()
 		{
 			InitializeComponent();
 		}
+
+		public void ConnectTo(IApplication application)
+		{
+			_application = application;
+			FontSize = application.Settings.FontSize;
+		}
+
+		private IApplication _application;
 
 		public ViewModels.Product EditValue
 		{

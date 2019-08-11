@@ -4,12 +4,20 @@ using ComfortIsland.BusinessLogic;
 
 namespace ComfortIsland.Dialogs
 {
-	public partial class UnitDialog : IEditDialog<ViewModels.Unit>
+	public partial class UnitDialog : IEditDialog<ViewModels.Unit>, IApplicationClient
 	{
 		public UnitDialog()
 		{
 			InitializeComponent();
 		}
+
+		public void ConnectTo(IApplication application)
+		{
+			_application = application;
+			FontSize = application.Settings.FontSize;
+		}
+
+		private IApplication _application;
 
 		public ViewModels.Unit EditValue
 		{

@@ -48,4 +48,14 @@ namespace ComfortIsland
 
 		Database TryLoad();
 	}
+
+	public interface IApplication
+	{
+		Settings Settings { get; }
+	}
+
+	public interface IApplicationClient
+	{
+		void ConnectTo(IApplication application);
+	}
 }

@@ -7,12 +7,20 @@ using ComfortIsland.Helpers;
 
 namespace ComfortIsland.Dialogs
 {
-	public partial class SelectProductDialog : IEditDialog<Product>
+	public partial class SelectProductDialog : IEditDialog<Product>, IApplicationClient
 	{
 		public SelectProductDialog()
 		{
 			InitializeComponent();
 		}
+
+		public void ConnectTo(IApplication application)
+		{
+			_application = application;
+			FontSize = application.Settings.FontSize;
+		}
+
+		private IApplication _application;
 
 		public Product EditValue
 		{

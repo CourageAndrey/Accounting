@@ -3,13 +3,11 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:businessLogic="clr-namespace:ComfortIsland.BusinessLogic"
 		xmlns:viewModels="clr-namespace:ComfortIsland.ViewModels"
-		xmlns:comfortIsland="clr-namespace:ComfortIsland"
 		xmlns:helpers="clr-namespace:ComfortIsland.Helpers"
 		xmlns:controls="clr-namespace:ComfortIsland.Controls"
 		xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
 		Title="Остров комфорта - Учёт" Width="1100" Height="750"
-		Loaded="formLoaded" Icon="Icon.ico"
-		FontSize="{x:Static comfortIsland:Settings.FontSize}">
+		Loaded="formLoaded" Icon="Icon.ico">
 	<Window.Resources>
 		<viewModels:PositionType x:Key="kvpPositionType" />
 		<HierarchicalDataTemplate DataType="{x:Type businessLogic:Product}">

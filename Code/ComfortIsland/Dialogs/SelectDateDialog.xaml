@@ -1,9 +1,7 @@
 ﻿<Window x:Class="ComfortIsland.Dialogs.SelectDateDialog"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:comfortIsland="clr-namespace:ComfortIsland"
-		Title="Выбор даты" SizeToContent="WidthAndHeight"
-		FontSize="{x:Static comfortIsland:Settings.FontSize}">
+		Title="Выбор даты" SizeToContent="WidthAndHeight">
 	<DockPanel LastChildFill="True">
 		<DatePicker DockPanel.Dock="Top" Name="datePicker" Margin="10" />
 		<CheckBox DockPanel.Dock="Top" IsChecked="True" Name="checkBox" Margin="10,5,10,5">Отображать товары, которых нет в остатках</CheckBox>

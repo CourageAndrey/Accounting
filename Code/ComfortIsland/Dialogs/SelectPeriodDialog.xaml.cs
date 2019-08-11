@@ -5,12 +5,20 @@ using ComfortIsland.Helpers;
 
 namespace ComfortIsland.Dialogs
 {
-	public partial class SelectPeriodDialog : IEditDialog<Period>
+	public partial class SelectPeriodDialog : IEditDialog<Period>, IApplicationClient
 	{
 		public SelectPeriodDialog()
 		{
 			InitializeComponent();
 		}
+
+		public void ConnectTo(IApplication application)
+		{
+			_application = application;
+			FontSize = application.Settings.FontSize;
+		}
+
+		private IApplication _application;
 
 		public Period EditValue
 		{

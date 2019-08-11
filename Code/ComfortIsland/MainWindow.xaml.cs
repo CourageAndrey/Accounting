@@ -16,7 +16,7 @@ using ComfortIsland.Reports;
 
 namespace ComfortIsland
 {
-	public partial class MainWindow
+	public partial class MainWindow : IApplicationClient
 	{
 		#region Инициализация
 
@@ -27,12 +27,19 @@ namespace ComfortIsland
 			_documentsViewSource = (CollectionViewSource) Resources["documentsCollectionViewSource"];
 		}
 
+		public void ConnectTo(IApplication application)
+		{
+			_application = application;
+			FontSize = application.Settings.FontSize;
+		}
+
+		private IApplication _application;
 		private Database _database;
 
 		private void formLoaded(object sender, RoutedEventArgs e)
 		{
 			// вычитка базы данных
-			_database = Settings.DatabaseDriver.TryLoad();
+			_database = _application.Settings.DatabaseDriver.TryLoad();
 
 			// подготовка таблиц к заполнению
 			unitsGrid.Tag = _database.Units;
@@ -96,6 +103,7 @@ namespace ComfortIsland
 		private void checkBalanceClick(object sender, RoutedEventArgs e)
 		{
 			var dialog = new SelectProductDialog();
+			dialog.ConnectTo(_application);
 			dialog.Initialize(_database);
 			if (dialog.ShowDialog() == true)
 			{
@@ -126,13 +134,13 @@ namespace ComfortIsland
 			}
 
 			var errors = new StringBuilder();
-			if (Settings.BalanceValidationStrategy.VerifyDelete(_database, documentsToDelete, errors))
+			if (_application.Settings.BalanceValidationStrategy.VerifyDelete(_database, documentsToDelete, errors))
 			{
 				foreach (var document in documentsToDelete)
 				{
 					document.MakeObsolete(_database.Balance, DocumentState.Deleted);
 				}
-				Settings.DatabaseDriver.Save(_database);
+				_application.Settings.DatabaseDriver.Save(_database);
 				refreshDocuments();
 				reportControl.Report = null;
 			}
@@ -151,6 +159,7 @@ namespace ComfortIsland
 			{
 				dialog.ProductsGetter = db => db.Products.Where(p => p.Children.Count > 0);
 			}
+			dialog.ConnectTo(_application);
 			dialog.Initialize(_database);
 			dialog.EditValue = viewModel;
 			if (dialog.ShowDialog() == true)
@@ -158,7 +167,7 @@ namespace ComfortIsland
 				try
 				{
 					instance = viewModel.ConvertToBusinessLogic(_database);
-					Settings.DatabaseDriver.Save(_database);
+					_application.Settings.DatabaseDriver.Save(_database);
 
 					refreshDocuments();
 					documentsGrid.SelectedItem = instance;
@@ -186,6 +195,7 @@ namespace ComfortIsland
 			{
 				dialog.ProductsGetter = db => db.Products.Where(p => p.Children.Count > 0);
 			}
+			dialog.ConnectTo(_application);
 			dialog.Initialize(_database);
 			dialog.EditValue = viewModel;
 			if (dialog.ShowDialog() == true)
@@ -193,7 +203,7 @@ namespace ComfortIsland
 				try
 				{
 					var instance = viewModel.ConvertToBusinessLogic(_database);
-					Settings.DatabaseDriver.Save(_database);
+					_application.Settings.DatabaseDriver.Save(_database);
 					refreshDocuments();
 					documentsGrid.SelectedItem = instance;
 				}
@@ -212,6 +222,7 @@ namespace ComfortIsland
 			{
 				var dialog = new DocumentDialog();
 				dialog.SetReadOnly();
+				dialog.ConnectTo(_application);
 				dialog.Initialize(_database);
 				dialog.EditValue = new ViewModels.Document(selectedItem);
 				dialog.ShowDialog();
@@ -305,6 +316,7 @@ namespace ComfortIsland
 		{
 			var viewModel = new ViewModels.Product();
 			var dialog = new ProductDialog();
+			dialog.ConnectTo(_application);
 			dialog.Initialize(_database);
 			dialog.EditValue = viewModel;
 			if (dialog.ShowDialog() == true)
@@ -312,7 +324,7 @@ namespace ComfortIsland
 				try
 				{
 					var instance = viewModel.ConvertToBusinessLogic(_database);
-					Settings.DatabaseDriver.Save(_database);
+					_application.Settings.DatabaseDriver.Save(_database);
 					refreshGrid(productsGrid, instance);
 				}
 				catch (Exception error)
@@ -342,6 +354,7 @@ namespace ComfortIsland
 
 				var viewModel = new ViewModels.Product(instance);
 				var dialog = new ProductDialog();
+				dialog.ConnectTo(_application);
 				dialog.Initialize(_database);
 				dialog.EditValue = viewModel;
 				if (dialog.ShowDialog() == true)
@@ -349,7 +362,7 @@ namespace ComfortIsland
 					try
 					{
 						instance = viewModel.ConvertToBusinessLogic(_database);
-						Settings.DatabaseDriver.Save(_database);
+						_application.Settings.DatabaseDriver.Save(_database);
 						refreshGrid(productsGrid, instance);
 						reloadComplexProducts();
 					}
@@ -383,7 +396,7 @@ namespace ComfortIsland
 			{
 				_database.Products.Remove(item.ID);
 			}
-			Settings.DatabaseDriver.Save(_database);
+			_application.Settings.DatabaseDriver.Save(_database);
 			refreshGrid(productsGrid);
 			reloadComplexProducts();
 		}
@@ -401,6 +414,7 @@ namespace ComfortIsland
 		{
 			var viewModel = new ViewModels.Unit();
 			var dialog = new UnitDialog();
+			dialog.ConnectTo(_application);
 			dialog.Initialize(_database);
 			dialog.EditValue = viewModel;
 			if (dialog.ShowDialog() == true)
@@ -408,7 +422,7 @@ namespace ComfortIsland
 				try
 				{
 					var instance = viewModel.ConvertToBusinessLogic(_database);
-					Settings.DatabaseDriver.Save(_database);
+					_application.Settings.DatabaseDriver.Save(_database);
 					refreshGrid(unitsGrid, instance);
 				}
 				catch (Exception error)
@@ -437,6 +451,7 @@ namespace ComfortIsland
 
 				var viewModel = new ViewModels.Unit(instance);
 				var dialog = new UnitDialog();
+				dialog.ConnectTo(_application);
 				dialog.Initialize(_database);
 				dialog.EditValue = viewModel;
 				if (dialog.ShowDialog() == true)
@@ -444,7 +459,7 @@ namespace ComfortIsland
 					try
 					{
 						instance = viewModel.ConvertToBusinessLogic(_database);
-						Settings.DatabaseDriver.Save(_database);
+						_application.Settings.DatabaseDriver.Save(_database);
 						refreshGrid(unitsGrid, instance);
 					}
 					catch (Exception error)
@@ -477,7 +492,7 @@ namespace ComfortIsland
 			{
 				_database.Units.Remove(item.ID);
 			}
-			Settings.DatabaseDriver.Save(_database);
+			_application.Settings.DatabaseDriver.Save(_database);
 			refreshGrid(unitsGrid);
 		}
 
@@ -515,7 +530,7 @@ namespace ComfortIsland
 			if (reportDescriptor != null)
 			{
 				IReport report;
-				if (reportDescriptor.CreateReport(_database, out report))
+				if (reportDescriptor.CreateReport(_application, _database, out report))
 				{
 					reportControl.Report = report;
 				}
