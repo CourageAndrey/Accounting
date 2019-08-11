@@ -1,12 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Windows;
 
 namespace ComfortIsland
 {
-	public partial class App
+	internal class AccountingApplication : Application
 	{
-		public App()
+		public AccountingApplication()
 		{
 			DispatcherUnhandledException += (sender, exceptionArgs) =>
 			{
@@ -19,6 +20,9 @@ namespace ComfortIsland
 					"AppDomain.CurrentDomain.UnhandledException",
 					error ?? new Exception("" + exceptionArgs.ExceptionObject));
 			};
+
+			MainWindow = new MainWindow();
+			ShutdownMode = ShutdownMode.OnMainWindowClose;
 		}
 
 		private static void LogError(string source, Exception error)
@@ -38,6 +42,14 @@ namespace ComfortIsland
 			} while (error != null);
 
 			File.AppendAllText("Exception.txt", text.ToString());
+		}
+
+		[STAThread]
+		static void Main()
+		{
+			var application = new AccountingApplication();
+			application.MainWindow.Show();
+			application.Run();
 		}
 	}
 }

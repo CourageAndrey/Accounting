@@ -60,10 +60,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
+    <Compile Include="AccountingApplication.cs" />
     <Compile Include="BusinessLogic\DatabaseExtension.cs" />
     <Compile Include="BusinessLogic\BalanceValidationStrategy.cs" />
     <Compile Include="BusinessLogic\ProductBalance.cs" />
@@ -142,10 +139,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="BusinessLogic\Database.cs" />
     <Compile Include="BusinessLogic\Document.cs" />
     <Compile Include="BusinessLogic\DocumentType.cs" />

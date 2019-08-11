@@ -10,7 +10,7 @@ namespace ComfortIsland.UiTests
 		public void ApplicationLaunchIsSuccessfull()
 		{
 			// arrange
-			var application = UI.Run(() => new App { MainWindow = new MainWindow() });
+			var application = UI.Run(() => new AccountingApplication());
 			var mainWindow = application.Get(x => x.MainWindow);
 
 			// act
