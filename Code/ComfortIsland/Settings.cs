@@ -1,20 +1,27 @@
-﻿using System;
-using System.IO;
-
-using ComfortIsland.BusinessLogic;
+﻿using ComfortIsland.BusinessLogic;
 
 namespace ComfortIsland
 {
 	public class Settings
 	{
+		#region Свойства
+
 		public double FontSize
-		{ get { return 16; } }
+		{ get; }
 
 		public BalanceValidationStrategy BalanceValidationStrategy
-		{ get { return BalanceValidationStrategy.FinalOnly; } }
+		{ get; }
 
 		public IDatabaseDriver DatabaseDriver
-		{ get { return _databaseDriver; } }
-		private readonly IDatabaseDriver _databaseDriver = new Xml.DatabaseDriver(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Database.xml"));
+		{ get; }
+
+		#endregion
+
+		public Settings(string databaseFileName)
+		{
+			FontSize = 16;
+			BalanceValidationStrategy = BalanceValidationStrategy.FinalOnly;
+			DatabaseDriver = new Xml.DatabaseDriver(databaseFileName);
+		}
 	}
 }

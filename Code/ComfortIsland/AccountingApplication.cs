@@ -9,6 +9,9 @@ namespace ComfortIsland
 	{
 		#region Свойства
 
+		public string StartupPath
+		{ get; }
+
 		public Settings Settings
 		{ get; }
 
@@ -19,7 +22,8 @@ namespace ComfortIsland
 			var appDomain = AppDomain.CurrentDomain;
 			setupExceptionHandling(appDomain);
 
-			Settings = new Settings();
+			StartupPath = AppDomain.CurrentDomain.BaseDirectory;
+			Settings = new Settings(Path.Combine(StartupPath, "Database.xml"));
 
 			var mainWindow = new MainWindow();
 			mainWindow.ConnectTo(this);

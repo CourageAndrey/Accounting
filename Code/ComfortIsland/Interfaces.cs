@@ -51,6 +51,8 @@ namespace ComfortIsland
 
 	public interface IApplication
 	{
+		string StartupPath { get; }
+
 		Settings Settings { get; }
 	}
 
