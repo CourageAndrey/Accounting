@@ -505,11 +505,8 @@ namespace ComfortIsland
 
 		private void updateButtonsAvailability(DataGrid grid, Button editButton, Button deleteButton)
 		{
-			int itemsCount = grid.SelectedItems != null
-				? grid.SelectedItems.Count
-				: (grid.SelectedItem != null ? 1 : 0);
-			editButton.IsEnabled = itemsCount == 1;
-			deleteButton.IsEnabled = itemsCount > 0;
+			editButton.IsEnabled = grid.SelectedItems.Count == 1;
+			deleteButton.IsEnabled = grid.SelectedItems.Count > 0;
 		}
 
 		private void newReportClick(object sender, MouseButtonEventArgs e)

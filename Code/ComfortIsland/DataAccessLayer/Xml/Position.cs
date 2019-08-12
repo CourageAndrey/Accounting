@@ -29,14 +29,5 @@ namespace ComfortIsland.DataAccessLayer.Xml
 		}
 
 		#endregion
-
-		public BusinessLogic.Position ConvertToBusinessLogic()
-		{
-			return new BusinessLogic.Position
-			{
-				ID = ID,
-				Count = Count,
-			};
-		}
 	}
 }

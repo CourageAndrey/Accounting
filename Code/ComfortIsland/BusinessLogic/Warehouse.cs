@@ -23,11 +23,6 @@ namespace ComfortIsland.BusinessLogic
 			_data[id] = this[id] - value;
 		}
 
-		public bool TryGetValue(long id, out decimal value)
-		{
-			return _data.TryGetValue(id, out value);
-		}
-
 		public decimal this[long id]
 		{
 			get

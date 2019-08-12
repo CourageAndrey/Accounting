@@ -52,10 +52,6 @@ namespace ComfortIsland.BusinessLogic
 			_storage = storage;
 		}
 
-		public Registry()
-			: this(new Dictionary<long, T>())
-		{ }
-
 		public Registry(IEnumerable<T> items)
 			: this(items.ToDictionary(item => item.ID, item => item))
 		{ }

@@ -31,12 +31,6 @@ namespace ComfortIsland.BusinessLogic
 			Count = count;
 		}
 
-		public Position(Position other)
-		{
-			ID = other.ID;
-			Count = other.Count;
-		}
-
 		#endregion
 
 		internal void SetProduct(Database database)

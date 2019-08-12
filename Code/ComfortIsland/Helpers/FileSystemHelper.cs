@@ -8,7 +8,7 @@ namespace ComfortIsland.Helpers
 		public static void ShellOpen(this string file)
 		{
 			ShellExecuteInfo lpExecInfo = new ShellExecuteInfo();
-			lpExecInfo.Size = Marshal.SizeOf((object)lpExecInfo);
+			lpExecInfo.Size = Marshal.SizeOf(lpExecInfo);
 			lpExecInfo.File = file;
 			lpExecInfo.Show = 1U;
 			if (ShellExecuteEx(ref lpExecInfo))
