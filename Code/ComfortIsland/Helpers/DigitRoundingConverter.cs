@@ -14,7 +14,7 @@ namespace ComfortIsland.Helpers
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			return double.Parse(value.ToString());
+			return decimal.Parse(value.ToString());
 		}
 
 		public static string Simplify(decimal value)
