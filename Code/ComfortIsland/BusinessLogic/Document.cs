@@ -124,10 +124,5 @@ namespace ComfortIsland.BusinessLogic
 		}
 
 		#endregion
-
-		public StringBuilder FindUsages(Database database)
-		{
-			return new StringBuilder();
-		}
 	}
 }

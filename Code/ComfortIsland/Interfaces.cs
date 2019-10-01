@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Text;
 
 using ComfortIsland.BusinessLogic;
 using ComfortIsland.Reports;
@@ -9,8 +8,6 @@ namespace ComfortIsland
 	public interface IEntity
 	{
 		long ID { get; set; }
-
-		StringBuilder FindUsages(Database database);
 	}
 
 	public interface IEditDialog<T> : IApplicationClient
