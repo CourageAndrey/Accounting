@@ -6,6 +6,7 @@ using System.Linq;
 using NUnit.Framework;
 
 using ComfortIsland.BusinessLogic;
+using ComfortIsland.DataAccessLayer;
 using ComfortIsland.Helpers;
 
 namespace ComfortIsland.UnitTests.DataAccessLayer.Xml

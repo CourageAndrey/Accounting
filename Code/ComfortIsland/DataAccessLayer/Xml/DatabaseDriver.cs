@@ -14,27 +14,15 @@ namespace ComfortIsland.DataAccessLayer.Xml
 			_filePath = filePath;
 		}
 
-		private BusinessLogic.Database load()
+		public bool CanLoad
+		{ get { return File.Exists(_filePath); } }
+
+		public BusinessLogic.Database Load()
 		{
 			using (var xmlReader = XmlReader.Create(_filePath))
 			{
 				return ((Database) _xmlSerializer.Deserialize(xmlReader)).ConvertToBusinessLogic();
 			}
-		}
-
-		public BusinessLogic.Database TryLoad()
-		{
-			BusinessLogic.Database database;
-			if (File.Exists(_filePath))
-			{
-				database = load();
-			}
-			else
-			{
-				database = BusinessLogic.Database.CreateDefault();
-				Save(database);
-			}
-			return database;
 		}
 
 		public void Save(BusinessLogic.Database database)

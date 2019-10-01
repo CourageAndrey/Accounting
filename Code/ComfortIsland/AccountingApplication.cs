@@ -4,6 +4,7 @@ using System.Text;
 using System.Windows;
 
 using ComfortIsland.Configuration;
+using ComfortIsland.DataAccessLayer;
 
 namespace ComfortIsland
 {
