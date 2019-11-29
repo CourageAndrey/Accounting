@@ -53,6 +53,7 @@
     <Compile Include="BusinessLogic\Unit.cs" />
     <Compile Include="BusinessLogic\UsagesExtensions.cs" />
     <Compile Include="BusinessLogic\Warehouse.cs" />
+    <Compile Include="DataAccessLayer\IDatabaseDriver.cs" />
     <Compile Include="Helpers\DateTimeRepresentation.cs" />
     <Compile Include="Helpers\DateHelper.cs" />
     <Compile Include="Helpers\DictionaryComparer.cs" />
