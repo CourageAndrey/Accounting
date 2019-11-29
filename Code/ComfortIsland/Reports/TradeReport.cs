@@ -54,7 +54,7 @@ namespace ComfortIsland.Reports
 			foreach (var document in activeDocuments.Where(d => d.Date <= ToDate && d.Date >= FromDate))
 			{
 				document.RollbackBalanceChanges(balance);
-				DocumentTypes[document.Type.Enum](items, document.Positions);
+				DocumentTypes[document.Type](items, document.Positions);
 			}
 
 			// сохраняем баланс на начало периода
@@ -67,10 +67,10 @@ namespace ComfortIsland.Reports
 		}
 
 		private delegate void UpdateTradeItem(IDictionary<long, TradeItem> items, IDictionary<Product, decimal> positions);
-		private static readonly IDictionary<DataAccessLayer.Xml.DocumentType, UpdateTradeItem> DocumentTypes = new Dictionary<DataAccessLayer.Xml.DocumentType, UpdateTradeItem>
+		private static readonly IDictionary<DocumentType, UpdateTradeItem> DocumentTypes = new Dictionary<DocumentType, UpdateTradeItem>
 		{
 			{
-				DataAccessLayer.Xml.DocumentType.Income, (items, positions) =>
+				DocumentType.Income, (items, positions) =>
 				{
 					foreach (var position in positions)
 					{
@@ -79,7 +79,7 @@ namespace ComfortIsland.Reports
 				}
 			},
 			{
-				DataAccessLayer.Xml.DocumentType.Outcome, (items, positions) =>
+				DocumentType.Outcome, (items, positions) =>
 				{
 					foreach (var position in positions)
 					{
@@ -88,7 +88,7 @@ namespace ComfortIsland.Reports
 				}
 			},
 			{
-				DataAccessLayer.Xml.DocumentType.Produce, (items, positions) =>
+				DocumentType.Produce, (items, positions) =>
 				{
 					foreach (var position in positions)
 					{
@@ -102,7 +102,7 @@ namespace ComfortIsland.Reports
 				}
 			},
 			{
-				DataAccessLayer.Xml.DocumentType.ToWarehouse, (items, positions) =>
+				DocumentType.ToWarehouse, (items, positions) =>
 				{
 					foreach (var position in positions)
 					{

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 
+using ComfortIsland.DataAccessLayer.Xml;
+
 using NUnit.Framework;
 
 namespace ComfortIsland.UnitTests.BusinessLogic
@@ -10,15 +12,17 @@ namespace ComfortIsland.UnitTests.BusinessLogic
 		[Test]
 		public void DocumentType()
 		{
-			var values = Enum.GetValues(typeof(ComfortIsland.DataAccessLayer.Xml.DocumentType)).OfType<ComfortIsland.DataAccessLayer.Xml.DocumentType>().ToList();
-			Assert.IsTrue(values.SequenceEqual(ComfortIsland.BusinessLogic.DocumentType.AllTypes.Keys));
+			var enums = Enum.GetValues(typeof(DocumentType)).OfType<DocumentType>().ToList();
+			var objects = ComfortIsland.BusinessLogic.DocumentType.All.Select(item => item.ToEnum()).ToList();
+			Assert.IsTrue(enums.SequenceEqual(objects));
 		}
 
 		[Test]
 		public void DocumentState()
 		{
-			var values = Enum.GetValues(typeof(ComfortIsland.DataAccessLayer.Xml.DocumentState)).OfType<ComfortIsland.DataAccessLayer.Xml.DocumentState>().ToList();
-			Assert.IsTrue(values.SequenceEqual(ComfortIsland.BusinessLogic.DocumentState.AllStates.Keys));
+			var enums = Enum.GetValues(typeof(DocumentState)).OfType<DocumentState>().ToList();
+			var objects = ComfortIsland.BusinessLogic.DocumentState.All.Select(item => item.ToEnum()).ToList();
+			Assert.IsTrue(enums.SequenceEqual(objects));
 		}
 	}
 }

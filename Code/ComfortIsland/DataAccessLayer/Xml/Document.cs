@@ -53,8 +53,8 @@ namespace ComfortIsland.DataAccessLayer.Xml
 			PreviousVersionId = document.PreviousVersionId.ToString();
 			Number = document.Number;
 			Date = document.Date;
-			Type = document.Type.Enum;
-			State = document.State.Enum;
+			Type = document.Type.ToEnum();
+			State = document.State.ToEnum();
 			Positions = document.Positions.Select(position => new Position(new BusinessLogic.Position(position.Key.ID, position.Value))).ToList();
 		}
 
@@ -64,8 +64,8 @@ namespace ComfortIsland.DataAccessLayer.Xml
 		{
 			return new BusinessLogic.Document(
 				!string.IsNullOrEmpty(PreviousVersionId) ? (long?) long.Parse(PreviousVersionId) : null,
-				BusinessLogic.DocumentType.AllTypes[Type],
-				BusinessLogic.DocumentState.AllStates[State])
+				Type.ToClass(),
+				State.ToClass())
 			{
 				ID = ID,
 				Number = Number,

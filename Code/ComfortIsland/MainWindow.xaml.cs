@@ -55,7 +55,7 @@ namespace ComfortIsland
 			refreshGrid(productsGrid);
 			reloadComplexProducts();
 			refreshGrid(unitsGrid);
-			documentTypesGrid.ItemsSource = DocumentType.AllTypes.Values;
+			documentTypesGrid.ItemsSource = DocumentType.All;
 
 			updateButtonsAvailability(productsGrid, buttonEditProduct, buttonDeleteProduct);
 			updateButtonsAvailability(unitsGrid, buttonEditUnit, buttonDeleteUnit);

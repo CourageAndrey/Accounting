@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace ComfortIsland.BusinessLogic
 {
@@ -7,17 +6,13 @@ namespace ComfortIsland.BusinessLogic
 	{
 		#region Properties
 
-		public DataAccessLayer.Xml.DocumentState Enum
-		{ get; }
-
 		public string Name
 		{ get; }
 
 		#endregion
 
-		private DocumentState(DataAccessLayer.Xml.DocumentState enumValue, string name)
+		private DocumentState(string name)
 		{
-			Enum = enumValue;
 			Name = name;
 		}
 
@@ -28,13 +23,15 @@ namespace ComfortIsland.BusinessLogic
 
 		#region List
 
-		public static readonly DocumentState Active = new DocumentState(DataAccessLayer.Xml.DocumentState.Active, "действует");
-		public static readonly DocumentState Edited = new DocumentState(DataAccessLayer.Xml.DocumentState.Edited, "был изменён");
-		public static readonly DocumentState Deleted = new DocumentState(DataAccessLayer.Xml.DocumentState.Deleted, "был удалён");
-
-		public static readonly IDictionary<DataAccessLayer.Xml.DocumentState, DocumentState> AllStates = new[] { Active, Edited, Deleted }.ToDictionary(
-			state => state.Enum,
-			state => state);
+		public static readonly DocumentState Active = new DocumentState("действует");
+		public static readonly DocumentState Edited = new DocumentState("был изменён");
+		public static readonly DocumentState Deleted = new DocumentState("был удалён");
+		public static readonly IEnumerable<DocumentState> All = new[]
+		{
+			Active,
+			Edited,
+			Deleted,
+		};
 
 		#endregion
 	}
