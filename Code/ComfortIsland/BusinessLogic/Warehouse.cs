@@ -54,7 +54,7 @@ namespace ComfortIsland.BusinessLogic
 				foreach (var position in wrongPositionsList)
 				{
 					var product = products[position.Key];
-					errors.AppendLine(string.Format(" * {0} = {1}", product.DisplayMember, DigitRoundingConverter.Simplify(position.Value)));
+					errors.AppendLine(string.Format(" * {0} = {1}", product.DisplayMember, position.Value.Simplify()));
 				}
 				return false;
 			}

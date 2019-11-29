@@ -11,17 +11,17 @@ namespace ComfortIsland.UnitTests.Helpers
 		{
 			for (int i = 0; i < 10; i++)
 			{
-				Assert.AreEqual(i.ToString(), DigitRoundingConverter.Simplify(i));
+				Assert.AreEqual(i.ToString(), ((decimal) i).Simplify());
 			}
 		}
 
 		[Test]
 		public void DoubleNumbersAreRounded()
 		{
-			Assert.AreEqual("0.1", DigitRoundingConverter.Simplify(0.1m));
-			Assert.AreEqual("0.1", DigitRoundingConverter.Simplify(0.11m));
-			Assert.AreEqual("0.1", DigitRoundingConverter.Simplify(0.111m));
-			Assert.AreEqual("0.1", DigitRoundingConverter.Simplify(0.11111m));
+			Assert.AreEqual("0.1", 0.1m.Simplify());
+			Assert.AreEqual("0.1", 0.11m.Simplify());
+			Assert.AreEqual("0.1", 0.111m.Simplify());
+			Assert.AreEqual("0.1", 0.11111m.Simplify());
 		}
 	}
 }

@@ -9,7 +9,7 @@ namespace ComfortIsland.Helpers
 	{
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			return Simplify((decimal) value);
+			return ((decimal) value).Simplify();
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -17,7 +17,12 @@ namespace ComfortIsland.Helpers
 			return decimal.Parse(value.ToString());
 		}
 
-		public static string Simplify(decimal value)
+		public static readonly DigitRoundingConverter Instance = new DigitRoundingConverter();
+	}
+
+	public static class DigitRounder
+	{
+		public static string Simplify(this decimal value)
 		{
 			string result = value.ToString(CultureInfo.CurrentCulture);
 			var numberFormat = CultureInfo.CurrentCulture.NumberFormat;
@@ -25,7 +30,5 @@ namespace ComfortIsland.Helpers
 				? value.ToString("N1")
 				: value.ToString("N0");
 		}
-
-		public static readonly DigitRoundingConverter Instance = new DigitRoundingConverter();
 	}
 }
