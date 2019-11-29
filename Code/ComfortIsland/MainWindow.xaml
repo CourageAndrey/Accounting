@@ -3,7 +3,7 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:businessLogic="clr-namespace:ComfortIsland.BusinessLogic;assembly=Accounting.Core"
 		xmlns:viewModels="clr-namespace:ComfortIsland.ViewModels"
-		xmlns:helpers="clr-namespace:ComfortIsland.Helpers"
+		xmlns:helpers="clr-namespace:ComfortIsland.Helpers;assembly=Accounting.UI.WPF"
 		xmlns:controls="clr-namespace:ComfortIsland.Controls"
 		xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
 		Title="Остров комфорта - Учёт" Width="1100" Height="750"

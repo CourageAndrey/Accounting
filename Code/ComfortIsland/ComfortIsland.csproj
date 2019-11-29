@@ -89,8 +89,6 @@
     <Compile Include="DataAccessLayer\Xml\Position.cs" />
     <Compile Include="DataAccessLayer\Xml\Product.cs" />
     <Compile Include="DataAccessLayer\Xml\Unit.cs" />
-    <Compile Include="Helpers\AutoCompleteHelper.cs" />
-    <Compile Include="Helpers\DateConverter.cs" />
     <Compile Include="Dialogs\SelectProductDialog.xaml.cs">
       <DependentUpon>SelectProductDialog.xaml</DependentUpon>
     </Compile>
@@ -100,7 +98,6 @@
     <Compile Include="Dialogs\SelectDateDialog.xaml.cs">
       <DependentUpon>SelectDateDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\DigitRoundingConverter.cs" />
     <Compile Include="Reports\BalanceReport.cs" />
     <Compile Include="Reports\ExcelHelper.cs" />
     <Compile Include="Reports\ReportDescriptor.cs" />
