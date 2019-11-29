@@ -88,7 +88,6 @@
     <Compile Include="Helpers\DictionaryComparerTest.cs" />
     <Compile Include="Helpers\DigitRoundingTest.cs" />
     <Compile Include="BusinessLogic\EnumerationsTest.cs" />
-    <Compile Include="Helpers\IdGeneratorTest.cs" />
     <Compile Include="Reports\BalanceReportTest.cs" />
     <Compile Include="Reports\TradeReportTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

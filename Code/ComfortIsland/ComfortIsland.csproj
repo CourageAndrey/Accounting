@@ -112,7 +112,6 @@
     </Compile>
     <Compile Include="Helpers\DigitRoundingConverter.cs" />
     <Compile Include="Helpers\FileSystemHelper.cs" />
-    <Compile Include="Helpers\IdGenerator.cs" />
     <Compile Include="Reports\BalanceReport.cs" />
     <Compile Include="Reports\ExcelHelper.cs" />
     <Compile Include="Reports\ReportDescriptor.cs" />

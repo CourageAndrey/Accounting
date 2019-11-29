@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 using NUnit.Framework;
 
+using ComfortIsland;
 using ComfortIsland.Helpers;
 
-namespace ComfortIsland.UnitTests.Helpers
+namespace Accounting.Core.UnitTests.Helpers
 {
 	public class IdGeneratorTest
 	{
@@ -47,11 +46,6 @@ namespace ComfortIsland.UnitTests.Helpers
 		private class TestEntity : IEntity
 		{
 			public long ID { get; set; }
-
-			public StringBuilder FindUsages(ComfortIsland.BusinessLogic.Database database)
-			{
-				throw new NotSupportedException();
-			}
 		}
 	}
 }
