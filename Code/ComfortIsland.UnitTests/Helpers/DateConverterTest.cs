@@ -10,20 +10,6 @@ namespace ComfortIsland.UnitTests.Helpers
 	public class DateConverterTest
 	{
 		[Test]
-		public void ConvertAcceptDateTimeOnly()
-		{
-			// arrange
-			var converter = new DateConverter();
-
-			// act and assert
-			Assert.Throws<InvalidCastException>(() => converter.Convert(
-				string.Empty,
-				typeof(string),
-				null,
-				CultureInfo.InvariantCulture));
-		}
-
-		[Test]
 		public void HappyPath()
 		{
 			// arrange
@@ -40,20 +26,6 @@ namespace ComfortIsland.UnitTests.Helpers
 			// assert
 			Assert.IsTrue(dateString.Contains(date.ToLongDateString()));
 			Assert.IsTrue(dateString.Contains(date.ToLongTimeString()));
-		}
-
-		[Test]
-		public void ConvertBackIsNotSupported()
-		{
-			// arrange
-			var converter = new DateConverter();
-
-			// act and assert
-			Assert.Throws<NotSupportedException>(() => converter.ConvertBack(
-				string.Empty,
-				typeof(DateTime),
-				null,
-				CultureInfo.InvariantCulture));
 		}
 	}
 }
