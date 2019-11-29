@@ -5,11 +5,6 @@ using ComfortIsland.Reports;
 
 namespace ComfortIsland
 {
-	public interface IEntity
-	{
-		long ID { get; set; }
-	}
-
 	public interface IEditDialog<T> : IApplicationClient
 	{
 		T EditValue { get; set; }
