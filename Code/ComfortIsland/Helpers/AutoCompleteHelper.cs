@@ -65,12 +65,12 @@ namespace ComfortIsland.Helpers
 			}
 		}
 
-		private static IEnumerable<IListBoxItem> getOriginalItemSource(this ComboBox comboBox)
+		private static IEnumerable<IListItem> getOriginalItemSource(this ComboBox comboBox)
 		{
-			return (comboBox.Tag as System.Collections.IEnumerable ?? new IListBoxItem[0]).OfType<IListBoxItem>();
+			return (comboBox.Tag as System.Collections.IEnumerable ?? new IListItem[0]).OfType<IListItem>();
 		}
 
-		private static IEnumerable<IListBoxItem> filter(this IEnumerable<IListBoxItem> items, string searchPattern)
+		private static IEnumerable<IListItem> filter(this IEnumerable<IListItem> items, string searchPattern)
 		{
 			return items.Where(p => p.DisplayMember.IndexOf(searchPattern, StringComparison.InvariantCultureIgnoreCase) >= 0);
 		}

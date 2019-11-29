@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ComfortIsland.BusinessLogic
 {
-	public class Product : IEntity, IListBoxItem
+	public class Product : IEntity, IListItem
 	{
 		#region Properties
 

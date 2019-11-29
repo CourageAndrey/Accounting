@@ -19,11 +19,6 @@ namespace ComfortIsland
 		ReportDescriptor Descriptor { get; }
 	}
 
-	public interface IListBoxItem
-	{
-		string DisplayMember { get; }
-	}
- 
 	public interface IViewModel<out T>
 	{
 		long? ID
