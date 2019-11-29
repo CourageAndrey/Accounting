@@ -57,6 +57,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\DateTimeRepresentationTest.cs" />
+    <Compile Include="Helpers\DateHelperTest.cs" />
+    <Compile Include="Helpers\DictionaryComparerTest.cs" />
+    <Compile Include="Helpers\DigitSimplifierTest.cs" />
     <Compile Include="Helpers\IdGeneratorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

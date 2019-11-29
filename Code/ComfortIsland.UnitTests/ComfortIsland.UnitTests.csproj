@@ -83,10 +83,6 @@
     <Compile Include="BusinessLogic\BalanceValidation\PerDocumentTest.cs" />
     <Compile Include="BusinessLogic\BalanceValidation\NoVerifyTest.cs" />
     <Compile Include="BusinessLogic\ProductBalanceTest.cs" />
-    <Compile Include="Helpers\DateConverterTest.cs" />
-    <Compile Include="Helpers\DateHelperTest.cs" />
-    <Compile Include="Helpers\DictionaryComparerTest.cs" />
-    <Compile Include="Helpers\DigitRoundingTest.cs" />
     <Compile Include="BusinessLogic\EnumerationsTest.cs" />
     <Compile Include="Reports\BalanceReportTest.cs" />
     <Compile Include="Reports\TradeReportTest.cs" />

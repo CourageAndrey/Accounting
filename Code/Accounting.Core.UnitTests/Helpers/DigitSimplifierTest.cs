@@ -2,9 +2,9 @@
 
 using NUnit.Framework;
 
-namespace ComfortIsland.UnitTests.Helpers
+namespace Accounting.Core.UnitTests.Helpers
 {
-	public class DigitRoundingTest
+	public class DigitSimplifierTest
 	{
 		[Test]
 		public void IntegerNumbersReturnAsIs()

@@ -40,7 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\DateTimeRepresentation.cs" />
+    <Compile Include="Helpers\DateHelper.cs" />
+    <Compile Include="Helpers\DictionaryComparer.cs" />
+    <Compile Include="Helpers\DigitSimplifier.cs" />
+    <Compile Include="Helpers\FileSystemHelper.cs" />
     <Compile Include="Helpers\IdGenerator.cs" />
+    <Compile Include="Helpers\Period.cs" />
     <Compile Include="Interfaces\IEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

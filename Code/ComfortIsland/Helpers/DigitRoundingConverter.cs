@@ -19,16 +19,4 @@ namespace ComfortIsland.Helpers
 
 		public static readonly DigitRoundingConverter Instance = new DigitRoundingConverter();
 	}
-
-	public static class DigitRounder
-	{
-		public static string Simplify(this decimal value)
-		{
-			string result = value.ToString(CultureInfo.CurrentCulture);
-			var numberFormat = CultureInfo.CurrentCulture.NumberFormat;
-			return result.Contains(numberFormat.CurrencyDecimalSeparator) || result.Contains(numberFormat.NumberDecimalSeparator)
-				? value.ToString("N1")
-				: value.ToString("N0");
-		}
-	}
 }

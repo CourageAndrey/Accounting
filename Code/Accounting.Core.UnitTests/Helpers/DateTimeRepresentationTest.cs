@@ -1,27 +1,19 @@
 ﻿using System;
-using System.Globalization;
 
 using NUnit.Framework;
 
 using ComfortIsland.Helpers;
 
-namespace ComfortIsland.UnitTests.Helpers
+namespace Accounting.Core.UnitTests.Helpers
 {
-	public class DateConverterTest
+	public class DateTimeRepresentationTest
 	{
 		[Test]
 		public void HappyPath()
 		{
-			// arrange
-			var converter = new DateConverter();
-
 			// act
 			var date = DateTime.Now;
-			string dateString = (string) converter.Convert(
-				date,
-				typeof(DateTime),
-				null,
-				CultureInfo.InvariantCulture);
+			string dateString = date.ToConvinientStringRepresentation();
 
 			// assert
 			Assert.IsTrue(dateString.Contains(date.ToLongDateString()));

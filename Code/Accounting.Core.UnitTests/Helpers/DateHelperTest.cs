@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 using ComfortIsland.Helpers;
 
-namespace ComfortIsland.UnitTests.Helpers
+namespace Accounting.Core.UnitTests.Helpers
 {
 	public class DateHelperTest
 	{
