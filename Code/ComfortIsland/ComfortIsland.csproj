@@ -79,15 +79,15 @@
     <Compile Include="ViewModels\Document.cs" />
     <Compile Include="ViewModels\Product.cs" />
     <Compile Include="ViewModels\Unit.cs" />
-    <Compile Include="DataAccessLayer\Xml\Balance.cs" />
-    <Compile Include="DataAccessLayer\Xml\Database.cs" />
+    <Compile Include="DataAccessLayer\Xml\Entities\Balance.cs" />
+    <Compile Include="DataAccessLayer\Xml\Entities\Database.cs" />
     <Compile Include="DataAccessLayer\Xml\DatabaseDriver.cs" />
-    <Compile Include="DataAccessLayer\Xml\Document.cs" />
-    <Compile Include="DataAccessLayer\Xml\DocumentState.cs" />
-    <Compile Include="DataAccessLayer\Xml\DocumentType.cs" />
-    <Compile Include="DataAccessLayer\Xml\Position.cs" />
-    <Compile Include="DataAccessLayer\Xml\Product.cs" />
-    <Compile Include="DataAccessLayer\Xml\Unit.cs" />
+    <Compile Include="DataAccessLayer\Xml\Entities\Document.cs" />
+    <Compile Include="DataAccessLayer\Xml\Enumerations\DocumentState.cs" />
+    <Compile Include="DataAccessLayer\Xml\Enumerations\DocumentType.cs" />
+    <Compile Include="DataAccessLayer\Xml\Entities\Position.cs" />
+    <Compile Include="DataAccessLayer\Xml\Entities\Product.cs" />
+    <Compile Include="DataAccessLayer\Xml\Entities\Unit.cs" />
     <Compile Include="Dialogs\SelectProductDialog.xaml.cs">
       <DependentUpon>SelectProductDialog.xaml</DependentUpon>
     </Compile>
