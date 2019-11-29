@@ -76,13 +76,6 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="BusinessLogic\BalanceValidation\AnyTypeTest.cs" />
-    <Compile Include="BusinessLogic\BalanceValidation\BalanceCheckWorkflowHelper.cs" />
-    <Compile Include="BusinessLogic\BalanceValidation\FinalOnlyTest.cs" />
-    <Compile Include="BusinessLogic\BalanceValidation\PerDayTest.cs" />
-    <Compile Include="BusinessLogic\BalanceValidation\PerDocumentTest.cs" />
-    <Compile Include="BusinessLogic\BalanceValidation\NoVerifyTest.cs" />
-    <Compile Include="BusinessLogic\ProductBalanceTest.cs" />
     <Compile Include="BusinessLogic\EnumerationsTest.cs" />
     <Compile Include="Reports\BalanceReportTest.cs" />
     <Compile Include="Reports\TradeReportTest.cs" />
@@ -91,7 +84,6 @@
     <Compile Include="ViewModels\DocumentTest.cs" />
     <Compile Include="ViewModels\ProductTest.cs" />
     <Compile Include="ViewModels\UnitTest.cs" />
-    <Compile Include="BusinessLogic\WorkflowTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

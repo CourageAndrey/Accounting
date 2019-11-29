@@ -57,6 +57,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusinessLogic\BalanceValidation\AnyTypeTest.cs" />
+    <Compile Include="BusinessLogic\BalanceValidation\BalanceCheckWorkflowHelper.cs" />
+    <Compile Include="BusinessLogic\BalanceValidation\FinalOnlyTest.cs" />
+    <Compile Include="BusinessLogic\BalanceValidation\NoVerifyTest.cs" />
+    <Compile Include="BusinessLogic\BalanceValidation\PerDayTest.cs" />
+    <Compile Include="BusinessLogic\BalanceValidation\PerDocumentTest.cs" />
+    <Compile Include="BusinessLogic\ProductBalanceTest.cs" />
+    <Compile Include="BusinessLogic\WorkflowTest.cs" />
     <Compile Include="Helpers\DateTimeRepresentationTest.cs" />
     <Compile Include="Helpers\DateHelperTest.cs" />
     <Compile Include="Helpers\DictionaryComparerTest.cs" />
