@@ -25,7 +25,19 @@ namespace ComfortIsland.Configuration.Xml
 
 		#region Сериализация
 
-		private static readonly XmlSerializer _xmlSerializer = new XmlSerializer(typeof(Settings));
+		private static readonly XmlSerializer _xmlSerializer = new XmlSerializer(typeof(Settings), getXmlAttributeOverrides());
+
+		private static XmlAttributeOverrides getXmlAttributeOverrides()
+		{
+			var databaseDriverTypeAttributes = new XmlAttributes();
+			foreach (var implementation in DatabaseDriver.GetRegisteredImplementations())
+			{
+				databaseDriverTypeAttributes.XmlElements.Add(new XmlElementAttribute(implementation.Key, implementation.Value));
+			}
+			var overrides = new XmlAttributeOverrides();
+			overrides.Add(typeof(DataAccessLayerSettings), "DatabaseDriver", databaseDriverTypeAttributes);
+			return overrides;
+		}
 
 		public static Settings Load(string startupPath)
 		{

@@ -28,6 +28,8 @@ namespace ComfortIsland
 			var appDomain = AppDomain.CurrentDomain;
 			setupExceptionHandling(appDomain);
 
+			ComfortIsland.Configuration.Xml.DatabaseDriver.RegisterImplementation<ComfortIsland.Configuration.Xml.DatabaseDrivers.XmlDatabaseDriver>("XmlDatabaseDriver");
+
 			StartupPath = AppDomain.CurrentDomain.BaseDirectory;
 			Settings = new Settings(Configuration.Xml.Settings.Load(StartupPath));
 			Database = Settings.DataAccessLayer.DatabaseDriver.TryLoad();
