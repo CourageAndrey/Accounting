@@ -61,15 +61,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountingApplication.cs" />
-    <Compile Include="Configuration\BusinessLogicSettings.cs" />
-    <Compile Include="Configuration\DataAccessLayerSettings.cs" />
-    <Compile Include="Configuration\Xml\DatabaseDriver.cs" />
-    <Compile Include="Configuration\Xml\BusinessLogicSettings.cs" />
-    <Compile Include="Configuration\Xml\DataAccessLayerSettings.cs" />
-    <Compile Include="Configuration\Xml\DatabaseDrivers\XmlDatabaseDriver.cs" />
-    <Compile Include="Configuration\UserInterfaceSettings.cs" />
-    <Compile Include="Configuration\Xml\Settings.cs" />
-    <Compile Include="Configuration\Xml\UserInterfaceSettings.cs" />
     <Compile Include="Controls\ReportControl.xaml.cs">
       <DependentUpon>ReportControl.xaml</DependentUpon>
     </Compile>
@@ -79,15 +70,6 @@
     <Compile Include="ViewModels\Document.cs" />
     <Compile Include="ViewModels\Product.cs" />
     <Compile Include="ViewModels\Unit.cs" />
-    <Compile Include="DataAccessLayer\Xml\Entities\Balance.cs" />
-    <Compile Include="DataAccessLayer\Xml\Entities\Database.cs" />
-    <Compile Include="DataAccessLayer\Xml\DatabaseDriver.cs" />
-    <Compile Include="DataAccessLayer\Xml\Entities\Document.cs" />
-    <Compile Include="DataAccessLayer\Xml\Enumerations\DocumentState.cs" />
-    <Compile Include="DataAccessLayer\Xml\Enumerations\DocumentType.cs" />
-    <Compile Include="DataAccessLayer\Xml\Entities\Position.cs" />
-    <Compile Include="DataAccessLayer\Xml\Entities\Product.cs" />
-    <Compile Include="DataAccessLayer\Xml\Entities\Unit.cs" />
     <Compile Include="Dialogs\SelectProductDialog.xaml.cs">
       <DependentUpon>SelectProductDialog.xaml</DependentUpon>
     </Compile>
@@ -101,7 +83,6 @@
     <Compile Include="Reports\ExcelHelper.cs" />
     <Compile Include="Reports\ReportDescriptor.cs" />
     <Compile Include="Reports\TradeReport.cs" />
-    <Compile Include="Configuration\Settings.cs" />
     <Page Include="Controls\ReportControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
