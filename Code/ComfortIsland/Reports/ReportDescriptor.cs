@@ -20,7 +20,7 @@ namespace ComfortIsland.Reports
 		{ get; private set; }
 
 		private readonly Func<IEnumerable<DataGridColumn>> _columnsGetter;
-		private delegate bool ReportCreator(IApplication application, out IReport report);
+		private delegate bool ReportCreator(IAccountingApplication application, out IReport report);
 		private readonly ReportCreator _reportCreator;
 
 		#endregion
@@ -47,7 +47,7 @@ namespace ComfortIsland.Reports
 			return columns;
 		}
 
-		public bool CreateReport(IApplication application, Database database, out IReport report)
+		public bool CreateReport(IAccountingApplication application, Database database, out IReport report)
 		{
 			return _reportCreator(application, out report);
 		}
@@ -141,7 +141,7 @@ namespace ComfortIsland.Reports
 			Trade,
 		});
 
-		private static bool createBalanceReport(IApplication application, out IReport report)
+		private static bool createBalanceReport(IAccountingApplication application, out IReport report)
 		{
 			var dialog = new SelectDateDialog { EditValue = DateTime.Now };
 			dialog.ConnectTo(application);
@@ -157,7 +157,7 @@ namespace ComfortIsland.Reports
 			}
 		}
 
-		private static bool createTradeReport(IApplication application, out IReport report)
+		private static bool createTradeReport(IAccountingApplication application, out IReport report)
 		{
 			var dialog = new SelectPeriodDialog { EditValue = new Period(DateTime.Now.AddDays(-7), DateTime.Now) };
 			dialog.ConnectTo(application);

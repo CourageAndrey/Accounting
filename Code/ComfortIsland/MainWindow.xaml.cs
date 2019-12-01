@@ -16,7 +16,7 @@ using ComfortIsland.Reports;
 
 namespace ComfortIsland
 {
-	public partial class MainWindow : IApplicationClient
+	public partial class MainWindow : IAccountingApplicationClient
 	{
 		#region Инициализация
 
@@ -27,13 +27,13 @@ namespace ComfortIsland
 			_documentsViewSource = (CollectionViewSource) Resources["documentsCollectionViewSource"];
 		}
 
-		public void ConnectTo(IApplication application)
+		public void ConnectTo(IAccountingApplication application)
 		{
 			_application = application;
 			FontSize = application.Settings.UserInterface.FontSize;
 		}
 
-		private IApplication _application;
+		private IAccountingApplication _application;
 
 		private void formLoaded(object sender, RoutedEventArgs e)
 		{

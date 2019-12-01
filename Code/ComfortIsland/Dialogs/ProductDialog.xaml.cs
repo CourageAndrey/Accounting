@@ -16,7 +16,7 @@ namespace ComfortIsland.Dialogs
 			InitializeComponent();
 		}
 
-		public void ConnectTo(IApplication application)
+		public void ConnectTo(IAccountingApplication application)
 		{
 			_application = application;
 			FontSize = application.Settings.UserInterface.FontSize;
@@ -24,7 +24,7 @@ namespace ComfortIsland.Dialogs
 			comboBoxProducts.ItemsSource = application.Database.Products;
 		}
 
-		private IApplication _application;
+		private IAccountingApplication _application;
 
 		public ViewModels.Product EditValue
 		{

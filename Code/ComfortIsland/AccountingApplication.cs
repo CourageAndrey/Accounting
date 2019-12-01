@@ -8,7 +8,7 @@ using ComfortIsland.DataAccessLayer;
 
 namespace ComfortIsland
 {
-	internal class AccountingApplication : Application, IApplication
+	internal class AccountingApplication : Application, IAccountingApplication
 	{
 		#region Свойства
 

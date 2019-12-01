@@ -5,7 +5,7 @@ using ComfortIsland.Reports;
 
 namespace ComfortIsland
 {
-	public interface IEditDialog<T> : IApplicationClient
+	public interface IEditDialog<T> : IAccountingApplicationClient
 	{
 		T EditValue { get; set; }
 	}
@@ -27,7 +27,7 @@ namespace ComfortIsland
 		T ConvertToBusinessLogic(Database database);
 	}
 
-	public interface IApplication
+	public interface IAccountingApplication
 	{
 		string StartupPath { get; }
 
@@ -36,8 +36,8 @@ namespace ComfortIsland
 		Database Database { get; }
 	}
 
-	public interface IApplicationClient
+	public interface IAccountingApplicationClient
 	{
-		void ConnectTo(IApplication application);
+		void ConnectTo(IAccountingApplication application);
 	}
 }
