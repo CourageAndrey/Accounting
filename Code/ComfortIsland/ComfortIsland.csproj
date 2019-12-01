@@ -65,11 +65,11 @@
       <DependentUpon>ReportControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reports\ReportColumn.cs" />
-    <Compile Include="Reports\TradeItem.cs" />
-    <Compile Include="Reports\BalanceReport.cs" />
+    <Compile Include="Reports\Existing\TradeItem.cs" />
+    <Compile Include="Reports\Existing\BalanceReport.cs" />
     <Compile Include="Reports\ExcelHelper.cs" />
     <Compile Include="Reports\ReportDescriptor.cs" />
-    <Compile Include="Reports\TradeReport.cs" />
+    <Compile Include="Reports\Existing\TradeReport.cs" />
     <Page Include="Controls\ReportControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
