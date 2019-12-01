@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 
 using ComfortIsland.Helpers;
 using ComfortIsland.Reports;
@@ -33,7 +35,7 @@ namespace ComfortIsland.Controls
 
 					foreach (var column in report.Descriptor.GetColumns())
 					{
-						itemsGrid.Columns.Add(column);
+						itemsGrid.Columns.Add(convertColumn(column));
 					}
 					itemsGrid.ItemsSource = report.Items;
 
@@ -46,6 +48,41 @@ namespace ComfortIsland.Controls
 					buttonPrint.IsEnabled = false;
 				}
 			}
+		}
+
+		private static DataGridTextColumn convertColumn(ReportColumn reportColumn)
+		{
+			var column = new DataGridTextColumn
+			{
+				Header = reportColumn.Header,
+				Binding = bindAndSetStyle(reportColumn.Binding, reportColumn.NeedsDigitRounding),
+				MinWidth = reportColumn.MinWidth,
+			};
+			if (reportColumn.NeedsDigitRounding)
+			{
+				setNumberStyle(column);
+			}
+			return column;
+		}
+
+		private static Binding bindAndSetStyle(string propertyPath, bool needsDigitRounding)
+		{
+			var binding = new Binding
+			{
+				Path = new PropertyPath(propertyPath),
+				Mode = BindingMode.OneTime,
+			};
+			if (needsDigitRounding)
+			{
+				binding.Converter = DigitRoundingConverter.Instance;
+			}
+			return binding;
+		}
+
+		private static void setNumberStyle(DataGridColumn column)
+		{
+			column.CellStyle = column.CellStyle ?? new Style();
+			column.CellStyle.Setters.Add(new Setter(TextBlock.HorizontalAlignmentProperty, HorizontalAlignment.Right));
 		}
 
 		private static readonly Microsoft.Win32.SaveFileDialog _saveDialog = ExcelHelper.CreateSaveDialog();

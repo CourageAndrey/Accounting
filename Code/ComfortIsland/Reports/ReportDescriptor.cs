@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 
 using ComfortIsland.BusinessLogic;
 using ComfortIsland.Dialogs;
@@ -19,32 +15,22 @@ namespace ComfortIsland.Reports
 		public string Title
 		{ get; private set; }
 
-		private readonly Func<IEnumerable<DataGridColumn>> _columnsGetter;
+		private readonly Func<IEnumerable<ReportColumn>> _columnsGetter;
 		private delegate bool ReportCreator(IAccountingApplication application, out IReport report);
 		private readonly ReportCreator _reportCreator;
 
 		#endregion
 
-		private ReportDescriptor(string title, Func<IEnumerable<DataGridColumn>> columnsGetter, ReportCreator reportCreator)
+		private ReportDescriptor(string title, Func<IEnumerable<ReportColumn>> columnsGetter, ReportCreator reportCreator)
 		{
 			Title = title;
 			_columnsGetter = columnsGetter;
 			_reportCreator = reportCreator;
 		}
 
-		public IEnumerable<DataGridColumn> GetColumns()
+		public IEnumerable<ReportColumn> GetColumns()
 		{
-			var columns = _columnsGetter().ToList();
-			foreach (var column in columns.OfType<DataGridTextColumn>())
-			{
-				var binding = column.Binding as Binding;
-				if (binding != null && binding.Converter == DigitRoundingConverter.Instance)
-				{
-					column.CellStyle = column.CellStyle ?? new Style();
-					column.CellStyle.Setters.Add(new Setter(TextBlock.HorizontalAlignmentProperty, HorizontalAlignment.Right));
-				}
-			}
-			return columns;
+			return _columnsGetter();
 		}
 
 		public bool CreateReport(IAccountingApplication application, Database database, out IReport report)
@@ -54,84 +40,96 @@ namespace ComfortIsland.Reports
 
 		#region Список
 
-		public static readonly ReportDescriptor Balance = new ReportDescriptor("Складские остатки", () => new List<DataGridColumn>
+		public static readonly ReportDescriptor Balance = new ReportDescriptor("Складские остатки", () => new List<ReportColumn>
 		{
-			new DataGridTextColumn
-			{
-				Header = "Товар",
-				Binding = bind("BoundProduct.Name"),
-				MinWidth = 300,
-			},
-			new DataGridTextColumn
-			{
-				Header = "Ед/изм",
-				Binding = bind("BoundProduct.Unit.Name"),
-				MinWidth = 50,
-			},
-			new DataGridTextColumn
-			{
-				Header = "Остатки",
-				Binding = bind("Count", DigitRoundingConverter.Instance),
-				MinWidth = 100,
-			},
+			new ReportColumn
+			(
+				"Товар",
+				"BoundProduct.Name",
+				false,
+				300
+			),
+			new ReportColumn
+			(
+				"Ед/изм",
+				"BoundProduct.Unit.Name",
+				false,
+				50
+			),
+			new ReportColumn
+			(
+				"Остатки",
+				"Count",
+				true,
+				100
+			),
 		}, createBalanceReport);
 
-		public static readonly ReportDescriptor Trade = new ReportDescriptor("Товарный отчёт", () => new List<DataGridColumn>
+		public static readonly ReportDescriptor Trade = new ReportDescriptor("Товарный отчёт", () => new List<ReportColumn>
 		{
-			new DataGridTextColumn
-			{
-				Header = "Товар",
-				Binding = bind("ProductName"),
-				MinWidth = 300,
-			},
-			new DataGridTextColumn
-			{
-				Header = "Ед/изм",
-				Binding = bind("ProductUnit"),
-				MinWidth = 50,
-			},
-			new DataGridTextColumn
-			{
-				Header = "На начало периода",
-				Binding = bind("InitialBalance", DigitRoundingConverter.Instance),
-				MinWidth = 100,
-			},
-			new DataGridTextColumn
-			{
-				Header = "Приобретено",
-				Binding = bind("Income", DigitRoundingConverter.Instance),
-				MinWidth = 100,
-			},
-			new DataGridTextColumn
-			{
-				Header = "Произведено",
-				Binding = bind("Produced", DigitRoundingConverter.Instance),
-				MinWidth = 100,
-			},
-			new DataGridTextColumn
-			{
-				Header = "Продано",
-				Binding = bind("Selled", DigitRoundingConverter.Instance),
-				MinWidth = 100,
-			},
-			new DataGridTextColumn
-			{
-				Header = "Израсходовано",
-				Binding = bind("UsedToProduce", DigitRoundingConverter.Instance),
-				MinWidth = 100,
-			},
-			new DataGridTextColumn
-			{
-				Header = "Отправлено на склад",
-				Binding = bind("SentToWarehouse", DigitRoundingConverter.Instance),
-				MinWidth = 100,
-			},
-			new DataGridTextColumn
-			{
-				Header = "На конец периода",
-				Binding = bind("FinalBalance", DigitRoundingConverter.Instance),
-				MinWidth = 100,
-			},
+			new ReportColumn
+			(
+				"Товар",
+				"ProductName",
+				false,
+				300
+			),
+			new ReportColumn
+			(
+				"Ед/изм",
+				"ProductUnit",
+				false,
+				50
+			),
+			new ReportColumn
+			(
+				"На начало периода",
+				"InitialBalance",
+				true,
+				100
+			),
+			new ReportColumn
+			(
+				"Приобретено",
+				"Income",
+				true,
+				100
+			),
+			new ReportColumn
+			(
+				"Произведено",
+				"Produced",
+				true,
+				100
+			),
+			new ReportColumn
+			(
+				"Продано",
+				"Selled",
+				true,
+				100
+			),
+			new ReportColumn
+			(
+				"Израсходовано",
+				"UsedToProduce",
+				true,
+				100
+			),
+			new ReportColumn
+			(
+				"Отправлено на склад",
+				"SentToWarehouse",
+				true,
+				100
+			),
+			new ReportColumn
+			(
+				"На конец периода",
+				"FinalBalance",
+				true,
+				100
+			),
 		}, createTradeReport);
 
 
@@ -171,20 +169,6 @@ namespace ComfortIsland.Reports
 				report = null;
 				return false;
 			}
-		}
-
-		private static Binding bind(string propertyPath, IValueConverter valueConverter = null)
-		{
-			var binding = new Binding
-			{
-				Path = new PropertyPath(propertyPath),
-				Mode = BindingMode.OneTime,
-			};
-			if (valueConverter != null)
-			{
-				binding.Converter = valueConverter;
-			}
-			return binding;
 		}
 
 		#endregion

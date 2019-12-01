@@ -64,6 +64,7 @@
     <Compile Include="Controls\ReportControl.xaml.cs">
       <DependentUpon>ReportControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Reports\ReportColumn.cs" />
     <Compile Include="Reports\TradeItem.cs" />
     <Compile Include="Reports\BalanceReport.cs" />
     <Compile Include="Reports\ExcelHelper.cs" />
