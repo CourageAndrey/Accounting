@@ -26,18 +26,4 @@ namespace ComfortIsland
 
 		T ConvertToBusinessLogic(Database database);
 	}
-
-	public interface IAccountingApplication
-	{
-		string StartupPath { get; }
-
-		Configuration.Settings Settings { get; }
-
-		Database Database { get; }
-	}
-
-	public interface IAccountingApplicationClient
-	{
-		void ConnectTo(IAccountingApplication application);
-	}
 }

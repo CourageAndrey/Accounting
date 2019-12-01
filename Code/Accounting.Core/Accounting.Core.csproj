@@ -70,6 +70,8 @@
     <Compile Include="Helpers\FileSystemHelper.cs" />
     <Compile Include="Helpers\IdGenerator.cs" />
     <Compile Include="Helpers\Period.cs" />
+    <Compile Include="Interfaces\IAccountingApplication.cs" />
+    <Compile Include="Interfaces\IAccountingApplicationClient.cs" />
     <Compile Include="Interfaces\IEntity.cs" />
     <Compile Include="Interfaces\IListItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
