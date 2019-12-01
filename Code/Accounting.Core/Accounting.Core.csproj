@@ -70,10 +70,10 @@
     <Compile Include="Helpers\FileSystemHelper.cs" />
     <Compile Include="Helpers\IdGenerator.cs" />
     <Compile Include="Helpers\Period.cs" />
-    <Compile Include="Interfaces\IAccountingApplication.cs" />
-    <Compile Include="Interfaces\IAccountingApplicationClient.cs" />
-    <Compile Include="Interfaces\IEntity.cs" />
-    <Compile Include="Interfaces\IListItem.cs" />
+    <Compile Include="Application\IAccountingApplication.cs" />
+    <Compile Include="Application\IAccountingApplicationClient.cs" />
+    <Compile Include="BusinessLogic\IEntity.cs" />
+    <Compile Include="BusinessLogic\IListItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
