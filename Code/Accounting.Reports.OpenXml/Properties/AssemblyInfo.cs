@@ -17,10 +17,6 @@ using System.Runtime.InteropServices;
 
 [assembly: InternalsVisibleTo("Accounting.Reports.OpenXml.UnitTests")]
 
-#warning HAVE TO BE DELETED!
-[assembly: InternalsVisibleTo("ComfortIsland")]
-[assembly: InternalsVisibleTo("ComfortIsland.UnitTests")]
-
 // Version information for an assembly consists of the following four values:
 //
 //      Major Version

@@ -15,7 +15,7 @@
 
 		#endregion
 
-		internal Settings(Xml.Settings xmlSettings)
+		public Settings(Xml.Settings xmlSettings)
 		{
 			UserInterface = new UserInterfaceSettings(xmlSettings.UserInterface);
 			DataAccessLayer = new DataAccessLayerSettings(xmlSettings.DataAccessLayer);

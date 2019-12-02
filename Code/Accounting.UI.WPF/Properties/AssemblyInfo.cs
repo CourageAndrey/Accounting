@@ -17,10 +17,6 @@ using System.Windows;
 
 [assembly: InternalsVisibleTo("Accounting.UI.WPF.UnitTests")]
 
-#warning HAVE TO BE DELETED!
-[assembly: InternalsVisibleTo("ComfortIsland")]
-[assembly: InternalsVisibleTo("ComfortIsland.UnitTests")]
-
 //In order to begin building localizable applications, set 
 //<UICulture>CultureYouAreCodingWith</UICulture> in your .csproj file
 //inside a <PropertyGroup>.  For example, if you are using US english
