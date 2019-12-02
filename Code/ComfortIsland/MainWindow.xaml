@@ -4,7 +4,7 @@
 		xmlns:businessLogic="clr-namespace:ComfortIsland.BusinessLogic;assembly=Accounting.Core"
 		xmlns:viewModels="clr-namespace:ComfortIsland.ViewModels;assembly=Accounting.UI.WPF"
 		xmlns:helpers="clr-namespace:ComfortIsland.Helpers;assembly=Accounting.UI.WPF"
-		xmlns:controls="clr-namespace:ComfortIsland.Controls"
+		xmlns:controls="clr-namespace:ComfortIsland.Controls;assembly=Accounting.UI.WPF"
 		xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
 		Title="Остров комфорта - Учёт" Width="1100" Height="750"
 		Loaded="formLoaded" Icon="Icon.ico">
