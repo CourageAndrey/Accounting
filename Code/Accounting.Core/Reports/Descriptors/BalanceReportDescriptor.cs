@@ -27,7 +27,7 @@ namespace ComfortIsland.Reports
 					"Ед/изм",
 					"BoundProduct.Unit.Name",
 					false,
-					50
+					80
 				),
 				new ReportColumn
 				(
