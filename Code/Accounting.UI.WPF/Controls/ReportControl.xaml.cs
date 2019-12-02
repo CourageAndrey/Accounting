@@ -23,27 +23,27 @@ namespace ComfortIsland.Controls
 			InitializeComponent();
 		}
 
-		private IReport report;
+		private IReport _report;
 
 		public IReport Report
 		{
-			get { return report; }
+			get { return _report; }
 			set
 			{
-				report = value;
+				_report = value;
 
 				itemsGrid.ItemsSource = null;
 				itemsGrid.Columns.Clear();
 
-				if (report != null)
+				if (_report != null)
 				{
-					header.Text = report.Title;
+					header.Text = _report.Title;
 
-					foreach (var column in report.Descriptor.GetColumns())
+					foreach (var column in _report.Descriptor.GetColumns())
 					{
 						itemsGrid.Columns.Add(convertColumn(column));
 					}
-					itemsGrid.ItemsSource = report.Items;
+					itemsGrid.ItemsSource = _report.Items;
 
 					buttonPrint.IsEnabled = true;
 				}
@@ -100,7 +100,7 @@ namespace ComfortIsland.Controls
 			};
 			if (saveDialog.ShowDialog() == true)
 			{
-				_application.ReportExporter.ExportReport(report, saveDialog.FileName);
+				_application.ReportExporter.ExportReport(_report, saveDialog.FileName);
 				saveDialog.FileName.ShellOpen();
 			}
 		}
