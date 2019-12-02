@@ -64,14 +64,7 @@
     <Compile Include="Controls\ReportControl.xaml.cs">
       <DependentUpon>ReportControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Reports\Descriptors\BalanceReportDescriptor.cs" />
-    <Compile Include="Reports\Descriptors\TradeReportDescriptor.cs" />
-    <Compile Include="Reports\ReportColumn.cs" />
-    <Compile Include="Reports\Existing\TradeItem.cs" />
-    <Compile Include="Reports\Existing\BalanceReport.cs" />
     <Compile Include="Reports\ExcelHelper.cs" />
-    <Compile Include="Reports\ReportDescriptor.cs" />
-    <Compile Include="Reports\Existing\TradeReport.cs" />
     <Page Include="Controls\ReportControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -80,7 +73,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Reports\IReport.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

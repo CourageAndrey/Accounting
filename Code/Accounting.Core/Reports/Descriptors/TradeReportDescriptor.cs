@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-using ComfortIsland.Helpers;
 using ComfortIsland.Reports.Params;
 
 namespace ComfortIsland.Reports
