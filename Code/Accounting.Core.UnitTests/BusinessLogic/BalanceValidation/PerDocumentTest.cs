@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 using ComfortIsland.BusinessLogic;
 
-namespace ComfortIsland.UnitTests.BusinessLogic.BalanceValidation
+namespace Accounting.Core.UnitTests.BusinessLogic.BalanceValidation
 {
 	public class PerDocumentTest
 	{

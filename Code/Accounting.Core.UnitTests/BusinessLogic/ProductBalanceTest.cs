@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 using ComfortIsland.BusinessLogic;
 
-namespace ComfortIsland.UnitTests.BusinessLogic
+namespace Accounting.Core.UnitTests.BusinessLogic
 {
 	public class ProductBalanceTest
 	{

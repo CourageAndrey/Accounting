@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 using ComfortIsland.ViewModels;
 
-namespace ComfortIsland.UnitTests.ViewModels
+namespace Accounting.UI.WPF.UnitTests.ViewModels
 {
 	public class ProductTest
 	{

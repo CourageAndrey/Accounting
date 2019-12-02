@@ -5,7 +5,7 @@ using ComfortIsland.DataAccessLayer.Xml;
 
 using NUnit.Framework;
 
-namespace ComfortIsland.UnitTests.BusinessLogic
+namespace Accounting.DAL.XML.UnitTests
 {
 	public class EnumerationsTest
 	{

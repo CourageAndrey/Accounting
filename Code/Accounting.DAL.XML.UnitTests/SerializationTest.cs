@@ -9,7 +9,7 @@ using ComfortIsland.BusinessLogic;
 using ComfortIsland.DataAccessLayer;
 using ComfortIsland.Helpers;
 
-namespace ComfortIsland.UnitTests.DataAccessLayer.Xml
+namespace Accounting.DAL.XML.UnitTests
 {
 	public class SerializationTest
 	{

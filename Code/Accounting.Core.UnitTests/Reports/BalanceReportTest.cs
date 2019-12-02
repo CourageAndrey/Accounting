@@ -8,7 +8,7 @@ using ComfortIsland.BusinessLogic;
 using ComfortIsland.Reports;
 using ComfortIsland.Reports.Params;
 
-namespace ComfortIsland.UnitTests.Reports
+namespace Accounting.Core.UnitTests.Reports
 {
 	public class BalanceReportTest
 	{
