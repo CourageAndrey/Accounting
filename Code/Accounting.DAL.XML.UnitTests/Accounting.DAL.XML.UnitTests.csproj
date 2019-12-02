@@ -57,9 +57,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EnumerationsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SerializationTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Accounting.Core\Accounting.Core.csproj">
+      <Project>{451e3fd9-f326-4274-a131-ac3eedb38f11}</Project>
+      <Name>Accounting.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Accounting.DAL.XML\Accounting.DAL.XML.csproj">
       <Project>{3f036d41-571a-4c5e-b8b2-07fa501e183d}</Project>
       <Name>Accounting.DAL.XML</Name>
