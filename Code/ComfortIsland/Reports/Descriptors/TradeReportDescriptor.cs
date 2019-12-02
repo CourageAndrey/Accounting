@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using ComfortIsland.BusinessLogic;
 using ComfortIsland.Dialogs;
 using ComfortIsland.Helpers;
 
@@ -84,7 +83,7 @@ namespace ComfortIsland.Reports
 			});
 		}
 
-		public override bool CreateReport(IAccountingApplication application, Database database, out IReport report)
+		public override bool CreateReport(IAccountingApplication application, out IReport report)
 		{
 			var dialog = new SelectPeriodDialog { EditValue = new Period(DateTime.Now.AddDays(-7), DateTime.Now) };
 			dialog.ConnectTo(application);

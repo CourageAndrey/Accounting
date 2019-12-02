@@ -515,7 +515,7 @@ namespace ComfortIsland
 			if (reportDescriptor != null)
 			{
 				IReport report;
-				if (reportDescriptor.CreateReport(_application, _application.Database, out report))
+				if (reportDescriptor.CreateReport(_application, out report))
 				{
 					reportControl.Report = report;
 				}

@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-using ComfortIsland.BusinessLogic;
-
 namespace ComfortIsland.Reports
 {
 	public abstract class ReportDescriptor
@@ -12,7 +10,7 @@ namespace ComfortIsland.Reports
 
 		public abstract IEnumerable<ReportColumn> GetColumns();
 
-		public abstract bool CreateReport(IAccountingApplication application, Database database, out IReport report);
+		public abstract bool CreateReport(IAccountingApplication application, out IReport report);
 
 		#region Список
 
