@@ -7,6 +7,8 @@ using System.Windows.Input;
 using ComfortIsland.BusinessLogic;
 using ComfortIsland.Helpers;
 
+using Accounting.Core.Application;
+
 namespace ComfortIsland.Dialogs
 {
 	public partial class ProductDialog : IEditDialog<ViewModels.Product>

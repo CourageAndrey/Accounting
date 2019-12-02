@@ -1,4 +1,6 @@
-﻿namespace ComfortIsland
+﻿using ComfortIsland;
+
+namespace Accounting.Core.Application
 {
 	public interface IReportExporter
 	{

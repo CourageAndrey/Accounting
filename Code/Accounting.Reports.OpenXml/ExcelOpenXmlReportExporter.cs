@@ -13,6 +13,8 @@ using Thm15 = DocumentFormat.OpenXml.Office2013.Theme;
 
 using ComfortIsland;
 
+using Accounting.Core.Application;
+
 namespace Accounting.Reports.OpenXml
 {
 	public class ExcelOpenXmlReportExporter : IReportExporter

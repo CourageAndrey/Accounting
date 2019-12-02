@@ -2,6 +2,8 @@
 
 using ComfortIsland.Reports.Params;
 
+using Accounting.Core.Application;
+
 namespace ComfortIsland.Reports
 {
 	public class BalanceReportDescriptor : ReportDescriptor

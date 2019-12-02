@@ -1,7 +1,8 @@
 ﻿using System.Windows;
 
-using ComfortIsland.Helpers;
 using ComfortIsland.Reports.Params;
+
+using Accounting.Core.Application;
 
 namespace ComfortIsland.Dialogs
 {

@@ -5,6 +5,8 @@ using System.Windows.Data;
 using ComfortIsland.Helpers;
 using ComfortIsland.Reports;
 
+using Accounting.Core.Application;
+
 using Microsoft.Win32;
 
 namespace ComfortIsland.Controls

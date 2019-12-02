@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
+using Accounting.Core.Application;
+
 namespace ComfortIsland.Reports
 {
 	public abstract class ReportDescriptor

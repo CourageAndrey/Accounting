@@ -1,4 +1,4 @@
-namespace ComfortIsland
+namespace Accounting.Core.Application
 {
 	public interface IAccountingApplicationClient
 	{

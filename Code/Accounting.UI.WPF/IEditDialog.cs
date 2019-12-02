@@ -1,4 +1,6 @@
-﻿namespace ComfortIsland
+﻿using Accounting.Core.Application;
+
+namespace ComfortIsland
 {
 	public interface IEditDialog<T> : IAccountingApplicationClient
 	{

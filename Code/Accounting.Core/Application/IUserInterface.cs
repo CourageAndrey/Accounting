@@ -1,6 +1,6 @@
 ﻿using ComfortIsland.Reports.Params;
 
-namespace ComfortIsland
+namespace Accounting.Core.Application
 {
 	public interface IUserInterface
 	{

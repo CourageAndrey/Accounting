@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using System.Windows;
 
+using Accounting.Core.Application;
 using Accounting.Reports.OpenXml;
 
 using ComfortIsland.Configuration;

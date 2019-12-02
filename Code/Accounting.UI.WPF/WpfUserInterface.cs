@@ -1,6 +1,8 @@
 ﻿using ComfortIsland.Dialogs;
 using ComfortIsland.Reports.Params;
 
+using Accounting.Core.Application;
+
 namespace ComfortIsland
 {
 	public class WpfUserInterface : IUserInterface

@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 
+using Accounting.Core.Application;
+
 namespace ComfortIsland.Dialogs
 {
 	public partial class UnitDialog : IEditDialog<ViewModels.Unit>

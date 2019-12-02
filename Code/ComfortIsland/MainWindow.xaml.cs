@@ -14,6 +14,8 @@ using ComfortIsland.Dialogs;
 using ComfortIsland.Helpers;
 using ComfortIsland.Reports;
 
+using Accounting.Core.Application;
+
 namespace ComfortIsland
 {
 	public partial class MainWindow : IAccountingApplicationClient
