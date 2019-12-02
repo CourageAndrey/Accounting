@@ -10,7 +10,7 @@ using ComfortIsland.DataAccessLayer;
 
 namespace ComfortIsland
 {
-	internal class AccountingApplication : Application, IAccountingApplication
+	internal class ComfortIslandApplication : Application, IAccountingApplication
 	{
 		#region Свойства
 
@@ -31,7 +31,7 @@ namespace ComfortIsland
 
 		#endregion
 
-		public AccountingApplication()
+		public ComfortIslandApplication()
 		{
 			var appDomain = AppDomain.CurrentDomain;
 			setupExceptionHandling(appDomain);
@@ -94,7 +94,7 @@ namespace ComfortIsland
 		[STAThread]
 		static void Main()
 		{
-			var application = new AccountingApplication();
+			var application = new ComfortIslandApplication();
 			application.MainWindow.Show();
 			application.Run();
 		}
