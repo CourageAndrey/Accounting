@@ -58,8 +58,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\DocumentTest.cs" />
+    <Compile Include="ViewModels\ProductTest.cs" />
+    <Compile Include="ViewModels\UnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Accounting.Core\Accounting.Core.csproj">
+      <Project>{451e3fd9-f326-4274-a131-ac3eedb38f11}</Project>
+      <Name>Accounting.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Accounting.UI.WPF\Accounting.UI.WPF.csproj">
       <Project>{12dce49a-85ff-4e70-a9e9-e48d13f6e76c}</Project>
       <Name>Accounting.UI.WPF</Name>
