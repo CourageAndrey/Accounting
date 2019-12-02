@@ -22,8 +22,8 @@ namespace ComfortIsland.UnitTests.Reports
 
 			// act and assert
 			var report = new TradeReport(database, new PeriodParams(beginDate.AddDays(-1), beginDate.AddDays(-1)));
-			Assert.AreEqual(3, report.TradeItems.Count());
-			TradeItem child1Item = report.TradeItems.First(item => item.ProductId == childProduct1.ID);
+			Assert.AreEqual(3, report.Items.OfType<TradeItem>().Count());
+			TradeItem child1Item = report.Items.OfType<TradeItem>().First(item => item.ProductId == childProduct1.ID);
 			Assert.AreEqual(0, child1Item.InitialBalance);
 			Assert.AreEqual(0, child1Item.Income);
 			Assert.AreEqual(0, child1Item.Produced);
@@ -31,7 +31,7 @@ namespace ComfortIsland.UnitTests.Reports
 			Assert.AreEqual(0, child1Item.UsedToProduce);
 			Assert.AreEqual(0, child1Item.SentToWarehouse);
 			Assert.AreEqual(0, child1Item.FinalBalance);
-			TradeItem child2Item = report.TradeItems.First(item => item.ProductId == childProduct2.ID);
+			TradeItem child2Item = report.Items.OfType<TradeItem>().First(item => item.ProductId == childProduct2.ID);
 			Assert.AreEqual(0, child2Item.InitialBalance);
 			Assert.AreEqual(0, child2Item.Income);
 			Assert.AreEqual(0, child2Item.Produced);
@@ -39,7 +39,7 @@ namespace ComfortIsland.UnitTests.Reports
 			Assert.AreEqual(0, child2Item.UsedToProduce);
 			Assert.AreEqual(0, child2Item.SentToWarehouse);
 			Assert.AreEqual(0, child2Item.FinalBalance);
-			TradeItem parentItem = report.TradeItems.First(item => item.ProductId == parentProduct.ID);
+			TradeItem parentItem = report.Items.OfType<TradeItem>().First(item => item.ProductId == parentProduct.ID);
 			Assert.AreEqual(0, parentItem.InitialBalance);
 			Assert.AreEqual(0, parentItem.Income);
 			Assert.AreEqual(0, parentItem.Produced);
@@ -59,8 +59,8 @@ namespace ComfortIsland.UnitTests.Reports
 
 			// act and assert
 			var report = new TradeReport(database, new PeriodParams(beginDate.AddDays(4), beginDate.AddDays(4)));
-			Assert.AreEqual(3, report.TradeItems.Count());
-			var child1Item = report.TradeItems.First(item => item.ProductId == childProduct1.ID);
+			Assert.AreEqual(3, report.Items.OfType<TradeItem>().Count());
+			var child1Item = report.Items.OfType<TradeItem>().First(item => item.ProductId == childProduct1.ID);
 			Assert.AreEqual(0, child1Item.InitialBalance);
 			Assert.AreEqual(0, child1Item.Income);
 			Assert.AreEqual(0, child1Item.Produced);
@@ -68,7 +68,7 @@ namespace ComfortIsland.UnitTests.Reports
 			Assert.AreEqual(0, child1Item.UsedToProduce);
 			Assert.AreEqual(0, child1Item.SentToWarehouse);
 			Assert.AreEqual(0, child1Item.FinalBalance);
-			var child2Item = report.TradeItems.First(item => item.ProductId == childProduct2.ID);
+			var child2Item = report.Items.OfType<TradeItem>().First(item => item.ProductId == childProduct2.ID);
 			Assert.AreEqual(0, child2Item.InitialBalance);
 			Assert.AreEqual(0, child2Item.Income);
 			Assert.AreEqual(0, child2Item.Produced);
@@ -76,7 +76,7 @@ namespace ComfortIsland.UnitTests.Reports
 			Assert.AreEqual(0, child2Item.UsedToProduce);
 			Assert.AreEqual(0, child2Item.SentToWarehouse);
 			Assert.AreEqual(0, child2Item.FinalBalance);
-			var parentItem = report.TradeItems.First(item => item.ProductId == parentProduct.ID);
+			var parentItem = report.Items.OfType<TradeItem>().First(item => item.ProductId == parentProduct.ID);
 			Assert.AreEqual(0, parentItem.InitialBalance);
 			Assert.AreEqual(0, parentItem.Income);
 			Assert.AreEqual(0, parentItem.Produced);
@@ -96,8 +96,8 @@ namespace ComfortIsland.UnitTests.Reports
 
 			// act and assert
 			var report = new TradeReport(database, new PeriodParams(beginDate.AddDays(-1), beginDate.AddDays(4)));
-			Assert.AreEqual(3, report.TradeItems.Count());
-			TradeItem child1Item = report.TradeItems.First(item => item.ProductId == childProduct1.ID);
+			Assert.AreEqual(3, report.Items.OfType<TradeItem>().Count());
+			TradeItem child1Item = report.Items.OfType<TradeItem>().First(item => item.ProductId == childProduct1.ID);
 			Assert.AreEqual(0, child1Item.InitialBalance);
 			Assert.AreEqual(100, child1Item.Income);
 			Assert.AreEqual(0, child1Item.Produced);
@@ -105,7 +105,7 @@ namespace ComfortIsland.UnitTests.Reports
 			Assert.AreEqual(100, child1Item.UsedToProduce);
 			Assert.AreEqual(0, child1Item.SentToWarehouse);
 			Assert.AreEqual(0, child1Item.FinalBalance);
-			TradeItem child2Item = report.TradeItems.First(item => item.ProductId == childProduct2.ID);
+			TradeItem child2Item = report.Items.OfType<TradeItem>().First(item => item.ProductId == childProduct2.ID);
 			Assert.AreEqual(0, child2Item.InitialBalance);
 			Assert.AreEqual(300, child2Item.Income);
 			Assert.AreEqual(0, child2Item.Produced);
@@ -113,7 +113,7 @@ namespace ComfortIsland.UnitTests.Reports
 			Assert.AreEqual(200, child2Item.UsedToProduce);
 			Assert.AreEqual(0, child2Item.SentToWarehouse);
 			Assert.AreEqual(0, child2Item.FinalBalance);
-			TradeItem parentItem = report.TradeItems.First(item => item.ProductId == parentProduct.ID);
+			TradeItem parentItem = report.Items.OfType<TradeItem>().First(item => item.ProductId == parentProduct.ID);
 			Assert.AreEqual(0, parentItem.InitialBalance);
 			Assert.AreEqual(0, parentItem.Income);
 			Assert.AreEqual(100, parentItem.Produced);
@@ -133,8 +133,8 @@ namespace ComfortIsland.UnitTests.Reports
 
 			// act and assert
 			var report = new TradeReport(database, new PeriodParams(beginDate, beginDate));
-			Assert.AreEqual(3, report.TradeItems.Count());
-			TradeItem child1Item = report.TradeItems.First(item => item.ProductId == childProduct1.ID);
+			Assert.AreEqual(3, report.Items.Count);
+			TradeItem child1Item = report.Items.OfType<TradeItem>().First(item => item.ProductId == childProduct1.ID);
 			Assert.AreEqual(0, child1Item.InitialBalance);
 			Assert.AreEqual(100, child1Item.Income);
 			Assert.AreEqual(0, child1Item.Produced);
@@ -142,7 +142,7 @@ namespace ComfortIsland.UnitTests.Reports
 			Assert.AreEqual(0, child1Item.UsedToProduce);
 			Assert.AreEqual(0, child1Item.SentToWarehouse);
 			Assert.AreEqual(100, child1Item.FinalBalance);
-			TradeItem child2Item = report.TradeItems.First(item => item.ProductId == childProduct2.ID);
+			TradeItem child2Item = report.Items.OfType<TradeItem>().First(item => item.ProductId == childProduct2.ID);
 			Assert.AreEqual(0, child2Item.InitialBalance);
 			Assert.AreEqual(300, child2Item.Income);
 			Assert.AreEqual(0, child2Item.Produced);
@@ -150,7 +150,7 @@ namespace ComfortIsland.UnitTests.Reports
 			Assert.AreEqual(0, child2Item.UsedToProduce);
 			Assert.AreEqual(0, child2Item.SentToWarehouse);
 			Assert.AreEqual(300, child2Item.FinalBalance);
-			TradeItem parentItem = report.TradeItems.First(item => item.ProductId == parentProduct.ID);
+			TradeItem parentItem = report.Items.OfType<TradeItem>().First(item => item.ProductId == parentProduct.ID);
 			Assert.AreEqual(0, parentItem.InitialBalance);
 			Assert.AreEqual(0, parentItem.Income);
 			Assert.AreEqual(0, parentItem.Produced);
@@ -170,8 +170,8 @@ namespace ComfortIsland.UnitTests.Reports
 
 			// act and assert
 			var report = new TradeReport(database, new PeriodParams(beginDate.AddDays(1), beginDate.AddDays(1)));
-			Assert.AreEqual(3, report.TradeItems.Count());
-			TradeItem child1Item = report.TradeItems.First(item => item.ProductId == childProduct1.ID);
+			Assert.AreEqual(3, report.Items.OfType<TradeItem>().Count());
+			TradeItem child1Item = report.Items.OfType<TradeItem>().First(item => item.ProductId == childProduct1.ID);
 			Assert.AreEqual(100, child1Item.InitialBalance);
 			Assert.AreEqual(0, child1Item.Income);
 			Assert.AreEqual(0, child1Item.Produced);
@@ -179,7 +179,7 @@ namespace ComfortIsland.UnitTests.Reports
 			Assert.AreEqual(0, child1Item.UsedToProduce);
 			Assert.AreEqual(0, child1Item.SentToWarehouse);
 			Assert.AreEqual(100, child1Item.FinalBalance);
-			TradeItem child2Item = report.TradeItems.First(item => item.ProductId == childProduct2.ID);
+			TradeItem child2Item = report.Items.OfType<TradeItem>().First(item => item.ProductId == childProduct2.ID);
 			Assert.AreEqual(300, child2Item.InitialBalance);
 			Assert.AreEqual(0, child2Item.Income);
 			Assert.AreEqual(0, child2Item.Produced);
@@ -187,7 +187,7 @@ namespace ComfortIsland.UnitTests.Reports
 			Assert.AreEqual(0, child2Item.UsedToProduce);
 			Assert.AreEqual(0, child2Item.SentToWarehouse);
 			Assert.AreEqual(200, child2Item.FinalBalance);
-			TradeItem parentItem = report.TradeItems.First(item => item.ProductId == parentProduct.ID);
+			TradeItem parentItem = report.Items.OfType<TradeItem>().First(item => item.ProductId == parentProduct.ID);
 			Assert.AreEqual(0, parentItem.InitialBalance);
 			Assert.AreEqual(0, parentItem.Income);
 			Assert.AreEqual(0, parentItem.Produced);
@@ -207,8 +207,8 @@ namespace ComfortIsland.UnitTests.Reports
 
 			// act and assert
 			var report = new TradeReport(database, new PeriodParams(beginDate.AddDays(2), beginDate.AddDays(2)));
-			Assert.AreEqual(3, report.TradeItems.Count());
-			TradeItem child1Item = report.TradeItems.First(item => item.ProductId == childProduct1.ID);
+			Assert.AreEqual(3, report.Items.OfType<TradeItem>().Count());
+			TradeItem child1Item = report.Items.OfType<TradeItem>().First(item => item.ProductId == childProduct1.ID);
 			Assert.AreEqual(100, child1Item.InitialBalance);
 			Assert.AreEqual(0, child1Item.Income);
 			Assert.AreEqual(0, child1Item.Produced);
@@ -216,7 +216,7 @@ namespace ComfortIsland.UnitTests.Reports
 			Assert.AreEqual(100, child1Item.UsedToProduce);
 			Assert.AreEqual(0, child1Item.SentToWarehouse);
 			Assert.AreEqual(0, child1Item.FinalBalance);
-			TradeItem child2Item = report.TradeItems.First(item => item.ProductId == childProduct2.ID);
+			TradeItem child2Item = report.Items.OfType<TradeItem>().First(item => item.ProductId == childProduct2.ID);
 			Assert.AreEqual(200, child2Item.InitialBalance);
 			Assert.AreEqual(0, child2Item.Income);
 			Assert.AreEqual(0, child2Item.Produced);
@@ -224,7 +224,7 @@ namespace ComfortIsland.UnitTests.Reports
 			Assert.AreEqual(200, child2Item.UsedToProduce);
 			Assert.AreEqual(0, child2Item.SentToWarehouse);
 			Assert.AreEqual(0, child2Item.FinalBalance);
-			TradeItem parentItem = report.TradeItems.First(item => item.ProductId == parentProduct.ID);
+			TradeItem parentItem = report.Items.OfType<TradeItem>().First(item => item.ProductId == parentProduct.ID);
 			Assert.AreEqual(0, parentItem.InitialBalance);
 			Assert.AreEqual(0, parentItem.Income);
 			Assert.AreEqual(100, parentItem.Produced);
@@ -244,8 +244,8 @@ namespace ComfortIsland.UnitTests.Reports
 
 			// act and assert
 			var report = new TradeReport(database, new PeriodParams(beginDate.AddDays(3), beginDate.AddDays(3)));
-			Assert.AreEqual(3, report.TradeItems.Count());
-			TradeItem child1Item = report.TradeItems.First(item => item.ProductId == childProduct1.ID);
+			Assert.AreEqual(3, report.Items.OfType<TradeItem>().Count());
+			TradeItem child1Item = report.Items.OfType<TradeItem>().First(item => item.ProductId == childProduct1.ID);
 			Assert.AreEqual(0, child1Item.InitialBalance);
 			Assert.AreEqual(0, child1Item.Income);
 			Assert.AreEqual(0, child1Item.Produced);
@@ -253,7 +253,7 @@ namespace ComfortIsland.UnitTests.Reports
 			Assert.AreEqual(0, child1Item.UsedToProduce);
 			Assert.AreEqual(0, child1Item.SentToWarehouse);
 			Assert.AreEqual(0, child1Item.FinalBalance);
-			TradeItem child2Item = report.TradeItems.First(item => item.ProductId == childProduct2.ID);
+			TradeItem child2Item = report.Items.OfType<TradeItem>().First(item => item.ProductId == childProduct2.ID);
 			Assert.AreEqual(0, child2Item.InitialBalance);
 			Assert.AreEqual(0, child2Item.Income);
 			Assert.AreEqual(0, child2Item.Produced);
@@ -261,7 +261,7 @@ namespace ComfortIsland.UnitTests.Reports
 			Assert.AreEqual(0, child2Item.UsedToProduce);
 			Assert.AreEqual(0, child2Item.SentToWarehouse);
 			Assert.AreEqual(0, child2Item.FinalBalance);
-			TradeItem parentItem = report.TradeItems.First(item => item.ProductId == parentProduct.ID);
+			TradeItem parentItem = report.Items.OfType<TradeItem>().First(item => item.ProductId == parentProduct.ID);
 			Assert.AreEqual(100, parentItem.InitialBalance);
 			Assert.AreEqual(0, parentItem.Income);
 			Assert.AreEqual(0, parentItem.Produced);

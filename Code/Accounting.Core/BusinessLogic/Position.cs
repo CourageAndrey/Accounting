@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ComfortIsland.BusinessLogic
 {
-	public class Position
+	public class Position : IReportItem
 	{
 		#region Properties
 
@@ -81,5 +81,20 @@ namespace ComfortIsland.BusinessLogic
 		}
 
 		#endregion
+
+		public string GetValue(string columnBinding)
+		{
+			switch (columnBinding)
+			{
+				case "BoundProduct.Name":
+					return BoundProduct.Name;
+				case "BoundProduct.Unit.Name":
+					return BoundProduct.Unit.Name;
+				case "Count":
+					return Count.ToString(CultureInfo.InvariantCulture);
+				default:
+					return null;
+			}
+		}
 	}
 }

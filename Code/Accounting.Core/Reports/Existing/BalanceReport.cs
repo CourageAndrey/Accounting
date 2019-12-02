@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 using ComfortIsland.BusinessLogic;
@@ -18,13 +19,10 @@ namespace ComfortIsland.Reports
 		public ReportDescriptor Descriptor
 		{ get { return ReportDescriptor.Balance; } }
 
-		public System.Collections.IEnumerable Items
-		{ get { return BalanceItems; } }
-
-		public DateTime Date
+		public IReadOnlyList<IReportItem> Items
 		{ get; private set; }
 
-		public IEnumerable<Position> BalanceItems
+		public DateTime Date
 		{ get; private set; }
 
 		#endregion
@@ -47,15 +45,15 @@ namespace ComfortIsland.Reports
 				products[position.Key] = position.Value;
 			}
 
-			BalanceItems = products
+			Items = new ReadOnlyCollection<IReportItem>(products
 				.Where(item => parameters.IncludeAllProducts || item.Value > 0)
 				.Select(item =>
 				{
 					var position = new Position(item.Key, item.Value.HasValue ? item.Value.Value : 0);
 					position.SetProduct(database);
-					return position;
+					return position as IReportItem;
 				})
-				.ToList();
+				.ToList());
 		}
 	}
 }

@@ -1,8 +1,9 @@
 using ComfortIsland.BusinessLogic;
+using ComfortIsland.Helpers;
 
 namespace ComfortIsland.Reports
 {
-	public class TradeItem
+	public class TradeItem : IReportItem
 	{
 		#region Properties
 
@@ -44,6 +45,35 @@ namespace ComfortIsland.Reports
 			ProductName = product.Name;
 			ProductUnit = product.Unit.Name;
 			InitialBalance = Income = Produced = Selled = UsedToProduce = SentToWarehouse = FinalBalance = 0;
+		}
+
+		public string GetValue(string columnBinding)
+		{
+			switch (columnBinding)
+			{
+				case "ProductId":
+					return ProductId.ToString();
+				case "ProductName":
+					return ProductName;
+				case "ProductUnit":
+					return ProductUnit;
+				case "InitialBalance":
+					return InitialBalance.Simplify();
+				case "Income":
+					return Income.Simplify();
+				case "Produced":
+					return Produced.Simplify();
+				case "Selled":
+					return Selled.Simplify();
+				case "UsedToProduce":
+					return UsedToProduce.Simplify();
+				case "SentToWarehouse":
+					return SentToWarehouse.Simplify();
+				case "FinalBalance":
+					return FinalBalance.Simplify();
+				default:
+					return null;
+			}
 		}
 	}
 }

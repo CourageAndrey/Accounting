@@ -82,6 +82,7 @@
     <Compile Include="Reports\Existing\TradeItem.cs" />
     <Compile Include="Reports\Existing\TradeReport.cs" />
     <Compile Include="Reports\IReport.cs" />
+    <Compile Include="Reports\IReportItem.cs" />
     <Compile Include="Reports\Params\BalanceReportParams.cs" />
     <Compile Include="Reports\Params\PeriodParams.cs" />
     <Compile Include="Reports\ReportColumn.cs" />

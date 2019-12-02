@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 
@@ -19,16 +20,13 @@ namespace ComfortIsland.Reports
 		public ReportDescriptor Descriptor
 		{ get { return ReportDescriptor.Trade; } }
 
-		public System.Collections.IEnumerable Items
-		{ get { return TradeItems; } }
+		public IReadOnlyList<IReportItem> Items
+		{ get; private set; }
 
 		public DateTime FromDate
 		{ get; private set; }
 
 		public DateTime ToDate
-		{ get; private set; }
-
-		public IEnumerable<TradeItem> TradeItems
 		{ get; private set; }
 
 		#endregion
@@ -64,7 +62,7 @@ namespace ComfortIsland.Reports
 				items[position.Key].InitialBalance = position.Value;
 			}
 
-			TradeItems = items.Values;
+			Items = new ReadOnlyCollection<IReportItem>(items.Values.OfType<IReportItem>().ToList());
 		}
 
 		private delegate void UpdateTradeItem(IDictionary<long, TradeItem> items, IDictionary<Product, decimal> positions);

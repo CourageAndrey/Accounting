@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
 
 using ComfortIsland.Reports;
 
@@ -6,7 +6,7 @@ namespace ComfortIsland
 {
 	public interface IReport
 	{
-		IEnumerable Items { get; }
+		IReadOnlyList<IReportItem> Items { get; }
 
 		string Title { get; }
 

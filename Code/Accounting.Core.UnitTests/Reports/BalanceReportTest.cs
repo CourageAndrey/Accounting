@@ -22,56 +22,56 @@ namespace ComfortIsland.UnitTests.Reports
 
 			// act and assert
 			var report = new BalanceReport(database, new BalanceReportParams(beginDate.AddDays(-1), false));
-			Assert.AreEqual(0, report.BalanceItems.Count());
+			Assert.AreEqual(0, report.Items.Count);
 
 			report = new BalanceReport(database, new BalanceReportParams(beginDate.AddDays(-1), true));
-			var item = report.BalanceItems.Single();
+			var item = report.Items.OfType<Position>().Single();
 			Assert.AreSame(product, item.BoundProduct);
 			Assert.AreEqual(0, item.Count);
 
 			report = new BalanceReport(database, new BalanceReportParams(beginDate, false));
-			item = report.BalanceItems.Single();
+			item = report.Items.OfType<Position>().Single();
 			Assert.AreSame(product, item.BoundProduct);
 			Assert.AreEqual(10, item.Count);
 
 			report = new BalanceReport(database, new BalanceReportParams(beginDate, true));
-			item = report.BalanceItems.Single();
+			item = report.Items.OfType<Position>().Single();
 			Assert.AreSame(product, item.BoundProduct);
 			Assert.AreEqual(10, item.Count);
 
 			report = new BalanceReport(database, new BalanceReportParams(beginDate.AddDays(1), false));
-			item = report.BalanceItems.Single();
+			item = report.Items.OfType<Position>().Single();
 			Assert.AreSame(product, item.BoundProduct);
 			Assert.AreEqual(5, item.Count);
 
 			report = new BalanceReport(database, new BalanceReportParams(beginDate.AddDays(1), true));
-			item = report.BalanceItems.Single();
+			item = report.Items.OfType<Position>().Single();
 			Assert.AreSame(product, item.BoundProduct);
 			Assert.AreEqual(5, item.Count);
 
 			report = new BalanceReport(database, new BalanceReportParams(beginDate.AddDays(2), false));
-			item = report.BalanceItems.Single();
+			item = report.Items.OfType<Position>().Single();
 			Assert.AreSame(product, item.BoundProduct);
 			Assert.AreEqual(10, item.Count);
 
 			report = new BalanceReport(database, new BalanceReportParams(beginDate.AddDays(2), true));
-			item = report.BalanceItems.Single();
+			item = report.Items.OfType<Position>().Single();
 			Assert.AreSame(product, item.BoundProduct);
 			Assert.AreEqual(10, item.Count);
 
 			report = new BalanceReport(database, new BalanceReportParams(beginDate.AddDays(3), false));
-			Assert.AreEqual(0, report.BalanceItems.Count());
+			Assert.AreEqual(0, report.Items.OfType<Position>().Count());
 
 			report = new BalanceReport(database, new BalanceReportParams(beginDate.AddDays(3), true));
-			item = report.BalanceItems.Single();
+			item = report.Items.OfType<Position>().Single();
 			Assert.AreSame(product, item.BoundProduct);
 			Assert.AreEqual(0, item.Count);
 
 			report = new BalanceReport(database, new BalanceReportParams(beginDate.AddDays(4), false));
-			Assert.AreEqual(0, report.BalanceItems.Count());
+			Assert.AreEqual(0, report.Items.OfType<Position>().Count());
 
 			report = new BalanceReport(database, new BalanceReportParams(beginDate.AddDays(4), true));
-			item = report.BalanceItems.Single();
+			item = report.Items.OfType<Position>().Single();
 			Assert.AreSame(product, item.BoundProduct);
 			Assert.AreEqual(0, item.Count);
 		}
