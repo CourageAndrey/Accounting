@@ -6,6 +6,7 @@ using NUnit.Framework;
 
 using ComfortIsland.BusinessLogic;
 using ComfortIsland.Reports;
+using ComfortIsland.Reports.Params;
 
 namespace ComfortIsland.UnitTests.Reports
 {
@@ -20,56 +21,56 @@ namespace ComfortIsland.UnitTests.Reports
 			var database = createTestBase(beginDate, out product);
 
 			// act and assert
-			var report = new BalanceReport(database, beginDate.AddDays(-1), false);
+			var report = new BalanceReport(database, new BalanceReportParams(beginDate.AddDays(-1), false));
 			Assert.AreEqual(0, report.BalanceItems.Count());
 
-			report = new BalanceReport(database, beginDate.AddDays(-1), true);
+			report = new BalanceReport(database, new BalanceReportParams(beginDate.AddDays(-1), true));
 			var item = report.BalanceItems.Single();
 			Assert.AreSame(product, item.BoundProduct);
 			Assert.AreEqual(0, item.Count);
 
-			report = new BalanceReport(database, beginDate, false);
+			report = new BalanceReport(database, new BalanceReportParams(beginDate, false));
 			item = report.BalanceItems.Single();
 			Assert.AreSame(product, item.BoundProduct);
 			Assert.AreEqual(10, item.Count);
 
-			report = new BalanceReport(database, beginDate, true);
+			report = new BalanceReport(database, new BalanceReportParams(beginDate, true));
 			item = report.BalanceItems.Single();
 			Assert.AreSame(product, item.BoundProduct);
 			Assert.AreEqual(10, item.Count);
 
-			report = new BalanceReport(database, beginDate.AddDays(1), false);
+			report = new BalanceReport(database, new BalanceReportParams(beginDate.AddDays(1), false));
 			item = report.BalanceItems.Single();
 			Assert.AreSame(product, item.BoundProduct);
 			Assert.AreEqual(5, item.Count);
 
-			report = new BalanceReport(database, beginDate.AddDays(1), true);
+			report = new BalanceReport(database, new BalanceReportParams(beginDate.AddDays(1), true));
 			item = report.BalanceItems.Single();
 			Assert.AreSame(product, item.BoundProduct);
 			Assert.AreEqual(5, item.Count);
 
-			report = new BalanceReport(database, beginDate.AddDays(2), false);
+			report = new BalanceReport(database, new BalanceReportParams(beginDate.AddDays(2), false));
 			item = report.BalanceItems.Single();
 			Assert.AreSame(product, item.BoundProduct);
 			Assert.AreEqual(10, item.Count);
 
-			report = new BalanceReport(database, beginDate.AddDays(2), true);
+			report = new BalanceReport(database, new BalanceReportParams(beginDate.AddDays(2), true));
 			item = report.BalanceItems.Single();
 			Assert.AreSame(product, item.BoundProduct);
 			Assert.AreEqual(10, item.Count);
 
-			report = new BalanceReport(database, beginDate.AddDays(3), false);
+			report = new BalanceReport(database, new BalanceReportParams(beginDate.AddDays(3), false));
 			Assert.AreEqual(0, report.BalanceItems.Count());
 
-			report = new BalanceReport(database, beginDate.AddDays(3), true);
+			report = new BalanceReport(database, new BalanceReportParams(beginDate.AddDays(3), true));
 			item = report.BalanceItems.Single();
 			Assert.AreSame(product, item.BoundProduct);
 			Assert.AreEqual(0, item.Count);
 
-			report = new BalanceReport(database, beginDate.AddDays(4), false);
+			report = new BalanceReport(database, new BalanceReportParams(beginDate.AddDays(4), false));
 			Assert.AreEqual(0, report.BalanceItems.Count());
 
-			report = new BalanceReport(database, beginDate.AddDays(4), true);
+			report = new BalanceReport(database, new BalanceReportParams(beginDate.AddDays(4), true));
 			item = report.BalanceItems.Single();
 			Assert.AreSame(product, item.BoundProduct);
 			Assert.AreEqual(0, item.Count);
@@ -86,29 +87,29 @@ namespace ComfortIsland.UnitTests.Reports
 			// act and assert
 			Assert.AreEqual(0, database.Balance.ToList().Count());
 
-			new BalanceReport(database, beginDate.AddDays(-1), false);
+			new BalanceReport(database, new BalanceReportParams(beginDate.AddDays(-1), false));
 			Assert.AreEqual(0, database.Balance.ToList().Count());
-			new BalanceReport(database, beginDate.AddDays(-1), true);
-			Assert.AreEqual(0, database.Balance.ToList().Count());
-
-			new BalanceReport(database, beginDate, false);
-			Assert.AreEqual(0, database.Balance.ToList().Count());
-			new BalanceReport(database, beginDate, true);
+			new BalanceReport(database, new BalanceReportParams(beginDate.AddDays(-1), true));
 			Assert.AreEqual(0, database.Balance.ToList().Count());
 
-			new BalanceReport(database, beginDate.AddDays(1), false);
+			new BalanceReport(database, new BalanceReportParams(beginDate, false));
 			Assert.AreEqual(0, database.Balance.ToList().Count());
-			new BalanceReport(database, beginDate.AddDays(1), true);
-			Assert.AreEqual(0, database.Balance.ToList().Count());
-
-			new BalanceReport(database, beginDate.AddDays(2), false);
-			Assert.AreEqual(0, database.Balance.ToList().Count());
-			new BalanceReport(database, beginDate.AddDays(2), true);
+			new BalanceReport(database, new BalanceReportParams(beginDate, true));
 			Assert.AreEqual(0, database.Balance.ToList().Count());
 
-			new BalanceReport(database, beginDate.AddDays(3), false);
+			new BalanceReport(database, new BalanceReportParams(beginDate.AddDays(1), false));
 			Assert.AreEqual(0, database.Balance.ToList().Count());
-			new BalanceReport(database, beginDate.AddDays(3), true);
+			new BalanceReport(database, new BalanceReportParams(beginDate.AddDays(1), true));
+			Assert.AreEqual(0, database.Balance.ToList().Count());
+
+			new BalanceReport(database, new BalanceReportParams(beginDate.AddDays(2), false));
+			Assert.AreEqual(0, database.Balance.ToList().Count());
+			new BalanceReport(database, new BalanceReportParams(beginDate.AddDays(2), true));
+			Assert.AreEqual(0, database.Balance.ToList().Count());
+
+			new BalanceReport(database, new BalanceReportParams(beginDate.AddDays(3), false));
+			Assert.AreEqual(0, database.Balance.ToList().Count());
+			new BalanceReport(database, new BalanceReportParams(beginDate.AddDays(3), true));
 			Assert.AreEqual(0, database.Balance.ToList().Count());
 		}
 

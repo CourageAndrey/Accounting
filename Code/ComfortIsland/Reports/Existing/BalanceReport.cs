@@ -4,6 +4,7 @@ using System.Linq;
 
 using ComfortIsland.BusinessLogic;
 using ComfortIsland.Helpers;
+using ComfortIsland.Reports.Params;
 
 namespace ComfortIsland.Reports
 {
@@ -28,9 +29,9 @@ namespace ComfortIsland.Reports
 
 		#endregion
 
-		public BalanceReport(Database database, DateTime date, bool showAllProducts)
+		public BalanceReport(Database database, BalanceReportParams parameters)
 		{
-			Date = date.EndOfDay();
+			Date = parameters.Date.EndOfDay();
 
 			var balance = database.Balance.Clone();
 			var activeDocuments = database.GetActiveDocuments().ToList();
@@ -47,7 +48,7 @@ namespace ComfortIsland.Reports
 			}
 
 			BalanceItems = products
-				.Where(item => showAllProducts || item.Value > 0)
+				.Where(item => parameters.IncludeAllProducts || item.Value > 0)
 				.Select(item =>
 				{
 					var position = new Position(item.Key, item.Value.HasValue ? item.Value.Value : 0);

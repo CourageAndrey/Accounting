@@ -5,6 +5,7 @@ using System.Linq;
 
 using ComfortIsland.BusinessLogic;
 using ComfortIsland.Helpers;
+using ComfortIsland.Reports.Params;
 
 namespace ComfortIsland.Reports
 {
@@ -32,10 +33,10 @@ namespace ComfortIsland.Reports
 
 		#endregion
 
-		public TradeReport(Database database, Period period)
+		public TradeReport(Database database, PeriodParams parameters)
 		{
-			FromDate = period.From.Date;
-			ToDate = period.To.EndOfDay();
+			FromDate = parameters.Period.From.Date;
+			ToDate = parameters.Period.To.EndOfDay();
 			var items = database.Products.ToDictionary(p => p.ID, p => new TradeItem(p));
 			var balance = database.Balance.Clone();
 			var activeDocuments = database.GetActiveDocuments().ToList();

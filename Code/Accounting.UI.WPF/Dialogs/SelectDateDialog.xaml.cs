@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Windows;
 
+using ComfortIsland.Reports.Params;
+
 namespace ComfortIsland.Dialogs
 {
-	public partial class SelectDateDialog : IEditDialog<DateTime>
+	public partial class SelectDateDialog : IEditDialog<BalanceReportParams>
 	{
 		public SelectDateDialog()
 		{
@@ -18,16 +20,14 @@ namespace ComfortIsland.Dialogs
 
 		private IAccountingApplication _application;
 
-		public DateTime EditValue
+		public BalanceReportParams EditValue
 		{
-			get { return datePicker.SelectedDate.Value; }
-			set { datePicker.SelectedDate = value; }
-		}
-
-		public bool IncludeAllProducts
-		{
-			get { return checkBox.IsChecked.Value; }
-			set { checkBox.IsChecked = value; }
+			get { return new BalanceReportParams(datePicker.SelectedDate.Value, checkBox.IsChecked.Value); }
+			set
+			{
+				datePicker.SelectedDate = value.Date;
+				checkBox.IsChecked = value.IncludeAllProducts;
+			}
 		}
 
 		private void okClick(object sender, RoutedEventArgs e)

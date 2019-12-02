@@ -1,10 +1,11 @@
 ﻿using System.Windows;
 
 using ComfortIsland.Helpers;
+using ComfortIsland.Reports.Params;
 
 namespace ComfortIsland.Dialogs
 {
-	public partial class SelectPeriodDialog : IEditDialog<Period>
+	public partial class SelectPeriodDialog : IEditDialog<PeriodParams>
 	{
 		public SelectPeriodDialog()
 		{
@@ -19,13 +20,13 @@ namespace ComfortIsland.Dialogs
 
 		private IAccountingApplication _application;
 
-		public Period EditValue
+		public PeriodParams EditValue
 		{
-			get { return new Period(fromDatePicker.SelectedDate.Value, toDatePicker.SelectedDate.Value); }
+			get { return new PeriodParams(fromDatePicker.SelectedDate.Value, toDatePicker.SelectedDate.Value); }
 			set
 			{
-				fromDatePicker.SelectedDate = value.From;
-				toDatePicker.SelectedDate = value.To;
+				fromDatePicker.SelectedDate = value.Period.From;
+				toDatePicker.SelectedDate = value.Period.To;
 			}
 		}
 

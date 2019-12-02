@@ -5,8 +5,8 @@ using System.Linq;
 using NUnit.Framework;
 
 using ComfortIsland.BusinessLogic;
-using ComfortIsland.Helpers;
 using ComfortIsland.Reports;
+using ComfortIsland.Reports.Params;
 
 namespace ComfortIsland.UnitTests.Reports
 {
@@ -21,7 +21,7 @@ namespace ComfortIsland.UnitTests.Reports
 			var database = createTestBase(beginDate, out childProduct1, out childProduct2, out parentProduct);
 
 			// act and assert
-			var report = new TradeReport(database, new Period(beginDate.AddDays(-1), beginDate.AddDays(-1)));
+			var report = new TradeReport(database, new PeriodParams(beginDate.AddDays(-1), beginDate.AddDays(-1)));
 			Assert.AreEqual(3, report.TradeItems.Count());
 			TradeItem child1Item = report.TradeItems.First(item => item.ProductId == childProduct1.ID);
 			Assert.AreEqual(0, child1Item.InitialBalance);
@@ -58,7 +58,7 @@ namespace ComfortIsland.UnitTests.Reports
 			var database = createTestBase(beginDate, out childProduct1, out childProduct2, out parentProduct);
 
 			// act and assert
-			var report = new TradeReport(database, new Period(beginDate.AddDays(4), beginDate.AddDays(4)));
+			var report = new TradeReport(database, new PeriodParams(beginDate.AddDays(4), beginDate.AddDays(4)));
 			Assert.AreEqual(3, report.TradeItems.Count());
 			var child1Item = report.TradeItems.First(item => item.ProductId == childProduct1.ID);
 			Assert.AreEqual(0, child1Item.InitialBalance);
@@ -95,7 +95,7 @@ namespace ComfortIsland.UnitTests.Reports
 			var database = createTestBase(beginDate, out childProduct1, out childProduct2, out parentProduct);
 
 			// act and assert
-			var report = new TradeReport(database, new Period(beginDate.AddDays(-1), beginDate.AddDays(4)));
+			var report = new TradeReport(database, new PeriodParams(beginDate.AddDays(-1), beginDate.AddDays(4)));
 			Assert.AreEqual(3, report.TradeItems.Count());
 			TradeItem child1Item = report.TradeItems.First(item => item.ProductId == childProduct1.ID);
 			Assert.AreEqual(0, child1Item.InitialBalance);
@@ -132,7 +132,7 @@ namespace ComfortIsland.UnitTests.Reports
 			var database = createTestBase(beginDate, out childProduct1, out childProduct2, out parentProduct);
 
 			// act and assert
-			var report = new TradeReport(database, new Period(beginDate, beginDate));
+			var report = new TradeReport(database, new PeriodParams(beginDate, beginDate));
 			Assert.AreEqual(3, report.TradeItems.Count());
 			TradeItem child1Item = report.TradeItems.First(item => item.ProductId == childProduct1.ID);
 			Assert.AreEqual(0, child1Item.InitialBalance);
@@ -169,7 +169,7 @@ namespace ComfortIsland.UnitTests.Reports
 			var database = createTestBase(beginDate, out childProduct1, out childProduct2, out parentProduct);
 
 			// act and assert
-			var report = new TradeReport(database, new Period(beginDate.AddDays(1), beginDate.AddDays(1)));
+			var report = new TradeReport(database, new PeriodParams(beginDate.AddDays(1), beginDate.AddDays(1)));
 			Assert.AreEqual(3, report.TradeItems.Count());
 			TradeItem child1Item = report.TradeItems.First(item => item.ProductId == childProduct1.ID);
 			Assert.AreEqual(100, child1Item.InitialBalance);
@@ -206,7 +206,7 @@ namespace ComfortIsland.UnitTests.Reports
 			var database = createTestBase(beginDate, out childProduct1, out childProduct2, out parentProduct);
 
 			// act and assert
-			var report = new TradeReport(database, new Period(beginDate.AddDays(2), beginDate.AddDays(2)));
+			var report = new TradeReport(database, new PeriodParams(beginDate.AddDays(2), beginDate.AddDays(2)));
 			Assert.AreEqual(3, report.TradeItems.Count());
 			TradeItem child1Item = report.TradeItems.First(item => item.ProductId == childProduct1.ID);
 			Assert.AreEqual(100, child1Item.InitialBalance);
@@ -243,7 +243,7 @@ namespace ComfortIsland.UnitTests.Reports
 			var database = createTestBase(beginDate, out childProduct1, out childProduct2, out parentProduct);
 
 			// act and assert
-			var report = new TradeReport(database, new Period(beginDate.AddDays(3), beginDate.AddDays(3)));
+			var report = new TradeReport(database, new PeriodParams(beginDate.AddDays(3), beginDate.AddDays(3)));
 			Assert.AreEqual(3, report.TradeItems.Count());
 			TradeItem child1Item = report.TradeItems.First(item => item.ProductId == childProduct1.ID);
 			Assert.AreEqual(0, child1Item.InitialBalance);
@@ -286,7 +286,7 @@ namespace ComfortIsland.UnitTests.Reports
 			{
 				for (int addEnd = -1; addEnd <= 3; addEnd++)
 				{
-					new TradeReport(database, new Period(beginDate.AddDays(addBegin), beginDate.AddDays(addEnd)));
+					new TradeReport(database, new PeriodParams(beginDate.AddDays(addBegin), beginDate.AddDays(addEnd)));
 					Assert.AreEqual(0, database.Balance.ToList().Count());
 				}
 			}
