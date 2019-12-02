@@ -1,11 +1,9 @@
 ﻿using System.Linq;
-using System.Windows.Controls;
 using DocumentFormat.OpenXml.Packaging;
 using Ap = DocumentFormat.OpenXml.ExtendedProperties;
 using Vt = DocumentFormat.OpenXml.VariantTypes;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Spreadsheet;
-using Microsoft.Win32;
 using X15ac = DocumentFormat.OpenXml.Office2013.ExcelAc;
 using X15 = DocumentFormat.OpenXml.Office2013.Excel;
 using X14 = DocumentFormat.OpenXml.Office2010.Excel;
@@ -13,20 +11,24 @@ using A = DocumentFormat.OpenXml.Drawing;
 using Border = DocumentFormat.OpenXml.Spreadsheet.Border;
 using Thm15 = DocumentFormat.OpenXml.Office2013.Theme;
 
-namespace ComfortIsland.Reports
+using ComfortIsland;
+
+namespace Accounting.Reports.OpenXml
 {
-	public static class ExcelHelper
+	public class ExcelOpenXmlReportExporter : IReportExporter
 	{
-		public static SaveFileDialog CreateSaveDialog()
+		public string SaveFileDialogFilter
+		{ get { return "Файлы Excel OpenXML (XLSX)|*.xlsx"; } }
+
+		public void ExportReport(IReport report, string fileName)
 		{
-			return new SaveFileDialog
+			using (SpreadsheetDocument spreadsheet = SpreadsheetDocument.Create(fileName, SpreadsheetDocumentType.Workbook))
 			{
-				Title = "Выберите имя файла для сохранения...",
-				Filter = "Файлы Excel (XLSX)|*.xlsx",
-			};
+				exportReport(spreadsheet, report);
+			}
 		}
 
-		public static void ExportReport(SpreadsheetDocument document, string header, DataGrid table)
+		private static void exportReport(SpreadsheetDocument document, IReport report)
 		{
 			ExtendedFilePropertiesPart extendedFilePropertiesPart1 = document.AddNewPart<ExtendedFilePropertiesPart>("rId3");
 			GenerateExtendedFilePropertiesPart1Content(extendedFilePropertiesPart1);
@@ -41,7 +43,7 @@ namespace ComfortIsland.Reports
 			GenerateThemePart1Content(themePart1);
 
 			WorksheetPart worksheetPart1 = workbookPart1.AddNewPart<WorksheetPart>("rId1");
-			GenerateWorksheetPart1Content(worksheetPart1, header, table);
+			GenerateWorksheetPart1Content(worksheetPart1, report);
 
 			SpreadsheetPrinterSettingsPart spreadsheetPrinterSettingsPart1 = worksheetPart1.AddNewPart<SpreadsheetPrinterSettingsPart>("rId1");
 			GenerateSpreadsheetPrinterSettingsPart1Content(spreadsheetPrinterSettingsPart1);
@@ -856,7 +858,7 @@ namespace ComfortIsland.Reports
 			themePart1.Theme = theme1;
 		}
 
-		private static void GenerateWorksheetPart1Content(WorksheetPart worksheetPart1, string header, DataGrid table)
+		private static void GenerateWorksheetPart1Content(WorksheetPart worksheetPart1, IReport report)
 		{
 			Worksheet worksheet1 = new Worksheet() { MCAttributes = new MarkupCompatibilityAttributes() { Ignorable = "x14ac" } };
 			worksheet1.AddNamespaceDeclaration("r", "http://schemas.openxmlformats.org/officeDocument/2006/relationships");
@@ -874,10 +876,12 @@ namespace ComfortIsland.Reports
 			sheetViews1.Append(sheetView1);
 			SheetFormatProperties sheetFormatProperties1 = new SheetFormatProperties() { DefaultRowHeight = 15D, DyDescent = 0.25D };
 
+			var reportColumns = report.Descriptor.GetColumns().ToList();
+
 			Columns columns1 = new Columns();
-			for (uint c = 0; c < table.Columns.Count; c++)
+			for (uint c = 0; c < reportColumns.Count; c++)
 			{
-				columns1.Append(new Column { Min = c + 2U, Max = c + 2U, Width = (uint) table.Columns[(int) c].ActualWidth / 5, CustomWidth = true });
+				columns1.Append(new Column { Min = c + 2U, Max = c + 2U, Width = (uint) reportColumns[(int) c].MinWidth / 5, CustomWidth = true });
 			}
 
 			SheetData sheetData1 = new SheetData();
@@ -885,29 +889,27 @@ namespace ComfortIsland.Reports
 			Row rowReportHeader = new Row { RowIndex = (UInt32Value)2U, Spans = new ListValue<StringValue>() { InnerText = "2:5" }, DyDescent = 0.25D };
 
 			Cell cellReportHeader = new Cell { CellReference = "B2", StyleIndex = 3U, DataType = CellValues.String };
-			cellReportHeader.Append(new CellValue { Text = header });
+			cellReportHeader.Append(new CellValue { Text = report.Title });
 			rowReportHeader.Append(cellReportHeader);
 			sheetData1.Append(rowReportHeader);
 
 			Row rowTableHeader = new Row { RowIndex = 4U, Spans = new ListValue<StringValue> { InnerText = "2:5" }, DyDescent = 0.25D };
-			for (int c = 0; c < table.Columns.Count; c++)
+			for (int c = 0; c < reportColumns.Count; c++)
 			{
 				Cell headerCell = new Cell { CellReference = (char)('B' + c) + "4", StyleIndex = 2U, DataType = CellValues.String };
-				headerCell.Append(new CellValue { Text = table.Columns[c].Header.ToString() });
+				headerCell.Append(new CellValue { Text = reportColumns[c].Header.ToString() });
 				rowTableHeader.Append(headerCell);
 			}
 			sheetData1.Append(rowTableHeader);
 
-			var items = table.ItemsSource.OfType<object>().ToList();
-			for (uint r = 0; r < items.Count; r++)
+			for (uint r = 0; r < report.Items.Count; r++)
 			{
 				Row row = new Row { RowIndex = 5 + r, Spans = new ListValue<StringValue> { InnerText = "2:5" }, DyDescent = 0.25D };
-				for (int c = 0; c < table.Columns.Count; c++)
+				for (int c = 0; c < reportColumns.Count; c++)
 				{
 					Cell cell = new Cell { CellReference = (char)('B' + c) + (5 + r).ToString(), StyleIndex = 1U, DataType = CellValues.String };
-					var cellContent = table.Columns[c].GetCellContent(items[(int) r]);
-					var cellTextBlock = cellContent as TextBlock;
-					cell.Append(new CellValue { Text = cellTextBlock != null ? cellTextBlock.Text : string.Empty });
+					string cellText = report.Items[(int) r].GetValue(reportColumns[c].Binding);
+					cell.Append(new CellValue { Text = cellText });
 					row.Append(cell);
 				}
 				sheetData1.Append(row);

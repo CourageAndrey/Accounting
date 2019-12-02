@@ -11,5 +11,7 @@ namespace ComfortIsland
 		Database Database { get; }
 
 		IUserInterface UserInterface { get; }
+
+		IReportExporter ReportExporter { get; }
 	}
 }

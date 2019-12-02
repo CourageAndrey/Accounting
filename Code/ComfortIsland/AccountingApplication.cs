@@ -3,6 +3,8 @@ using System.IO;
 using System.Text;
 using System.Windows;
 
+using Accounting.Reports.OpenXml;
+
 using ComfortIsland.Configuration;
 using ComfortIsland.DataAccessLayer;
 
@@ -24,6 +26,9 @@ namespace ComfortIsland
 		public IUserInterface UserInterface
 		{ get; }
 
+		public IReportExporter ReportExporter
+		{ get; }
+
 		#endregion
 
 		public AccountingApplication()
@@ -32,6 +37,8 @@ namespace ComfortIsland
 			setupExceptionHandling(appDomain);
 
 			UserInterface = new WpfUserInterface();
+
+			ReportExporter = new ExcelOpenXmlReportExporter();
 
 			ComfortIsland.Configuration.Xml.DatabaseDriver.RegisterImplementation<ComfortIsland.Configuration.Xml.DatabaseDrivers.XmlDatabaseDriver>("XmlDatabaseDriver");
 

@@ -64,7 +64,6 @@
     <Compile Include="Controls\ReportControl.xaml.cs">
       <DependentUpon>ReportControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Reports\ExcelHelper.cs" />
     <Page Include="Controls\ReportControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

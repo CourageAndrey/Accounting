@@ -30,6 +30,7 @@ namespace ComfortIsland
 		public void ConnectTo(IAccountingApplication application)
 		{
 			_application = application;
+			reportControl.ConnectTo(application);
 			FontSize = application.Settings.UserInterface.FontSize;
 		}
 

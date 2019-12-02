@@ -5,13 +5,19 @@ using System.Windows.Data;
 using ComfortIsland.Helpers;
 using ComfortIsland.Reports;
 
-using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.Packaging;
+using Microsoft.Win32;
 
 namespace ComfortIsland.Controls
 {
-	public partial class ReportControl
+	public partial class ReportControl : IAccountingApplicationClient
 	{
+		public void ConnectTo(IAccountingApplication application)
+		{
+			_application = application;
+		}
+
+		private IAccountingApplication _application;
+
 		public ReportControl()
 		{
 			InitializeComponent();
@@ -85,17 +91,17 @@ namespace ComfortIsland.Controls
 			column.CellStyle.Setters.Add(new Setter(TextBlock.HorizontalAlignmentProperty, HorizontalAlignment.Right));
 		}
 
-		private static readonly Microsoft.Win32.SaveFileDialog _saveDialog = ExcelHelper.CreateSaveDialog();
-
 		private void printClick(object sender, RoutedEventArgs e)
 		{
-			if (_saveDialog.ShowDialog() == true)
+			var saveDialog = new SaveFileDialog
 			{
-				using (SpreadsheetDocument spreadsheet = SpreadsheetDocument.Create(_saveDialog.FileName, SpreadsheetDocumentType.Workbook))
-				{
-					ExcelHelper.ExportReport(spreadsheet, header.Text, itemsGrid);
-				}
-				_saveDialog.FileName.ShellOpen();
+				Title = "Выберите имя файла для сохранения...",
+				Filter = _application.ReportExporter.SaveFileDialogFilter,
+			};
+			if (saveDialog.ShowDialog() == true)
+			{
+				_application.ReportExporter.ExportReport(report, saveDialog.FileName);
+				saveDialog.FileName.ShellOpen();
 			}
 		}
 	}
