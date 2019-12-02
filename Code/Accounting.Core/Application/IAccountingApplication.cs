@@ -9,5 +9,7 @@ namespace ComfortIsland
 		Configuration.Settings Settings { get; }
 
 		Database Database { get; }
+
+		IUserInterface UserInterface { get; }
 	}
 }

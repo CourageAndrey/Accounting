@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-using ComfortIsland.Dialogs;
 using ComfortIsland.Reports.Params;
 
 namespace ComfortIsland.Reports
@@ -43,11 +41,10 @@ namespace ComfortIsland.Reports
 
 		public override bool CreateReport(IAccountingApplication application, out IReport report)
 		{
-			var dialog = new SelectDateDialog { EditValue = new BalanceReportParams() };
-			dialog.ConnectTo(application);
-			if (dialog.ShowDialog() == true)
+			var selectedDate = new BalanceReportParams();
+			if (application.UserInterface.SelectDate(application, ref selectedDate))
 			{
-				report = new BalanceReport(application.Database, dialog.EditValue);
+				report = new BalanceReport(application.Database, selectedDate);
 				return true;
 			}
 			else

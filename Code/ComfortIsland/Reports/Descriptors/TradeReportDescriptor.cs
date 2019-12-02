@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using ComfortIsland.Dialogs;
 using ComfortIsland.Helpers;
 using ComfortIsland.Reports.Params;
 
@@ -86,11 +85,10 @@ namespace ComfortIsland.Reports
 
 		public override bool CreateReport(IAccountingApplication application, out IReport report)
 		{
-			var dialog = new SelectPeriodDialog { EditValue = new PeriodParams() };
-			dialog.ConnectTo(application);
-			if (dialog.ShowDialog() == true)
+			var selectedPeriod = new PeriodParams();
+			if (application.UserInterface.SelectPeriod(application, ref selectedPeriod))
 			{
-				report = new TradeReport(application.Database, dialog.EditValue);
+				report = new TradeReport(application.Database, selectedPeriod);
 				return true;
 			}
 			else

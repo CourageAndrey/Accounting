@@ -21,12 +21,17 @@ namespace ComfortIsland
 		public BusinessLogic.Database Database
 		{ get; }
 
+		public IUserInterface UserInterface
+		{ get; }
+
 		#endregion
 
 		public AccountingApplication()
 		{
 			var appDomain = AppDomain.CurrentDomain;
 			setupExceptionHandling(appDomain);
+
+			UserInterface = new WpfUserInterface();
 
 			ComfortIsland.Configuration.Xml.DatabaseDriver.RegisterImplementation<ComfortIsland.Configuration.Xml.DatabaseDrivers.XmlDatabaseDriver>("XmlDatabaseDriver");
 
