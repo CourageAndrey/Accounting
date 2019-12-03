@@ -2,6 +2,8 @@
 using System.Xml;
 using System.Xml.Serialization;
 
+using Accounting.Core.DataAccessLayer;
+
 namespace ComfortIsland.DataAccessLayer.Xml
 {
 	public class DatabaseDriver : IDatabaseDriver

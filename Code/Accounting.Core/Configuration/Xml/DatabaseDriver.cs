@@ -8,7 +8,7 @@ namespace Accounting.Core.Configuration.Xml
 	[XmlType]
 	public abstract class DatabaseDriver
 	{
-		public abstract ComfortIsland.DataAccessLayer.IDatabaseDriver CreateDataAccessLayer();
+		public abstract Accounting.Core.DataAccessLayer.IDatabaseDriver CreateDataAccessLayer();
 
 		#region Customization
 

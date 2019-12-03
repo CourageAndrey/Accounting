@@ -1,6 +1,7 @@
 ﻿using System.Xml.Serialization;
 
 using Accounting.Core.Configuration.Xml;
+using Accounting.Core.DataAccessLayer;
 
 namespace ComfortIsland.Configuration.Xml.DatabaseDrivers
 {
@@ -11,7 +12,7 @@ namespace ComfortIsland.Configuration.Xml.DatabaseDrivers
 		public string FileName
 		{ get; set; }
 
-		public override DataAccessLayer.IDatabaseDriver CreateDataAccessLayer()
+		public override IDatabaseDriver CreateDataAccessLayer()
 		{
 			return new DataAccessLayer.Xml.DatabaseDriver(FileName);
 		}

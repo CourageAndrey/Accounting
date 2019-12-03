@@ -1,6 +1,6 @@
 ﻿using ComfortIsland.BusinessLogic;
 
-namespace ComfortIsland.DataAccessLayer
+namespace Accounting.Core.DataAccessLayer
 {
 	public interface IDatabaseDriver
 	{

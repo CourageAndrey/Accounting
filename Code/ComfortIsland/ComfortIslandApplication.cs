@@ -4,10 +4,9 @@ using System.Text;
 using System.Windows;
 
 using Accounting.Core.Application;
+using Accounting.Core.DataAccessLayer;
 using Accounting.Core.Configuration;
 using Accounting.Reports.OpenXml;
-
-using ComfortIsland.DataAccessLayer;
 
 namespace ComfortIsland
 {

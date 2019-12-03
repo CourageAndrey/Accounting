@@ -6,8 +6,9 @@ using System.Linq;
 using NUnit.Framework;
 
 using ComfortIsland.BusinessLogic;
-using ComfortIsland.DataAccessLayer;
 using ComfortIsland.Helpers;
+
+using Accounting.Core.DataAccessLayer;
 
 namespace Accounting.DAL.XML.UnitTests
 {

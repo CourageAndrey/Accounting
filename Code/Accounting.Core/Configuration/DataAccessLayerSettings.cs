@@ -1,4 +1,4 @@
-﻿using ComfortIsland.DataAccessLayer;
+﻿using Accounting.Core.DataAccessLayer;
 
 namespace Accounting.Core.Configuration
 {
