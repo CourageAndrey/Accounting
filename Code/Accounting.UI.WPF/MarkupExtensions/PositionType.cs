@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Markup;
 
-namespace Accounting.UI.WPF.ViewModels
+namespace Accounting.UI.WPF.MarkupExtensions
 {
 	public class PositionType : MarkupExtension
 	{

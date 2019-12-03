@@ -77,7 +77,7 @@
     </Compile>
     <Compile Include="ViewModels\Document.cs" />
     <Compile Include="ViewModels\NotifyDataErrorInfo.cs" />
-    <Compile Include="ViewModels\PositionType.cs" />
+    <Compile Include="MarkupExtensions\PositionType.cs" />
     <Compile Include="ViewModels\Product.cs" />
     <Compile Include="ViewModels\Unit.cs" />
     <Compile Include="WpfUserInterface.cs" />
