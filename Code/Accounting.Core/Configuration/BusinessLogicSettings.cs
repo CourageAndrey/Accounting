@@ -1,6 +1,6 @@
 ﻿using ComfortIsland.BusinessLogic;
 
-namespace ComfortIsland.Configuration
+namespace Accounting.Core.Configuration
 {
 	public class BusinessLogicSettings
 	{

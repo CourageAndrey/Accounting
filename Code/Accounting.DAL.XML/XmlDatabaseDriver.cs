@@ -1,5 +1,7 @@
 ﻿using System.Xml.Serialization;
 
+using Accounting.Core.Configuration.Xml;
+
 namespace ComfortIsland.Configuration.Xml.DatabaseDrivers
 {
 	[XmlType]

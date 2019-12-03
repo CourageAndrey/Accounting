@@ -1,4 +1,4 @@
-﻿namespace ComfortIsland.Configuration
+﻿namespace Accounting.Core.Configuration
 {
 	public class UserInterfaceSettings
 	{

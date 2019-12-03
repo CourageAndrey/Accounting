@@ -1,6 +1,6 @@
 ﻿using ComfortIsland.DataAccessLayer;
 
-namespace ComfortIsland.Configuration
+namespace Accounting.Core.Configuration
 {
 	public class DataAccessLayerSettings
 	{

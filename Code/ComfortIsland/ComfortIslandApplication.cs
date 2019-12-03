@@ -4,9 +4,9 @@ using System.Text;
 using System.Windows;
 
 using Accounting.Core.Application;
+using Accounting.Core.Configuration;
 using Accounting.Reports.OpenXml;
 
-using ComfortIsland.Configuration;
 using ComfortIsland.DataAccessLayer;
 
 namespace ComfortIsland
@@ -41,10 +41,10 @@ namespace ComfortIsland
 
 			ReportExporter = new ExcelOpenXmlReportExporter();
 
-			ComfortIsland.Configuration.Xml.DatabaseDriver.RegisterImplementation<ComfortIsland.Configuration.Xml.DatabaseDrivers.XmlDatabaseDriver>("XmlDatabaseDriver");
+			Accounting.Core.Configuration.Xml.DatabaseDriver.RegisterImplementation<ComfortIsland.Configuration.Xml.DatabaseDrivers.XmlDatabaseDriver>("XmlDatabaseDriver");
 
 			StartupPath = AppDomain.CurrentDomain.BaseDirectory;
-			Settings = new Settings(Configuration.Xml.Settings.Load(StartupPath));
+			Settings = new Settings(Accounting.Core.Configuration.Xml.Settings.Load(StartupPath));
 			Database = Settings.DataAccessLayer.DatabaseDriver.TryLoad();
 
 			var mainWindow = new MainWindow();

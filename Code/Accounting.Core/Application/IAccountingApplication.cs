@@ -1,12 +1,14 @@
 ﻿using ComfortIsland.BusinessLogic;
 
+using Accounting.Core.Configuration;
+
 namespace Accounting.Core.Application
 {
 	public interface IAccountingApplication
 	{
 		string StartupPath { get; }
 
-		ComfortIsland.Configuration.Settings Settings { get; }
+		Settings Settings { get; }
 
 		Database Database { get; }
 

@@ -2,7 +2,7 @@
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace ComfortIsland.Configuration.Xml
+namespace Accounting.Core.Configuration.Xml
 {
 	[XmlType]
 	public class Settings

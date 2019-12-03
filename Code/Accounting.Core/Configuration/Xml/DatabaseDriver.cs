@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Xml.Serialization;
 
-namespace ComfortIsland.Configuration.Xml
+namespace Accounting.Core.Configuration.Xml
 {
 	[XmlType]
 	public abstract class DatabaseDriver
 	{
-		public abstract DataAccessLayer.IDatabaseDriver CreateDataAccessLayer();
+		public abstract ComfortIsland.DataAccessLayer.IDatabaseDriver CreateDataAccessLayer();
 
 		#region Customization
 
