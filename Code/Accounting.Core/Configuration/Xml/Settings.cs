@@ -2,6 +2,8 @@
 using System.Xml;
 using System.Xml.Serialization;
 
+using Accounting.Core.Configuration.Extensions;
+
 namespace Accounting.Core.Configuration.Xml
 {
 	[XmlType]
@@ -30,7 +32,7 @@ namespace Accounting.Core.Configuration.Xml
 		private static XmlAttributeOverrides getXmlAttributeOverrides()
 		{
 			var databaseDriverTypeAttributes = new XmlAttributes();
-			foreach (var implementation in DatabaseDriver.GetRegisteredImplementations())
+			foreach (var implementation in DatabaseDriverExtensions.GetRegisteredImplementations())
 			{
 				databaseDriverTypeAttributes.XmlElements.Add(new XmlElementAttribute(implementation.Key, implementation.Value));
 			}

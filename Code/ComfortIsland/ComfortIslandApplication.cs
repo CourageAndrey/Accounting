@@ -43,7 +43,7 @@ namespace ComfortIsland
 
 			ReportExporter = new ExcelOpenXmlReportExporter();
 
-			Accounting.Core.Configuration.Xml.DatabaseDriver.RegisterImplementation<XmlDatabaseDriver>("XmlDatabaseDriver");
+			Accounting.Core.Configuration.Extensions.DatabaseDriverExtensions.RegisterImplementation<XmlDatabaseDriver>("XmlDatabaseDriver");
 
 			StartupPath = AppDomain.CurrentDomain.BaseDirectory;
 			Settings = new Settings(Accounting.Core.Configuration.Xml.Settings.Load(StartupPath));
