@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using ComfortIsland.Helpers;
+using Accounting.Core.Helpers;
 
 namespace ComfortIsland.BusinessLogic
 {

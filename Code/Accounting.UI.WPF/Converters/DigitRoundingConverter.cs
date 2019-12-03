@@ -2,6 +2,8 @@
 using System.Globalization;
 using System.Windows.Data;
 
+using Accounting.Core.Helpers;
+
 namespace ComfortIsland.Helpers
 {
 	[ValueConversion(typeof(decimal), typeof(string))]

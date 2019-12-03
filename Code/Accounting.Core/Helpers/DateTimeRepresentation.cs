@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace ComfortIsland.Helpers
+namespace Accounting.Core.Helpers
 {
 	public static class DateTimeRepresentation
 	{

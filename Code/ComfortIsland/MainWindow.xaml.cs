@@ -11,10 +11,10 @@ using System.Windows.Input;
 
 using ComfortIsland.BusinessLogic;
 using ComfortIsland.Dialogs;
-using ComfortIsland.Helpers;
 using ComfortIsland.Reports;
 
 using Accounting.Core.Application;
+using Accounting.Core.Helpers;
 
 namespace ComfortIsland
 {

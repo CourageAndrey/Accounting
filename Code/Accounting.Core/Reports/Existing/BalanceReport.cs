@@ -4,8 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 
 using ComfortIsland.BusinessLogic;
-using ComfortIsland.Helpers;
 using ComfortIsland.Reports.Params;
+
+using Accounting.Core.Helpers;
 
 namespace ComfortIsland.Reports
 {

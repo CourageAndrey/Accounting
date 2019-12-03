@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ComfortIsland.Helpers
+namespace Accounting.Core.Helpers
 {
 	public static class DictionaryComparer
 	{

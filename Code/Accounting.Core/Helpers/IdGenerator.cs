@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace ComfortIsland.Helpers
+namespace Accounting.Core.Helpers
 {
 	public static class IdGenerator
 	{
 		public static long NewId<T>(this ICollection<T> list)
-			where T: IEntity
+			where T: ComfortIsland.IEntity
 		{
 			return list.Count > 0
 				? list.Max(entity => entity.ID) + 1

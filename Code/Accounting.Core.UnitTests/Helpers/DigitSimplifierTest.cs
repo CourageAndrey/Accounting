@@ -1,4 +1,4 @@
-﻿using ComfortIsland.Helpers;
+﻿using Accounting.Core.Helpers;
 
 using NUnit.Framework;
 

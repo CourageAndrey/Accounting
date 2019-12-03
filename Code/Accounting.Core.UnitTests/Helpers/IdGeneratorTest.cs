@@ -3,7 +3,7 @@
 using NUnit.Framework;
 
 using ComfortIsland;
-using ComfortIsland.Helpers;
+using Accounting.Core.Helpers;
 
 namespace Accounting.Core.UnitTests.Helpers
 {

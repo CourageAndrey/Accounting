@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ComfortIsland.Helpers
+namespace Accounting.Core.Helpers
 {
 	public class Period
 	{

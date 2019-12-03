@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace ComfortIsland.Helpers
+namespace Accounting.Core.Helpers
 {
 	public static class FileSystemHelper
 	{

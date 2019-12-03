@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using NUnit.Framework;
 
 using ComfortIsland.BusinessLogic;
-using ComfortIsland.Helpers;
+
+using Accounting.Core.Helpers;
 
 namespace Accounting.Core.UnitTests.BusinessLogic
 {
