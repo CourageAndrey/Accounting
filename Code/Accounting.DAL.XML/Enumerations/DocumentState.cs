@@ -12,8 +12,8 @@ namespace ComfortIsland.DataAccessLayer.Xml
 
 	public static class DocumentStateConverter
 	{
-		private static readonly IDictionary<DocumentState, BusinessLogic.DocumentState> _enumToClass = new Dictionary<DocumentState, BusinessLogic.DocumentState>();
-		private static readonly IDictionary<BusinessLogic.DocumentState, DocumentState> _classToEnum = new Dictionary<BusinessLogic.DocumentState, DocumentState>();
+		private static readonly IDictionary<DocumentState, Accounting.Core.BusinessLogic.DocumentState> _enumToClass = new Dictionary<DocumentState, Accounting.Core.BusinessLogic.DocumentState>();
+		private static readonly IDictionary<Accounting.Core.BusinessLogic.DocumentState, DocumentState> _classToEnum = new Dictionary<Accounting.Core.BusinessLogic.DocumentState, DocumentState>();
 
 		static DocumentStateConverter()
 		{
@@ -23,7 +23,7 @@ namespace ComfortIsland.DataAccessLayer.Xml
 				DocumentState.Edited,
 				DocumentState.Deleted,
 			};
-			var objects = BusinessLogic.DocumentState.All.ToArray();
+			var objects = Accounting.Core.BusinessLogic.DocumentState.All.ToArray();
 			for (int i = 0; i < objects.Length; i++)
 			{
 				_classToEnum[objects[i]] = enums[i];
@@ -31,12 +31,12 @@ namespace ComfortIsland.DataAccessLayer.Xml
 			}
 		}
 
-		public static DocumentState ToEnum(this BusinessLogic.DocumentState value)
+		public static DocumentState ToEnum(this Accounting.Core.BusinessLogic.DocumentState value)
 		{
 			return _classToEnum[value];
 		}
 
-		public static BusinessLogic.DocumentState ToClass(this DocumentState value)
+		public static Accounting.Core.BusinessLogic.DocumentState ToClass(this DocumentState value)
 		{
 			return _enumToClass[value];
 		}

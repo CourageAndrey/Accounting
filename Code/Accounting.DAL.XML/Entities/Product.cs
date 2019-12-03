@@ -34,19 +34,19 @@ namespace ComfortIsland.DataAccessLayer.Xml
 			Children = new List<Position>();
 		}
 
-		public Product(BusinessLogic.Product product)
+		public Product(Accounting.Core.BusinessLogic.Product product)
 		{
 			ID = product.ID;
 			Name = product.Name;
 			UnitID = product.Unit.ID;
-			Children = product.Children.Select(child => new Position(new BusinessLogic.Position(child.Key.ID, child.Value))).ToList();
+			Children = product.Children.Select(child => new Position(new Accounting.Core.BusinessLogic.Position(child.Key.ID, child.Value))).ToList();
 		}
 
 		#endregion
 
-		public BusinessLogic.Product ConvertToBusinessLogic()
+		public Accounting.Core.BusinessLogic.Product ConvertToBusinessLogic()
 		{
-			return new BusinessLogic.Product
+			return new Accounting.Core.BusinessLogic.Product
 			{
 				ID = ID,
 				Name = Name,

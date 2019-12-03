@@ -37,7 +37,7 @@ namespace ComfortIsland.DataAccessLayer.Xml
 			Units = new List<Unit>();
 		}
 
-		public Database(BusinessLogic.Database database)
+		public Database(Accounting.Core.BusinessLogic.Database database)
 		{
 			Documents = database.Documents.Select(document => new Document(document)).ToList();
 			Balance = database.Balance.ToPositions().Select(position => new Balance(position.ID, position.Count)).ToList();
@@ -47,9 +47,9 @@ namespace ComfortIsland.DataAccessLayer.Xml
 
 		#endregion
 
-		public BusinessLogic.Database ConvertToBusinessLogic()
+		public Accounting.Core.BusinessLogic.Database ConvertToBusinessLogic()
 		{
-			var database = new BusinessLogic.Database(
+			var database = new Accounting.Core.BusinessLogic.Database(
 				Units.Select(unit => unit.ConvertToBusinessLogic()),
 				Products.Select(product => product.ConvertToBusinessLogic()),
 				Balance.ToDictionary(

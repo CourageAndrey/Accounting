@@ -3,7 +3,7 @@ using System.Text;
 
 using NUnit.Framework;
 
-using ComfortIsland.BusinessLogic;
+using Accounting.Core.BusinessLogic;
 
 namespace Accounting.Core.UnitTests.BusinessLogic.BalanceValidation
 {

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ComfortIsland.ViewModels
 {
-	public class Product : NotifyDataErrorInfo, IViewModel<BusinessLogic.Product>
+	public class Product : NotifyDataErrorInfo, IViewModel<Accounting.Core.BusinessLogic.Product>
 	{
 		#region Properties
 
@@ -18,7 +18,7 @@ namespace ComfortIsland.ViewModels
 			{
 				_name = value;
 				var errors = new StringBuilder();
-				if (BusinessLogic.Product.NameIsNotNullOrEmpty(value, errors))
+				if (Accounting.Core.BusinessLogic.Product.NameIsNotNullOrEmpty(value, errors))
 				{
 					ClearErrors();
 				}
@@ -29,14 +29,14 @@ namespace ComfortIsland.ViewModels
 			}
 		}
 
-		public BusinessLogic.Unit Unit
+		public Accounting.Core.BusinessLogic.Unit Unit
 		{
 			get { return _unit; }
 			set
 			{
 				_unit = value;
 				var errors = new StringBuilder();
-				if (BusinessLogic.Product.UnitIsNotNull(value, errors))
+				if (Accounting.Core.BusinessLogic.Product.UnitIsNotNull(value, errors))
 				{
 					ClearErrors();
 				}
@@ -47,17 +47,17 @@ namespace ComfortIsland.ViewModels
 			}
 		}
 
-		public List<BusinessLogic.Position> Children
+		public List<Accounting.Core.BusinessLogic.Position> Children
 		{ get; }
 
 		private string _name;
-		private BusinessLogic.Unit _unit;
+		private Accounting.Core.BusinessLogic.Unit _unit;
 
 		#endregion
 
 		#region Constructors
 
-		private Product(long? id, string name, BusinessLogic.Unit unit, List<BusinessLogic.Position> children)
+		private Product(long? id, string name, Accounting.Core.BusinessLogic.Unit unit, List<Accounting.Core.BusinessLogic.Position> children)
 		{
 			ID = id;
 			Name = name;
@@ -66,29 +66,29 @@ namespace ComfortIsland.ViewModels
 		}
 
 		public Product()
-			: this(null, string.Empty, null, new List<BusinessLogic.Position>())
+			: this(null, string.Empty, null, new List<Accounting.Core.BusinessLogic.Position>())
 		{ }
 
-		public Product(BusinessLogic.Product instance)
+		public Product(Accounting.Core.BusinessLogic.Product instance)
 			: this(
 				instance.ID,
 				instance.Name,
 				instance.Unit,
-				instance.Children.Select(child => new BusinessLogic.Position(child.Key.ID, child.Value)).ToList())
+				instance.Children.Select(child => new Accounting.Core.BusinessLogic.Position(child.Key.ID, child.Value)).ToList())
 		{ }
 
 		#endregion
 
-		public BusinessLogic.Product ConvertToBusinessLogic(BusinessLogic.Database database)
+		public Accounting.Core.BusinessLogic.Product ConvertToBusinessLogic(Accounting.Core.BusinessLogic.Database database)
 		{
-			BusinessLogic.Product instance;
+			Accounting.Core.BusinessLogic.Product instance;
 			if (ID.HasValue)
 			{
 				instance = database.Products[ID.Value];
 			}
 			else
 			{
-				database.Products.Add(instance = new BusinessLogic.Product());
+				database.Products.Add(instance = new Accounting.Core.BusinessLogic.Product());
 			}
 			instance.Name = Name;
 			instance.Unit = Unit;

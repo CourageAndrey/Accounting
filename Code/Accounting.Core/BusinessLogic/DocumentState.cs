@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ComfortIsland.BusinessLogic
+namespace Accounting.Core.BusinessLogic
 {
 	public class DocumentState
 	{

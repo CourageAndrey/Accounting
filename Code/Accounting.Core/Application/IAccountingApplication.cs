@@ -1,5 +1,4 @@
-﻿using ComfortIsland.BusinessLogic;
-
+﻿using Accounting.Core.BusinessLogic;
 using Accounting.Core.Configuration;
 
 namespace Accounting.Core.Application

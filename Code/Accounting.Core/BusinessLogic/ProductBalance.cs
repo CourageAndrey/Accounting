@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 
-namespace ComfortIsland.BusinessLogic
+namespace Accounting.Core.BusinessLogic
 {
 	public class ProductBalance
 	{

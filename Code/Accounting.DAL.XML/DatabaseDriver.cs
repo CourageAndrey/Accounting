@@ -19,7 +19,7 @@ namespace ComfortIsland.DataAccessLayer.Xml
 		public bool CanLoad
 		{ get { return File.Exists(_filePath); } }
 
-		public BusinessLogic.Database Load()
+		public Accounting.Core.BusinessLogic.Database Load()
 		{
 			using (var xmlReader = XmlReader.Create(_filePath))
 			{
@@ -27,7 +27,7 @@ namespace ComfortIsland.DataAccessLayer.Xml
 			}
 		}
 
-		public void Save(BusinessLogic.Database database)
+		public void Save(Accounting.Core.BusinessLogic.Database database)
 		{
 			var snapshot = new Database(database);
 			var xmlDocument = new XmlDocument();

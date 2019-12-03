@@ -13,7 +13,7 @@ namespace Accounting.DAL.XML.UnitTests
 		public void DocumentType()
 		{
 			var enums = Enum.GetValues(typeof(DocumentType)).OfType<DocumentType>().ToList();
-			var objects = ComfortIsland.BusinessLogic.DocumentType.All.Select(item => item.ToEnum()).ToList();
+			var objects = Accounting.Core.BusinessLogic.DocumentType.All.Select(item => item.ToEnum()).ToList();
 			Assert.IsTrue(enums.SequenceEqual(objects));
 		}
 
@@ -21,7 +21,7 @@ namespace Accounting.DAL.XML.UnitTests
 		public void DocumentState()
 		{
 			var enums = Enum.GetValues(typeof(DocumentState)).OfType<DocumentState>().ToList();
-			var objects = ComfortIsland.BusinessLogic.DocumentState.All.Select(item => item.ToEnum()).ToList();
+			var objects = Accounting.Core.BusinessLogic.DocumentState.All.Select(item => item.ToEnum()).ToList();
 			Assert.IsTrue(enums.SequenceEqual(objects));
 		}
 	}

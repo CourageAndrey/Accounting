@@ -26,7 +26,7 @@ namespace ComfortIsland.DataAccessLayer.Xml
 		public Unit()
 		{ }
 
-		public Unit(BusinessLogic.Unit unit)
+		public Unit(Accounting.Core.BusinessLogic.Unit unit)
 		{
 			ID = unit.ID;
 			Name = unit.Name;
@@ -35,9 +35,9 @@ namespace ComfortIsland.DataAccessLayer.Xml
 
 		#endregion
 
-		public BusinessLogic.Unit ConvertToBusinessLogic()
+		public Accounting.Core.BusinessLogic.Unit ConvertToBusinessLogic()
 		{
-			return new BusinessLogic.Unit
+			return new Accounting.Core.BusinessLogic.Unit
 			{
 				ID = ID,
 				Name = Name,

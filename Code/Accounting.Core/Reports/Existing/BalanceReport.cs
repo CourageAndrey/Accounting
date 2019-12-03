@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-using ComfortIsland.BusinessLogic;
-
+using Accounting.Core.BusinessLogic;
 using Accounting.Core.Helpers;
 using Accounting.Core.Reports.Params;
 

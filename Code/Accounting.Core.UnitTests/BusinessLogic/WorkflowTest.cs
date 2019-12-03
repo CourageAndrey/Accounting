@@ -3,8 +3,7 @@ using System.Collections.Generic;
 
 using NUnit.Framework;
 
-using ComfortIsland.BusinessLogic;
-
+using Accounting.Core.BusinessLogic;
 using Accounting.Core.Helpers;
 
 namespace Accounting.Core.UnitTests.BusinessLogic

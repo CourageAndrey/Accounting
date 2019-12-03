@@ -9,9 +9,10 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
-using ComfortIsland.BusinessLogic;
 using ComfortIsland.Dialogs;
+
 using Accounting.Core.Application;
+using Accounting.Core.BusinessLogic;
 using Accounting.Core.Helpers;
 using Accounting.Core.Reports;
 

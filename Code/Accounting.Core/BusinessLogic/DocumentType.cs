@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace ComfortIsland.BusinessLogic
+namespace Accounting.Core.BusinessLogic
 {
 	public class DocumentType
 	{

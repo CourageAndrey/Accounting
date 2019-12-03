@@ -13,8 +13,8 @@ namespace ComfortIsland.DataAccessLayer.Xml
 
 	public static class DocumentTypeConverter
 	{
-		private static readonly IDictionary<DocumentType, BusinessLogic.DocumentType> _enumToClass = new Dictionary<DocumentType, BusinessLogic.DocumentType>();
-		private static readonly IDictionary<BusinessLogic.DocumentType, DocumentType> _classToEnum = new Dictionary<BusinessLogic.DocumentType, DocumentType>();
+		private static readonly IDictionary<DocumentType, Accounting.Core.BusinessLogic.DocumentType> _enumToClass = new Dictionary<DocumentType, Accounting.Core.BusinessLogic.DocumentType>();
+		private static readonly IDictionary<Accounting.Core.BusinessLogic.DocumentType, DocumentType> _classToEnum = new Dictionary<Accounting.Core.BusinessLogic.DocumentType, DocumentType>();
 
 		static DocumentTypeConverter()
 		{
@@ -25,7 +25,7 @@ namespace ComfortIsland.DataAccessLayer.Xml
 				DocumentType.Produce,
 				DocumentType.ToWarehouse,
 			};
-			var objects = BusinessLogic.DocumentType.All.ToArray();
+			var objects = Accounting.Core.BusinessLogic.DocumentType.All.ToArray();
 			for (int i = 0; i < objects.Length; i++)
 			{
 				_classToEnum[objects[i]] = enums[i];
@@ -33,12 +33,12 @@ namespace ComfortIsland.DataAccessLayer.Xml
 			}
 		}
 
-		public static DocumentType ToEnum(this BusinessLogic.DocumentType value)
+		public static DocumentType ToEnum(this Accounting.Core.BusinessLogic.DocumentType value)
 		{
 			return _classToEnum[value];
 		}
 
-		public static BusinessLogic.DocumentType ToClass(this DocumentType value)
+		public static Accounting.Core.BusinessLogic.DocumentType ToClass(this DocumentType value)
 		{
 			return _enumToClass[value];
 		}

@@ -1,4 +1,4 @@
-﻿using ComfortIsland.BusinessLogic;
+﻿using Accounting.Core.BusinessLogic;
 
 namespace Accounting.Core.DataAccessLayer
 {

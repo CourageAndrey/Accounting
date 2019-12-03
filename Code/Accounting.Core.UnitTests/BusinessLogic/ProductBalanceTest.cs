@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+
 using NUnit.Framework;
 
-using ComfortIsland.BusinessLogic;
+using Accounting.Core.BusinessLogic;
 
 namespace Accounting.Core.UnitTests.BusinessLogic
 {

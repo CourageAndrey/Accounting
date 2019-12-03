@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace ComfortIsland.BusinessLogic
+namespace Accounting.Core.BusinessLogic
 {
 	public class Unit : IEntity
 	{

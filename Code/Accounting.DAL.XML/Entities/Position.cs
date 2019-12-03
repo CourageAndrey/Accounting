@@ -22,7 +22,7 @@ namespace ComfortIsland.DataAccessLayer.Xml
 		public Position()
 		{ }
 
-		public Position(BusinessLogic.Position position)
+		public Position(Accounting.Core.BusinessLogic.Position position)
 		{
 			ID = position.ID;
 			Count = position.Count;

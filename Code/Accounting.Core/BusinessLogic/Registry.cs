@@ -3,7 +3,7 @@ using System.Linq;
 
 using Accounting.Core.Helpers;
 
-namespace ComfortIsland.BusinessLogic
+namespace Accounting.Core.BusinessLogic
 {
 	public class Registry<T> : IEnumerable<T>
 		where T : IEntity

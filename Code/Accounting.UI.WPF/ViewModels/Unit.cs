@@ -2,7 +2,7 @@
 
 namespace ComfortIsland.ViewModels
 {
-	public class Unit : NotifyDataErrorInfo, IViewModel<BusinessLogic.Unit>
+	public class Unit : NotifyDataErrorInfo, IViewModel<Accounting.Core.BusinessLogic.Unit>
 	{
 		#region Properties
 
@@ -16,7 +16,7 @@ namespace ComfortIsland.ViewModels
 			{
 				_name = value;
 				var errors = new StringBuilder();
-				if (BusinessLogic.Unit.NameIsNotNullOrEmpty(value, errors))
+				if (Accounting.Core.BusinessLogic.Unit.NameIsNotNullOrEmpty(value, errors))
 				{
 					ClearErrors();
 				}
@@ -34,7 +34,7 @@ namespace ComfortIsland.ViewModels
 			{
 				_shortName = value;
 				var errors = new StringBuilder();
-				if (BusinessLogic.Unit.ShortNameIsNotNullOrEmpty(value, errors))
+				if (Accounting.Core.BusinessLogic.Unit.ShortNameIsNotNullOrEmpty(value, errors))
 				{
 					ClearErrors();
 				}
@@ -62,22 +62,22 @@ namespace ComfortIsland.ViewModels
 			: this(null, string.Empty, string.Empty)
 		{ }
 
-		public Unit(BusinessLogic.Unit instance)
+		public Unit(Accounting.Core.BusinessLogic.Unit instance)
 			: this(instance.ID, instance.Name, instance.ShortName)
 		{ }
 
 		#endregion
 
-		public BusinessLogic.Unit ConvertToBusinessLogic(BusinessLogic.Database database)
+		public Accounting.Core.BusinessLogic.Unit ConvertToBusinessLogic(Accounting.Core.BusinessLogic.Database database)
 		{
-			BusinessLogic.Unit instance;
+			Accounting.Core.BusinessLogic.Unit instance;
 			if (ID.HasValue)
 			{
 				instance = database.Units[ID.Value];
 			}
 			else
 			{
-				database.Units.Add(instance = new BusinessLogic.Unit());
+				database.Units.Add(instance = new Accounting.Core.BusinessLogic.Unit());
 			}
 			instance.Name = Name;
 			instance.ShortName = ShortName;

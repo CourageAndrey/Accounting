@@ -5,8 +5,7 @@ using System.Linq;
 
 using NUnit.Framework;
 
-using ComfortIsland.BusinessLogic;
-
+using Accounting.Core.BusinessLogic;
 using Accounting.Core.DataAccessLayer;
 using Accounting.Core.Helpers;
 

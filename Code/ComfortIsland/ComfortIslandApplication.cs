@@ -4,6 +4,7 @@ using System.Text;
 using System.Windows;
 
 using Accounting.Core.Application;
+using Accounting.Core.BusinessLogic;
 using Accounting.Core.DataAccessLayer;
 using Accounting.Core.Configuration;
 using Accounting.Reports.OpenXml;
@@ -20,7 +21,7 @@ namespace ComfortIsland
 		public Settings Settings
 		{ get; }
 
-		public BusinessLogic.Database Database
+		public Database Database
 		{ get; }
 
 		public IUserInterface UserInterface

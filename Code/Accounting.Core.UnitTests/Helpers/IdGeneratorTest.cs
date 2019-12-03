@@ -2,7 +2,7 @@
 
 using NUnit.Framework;
 
-using ComfortIsland;
+using Accounting.Core.BusinessLogic;
 using Accounting.Core.Helpers;
 
 namespace Accounting.Core.UnitTests.Helpers

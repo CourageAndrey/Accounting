@@ -1,5 +1,4 @@
-using ComfortIsland.BusinessLogic;
-
+using Accounting.Core.BusinessLogic;
 using Accounting.Core.Helpers;
 
 namespace Accounting.Core.Reports.Existing

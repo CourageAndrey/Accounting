@@ -4,10 +4,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-using ComfortIsland.BusinessLogic;
 using ComfortIsland.Helpers;
 
 using Accounting.Core.Application;
+using Accounting.Core.BusinessLogic;
 
 namespace ComfortIsland.Dialogs
 {

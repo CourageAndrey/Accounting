@@ -5,7 +5,7 @@ using System.Text;
 
 using Accounting.Core.Helpers;
 
-namespace ComfortIsland.BusinessLogic
+namespace Accounting.Core.BusinessLogic
 {
 	public class Warehouse : IEnumerable<KeyValuePair<long, decimal>>
 	{

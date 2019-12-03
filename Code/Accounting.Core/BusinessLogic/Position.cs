@@ -5,7 +5,7 @@ using System.Text;
 
 using Accounting.Core.Reports;
 
-namespace ComfortIsland.BusinessLogic
+namespace Accounting.Core.BusinessLogic
 {
 	public class Position : IReportItem
 	{

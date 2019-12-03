@@ -4,14 +4,14 @@ using System.Linq;
 
 namespace ComfortIsland.ViewModels
 {
-	public class Document : NotifyDataErrorInfo, IViewModel<BusinessLogic.Document>
+	public class Document : NotifyDataErrorInfo, IViewModel<Accounting.Core.BusinessLogic.Document>
 	{
 		#region Properties
 
 		public long? ID
 		{ get; }
 
-		public BusinessLogic.DocumentType Type
+		public Accounting.Core.BusinessLogic.DocumentType Type
 		{ get; }
 
 		public string Number
@@ -20,14 +20,14 @@ namespace ComfortIsland.ViewModels
 		public DateTime Date
 		{ get; set; }
 
-		public List<BusinessLogic.Position> Positions
+		public List<Accounting.Core.BusinessLogic.Position> Positions
 		{ get; }
 
 		#endregion
 
 		#region Constructors
 
-		private Document(long? id, BusinessLogic.DocumentType type, string number, DateTime date, List<BusinessLogic.Position> positions)
+		private Document(long? id, Accounting.Core.BusinessLogic.DocumentType type, string number, DateTime date, List<Accounting.Core.BusinessLogic.Position> positions)
 		{
 			ID = id;
 			Type = type;
@@ -36,33 +36,33 @@ namespace ComfortIsland.ViewModels
 			Positions = positions;
 		}
 
-		public Document(BusinessLogic.DocumentType type)
-			: this(null, type, string.Empty, DateTime.Now, new List<BusinessLogic.Position>())
+		public Document(Accounting.Core.BusinessLogic.DocumentType type)
+			: this(null, type, string.Empty, DateTime.Now, new List<Accounting.Core.BusinessLogic.Position>())
 		{ }
 
-		public Document(BusinessLogic.Document instance)
+		public Document(Accounting.Core.BusinessLogic.Document instance)
 			: this(
 				instance.ID,
 				instance.Type,
 				instance.Number,
 				instance.Date,
-				instance.Positions.Select(child => new BusinessLogic.Position(child.Key.ID, child.Value)).ToList())
+				instance.Positions.Select(child => new Accounting.Core.BusinessLogic.Position(child.Key.ID, child.Value)).ToList())
 		{ }
 
 		#endregion
 
-		public BusinessLogic.Document ConvertToBusinessLogic(BusinessLogic.Database database)
+		public Accounting.Core.BusinessLogic.Document ConvertToBusinessLogic(Accounting.Core.BusinessLogic.Database database)
 		{
-			BusinessLogic.Document instance;
+			Accounting.Core.BusinessLogic.Document instance;
 			if (ID.HasValue)
 			{
 				var previousVersion = database.Documents[ID.Value];
-				instance = new BusinessLogic.Document(previousVersion.ID, previousVersion.Type, BusinessLogic.DocumentState.Active);
-				previousVersion.MakeObsolete(database.Balance, BusinessLogic.DocumentState.Edited);
+				instance = new Accounting.Core.BusinessLogic.Document(previousVersion.ID, previousVersion.Type, Accounting.Core.BusinessLogic.DocumentState.Active);
+				previousVersion.MakeObsolete(database.Balance, Accounting.Core.BusinessLogic.DocumentState.Edited);
 			}
 			else
 			{
-				instance = new BusinessLogic.Document(Type);
+				instance = new Accounting.Core.BusinessLogic.Document(Type);
 			}
 			database.Documents.Add(instance);
 			ApplyChanges(instance, database.Products);
@@ -70,7 +70,7 @@ namespace ComfortIsland.ViewModels
 			return instance;
 		}
 
-		internal void ApplyChanges(BusinessLogic.Document document, BusinessLogic.Registry<BusinessLogic.Product> products)
+		internal void ApplyChanges(Accounting.Core.BusinessLogic.Document document, Accounting.Core.BusinessLogic.Registry<Accounting.Core.BusinessLogic.Product> products)
 		{
 			document.Number = Number;
 			document.Date = Date;
