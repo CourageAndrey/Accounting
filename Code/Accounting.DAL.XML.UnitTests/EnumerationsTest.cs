@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-using ComfortIsland.DataAccessLayer.Xml;
+using Accounting.DAL.XML.Enumerations;
 
 using NUnit.Framework;
 

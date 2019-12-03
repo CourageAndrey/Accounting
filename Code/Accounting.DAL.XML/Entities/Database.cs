@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Xml.Serialization;
 
-namespace ComfortIsland.DataAccessLayer.Xml
+namespace Accounting.DAL.XML.Entities
 {
 	[XmlType, XmlRoot]
 	public class Database

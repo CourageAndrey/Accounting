@@ -99,7 +99,7 @@ namespace Accounting.DAL.XML.UnitTests
 
 			// act
 			string fileName = Path.ChangeExtension(Path.GetTempFileName(), "xml");
-			var xmlDriver = new ComfortIsland.DataAccessLayer.Xml.DatabaseDriver(fileName);
+			var xmlDriver = new DatabaseDriver(fileName);
 			Database deserialized = null;
 			try
 			{

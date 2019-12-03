@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace ComfortIsland.DataAccessLayer.Xml
+namespace Accounting.DAL.XML.Enumerations
 {
 	public enum DocumentState
 	{

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 
-namespace ComfortIsland.DataAccessLayer.Xml
+using Accounting.DAL.XML.Enumerations;
+
+namespace Accounting.DAL.XML.Entities
 {
 	[XmlType]
 	public class Document

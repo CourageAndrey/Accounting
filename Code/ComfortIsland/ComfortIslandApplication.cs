@@ -7,6 +7,7 @@ using Accounting.Core.Application;
 using Accounting.Core.BusinessLogic;
 using Accounting.Core.DataAccessLayer;
 using Accounting.Core.Configuration;
+using Accounting.DAL.XML;
 using Accounting.Reports.OpenXml;
 using Accounting.UI.WPF;
 
@@ -42,7 +43,7 @@ namespace ComfortIsland
 
 			ReportExporter = new ExcelOpenXmlReportExporter();
 
-			Accounting.Core.Configuration.Xml.DatabaseDriver.RegisterImplementation<ComfortIsland.Configuration.Xml.DatabaseDrivers.XmlDatabaseDriver>("XmlDatabaseDriver");
+			Accounting.Core.Configuration.Xml.DatabaseDriver.RegisterImplementation<XmlDatabaseDriver>("XmlDatabaseDriver");
 
 			StartupPath = AppDomain.CurrentDomain.BaseDirectory;
 			Settings = new Settings(Accounting.Core.Configuration.Xml.Settings.Load(StartupPath));

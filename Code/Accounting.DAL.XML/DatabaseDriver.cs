@@ -4,12 +4,12 @@ using System.Xml.Serialization;
 
 using Accounting.Core.DataAccessLayer;
 
-namespace ComfortIsland.DataAccessLayer.Xml
+namespace Accounting.DAL.XML
 {
 	public class DatabaseDriver : IDatabaseDriver
 	{
 		private readonly string _filePath;
-		private readonly XmlSerializer _xmlSerializer = new XmlSerializer(typeof(Database));
+		private readonly XmlSerializer _xmlSerializer = new XmlSerializer(typeof(Entities.Database));
 
 		internal DatabaseDriver(string filePath)
 		{
@@ -19,17 +19,17 @@ namespace ComfortIsland.DataAccessLayer.Xml
 		public bool CanLoad
 		{ get { return File.Exists(_filePath); } }
 
-		public Accounting.Core.BusinessLogic.Database Load()
+		public Core.BusinessLogic.Database Load()
 		{
 			using (var xmlReader = XmlReader.Create(_filePath))
 			{
-				return ((Database) _xmlSerializer.Deserialize(xmlReader)).ConvertToBusinessLogic();
+				return ((Entities.Database) _xmlSerializer.Deserialize(xmlReader)).ConvertToBusinessLogic();
 			}
 		}
 
-		public void Save(Accounting.Core.BusinessLogic.Database database)
+		public void Save(Core.BusinessLogic.Database database)
 		{
-			var snapshot = new Database(database);
+			var snapshot = new Entities.Database(database);
 			var xmlDocument = new XmlDocument();
 			using (var writer = new StringWriter())
 			{
