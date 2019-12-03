@@ -4,7 +4,7 @@ using System.Windows.Data;
 
 using Accounting.Core.Helpers;
 
-namespace ComfortIsland.Helpers
+namespace Accounting.UI.WPF.Converters
 {
 	[ValueConversion(typeof(decimal), typeof(string))]
 	public class DigitRoundingConverter : IValueConverter

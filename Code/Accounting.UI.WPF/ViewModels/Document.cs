@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ComfortIsland.ViewModels
+namespace Accounting.UI.WPF.ViewModels
 {
 	public class Document : NotifyDataErrorInfo, IViewModel<Accounting.Core.BusinessLogic.Document>
 	{

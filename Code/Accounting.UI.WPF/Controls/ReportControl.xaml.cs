@@ -2,15 +2,14 @@
 using System.Windows.Controls;
 using System.Windows.Data;
 
-using ComfortIsland.Helpers;
-
 using Accounting.Core.Application;
 using Accounting.Core.Helpers;
 using Accounting.Core.Reports;
+using Accounting.UI.WPF.Converters;
 
 using Microsoft.Win32;
 
-namespace ComfortIsland.Controls
+namespace Accounting.UI.WPF.Controls
 {
 	public partial class ReportControl : IAccountingApplicationClient
 	{

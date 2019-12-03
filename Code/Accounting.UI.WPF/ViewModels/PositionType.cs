@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Markup;
 
-namespace ComfortIsland.ViewModels
+namespace Accounting.UI.WPF.ViewModels
 {
 	public class PositionType : MarkupExtension
 	{

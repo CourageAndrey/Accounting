@@ -3,7 +3,7 @@
 using Accounting.Core.Application;
 using Accounting.Core.Reports.Params;
 
-namespace ComfortIsland.Dialogs
+namespace Accounting.UI.WPF.Dialogs
 {
 	public partial class SelectDateDialog : IEditDialog<BalanceReportParams>
 	{

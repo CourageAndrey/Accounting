@@ -2,9 +2,9 @@
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:businessLogic="clr-namespace:Accounting.Core.BusinessLogic;assembly=Accounting.Core"
-		xmlns:viewModels="clr-namespace:ComfortIsland.ViewModels;assembly=Accounting.UI.WPF"
-		xmlns:helpers="clr-namespace:ComfortIsland.Helpers;assembly=Accounting.UI.WPF"
-		xmlns:controls="clr-namespace:ComfortIsland.Controls;assembly=Accounting.UI.WPF"
+		xmlns:viewModels="clr-namespace:Accounting.UI.WPF.ViewModels;assembly=Accounting.UI.WPF"
+		xmlns:converters="clr-namespace:Accounting.UI.WPF.Converters;assembly=Accounting.UI.WPF"
+		xmlns:controls="clr-namespace:Accounting.UI.WPF.Controls;assembly=Accounting.UI.WPF"
 		xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
 		Title="Остров комфорта - Учёт" Width="1100" Height="750"
 		Loaded="formLoaded" Icon="Icon.ico">
@@ -23,7 +23,7 @@
 				<TextBlock Text="{Binding Path=Key.Name, Mode=OneWay}" Margin="5,0,0,0" />
 			</StackPanel>
 		</DataTemplate>
-		<helpers:DateConverter x:Key="dateConverter" />
+		<converters:DateConverter x:Key="dateConverter" />
 		<CollectionViewSource x:Key="documentsCollectionViewSource" Filter="documentsFilter">
 			<CollectionViewSource.SortDescriptions>
 				<componentModel:SortDescription PropertyName="Date" Direction="Ascending"/>

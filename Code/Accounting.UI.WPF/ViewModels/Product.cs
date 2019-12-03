@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 
-namespace ComfortIsland.ViewModels
+namespace Accounting.UI.WPF.ViewModels
 {
 	public class Product : NotifyDataErrorInfo, IViewModel<Accounting.Core.BusinessLogic.Product>
 	{

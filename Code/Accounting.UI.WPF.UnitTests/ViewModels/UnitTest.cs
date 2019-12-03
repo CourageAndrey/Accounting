@@ -3,7 +3,7 @@ using System.Linq;
 
 using NUnit.Framework;
 
-using ComfortIsland.ViewModels;
+using Accounting.UI.WPF.ViewModels;
 
 namespace Accounting.UI.WPF.UnitTests.ViewModels
 {

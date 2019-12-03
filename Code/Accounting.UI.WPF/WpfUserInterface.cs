@@ -1,9 +1,8 @@
-﻿using ComfortIsland.Dialogs;
-
-using Accounting.Core.Application;
+﻿using Accounting.Core.Application;
 using Accounting.Core.Reports.Params;
+using Accounting.UI.WPF.Dialogs;
 
-namespace ComfortIsland
+namespace Accounting.UI.WPF
 {
 	public class WpfUserInterface : IUserInterface
 	{

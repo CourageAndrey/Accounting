@@ -2,7 +2,7 @@
 
 using Accounting.Core.Application;
 
-namespace ComfortIsland.Dialogs
+namespace Accounting.UI.WPF.Dialogs
 {
 	public partial class UnitDialog : IEditDialog<ViewModels.Unit>
 	{

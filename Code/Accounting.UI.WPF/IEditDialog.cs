@@ -1,6 +1,6 @@
 ﻿using Accounting.Core.Application;
 
-namespace ComfortIsland
+namespace Accounting.UI.WPF
 {
 	public interface IEditDialog<T> : IAccountingApplicationClient
 	{

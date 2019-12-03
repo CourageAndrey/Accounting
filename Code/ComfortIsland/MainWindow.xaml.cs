@@ -9,12 +9,11 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
-using ComfortIsland.Dialogs;
-
 using Accounting.Core.Application;
 using Accounting.Core.BusinessLogic;
 using Accounting.Core.Helpers;
 using Accounting.Core.Reports;
+using Accounting.UI.WPF.Dialogs;
 
 namespace ComfortIsland
 {
@@ -151,7 +150,7 @@ namespace ComfortIsland
 		private void editDocumentClick(object sender, RoutedEventArgs e)
 		{
 			var instance = documentsGrid.SelectedItems.OfType<Document>().Single();
-			var viewModel = new ViewModels.Document(instance);
+			var viewModel = new Accounting.UI.WPF.ViewModels.Document(instance);
 			var dialog = new DocumentDialog();
 			if (instance.Type == DocumentType.Produce)
 			{
@@ -186,7 +185,7 @@ namespace ComfortIsland
 
 		private void createDocument(DocumentType type)
 		{
-			var viewModel = new ViewModels.Document(type);
+			var viewModel = new Accounting.UI.WPF.ViewModels.Document(type);
 			var dialog = new DocumentDialog();
 			if (type == DocumentType.Produce)
 			{
@@ -219,7 +218,7 @@ namespace ComfortIsland
 				var dialog = new DocumentDialog();
 				dialog.SetReadOnly();
 				dialog.ConnectTo(_application);
-				dialog.EditValue = new ViewModels.Document(selectedItem);
+				dialog.EditValue = new Accounting.UI.WPF.ViewModels.Document(selectedItem);
 				dialog.ShowDialog();
 			}
 		}
@@ -309,7 +308,7 @@ namespace ComfortIsland
 
 		private void productAddClick(object sender, RoutedEventArgs e)
 		{
-			var viewModel = new ViewModels.Product();
+			var viewModel = new Accounting.UI.WPF.ViewModels.Product();
 			var dialog = new ProductDialog();
 			dialog.ConnectTo(_application);
 			dialog.EditValue = viewModel;
@@ -346,7 +345,7 @@ namespace ComfortIsland
 					return;
 				}
 
-				var viewModel = new ViewModels.Product(instance);
+				var viewModel = new Accounting.UI.WPF.ViewModels.Product(instance);
 				var dialog = new ProductDialog();
 				dialog.ConnectTo(_application);
 				dialog.EditValue = viewModel;
@@ -405,7 +404,7 @@ namespace ComfortIsland
 
 		private void unitAddClick(object sender, RoutedEventArgs e)
 		{
-			var viewModel = new ViewModels.Unit();
+			var viewModel = new Accounting.UI.WPF.ViewModels.Unit();
 			var dialog = new UnitDialog();
 			dialog.ConnectTo(_application);
 			dialog.EditValue = viewModel;
@@ -441,7 +440,7 @@ namespace ComfortIsland
 					return;
 				}
 
-				var viewModel = new ViewModels.Unit(instance);
+				var viewModel = new Accounting.UI.WPF.ViewModels.Unit(instance);
 				var dialog = new UnitDialog();
 				dialog.ConnectTo(_application);
 				dialog.EditValue = viewModel;

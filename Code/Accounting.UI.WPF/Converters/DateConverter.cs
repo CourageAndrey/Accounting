@@ -4,7 +4,7 @@ using System.Windows.Data;
 
 using Accounting.Core.Helpers;
 
-namespace ComfortIsland.Helpers
+namespace Accounting.UI.WPF.Converters
 {
 	public class DateConverter : IValueConverter
 	{

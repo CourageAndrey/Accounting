@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading;
 
-namespace ComfortIsland.ViewModels
+namespace Accounting.UI.WPF.ViewModels
 {
 	public abstract class NotifyDataErrorInfo : INotifyDataErrorInfo
 	{

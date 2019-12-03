@@ -4,12 +4,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-using ComfortIsland.Helpers;
-
 using Accounting.Core.Application;
 using Accounting.Core.BusinessLogic;
+using Accounting.UI.WPF.Helpers;
 
-namespace ComfortIsland.Dialogs
+namespace Accounting.UI.WPF.Dialogs
 {
 	public partial class ProductDialog : IEditDialog<ViewModels.Product>
 	{

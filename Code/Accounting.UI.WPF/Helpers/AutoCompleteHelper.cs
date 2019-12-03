@@ -8,7 +8,7 @@ using System.Windows.Media;
 
 using Accounting.Core.BusinessLogic;
 
-namespace ComfortIsland.Helpers
+namespace Accounting.UI.WPF.Helpers
 {
 	public static class AutoCompleteHelper
 	{

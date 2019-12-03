@@ -1,4 +1,4 @@
-﻿<Window x:Class="ComfortIsland.Dialogs.ProductDialog"
+﻿<Window x:Class="Accounting.UI.WPF.Dialogs.ProductDialog"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		Title="Товар" SizeToContent="WidthAndHeight">

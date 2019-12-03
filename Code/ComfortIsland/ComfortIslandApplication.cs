@@ -8,6 +8,7 @@ using Accounting.Core.BusinessLogic;
 using Accounting.Core.DataAccessLayer;
 using Accounting.Core.Configuration;
 using Accounting.Reports.OpenXml;
+using Accounting.UI.WPF;
 
 namespace ComfortIsland
 {

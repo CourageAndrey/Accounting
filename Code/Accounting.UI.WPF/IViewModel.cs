@@ -1,6 +1,6 @@
 ﻿using Accounting.Core.BusinessLogic;
 
-namespace ComfortIsland
+namespace Accounting.UI.WPF
 {
 	public interface IViewModel<out T>
 	{

@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace ComfortIsland.ViewModels
+namespace Accounting.UI.WPF.ViewModels
 {
 	public class Unit : NotifyDataErrorInfo, IViewModel<Accounting.Core.BusinessLogic.Unit>
 	{
