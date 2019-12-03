@@ -3,10 +3,10 @@ using System.Windows.Controls;
 using System.Windows.Data;
 
 using ComfortIsland.Helpers;
-using ComfortIsland.Reports;
 
 using Accounting.Core.Application;
 using Accounting.Core.Helpers;
+using Accounting.Core.Reports;
 
 using Microsoft.Win32;
 

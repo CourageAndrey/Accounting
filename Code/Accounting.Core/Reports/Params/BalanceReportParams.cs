@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ComfortIsland.Reports.Params
+namespace Accounting.Core.Reports.Params
 {
 	public class BalanceReportParams
 	{

@@ -1,4 +1,4 @@
-﻿using ComfortIsland;
+﻿using Accounting.Core.Reports;
 
 namespace Accounting.Core.Application
 {

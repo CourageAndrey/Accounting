@@ -3,6 +3,8 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 
+using Accounting.Core.Reports;
+
 namespace ComfortIsland.BusinessLogic
 {
 	public class Position : IReportItem

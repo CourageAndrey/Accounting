@@ -5,8 +5,8 @@ using System.Linq;
 using NUnit.Framework;
 
 using ComfortIsland.BusinessLogic;
-using ComfortIsland.Reports;
-using ComfortIsland.Reports.Params;
+using Accounting.Core.Reports.Existing;
+using Accounting.Core.Reports.Params;
 
 namespace Accounting.Core.UnitTests.Reports
 {

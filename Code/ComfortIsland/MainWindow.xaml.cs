@@ -11,10 +11,9 @@ using System.Windows.Input;
 
 using ComfortIsland.BusinessLogic;
 using ComfortIsland.Dialogs;
-using ComfortIsland.Reports;
-
 using Accounting.Core.Application;
 using Accounting.Core.Helpers;
+using Accounting.Core.Reports;
 
 namespace ComfortIsland
 {

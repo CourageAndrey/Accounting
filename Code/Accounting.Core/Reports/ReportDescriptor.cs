@@ -2,8 +2,9 @@
 using System.Collections.ObjectModel;
 
 using Accounting.Core.Application;
+using Accounting.Core.Reports.Descriptors;
 
-namespace ComfortIsland.Reports
+namespace Accounting.Core.Reports
 {
 	public abstract class ReportDescriptor
 	{

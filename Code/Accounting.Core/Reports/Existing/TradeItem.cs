@@ -2,7 +2,7 @@ using ComfortIsland.BusinessLogic;
 
 using Accounting.Core.Helpers;
 
-namespace ComfortIsland.Reports
+namespace Accounting.Core.Reports.Existing
 {
 	public class TradeItem : IReportItem
 	{

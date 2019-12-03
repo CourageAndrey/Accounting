@@ -4,11 +4,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 
 using ComfortIsland.BusinessLogic;
-using ComfortIsland.Reports.Params;
 
 using Accounting.Core.Helpers;
+using Accounting.Core.Reports.Params;
 
-namespace ComfortIsland.Reports
+namespace Accounting.Core.Reports.Existing
 {
 	public class BalanceReport : IReport
 	{

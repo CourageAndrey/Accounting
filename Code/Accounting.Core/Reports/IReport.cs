@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 
-using ComfortIsland.Reports;
-
-namespace ComfortIsland
+namespace Accounting.Core.Reports
 {
 	public interface IReport
 	{

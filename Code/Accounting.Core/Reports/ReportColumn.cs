@@ -1,4 +1,4 @@
-﻿namespace ComfortIsland.Reports
+﻿namespace Accounting.Core.Reports
 {
 	public class ReportColumn
 	{

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 
-using ComfortIsland.Reports.Params;
-
 using Accounting.Core.Application;
+using Accounting.Core.Reports.Existing;
+using Accounting.Core.Reports.Params;
 
-namespace ComfortIsland.Reports
+namespace Accounting.Core.Reports.Descriptors
 {
 	public class BalanceReportDescriptor : ReportDescriptor
 	{

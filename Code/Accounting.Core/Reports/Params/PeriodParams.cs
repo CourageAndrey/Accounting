@@ -2,7 +2,7 @@
 
 using Accounting.Core.Helpers;
 
-namespace ComfortIsland.Reports.Params
+namespace Accounting.Core.Reports.Params
 {
 	public class PeriodParams
 	{

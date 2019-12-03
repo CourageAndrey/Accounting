@@ -11,9 +11,8 @@ using A = DocumentFormat.OpenXml.Drawing;
 using Border = DocumentFormat.OpenXml.Spreadsheet.Border;
 using Thm15 = DocumentFormat.OpenXml.Office2013.Theme;
 
-using ComfortIsland;
-
 using Accounting.Core.Application;
+using Accounting.Core.Reports;
 
 namespace Accounting.Reports.OpenXml
 {

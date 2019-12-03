@@ -1,7 +1,7 @@
 ﻿using ComfortIsland.Dialogs;
-using ComfortIsland.Reports.Params;
 
 using Accounting.Core.Application;
+using Accounting.Core.Reports.Params;
 
 namespace ComfortIsland
 {
