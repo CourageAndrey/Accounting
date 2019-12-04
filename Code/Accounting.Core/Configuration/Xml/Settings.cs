@@ -65,7 +65,7 @@ namespace Accounting.Core.Configuration.Xml
 		}
 
 		private const string DefaultConfigurationXml =
-@"<?xml version=""1.0"" encoding=""utf-16""?>
+@"<?xml version=""1.0"" encoding=""utf-8""?>
 <Settings xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
 	<!-- Данный раздел хранит настройки пользовательского интерфейса -->
 	<UserInterface>
