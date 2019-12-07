@@ -1,8 +1,8 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
-
-using Accounting.Core.Configuration.Extensions;
 
 namespace Accounting.Core.Configuration.Xml
 {
@@ -23,6 +23,10 @@ namespace Accounting.Core.Configuration.Xml
 		public BusinessLogicSettings BusinessLogic
 		{ get; set; }
 
+		[XmlElement]
+		public ReportingSettings Reporting
+		{ get; set; }
+
 		#endregion
 
 		#region Сериализация
@@ -31,14 +35,23 @@ namespace Accounting.Core.Configuration.Xml
 
 		private static XmlAttributeOverrides getXmlAttributeOverrides()
 		{
-			var databaseDriverTypeAttributes = new XmlAttributes();
-			foreach (var implementation in DatabaseDriverExtensions.GetRegisteredImplementations())
-			{
-				databaseDriverTypeAttributes.XmlElements.Add(new XmlElementAttribute(implementation.Key, implementation.Value));
-			}
 			var overrides = new XmlAttributeOverrides();
-			overrides.Add(typeof(DataAccessLayerSettings), "DatabaseDriver", databaseDriverTypeAttributes);
+
+			registerExtensions(overrides, InternalEnginesExtensions.GetRegisteredDatabaseEngines(), typeof(DataAccessLayerSettings), "DatabaseDriver");
+			registerExtensions(overrides, InternalEnginesExtensions.GetRegisteredReportExportEngines(), typeof(ReportingSettings), "ReportExportDriver");
+			registerExtensions(overrides, InternalEnginesExtensions.GetRegisteredUserInterfaceEngines(), typeof(UserInterfaceSettings), "UserInterfaceDriver");
+
 			return overrides;
+		}
+
+		private static void registerExtensions(XmlAttributeOverrides overrides, IReadOnlyDictionary<string, Type> implementations, Type type, string propertyName)
+		{
+			var attributes = new XmlAttributes();
+			foreach (var implementation in implementations)
+			{
+				attributes.XmlElements.Add(new XmlElementAttribute(implementation.Key, implementation.Value));
+			}
+			overrides.Add(type, propertyName, attributes);
 		}
 
 		public static Settings Load(string startupPath)
@@ -65,12 +78,15 @@ namespace Accounting.Core.Configuration.Xml
 		}
 
 		private const string DefaultConfigurationXml =
-@"<?xml version=""1.0"" encoding=""utf-8""?>
+@"<?xml version=""1.0"" encoding=""utf-16""?>
 <Settings xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
 	<!-- Данный раздел хранит настройки пользовательского интерфейса -->
 	<UserInterface>
 		<!-- Размер шрифтов, используемых в окнах программы. Можно увеличить либо умешьшить для полкчение комфортного вида всех текстовых надписей. Значение по умолчанию - 16. -->
 		<FontSize>16</FontSize>
+
+		<!-- Движок пользовательского интерфеса - не изменять этот параметр! -->
+		<WpfUserInterfaceDriver />
 	</UserInterface>
 
 	<!-- Данный раздел хранит настройки пользовательского интерфейса -->
@@ -89,6 +105,12 @@ namespace Accounting.Core.Configuration.Xml
 			Значение по умолчанию - FinalOnly.-->
 		<BalanceValidationStrategy>FinalOnly</BalanceValidationStrategy>
 	</BusinessLogic>
+
+	<!-- Данный раздел хранит настройки подсистемы отчётов -->
+	<Reporting>
+		<!-- Движок эскпорта отчётов в формат Excel Open XML - не изменять этот параметр! -->
+		<ExcelOpenXmlReportExportDriver />
+	</Reporting>
 </Settings>";
 
 		#endregion

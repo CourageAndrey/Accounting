@@ -80,6 +80,7 @@
     <Compile Include="MarkupExtensions\PositionType.cs" />
     <Compile Include="ViewModels\Product.cs" />
     <Compile Include="ViewModels\Unit.cs" />
+    <Compile Include="WpfUserInterfaceDriver.cs" />
     <Compile Include="WpfUserInterface.cs" />
     <Page Include="Controls\ReportControl.xaml">
       <Generator>MSBuild:Compile</Generator>

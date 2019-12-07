@@ -8,5 +8,8 @@ namespace Accounting.Core.Configuration.Xml
 		[XmlElement]
 		public double FontSize
 		{ get; set; }
+
+		public UserInterfaceDriver UserInterfaceDriver
+		{ get; set; }
 	}
 }
