@@ -1,4 +1,4 @@
-﻿using Accounting.Core.DataAccessLayer;
+﻿using Accounting.Core.Application;
 
 namespace Accounting.Core.Configuration
 {

@@ -2,7 +2,7 @@
 using System.Xml;
 using System.Xml.Serialization;
 
-using Accounting.Core.DataAccessLayer;
+using Accounting.Core.Application;
 
 namespace Accounting.DAL.XML
 {

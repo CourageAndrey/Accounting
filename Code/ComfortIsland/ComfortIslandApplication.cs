@@ -5,7 +5,6 @@ using System.Windows;
 
 using Accounting.Core.Application;
 using Accounting.Core.BusinessLogic;
-using Accounting.Core.DataAccessLayer;
 using Accounting.Core.Configuration;
 using Accounting.DAL.XML;
 using Accounting.Reports.OpenXml;

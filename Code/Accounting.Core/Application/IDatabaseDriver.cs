@@ -1,6 +1,6 @@
 ﻿using Accounting.Core.BusinessLogic;
 
-namespace Accounting.Core.DataAccessLayer
+namespace Accounting.Core.Application
 {
 	public interface IDatabaseDriver
 	{

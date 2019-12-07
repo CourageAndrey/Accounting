@@ -6,7 +6,7 @@ using System.Linq;
 using NUnit.Framework;
 
 using Accounting.Core.BusinessLogic;
-using Accounting.Core.DataAccessLayer;
+using Accounting.Core.Application;
 using Accounting.Core.Helpers;
 
 namespace Accounting.DAL.XML.UnitTests

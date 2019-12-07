@@ -68,8 +68,8 @@
     <Compile Include="Configuration\Xml\DatabaseDriver.cs" />
     <Compile Include="Configuration\Xml\Settings.cs" />
     <Compile Include="Configuration\Xml\UserInterfaceSettings.cs" />
-    <Compile Include="DataAccessLayer\DatabaseDriverExtensions.cs" />
-    <Compile Include="DataAccessLayer\IDatabaseDriver.cs" />
+    <Compile Include="Application\DatabaseDriverExtensions.cs" />
+    <Compile Include="Application\IDatabaseDriver.cs" />
     <Compile Include="Helpers\DateTimeRepresentation.cs" />
     <Compile Include="Helpers\DateHelper.cs" />
     <Compile Include="Helpers\DictionaryComparer.cs" />
@@ -95,6 +95,7 @@
     <Compile Include="Reports\ReportColumn.cs" />
     <Compile Include="Reports\ReportDescriptor.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
