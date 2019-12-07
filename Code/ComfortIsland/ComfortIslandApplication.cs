@@ -44,7 +44,7 @@ namespace ComfortIsland
 
 			Accounting.Core.Configuration.Extensions.DatabaseDriverExtensions.RegisterImplementation<XmlDatabaseDriver>("XmlDatabaseDriver");
 
-			StartupPath = AppDomain.CurrentDomain.BaseDirectory;
+			StartupPath = appDomain.BaseDirectory;
 			Settings = new Settings(Accounting.Core.Configuration.Xml.Settings.Load(StartupPath));
 			Database = Settings.DataAccessLayer.DatabaseDriver.TryLoad();
 
