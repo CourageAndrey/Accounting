@@ -9,10 +9,12 @@ namespace Accounting.Core.Application
 
 		Settings Settings { get; }
 
-		Database Database { get; }
+		IDatabaseDriver DatabaseDriver { get; }
 
 		IUserInterface UserInterface { get; }
 
 		IReportExporter ReportExporter { get; }
+
+		Database Database { get; }
 	}
 }

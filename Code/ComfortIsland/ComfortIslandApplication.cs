@@ -22,13 +22,16 @@ namespace ComfortIsland
 		public Settings Settings
 		{ get; }
 
-		public Database Database
-		{ get; }
+		public IDatabaseDriver DatabaseDriver
+		{ get { return Settings.DataAccessLayer.DatabaseDriver; } }
 
 		public IUserInterface UserInterface
 		{ get; }
 
 		public IReportExporter ReportExporter
+		{ get; }
+
+		public Database Database
 		{ get; }
 
 		#endregion
@@ -38,15 +41,14 @@ namespace ComfortIsland
 			var appDomain = AppDomain.CurrentDomain;
 			setupExceptionHandling(appDomain);
 
-			UserInterface = new WpfUserInterface();
-
-			ReportExporter = new ExcelOpenXmlReportExporter();
-
 			Accounting.Core.Configuration.Extensions.DatabaseDriverExtensions.RegisterImplementation<XmlDatabaseDriver>("XmlDatabaseDriver");
+			UserInterface = new WpfUserInterface();
+			ReportExporter = new ExcelOpenXmlReportExporter();
 
 			StartupPath = appDomain.BaseDirectory;
 			Settings = new Settings(Accounting.Core.Configuration.Xml.Settings.Load(StartupPath));
-			Database = Settings.DataAccessLayer.DatabaseDriver.TryLoad();
+
+			Database = DatabaseDriver.TryLoad();
 
 			var mainWindow = new MainWindow();
 			mainWindow.ConnectTo(this);
