@@ -100,7 +100,7 @@ namespace ComfortIsland
 
 		private void checkBalanceClick(object sender, RoutedEventArgs e)
 		{
-			var dialog = new SelectProductDialog();
+			var dialog = new SelectProductDialog { Owner = this };
 			dialog.ConnectTo(_application);
 			if (dialog.ShowDialog() == true)
 			{
@@ -151,7 +151,7 @@ namespace ComfortIsland
 		{
 			var instance = documentsGrid.SelectedItems.OfType<Document>().Single();
 			var viewModel = new Accounting.UI.WPF.ViewModels.Document(instance);
-			var dialog = new DocumentDialog();
+			var dialog = new DocumentDialog { Owner = this };
 			if (instance.Type == DocumentType.Produce)
 			{
 				dialog.ProductsGetter = db => db.Products.Where(p => p.Children.Count > 0);
@@ -186,7 +186,7 @@ namespace ComfortIsland
 		private void createDocument(DocumentType type)
 		{
 			var viewModel = new Accounting.UI.WPF.ViewModels.Document(type);
-			var dialog = new DocumentDialog();
+			var dialog = new DocumentDialog { Owner = this };
 			if (type == DocumentType.Produce)
 			{
 				dialog.ProductsGetter = db => db.Products.Where(p => p.Children.Count > 0);
@@ -215,7 +215,7 @@ namespace ComfortIsland
 			var selectedItem = documentsGrid.SelectedItems.OfType<Document>().FirstOrDefault();
 			if (selectedItem != null)
 			{
-				var dialog = new DocumentDialog();
+				var dialog = new DocumentDialog { Owner = this };
 				dialog.SetReadOnly();
 				dialog.ConnectTo(_application);
 				dialog.EditValue = new Accounting.UI.WPF.ViewModels.Document(selectedItem);
@@ -309,7 +309,7 @@ namespace ComfortIsland
 		private void productAddClick(object sender, RoutedEventArgs e)
 		{
 			var viewModel = new Accounting.UI.WPF.ViewModels.Product();
-			var dialog = new ProductDialog();
+			var dialog = new ProductDialog { Owner = this };
 			dialog.ConnectTo(_application);
 			dialog.EditValue = viewModel;
 			if (dialog.ShowDialog() == true)
@@ -346,7 +346,7 @@ namespace ComfortIsland
 				}
 
 				var viewModel = new Accounting.UI.WPF.ViewModels.Product(instance);
-				var dialog = new ProductDialog();
+				var dialog = new ProductDialog { Owner = this };
 				dialog.ConnectTo(_application);
 				dialog.EditValue = viewModel;
 				if (dialog.ShowDialog() == true)
@@ -405,7 +405,7 @@ namespace ComfortIsland
 		private void unitAddClick(object sender, RoutedEventArgs e)
 		{
 			var viewModel = new Accounting.UI.WPF.ViewModels.Unit();
-			var dialog = new UnitDialog();
+			var dialog = new UnitDialog { Owner = this };
 			dialog.ConnectTo(_application);
 			dialog.EditValue = viewModel;
 			if (dialog.ShowDialog() == true)
@@ -441,7 +441,7 @@ namespace ComfortIsland
 				}
 
 				var viewModel = new Accounting.UI.WPF.ViewModels.Unit(instance);
-				var dialog = new UnitDialog();
+				var dialog = new UnitDialog { Owner = this };
 				dialog.ConnectTo(_application);
 				dialog.EditValue = viewModel;
 				if (dialog.ShowDialog() == true)
