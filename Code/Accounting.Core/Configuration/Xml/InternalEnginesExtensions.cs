@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Reflection;
 
 namespace Accounting.Core.Configuration.Xml
 {
@@ -49,34 +46,6 @@ namespace Accounting.Core.Configuration.Xml
 		}
 
 		#endregion Register-methods
-
-#warning Раскомментировать и корректно реализовать!
-		/*public static void RegisterExtensions(Assembly assembly)
-		{
-			foreach (var type in assembly.GetTypes().Where(t => !t.IsAbstract))
-			{
-				if (typeof(DatabaseDriver).IsAssignableFrom(type))
-				{
-					RegisterDatabaseEngine(type, );
-				}
-				if (typeof(ReportExportDriver).IsAssignableFrom(type))
-				{
-					RegisterReportExportEngine(type, );
-				}
-				if (typeof(UserInterfaceDriver).IsAssignableFrom(type))
-				{
-					RegisterUserInterfaceEngine(type, );
-				}
-			}
-		}
-
-		public static void RegisterExtensions(DirectoryInfo pluginsFolder)
-		{
-			foreach (var file in pluginsFolder.GetFiles("*.dll"))
-			{
-				RegisterExtensions(Assembly.LoadFile(file.FullName));
-			}
-		}*/
 
 		#region GetImplementation-methods
 

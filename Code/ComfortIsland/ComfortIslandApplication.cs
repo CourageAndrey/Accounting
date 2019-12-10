@@ -1,14 +1,12 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows;
 
 using Accounting.Core.Application;
 using Accounting.Core.BusinessLogic;
 using Accounting.Core.Configuration;
-using Accounting.DAL.XML;
-using Accounting.Reports.OpenXml;
-using Accounting.UI.WPF;
 
 namespace ComfortIsland
 {
@@ -41,18 +39,18 @@ namespace ComfortIsland
 			var appDomain = AppDomain.CurrentDomain;
 			setupExceptionHandling(appDomain);
 
-			Accounting.Core.Configuration.Xml.InternalEnginesExtensions.RegisterDatabaseEngine<XmlDatabaseDriver>("XmlDatabaseDriver");
-			Accounting.Core.Configuration.Xml.InternalEnginesExtensions.RegisterReportExportEngine<ExcelOpenXmlReportExportDriver>("ExcelOpenXmlReportExportDriver");
-			Accounting.Core.Configuration.Xml.InternalEnginesExtensions.RegisterUserInterfaceEngine<WpfUserInterfaceDriver>("WpfUserInterfaceDriver");
-
 			StartupPath = appDomain.BaseDirectory;
+			this.LoadPlugins(new DirectoryInfo(Path.Combine(StartupPath, "Plugins")));
+
 			Settings = new Settings(Accounting.Core.Configuration.Xml.Settings.Load(StartupPath));
 
 			Database = DatabaseDriver.TryLoad();
 
-			var mainWindow = new MainWindow();
-			mainWindow.ConnectTo(this);
-			MainWindow = mainWindow;
+			var wpfAssembly = appDomain.GetAssemblies().First(assembly => assembly.FullName.StartsWith("Accounting.UI.WPF") && !assembly.FullName.Contains("Test"));
+			var mainWindowType = wpfAssembly.GetType("Accounting.UI.WPF.MainWindow");
+			var mainWindow = Activator.CreateInstance(mainWindowType);
+			((IAccountingApplicationClient) mainWindow).ConnectTo(this);
+			MainWindow = (Window) mainWindow;
 			ShutdownMode = ShutdownMode.OnMainWindowClose;
 		}
 

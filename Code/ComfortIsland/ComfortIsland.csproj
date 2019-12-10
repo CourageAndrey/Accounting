@@ -19,7 +19,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\Output\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -28,7 +28,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\Output\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -96,18 +96,6 @@
     <ProjectReference Include="..\Accounting.Core\Accounting.Core.csproj">
       <Project>{451e3fd9-f326-4274-a131-ac3eedb38f11}</Project>
       <Name>Accounting.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Accounting.DAL.XML\Accounting.DAL.XML.csproj">
-      <Project>{3f036d41-571a-4c5e-b8b2-07fa501e183d}</Project>
-      <Name>Accounting.DAL.XML</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Accounting.Reports.OpenXml\Accounting.Reports.OpenXml.csproj">
-      <Project>{d41d91e2-b6cc-4d72-8bbb-567b9ee115eb}</Project>
-      <Name>Accounting.Reports.OpenXml</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Accounting.UI.WPF\Accounting.UI.WPF.csproj">
-      <Project>{12dce49a-85ff-4e70-a9e9-e48d13f6e76c}</Project>
-      <Name>Accounting.UI.WPF</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
