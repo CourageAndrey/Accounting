@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Windows;
 
@@ -8,9 +7,9 @@ using Accounting.Core.Application;
 using Accounting.Core.BusinessLogic;
 using Accounting.Core.Configuration;
 
-namespace ComfortIsland
+namespace Accounting.UI.WPF
 {
-	internal class ComfortIslandApplication : Application, IAccountingApplication
+	public class WpfAccountingApplication : Application, IAccountingApplication
 	{
 		#region Свойства
 
@@ -34,23 +33,22 @@ namespace ComfortIsland
 
 		#endregion
 
-		public ComfortIslandApplication()
+		public WpfAccountingApplication()
 		{
 			var appDomain = AppDomain.CurrentDomain;
 			setupExceptionHandling(appDomain);
 
 			StartupPath = appDomain.BaseDirectory;
 			this.LoadPlugins(new DirectoryInfo(Path.Combine(StartupPath, "Plugins")));
+			new WpfUiPlugin().Setup(this);
 
 			Settings = new Settings(Accounting.Core.Configuration.Xml.Settings.Load(StartupPath));
 
 			Database = DatabaseDriver.TryLoad();
 
-			var wpfAssembly = appDomain.GetAssemblies().First(assembly => assembly.FullName.StartsWith("Accounting.UI.WPF") && !assembly.FullName.Contains("Test"));
-			var mainWindowType = wpfAssembly.GetType("Accounting.UI.WPF.MainWindow");
-			var mainWindow = Activator.CreateInstance(mainWindowType);
-			((IAccountingApplicationClient) mainWindow).ConnectTo(this);
-			MainWindow = (Window) mainWindow;
+			var mainWindow = new MainWindow();
+			mainWindow.ConnectTo(this);
+			MainWindow = mainWindow;
 			ShutdownMode = ShutdownMode.OnMainWindowClose;
 		}
 
@@ -96,7 +94,7 @@ namespace ComfortIsland
 		[STAThread]
 		static void Main()
 		{
-			var application = new ComfortIslandApplication();
+			var application = new WpfAccountingApplication();
 			application.MainWindow.Show();
 			application.Run();
 		}

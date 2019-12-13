@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ComfortIsland.UiTests.Framework
+namespace Accounting.UI.WPF.UnitTests.Framework
 {
 	/// <summary>
 	/// Indicates that marked element should be localized or not.

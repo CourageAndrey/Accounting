@@ -11,7 +11,7 @@ using System.Windows.Threading;
 using System.Windows.Media;
 using System.Linq;
 
-namespace ComfortIsland.UiTests.Framework
+namespace Accounting.UI.WPF.UnitTests.Framework
 {
 	public static class UI
 	{

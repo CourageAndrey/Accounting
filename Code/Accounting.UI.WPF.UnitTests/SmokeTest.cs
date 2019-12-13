@@ -1,8 +1,8 @@
 ﻿using NUnit.Framework;
 
-using ComfortIsland.UiTests.Framework;
+using Accounting.UI.WPF.UnitTests.Framework;
 
-namespace ComfortIsland.UiTests
+namespace Accounting.UI.WPF.UnitTests
 {
 	public class SmokeTest
 	{
@@ -10,7 +10,7 @@ namespace ComfortIsland.UiTests
 		public void ApplicationLaunchIsSuccessfull()
 		{
 			// arrange
-			var application = UI.Run(() => new ComfortIslandApplication());
+			var application = Framework.UI.Run(() => new WpfAccountingApplication());
 			var mainWindow = application.Get(x => x.MainWindow);
 
 			// act
