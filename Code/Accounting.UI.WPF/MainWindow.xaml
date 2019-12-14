@@ -6,8 +6,8 @@
 		xmlns:controls="clr-namespace:Accounting.UI.WPF.Controls"
 		xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
 		xmlns:markupExtensions="clr-namespace:Accounting.UI.WPF.MarkupExtensions"
-		Title="Остров комфорта - Учёт" Width="1100" Height="750"
-		Loaded="formLoaded" Icon="Icon.ico" WindowStartupLocation="CenterScreen">
+		Title="Учётная система" Width="1100" Height="750"
+		Loaded="formLoaded" WindowStartupLocation="CenterScreen">
 	<Window.Resources>
 		<markupExtensions:PositionType x:Key="kvpPositionType" />
 		<HierarchicalDataTemplate DataType="{x:Type businessLogic:Product}">
