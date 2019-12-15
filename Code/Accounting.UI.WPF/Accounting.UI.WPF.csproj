@@ -50,6 +50,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dialogs\LongTextDialog.xaml.cs">
+      <DependentUpon>LongTextDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WpfAccountingApplication.cs" />
     <Compile Include="Controls\ReportControl.xaml.cs">
       <DependentUpon>ReportControl.xaml</DependentUpon>
@@ -87,6 +90,10 @@
     <Page Include="Dialogs\DocumentDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dialogs\LongTextDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\ProductDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -157,6 +164,13 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Excel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Question.png" />
+    <Resource Include="Resources\Warning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Information.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

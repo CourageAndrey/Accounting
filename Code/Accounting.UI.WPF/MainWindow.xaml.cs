@@ -105,11 +105,9 @@ namespace Accounting.UI.WPF
 			if (dialog.ShowDialog() == true)
 			{
 				var report = new ProductBalance(dialog.EditValue, _application.Database.Balance);
-				MessageBox.Show(
+				LongTextDialog.Info(
 					report.ToString(),
-					"Товар - " + report.Product.DisplayMember,
-					MessageBoxButton.OK,
-					MessageBoxImage.Information);
+					"Товар - " + report.Product.DisplayMember);
 			}
 		}
 
@@ -336,11 +334,9 @@ namespace Accounting.UI.WPF
 				var instance = selectedItems[0];
 
 				var message = instance.FindUsages(_application.Database);
-				if (message.Length > 0 && MessageBox.Show(
-						message.ToString(),
-						"Редактирование приведёт к дополнительным изменениям. Продолжить?",
-						MessageBoxButton.YesNo,
-						MessageBoxImage.Question) != MessageBoxResult.Yes)
+				if (message.Length > 0 && !LongTextDialog.Ask(
+					message.ToString(),
+					"Редактирование приведёт к дополнительным изменениям. Продолжить?"))
 				{
 					return;
 				}
@@ -377,11 +373,9 @@ namespace Accounting.UI.WPF
 			}
 			if (message.Length > 0)
 			{
-				MessageBox.Show(
+				LongTextDialog.Warn(
 					message.ToString(),
-					"Невозможно удалить выбранные сущности, так как они используются",
-					MessageBoxButton.OK,
-					MessageBoxImage.Warning);
+					"Невозможно удалить выбранные сущности, так как они используются");
 				return;
 			}
 			foreach (var item in selectedItems)
@@ -431,11 +425,9 @@ namespace Accounting.UI.WPF
 				var instance = selectedItems[0];
 
 				var message = instance.FindUsages(_application.Database);
-				if (message.Length > 0 && MessageBox.Show(
+				if (message.Length > 0 && !LongTextDialog.Ask(
 					message.ToString(),
-					"Редактирование приведёт к дополнительным изменениям. Продолжить?",
-					MessageBoxButton.YesNo,
-					MessageBoxImage.Question) != MessageBoxResult.Yes)
+					"Редактирование приведёт к дополнительным изменениям. Продолжить?"))
 				{
 					return;
 				}
@@ -471,11 +463,9 @@ namespace Accounting.UI.WPF
 			}
 			if (message.Length > 0)
 			{
-				MessageBox.Show(
+				LongTextDialog.Warn(
 					message.ToString(),
-					"Невозможно удалить выбранные сущности, так как они используются",
-					MessageBoxButton.OK,
-					MessageBoxImage.Warning);
+					"Невозможно удалить выбранные сущности, так как они используются");
 				return;
 			}
 			foreach (var item in selectedItems)
