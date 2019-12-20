@@ -23,7 +23,7 @@ namespace Accounting.Reports.OpenXml
 
 		public void ExportReport(IReport report, string fileName)
 		{
-			using (SpreadsheetDocument spreadsheet = SpreadsheetDocument.Create(fileName, SpreadsheetDocumentType.Workbook))
+			using (var spreadsheet = SpreadsheetDocument.Create(fileName, SpreadsheetDocumentType.Workbook))
 			{
 				exportReport(spreadsheet, report);
 			}
