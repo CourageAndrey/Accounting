@@ -31,31 +31,31 @@ namespace Accounting.Reports.OpenXml
 
 		private static void exportReport(SpreadsheetDocument document, IReport report)
 		{
-			ExtendedFilePropertiesPart extendedFilePropertiesPart1 = document.AddNewPart<ExtendedFilePropertiesPart>("rId3");
-			GenerateExtendedFilePropertiesPart1Content(extendedFilePropertiesPart1);
+			ExtendedFilePropertiesPart extendedFilePropertiesPart = document.AddNewPart<ExtendedFilePropertiesPart>("rId3");
+			GenerateExtendedFilePropertiesPartContent(extendedFilePropertiesPart);
 
-			WorkbookPart workbookPart1 = document.AddWorkbookPart();
-			GenerateWorkbookPart1Content(workbookPart1);
+			WorkbookPart workbookPart = document.AddWorkbookPart();
+			GenerateWorkbookPartContent(workbookPart);
 
-			WorkbookStylesPart workbookStylesPart1 = workbookPart1.AddNewPart<WorkbookStylesPart>("rId3");
-			GenerateWorkbookStylesPart1Content(workbookStylesPart1);
+			WorkbookStylesPart workbookStylesPart = workbookPart.AddNewPart<WorkbookStylesPart>("rId3");
+			GenerateWorkbookStylesPartContent(workbookStylesPart);
 
-			ThemePart themePart1 = workbookPart1.AddNewPart<ThemePart>("rId2");
-			GenerateThemePart1Content(themePart1);
+			ThemePart themePart = workbookPart.AddNewPart<ThemePart>("rId2");
+			GenerateThemePartContent(themePart);
 
-			WorksheetPart worksheetPart1 = workbookPart1.AddNewPart<WorksheetPart>("rId1");
-			GenerateWorksheetPart1Content(worksheetPart1, report);
+			WorksheetPart worksheetPart = workbookPart.AddNewPart<WorksheetPart>("rId1");
+			GenerateWorksheetPartContent(worksheetPart, report);
 
-			SpreadsheetPrinterSettingsPart spreadsheetPrinterSettingsPart1 = worksheetPart1.AddNewPart<SpreadsheetPrinterSettingsPart>("rId1");
-			GenerateSpreadsheetPrinterSettingsPart1Content(spreadsheetPrinterSettingsPart1);
+			SpreadsheetPrinterSettingsPart spreadsheetPrinterSettingsPart = worksheetPart.AddNewPart<SpreadsheetPrinterSettingsPart>("rId1");
+			GenerateSpreadsheetPrinterSettingsPartContent(spreadsheetPrinterSettingsPart);
 
-			SharedStringTablePart sharedStringTablePart1 = workbookPart1.AddNewPart<SharedStringTablePart>("rId4");
-			GenerateSharedStringTablePart1Content(sharedStringTablePart1);
+			SharedStringTablePart sharedStringTablePart = workbookPart.AddNewPart<SharedStringTablePart>("rId4");
+			GenerateSharedStringTablePartContent(sharedStringTablePart);
 
 			SetPackageProperties(document);
 		}
 
-		private static void GenerateExtendedFilePropertiesPart1Content(ExtendedFilePropertiesPart extendedFilePropertiesPart1)
+		private static void GenerateExtendedFilePropertiesPartContent(ExtendedFilePropertiesPart extendedFilePropertiesPart)
 		{
 			Ap.Properties properties1 = new Ap.Properties();
 			properties1.AddNamespaceDeclaration("vt", "http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes");
@@ -118,10 +118,10 @@ namespace Accounting.Reports.OpenXml
 			properties1.Append(hyperlinksChanged1);
 			properties1.Append(applicationVersion1);
 
-			extendedFilePropertiesPart1.Properties = properties1;
+			extendedFilePropertiesPart.Properties = properties1;
 		}
 
-		private static void GenerateWorkbookPart1Content(WorkbookPart workbookPart1)
+		private static void GenerateWorkbookPartContent(WorkbookPart workbookPart)
 		{
 			Workbook workbook1 = new Workbook() { MCAttributes = new MarkupCompatibilityAttributes() { Ignorable = "x15" } };
 			workbook1.AddNamespaceDeclaration("r", "http://schemas.openxmlformats.org/officeDocument/2006/relationships");
@@ -171,10 +171,10 @@ namespace Accounting.Reports.OpenXml
 			workbook1.Append(calculationProperties1);
 			workbook1.Append(workbookExtensionList1);
 
-			workbookPart1.Workbook = workbook1;
+			workbookPart.Workbook = workbook1;
 		}
 
-		private static void GenerateWorkbookStylesPart1Content(WorkbookStylesPart workbookStylesPart1)
+		private static void GenerateWorkbookStylesPartContent(WorkbookStylesPart workbookStylesPart)
 		{
 			Stylesheet stylesheet1 = new Stylesheet() { MCAttributes = new MarkupCompatibilityAttributes() { Ignorable = "x14ac" } };
 			stylesheet1.AddNamespaceDeclaration("mc", "http://schemas.openxmlformats.org/markup-compatibility/2006");
@@ -333,10 +333,10 @@ namespace Accounting.Reports.OpenXml
 			stylesheet1.Append(tableStyles1);
 			stylesheet1.Append(stylesheetExtensionList1);
 
-			workbookStylesPart1.Stylesheet = stylesheet1;
+			workbookStylesPart.Stylesheet = stylesheet1;
 		}
 
-		private static void GenerateThemePart1Content(ThemePart themePart1)
+		private static void GenerateThemePartContent(ThemePart themePart)
 		{
 			A.Theme theme1 = new A.Theme() { Name = "Тема Office" };
 			theme1.AddNamespaceDeclaration("a", "http://schemas.openxmlformats.org/drawingml/2006/main");
@@ -856,10 +856,10 @@ namespace Accounting.Reports.OpenXml
 			theme1.Append(extraColorSchemeList1);
 			theme1.Append(officeStyleSheetExtensionList1);
 
-			themePart1.Theme = theme1;
+			themePart.Theme = theme1;
 		}
 
-		private static void GenerateWorksheetPart1Content(WorksheetPart worksheetPart1, IReport report)
+		private static void GenerateWorksheetPartContent(WorksheetPart worksheetPart, IReport report)
 		{
 			Worksheet worksheet1 = new Worksheet() { MCAttributes = new MarkupCompatibilityAttributes() { Ignorable = "x14ac" } };
 			worksheet1.AddNamespaceDeclaration("r", "http://schemas.openxmlformats.org/officeDocument/2006/relationships");
@@ -927,19 +927,19 @@ namespace Accounting.Reports.OpenXml
 			worksheet1.Append(pageMargins1);
 			worksheet1.Append(pageSetup1);
 
-			worksheetPart1.Worksheet = worksheet1;
+			worksheetPart.Worksheet = worksheet1;
 		}
 
-		private static void GenerateSpreadsheetPrinterSettingsPart1Content(SpreadsheetPrinterSettingsPart spreadsheetPrinterSettingsPart1)
+		private static void GenerateSpreadsheetPrinterSettingsPartContent(SpreadsheetPrinterSettingsPart spreadsheetPrinterSettingsPart)
 		{
-			System.IO.Stream data = GetBinaryDataStream(spreadsheetPrinterSettingsPart1Data);
-			spreadsheetPrinterSettingsPart1.FeedData(data);
+			System.IO.Stream data = GetBinaryDataStream(spreadsheetPrinterSettingsPartData);
+			spreadsheetPrinterSettingsPart.FeedData(data);
 			data.Close();
 		}
 
-		private static void GenerateSharedStringTablePart1Content(SharedStringTablePart sharedStringTablePart1)
+		private static void GenerateSharedStringTablePartContent(SharedStringTablePart sharedStringTablePart)
 		{
-			sharedStringTablePart1.SharedStringTable = new SharedStringTable();
+			sharedStringTablePart.SharedStringTable = new SharedStringTable();
 		}
 
 		private static void SetPackageProperties(OpenXmlPackage document)
@@ -951,7 +951,7 @@ namespace Accounting.Reports.OpenXml
 		}
 
 		#region Binary Data
-		private const string spreadsheetPrinterSettingsPart1Data = "RgBvAHgAaQB0ACAAUgBlAGEAZABlAHIAIABQAEQARgAgAFAAcgBpAG4AdABlAHIAAAAAAAAAAAAAAAAAAAAAAAEEAQTcAAAAX/+BBwEACQCaCzQIZAABAAcAWAICAAEAWAICAAAAQQA0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAACAAAAAQAAAAEAAAABAAAAAAAAAAAAAAAAAAAAAAAAAA==";
+		private const string spreadsheetPrinterSettingsPartData = "RgBvAHgAaQB0ACAAUgBlAGEAZABlAHIAIABQAEQARgAgAFAAcgBpAG4AdABlAHIAAAAAAAAAAAAAAAAAAAAAAAEEAQTcAAAAX/+BBwEACQCaCzQIZAABAAcAWAICAAEAWAICAAAAQQA0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAACAAAAAQAAAAEAAAABAAAAAAAAAAAAAAAAAAAAAAAAAA==";
 
 		private static System.IO.Stream GetBinaryDataStream(string base64String)
 		{
