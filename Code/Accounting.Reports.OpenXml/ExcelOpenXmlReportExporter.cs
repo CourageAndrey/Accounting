@@ -32,30 +32,30 @@ namespace Accounting.Reports.OpenXml
 		private static void exportReport(SpreadsheetDocument document, IReport report)
 		{
 			var extendedFilePropertiesPart = document.AddNewPart<ExtendedFilePropertiesPart>("rId3");
-			GenerateExtendedFilePropertiesPartContent(extendedFilePropertiesPart);
+			generateExtendedFilePropertiesPartContent(extendedFilePropertiesPart);
 
 			var workbookPart = document.AddWorkbookPart();
-			GenerateWorkbookPartContent(workbookPart);
+			generateWorkbookPartContent(workbookPart);
 
 			var workbookStylesPart = workbookPart.AddNewPart<WorkbookStylesPart>("rId3");
-			GenerateWorkbookStylesPartContent(workbookStylesPart);
+			generateWorkbookStylesPartContent(workbookStylesPart);
 
 			var themePart = workbookPart.AddNewPart<ThemePart>("rId2");
-			GenerateThemePartContent(themePart);
+			generateThemePartContent(themePart);
 
 			var worksheetPart = workbookPart.AddNewPart<WorksheetPart>("rId1");
-			GenerateWorksheetPartContent(worksheetPart, report);
+			generateWorksheetPartContent(worksheetPart, report);
 
 			var spreadsheetPrinterSettingsPart = worksheetPart.AddNewPart<SpreadsheetPrinterSettingsPart>("rId1");
-			GenerateSpreadsheetPrinterSettingsPartContent(spreadsheetPrinterSettingsPart);
+			generateSpreadsheetPrinterSettingsPartContent(spreadsheetPrinterSettingsPart);
 
 			var sharedStringTablePart = workbookPart.AddNewPart<SharedStringTablePart>("rId4");
-			GenerateSharedStringTablePartContent(sharedStringTablePart);
+			generateSharedStringTablePartContent(sharedStringTablePart);
 
-			SetPackageProperties(document);
+			setPackageProperties(document);
 		}
 
-		private static void GenerateExtendedFilePropertiesPartContent(ExtendedFilePropertiesPart extendedFilePropertiesPart)
+		private static void generateExtendedFilePropertiesPartContent(ExtendedFilePropertiesPart extendedFilePropertiesPart)
 		{
 			var properties1 = new Ap.Properties();
 			properties1.AddNamespaceDeclaration("vt", "http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes");
@@ -121,7 +121,7 @@ namespace Accounting.Reports.OpenXml
 			extendedFilePropertiesPart.Properties = properties1;
 		}
 
-		private static void GenerateWorkbookPartContent(WorkbookPart workbookPart)
+		private static void generateWorkbookPartContent(WorkbookPart workbookPart)
 		{
 			var workbook1 = new Workbook() { MCAttributes = new MarkupCompatibilityAttributes() { Ignorable = "x15" } };
 			workbook1.AddNamespaceDeclaration("r", "http://schemas.openxmlformats.org/officeDocument/2006/relationships");
@@ -174,7 +174,7 @@ namespace Accounting.Reports.OpenXml
 			workbookPart.Workbook = workbook1;
 		}
 
-		private static void GenerateWorkbookStylesPartContent(WorkbookStylesPart workbookStylesPart)
+		private static void generateWorkbookStylesPartContent(WorkbookStylesPart workbookStylesPart)
 		{
 			var stylesheet1 = new Stylesheet() { MCAttributes = new MarkupCompatibilityAttributes() { Ignorable = "x14ac" } };
 			stylesheet1.AddNamespaceDeclaration("mc", "http://schemas.openxmlformats.org/markup-compatibility/2006");
@@ -336,7 +336,7 @@ namespace Accounting.Reports.OpenXml
 			workbookStylesPart.Stylesheet = stylesheet1;
 		}
 
-		private static void GenerateThemePartContent(ThemePart themePart)
+		private static void generateThemePartContent(ThemePart themePart)
 		{
 			var theme1 = new A.Theme() { Name = "Тема Office" };
 			theme1.AddNamespaceDeclaration("a", "http://schemas.openxmlformats.org/drawingml/2006/main");
@@ -859,7 +859,7 @@ namespace Accounting.Reports.OpenXml
 			themePart.Theme = theme1;
 		}
 
-		private static void GenerateWorksheetPartContent(WorksheetPart worksheetPart, IReport report)
+		private static void generateWorksheetPartContent(WorksheetPart worksheetPart, IReport report)
 		{
 			var worksheet1 = new Worksheet() { MCAttributes = new MarkupCompatibilityAttributes() { Ignorable = "x14ac" } };
 			worksheet1.AddNamespaceDeclaration("r", "http://schemas.openxmlformats.org/officeDocument/2006/relationships");
@@ -930,19 +930,19 @@ namespace Accounting.Reports.OpenXml
 			worksheetPart.Worksheet = worksheet1;
 		}
 
-		private static void GenerateSpreadsheetPrinterSettingsPartContent(SpreadsheetPrinterSettingsPart spreadsheetPrinterSettingsPart)
+		private static void generateSpreadsheetPrinterSettingsPartContent(SpreadsheetPrinterSettingsPart spreadsheetPrinterSettingsPart)
 		{
 			var data = GetBinaryDataStream(spreadsheetPrinterSettingsPartData);
 			spreadsheetPrinterSettingsPart.FeedData(data);
 			data.Close();
 		}
 
-		private static void GenerateSharedStringTablePartContent(SharedStringTablePart sharedStringTablePart)
+		private static void generateSharedStringTablePartContent(SharedStringTablePart sharedStringTablePart)
 		{
 			sharedStringTablePart.SharedStringTable = new SharedStringTable();
 		}
 
-		private static void SetPackageProperties(OpenXmlPackage document)
+		private static void setPackageProperties(OpenXmlPackage document)
 		{
 			document.PackageProperties.Creator = "Андрей Бычко";
 			document.PackageProperties.Created = System.Xml.XmlConvert.ToDateTime("2017-12-17T04:45:44Z", System.Xml.XmlDateTimeSerializationMode.RoundtripKind);
