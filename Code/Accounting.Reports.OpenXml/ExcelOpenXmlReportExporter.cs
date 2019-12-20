@@ -932,7 +932,7 @@ namespace Accounting.Reports.OpenXml
 
 		private static void GenerateSpreadsheetPrinterSettingsPartContent(SpreadsheetPrinterSettingsPart spreadsheetPrinterSettingsPart)
 		{
-			System.IO.Stream data = GetBinaryDataStream(spreadsheetPrinterSettingsPartData);
+			var data = GetBinaryDataStream(spreadsheetPrinterSettingsPartData);
 			spreadsheetPrinterSettingsPart.FeedData(data);
 			data.Close();
 		}
