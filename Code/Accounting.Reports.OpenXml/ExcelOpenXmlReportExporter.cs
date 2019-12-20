@@ -62,26 +62,25 @@ namespace Accounting.Reports.OpenXml
 		{
 			var properties1 = new Ap.Properties();
 			properties1.AddNamespaceDeclaration("vt", "http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes");
-			var application1 = new Ap.Application();
-			application1.Text = "Microsoft Excel";
-			var documentSecurity1 = new Ap.DocumentSecurity();
-			documentSecurity1.Text = "0";
-			var scaleCrop1 = new Ap.ScaleCrop();
-			scaleCrop1.Text = "false";
+			var application1 = new Ap.Application { Text = "Microsoft Excel" };
+			var documentSecurity1 = new Ap.DocumentSecurity { Text = "0" };
+			var scaleCrop1 = new Ap.ScaleCrop { Text = "false" };
 
 			var headingPairs1 = new Ap.HeadingPairs();
 
-			var vTVector1 = new Vt.VTVector() { BaseType = Vt.VectorBaseValues.Variant, Size = (UInt32Value)2U };
+			var vTVector1 = new Vt.VTVector
+			{
+				BaseType = Vt.VectorBaseValues.Variant,
+				Size = (UInt32Value)2U
+			};
 
 			var variant1 = new Vt.Variant();
-			var vTLPSTR1 = new Vt.VTLPSTR();
-			vTLPSTR1.Text = "Листы";
+			var vTLPSTR1 = new Vt.VTLPSTR { Text = "Листы" };
 
 			variant1.Append(vTLPSTR1);
 
 			var variant2 = new Vt.Variant();
-			var vTInt321 = new Vt.VTInt32();
-			vTInt321.Text = "1";
+			var vTInt321 = new Vt.VTInt32 { Text = "1" };
 
 			variant2.Append(vTInt321);
 
@@ -92,23 +91,21 @@ namespace Accounting.Reports.OpenXml
 
 			var titlesOfParts1 = new Ap.TitlesOfParts();
 
-			var vTVector2 = new Vt.VTVector() { BaseType = Vt.VectorBaseValues.Lpstr, Size = (UInt32Value)1U };
-			var vTLPSTR2 = new Vt.VTLPSTR();
-			vTLPSTR2.Text = "Лист1";
+			var vTVector2 = new Vt.VTVector
+			{
+				BaseType = Vt.VectorBaseValues.Lpstr,
+				Size = (UInt32Value)1U
+			};
+			var vTLPSTR2 = new Vt.VTLPSTR { Text = "Лист1" };
 
 			vTVector2.Append(vTLPSTR2);
 
 			titlesOfParts1.Append(vTVector2);
-			var company1 = new Ap.Company();
-			company1.Text = "";
-			var linksUpToDate1 = new Ap.LinksUpToDate();
-			linksUpToDate1.Text = "false";
-			var sharedDocument1 = new Ap.SharedDocument();
-			sharedDocument1.Text = "false";
-			var hyperlinksChanged1 = new Ap.HyperlinksChanged();
-			hyperlinksChanged1.Text = "false";
-			var applicationVersion1 = new Ap.ApplicationVersion();
-			applicationVersion1.Text = "15.0300";
+			var company1 = new Ap.Company { Text = "" };
+			var linksUpToDate1 = new Ap.LinksUpToDate { Text = "false" };
+			var sharedDocument1 = new Ap.SharedDocument { Text = "false" };
+			var hyperlinksChanged1 = new Ap.HyperlinksChanged { Text = "false" };
+			var applicationVersion1 = new Ap.ApplicationVersion { Text = "15.0300" };
 
 			properties1.Append(application1);
 			properties1.Append(documentSecurity1);
