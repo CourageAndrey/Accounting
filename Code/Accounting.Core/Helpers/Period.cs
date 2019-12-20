@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Accounting.Core.Helpers
 {
@@ -14,6 +15,15 @@ namespace Accounting.Core.Helpers
 		{
 			From = from;
 			To = to;
+		}
+
+		public override string ToString()
+		{
+			return string.Format(
+				CultureInfo.InvariantCulture,
+				"({0} - {1})",
+				From,
+				To);
 		}
 	}
 }
