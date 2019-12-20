@@ -338,12 +338,12 @@ namespace Accounting.Reports.OpenXml
 
 		private static void generateThemePartContent(ThemePart themePart)
 		{
-			var theme1 = new A.Theme() { Name = "Тема Office" };
-			theme1.AddNamespaceDeclaration("a", "http://schemas.openxmlformats.org/drawingml/2006/main");
+			var theme = new A.Theme() { Name = "Тема Office" };
+			theme.AddNamespaceDeclaration("a", "http://schemas.openxmlformats.org/drawingml/2006/main");
 
-			var themeElements1 = new A.ThemeElements();
+			var themeElements = new A.ThemeElements();
 
-			var colorScheme1 = new A.ColorScheme() { Name = "Стандартная" };
+			var colorScheme = new A.ColorScheme() { Name = "Стандартная" };
 
 			var dark1Color1 = new A.Dark1Color();
 			var systemColor1 = new A.SystemColor() { Val = A.SystemColorValues.WindowText, LastColor = "000000" };
@@ -395,28 +395,28 @@ namespace Accounting.Reports.OpenXml
 
 			accent6Color1.Append(rgbColorModelHex8);
 
-			var hyperlink1 = new A.Hyperlink();
+			var hyperlink = new A.Hyperlink();
 			var rgbColorModelHex9 = new A.RgbColorModelHex() { Val = "0563C1" };
 
-			hyperlink1.Append(rgbColorModelHex9);
+			hyperlink.Append(rgbColorModelHex9);
 
-			var followedHyperlinkColor1 = new A.FollowedHyperlinkColor();
+			var followedHyperlinkColor = new A.FollowedHyperlinkColor();
 			var rgbColorModelHex10 = new A.RgbColorModelHex() { Val = "954F72" };
 
-			followedHyperlinkColor1.Append(rgbColorModelHex10);
+			followedHyperlinkColor.Append(rgbColorModelHex10);
 
-			colorScheme1.Append(dark1Color1);
-			colorScheme1.Append(light1Color1);
-			colorScheme1.Append(dark2Color1);
-			colorScheme1.Append(light2Color1);
-			colorScheme1.Append(accent1Color1);
-			colorScheme1.Append(accent2Color1);
-			colorScheme1.Append(accent3Color1);
-			colorScheme1.Append(accent4Color1);
-			colorScheme1.Append(accent5Color1);
-			colorScheme1.Append(accent6Color1);
-			colorScheme1.Append(hyperlink1);
-			colorScheme1.Append(followedHyperlinkColor1);
+			colorScheme.Append(dark1Color1);
+			colorScheme.Append(light1Color1);
+			colorScheme.Append(dark2Color1);
+			colorScheme.Append(light2Color1);
+			colorScheme.Append(accent1Color1);
+			colorScheme.Append(accent2Color1);
+			colorScheme.Append(accent3Color1);
+			colorScheme.Append(accent4Color1);
+			colorScheme.Append(accent5Color1);
+			colorScheme.Append(accent6Color1);
+			colorScheme.Append(hyperlink);
+			colorScheme.Append(followedHyperlinkColor);
 
 			var fontScheme3 = new A.FontScheme() { Name = "Стандартная" };
 
@@ -561,9 +561,9 @@ namespace Accounting.Reports.OpenXml
 			fontScheme3.Append(majorFont1);
 			fontScheme3.Append(minorFont1);
 
-			var formatScheme1 = new A.FormatScheme() { Name = "Стандартная" };
+			var formatScheme = new A.FormatScheme() { Name = "Стандартная" };
 
-			var fillStyleList1 = new A.FillStyleList();
+			var fillStyleList = new A.FillStyleList();
 
 			var solidFill1 = new A.SolidFill();
 			var schemeColor1 = new A.SchemeColor() { Val = A.SchemeColorValues.PhColor };
@@ -672,9 +672,9 @@ namespace Accounting.Reports.OpenXml
 			gradientFill2.Append(gradientStopList2);
 			gradientFill2.Append(linearGradientFill2);
 
-			fillStyleList1.Append(solidFill1);
-			fillStyleList1.Append(gradientFill1);
-			fillStyleList1.Append(gradientFill2);
+			fillStyleList.Append(solidFill1);
+			fillStyleList.Append(gradientFill1);
+			fillStyleList.Append(gradientFill2);
 
 			var lineStyleList1 = new A.LineStyleList();
 
@@ -829,34 +829,34 @@ namespace Accounting.Reports.OpenXml
 			backgroundFillStyleList1.Append(solidFill6);
 			backgroundFillStyleList1.Append(gradientFill3);
 
-			formatScheme1.Append(fillStyleList1);
-			formatScheme1.Append(lineStyleList1);
-			formatScheme1.Append(effectStyleList1);
-			formatScheme1.Append(backgroundFillStyleList1);
+			formatScheme.Append(fillStyleList);
+			formatScheme.Append(lineStyleList1);
+			formatScheme.Append(effectStyleList1);
+			formatScheme.Append(backgroundFillStyleList1);
 
-			themeElements1.Append(colorScheme1);
-			themeElements1.Append(fontScheme3);
-			themeElements1.Append(formatScheme1);
-			var objectDefaults1 = new A.ObjectDefaults();
-			var extraColorSchemeList1 = new A.ExtraColorSchemeList();
+			themeElements.Append(colorScheme);
+			themeElements.Append(fontScheme3);
+			themeElements.Append(formatScheme);
+			var objectDefaults = new A.ObjectDefaults();
+			var extraColorSchemeList = new A.ExtraColorSchemeList();
 
-			var officeStyleSheetExtensionList1 = new A.OfficeStyleSheetExtensionList();
+			var officeStyleSheetExtensionList = new A.OfficeStyleSheetExtensionList();
 
-			var officeStyleSheetExtension1 = new A.OfficeStyleSheetExtension() { Uri = "{05A4C25C-085E-4340-85A3-A5531E510DB2}" };
+			var officeStyleSheetExtension = new A.OfficeStyleSheetExtension() { Uri = "{05A4C25C-085E-4340-85A3-A5531E510DB2}" };
 
-			var themeFamily1 = new Thm15.ThemeFamily() { Name = "Office Theme", Id = "{62F939B6-93AF-4DB8-9C6B-D6C7DFDC589F}", Vid = "{4A3C46E8-61CC-4603-A589-7422A47A8E4A}" };
-			themeFamily1.AddNamespaceDeclaration("thm15", "http://schemas.microsoft.com/office/thememl/2012/main");
+			var themeFamily = new Thm15.ThemeFamily() { Name = "Office Theme", Id = "{62F939B6-93AF-4DB8-9C6B-D6C7DFDC589F}", Vid = "{4A3C46E8-61CC-4603-A589-7422A47A8E4A}" };
+			themeFamily.AddNamespaceDeclaration("thm15", "http://schemas.microsoft.com/office/thememl/2012/main");
 
-			officeStyleSheetExtension1.Append(themeFamily1);
+			officeStyleSheetExtension.Append(themeFamily);
 
-			officeStyleSheetExtensionList1.Append(officeStyleSheetExtension1);
+			officeStyleSheetExtensionList.Append(officeStyleSheetExtension);
 
-			theme1.Append(themeElements1);
-			theme1.Append(objectDefaults1);
-			theme1.Append(extraColorSchemeList1);
-			theme1.Append(officeStyleSheetExtensionList1);
+			theme.Append(themeElements);
+			theme.Append(objectDefaults);
+			theme.Append(extraColorSchemeList);
+			theme.Append(officeStyleSheetExtensionList);
 
-			themePart.Theme = theme1;
+			themePart.Theme = theme;
 		}
 
 		private static void generateWorksheetPartContent(WorksheetPart worksheetPart, IReport report)
