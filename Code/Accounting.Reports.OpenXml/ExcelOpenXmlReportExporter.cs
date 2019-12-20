@@ -31,25 +31,25 @@ namespace Accounting.Reports.OpenXml
 
 		private static void exportReport(SpreadsheetDocument document, IReport report)
 		{
-			ExtendedFilePropertiesPart extendedFilePropertiesPart = document.AddNewPart<ExtendedFilePropertiesPart>("rId3");
+			var extendedFilePropertiesPart = document.AddNewPart<ExtendedFilePropertiesPart>("rId3");
 			GenerateExtendedFilePropertiesPartContent(extendedFilePropertiesPart);
 
-			WorkbookPart workbookPart = document.AddWorkbookPart();
+			var workbookPart = document.AddWorkbookPart();
 			GenerateWorkbookPartContent(workbookPart);
 
-			WorkbookStylesPart workbookStylesPart = workbookPart.AddNewPart<WorkbookStylesPart>("rId3");
+			var workbookStylesPart = workbookPart.AddNewPart<WorkbookStylesPart>("rId3");
 			GenerateWorkbookStylesPartContent(workbookStylesPart);
 
-			ThemePart themePart = workbookPart.AddNewPart<ThemePart>("rId2");
+			var themePart = workbookPart.AddNewPart<ThemePart>("rId2");
 			GenerateThemePartContent(themePart);
 
-			WorksheetPart worksheetPart = workbookPart.AddNewPart<WorksheetPart>("rId1");
+			var worksheetPart = workbookPart.AddNewPart<WorksheetPart>("rId1");
 			GenerateWorksheetPartContent(worksheetPart, report);
 
-			SpreadsheetPrinterSettingsPart spreadsheetPrinterSettingsPart = worksheetPart.AddNewPart<SpreadsheetPrinterSettingsPart>("rId1");
+			var spreadsheetPrinterSettingsPart = worksheetPart.AddNewPart<SpreadsheetPrinterSettingsPart>("rId1");
 			GenerateSpreadsheetPrinterSettingsPartContent(spreadsheetPrinterSettingsPart);
 
-			SharedStringTablePart sharedStringTablePart = workbookPart.AddNewPart<SharedStringTablePart>("rId4");
+			var sharedStringTablePart = workbookPart.AddNewPart<SharedStringTablePart>("rId4");
 			GenerateSharedStringTablePartContent(sharedStringTablePart);
 
 			SetPackageProperties(document);
