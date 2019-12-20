@@ -932,7 +932,7 @@ namespace Accounting.Reports.OpenXml
 
 		private static void generateSpreadsheetPrinterSettingsPartContent(SpreadsheetPrinterSettingsPart spreadsheetPrinterSettingsPart)
 		{
-			using (var data = GetBinaryDataStream(spreadsheetPrinterSettingsPartData))
+			using (var data = getBinaryDataStream(spreadsheetPrinterSettingsPartData))
 			{
 				spreadsheetPrinterSettingsPart.FeedData(data);
 			}
@@ -950,12 +950,14 @@ namespace Accounting.Reports.OpenXml
 		}
 
 		#region Binary Data
+
 		private const string spreadsheetPrinterSettingsPartData = "RgBvAHgAaQB0ACAAUgBlAGEAZABlAHIAIABQAEQARgAgAFAAcgBpAG4AdABlAHIAAAAAAAAAAAAAAAAAAAAAAAEEAQTcAAAAX/+BBwEACQCaCzQIZAABAAcAWAICAAEAWAICAAAAQQA0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAACAAAAAQAAAAEAAAABAAAAAAAAAAAAAAAAAAAAAAAAAA==";
 
-		private static Stream GetBinaryDataStream(string base64String)
+		private static Stream getBinaryDataStream(string base64String)
 		{
 			return new MemoryStream(Convert.FromBase64String(base64String));
 		}
+
 		#endregion
 	}
 }
