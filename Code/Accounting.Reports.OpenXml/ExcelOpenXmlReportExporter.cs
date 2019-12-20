@@ -57,27 +57,27 @@ namespace Accounting.Reports.OpenXml
 
 		private static void GenerateExtendedFilePropertiesPartContent(ExtendedFilePropertiesPart extendedFilePropertiesPart)
 		{
-			Ap.Properties properties1 = new Ap.Properties();
+			var properties1 = new Ap.Properties();
 			properties1.AddNamespaceDeclaration("vt", "http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes");
-			Ap.Application application1 = new Ap.Application();
+			var application1 = new Ap.Application();
 			application1.Text = "Microsoft Excel";
-			Ap.DocumentSecurity documentSecurity1 = new Ap.DocumentSecurity();
+			var documentSecurity1 = new Ap.DocumentSecurity();
 			documentSecurity1.Text = "0";
-			Ap.ScaleCrop scaleCrop1 = new Ap.ScaleCrop();
+			var scaleCrop1 = new Ap.ScaleCrop();
 			scaleCrop1.Text = "false";
 
-			Ap.HeadingPairs headingPairs1 = new Ap.HeadingPairs();
+			var headingPairs1 = new Ap.HeadingPairs();
 
-			Vt.VTVector vTVector1 = new Vt.VTVector() { BaseType = Vt.VectorBaseValues.Variant, Size = (UInt32Value)2U };
+			var vTVector1 = new Vt.VTVector() { BaseType = Vt.VectorBaseValues.Variant, Size = (UInt32Value)2U };
 
-			Vt.Variant variant1 = new Vt.Variant();
-			Vt.VTLPSTR vTLPSTR1 = new Vt.VTLPSTR();
+			var variant1 = new Vt.Variant();
+			var vTLPSTR1 = new Vt.VTLPSTR();
 			vTLPSTR1.Text = "Листы";
 
 			variant1.Append(vTLPSTR1);
 
-			Vt.Variant variant2 = new Vt.Variant();
-			Vt.VTInt32 vTInt321 = new Vt.VTInt32();
+			var variant2 = new Vt.Variant();
+			var vTInt321 = new Vt.VTInt32();
 			vTInt321.Text = "1";
 
 			variant2.Append(vTInt321);
@@ -87,24 +87,24 @@ namespace Accounting.Reports.OpenXml
 
 			headingPairs1.Append(vTVector1);
 
-			Ap.TitlesOfParts titlesOfParts1 = new Ap.TitlesOfParts();
+			var titlesOfParts1 = new Ap.TitlesOfParts();
 
-			Vt.VTVector vTVector2 = new Vt.VTVector() { BaseType = Vt.VectorBaseValues.Lpstr, Size = (UInt32Value)1U };
-			Vt.VTLPSTR vTLPSTR2 = new Vt.VTLPSTR();
+			var vTVector2 = new Vt.VTVector() { BaseType = Vt.VectorBaseValues.Lpstr, Size = (UInt32Value)1U };
+			var vTLPSTR2 = new Vt.VTLPSTR();
 			vTLPSTR2.Text = "Лист1";
 
 			vTVector2.Append(vTLPSTR2);
 
 			titlesOfParts1.Append(vTVector2);
-			Ap.Company company1 = new Ap.Company();
+			var company1 = new Ap.Company();
 			company1.Text = "";
-			Ap.LinksUpToDate linksUpToDate1 = new Ap.LinksUpToDate();
+			var linksUpToDate1 = new Ap.LinksUpToDate();
 			linksUpToDate1.Text = "false";
-			Ap.SharedDocument sharedDocument1 = new Ap.SharedDocument();
+			var sharedDocument1 = new Ap.SharedDocument();
 			sharedDocument1.Text = "false";
-			Ap.HyperlinksChanged hyperlinksChanged1 = new Ap.HyperlinksChanged();
+			var hyperlinksChanged1 = new Ap.HyperlinksChanged();
 			hyperlinksChanged1.Text = "false";
-			Ap.ApplicationVersion applicationVersion1 = new Ap.ApplicationVersion();
+			var applicationVersion1 = new Ap.ApplicationVersion();
 			applicationVersion1.Text = "15.0300";
 
 			properties1.Append(application1);
