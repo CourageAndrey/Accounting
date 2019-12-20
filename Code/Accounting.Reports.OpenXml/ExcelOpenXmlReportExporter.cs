@@ -276,7 +276,7 @@ namespace Accounting.Reports.OpenXml
 
 			cellStyleFormats.Append(cellFormat1);
 
-			var cellFormats1 = new CellFormats { Count = (UInt32Value)4U };
+			var cellFormats = new CellFormats { Count = (UInt32Value)4U };
 			var cellFormat2 = new CellFormat { NumberFormatId = (UInt32Value)0U, FontId = (UInt32Value)0U, FillId = (UInt32Value)0U, BorderId = (UInt32Value)0U, FormatId = (UInt32Value)0U };
 
 			var cellFormat3 = new CellFormat { NumberFormatId = (UInt32Value)0U, FontId = (UInt32Value)0U, FillId = (UInt32Value)0U, BorderId = (UInt32Value)1U, FormatId = (UInt32Value)0U, ApplyBorder = true, ApplyAlignment = true };
@@ -286,15 +286,15 @@ namespace Accounting.Reports.OpenXml
 			var cellFormat4 = new CellFormat { NumberFormatId = (UInt32Value)0U, FontId = (UInt32Value)1U, FillId = (UInt32Value)0U, BorderId = (UInt32Value)1U, FormatId = (UInt32Value)0U, ApplyFont = true, ApplyBorder = true };
 			var cellFormat5 = new CellFormat { NumberFormatId = (UInt32Value)0U, FontId = (UInt32Value)1U, FillId = (UInt32Value)0U, BorderId = (UInt32Value)0U, FormatId = (UInt32Value)0U, ApplyFont = true };
 
-			cellFormats1.Append(cellFormat2);
-			cellFormats1.Append(cellFormat3);
-			cellFormats1.Append(cellFormat4);
-			cellFormats1.Append(cellFormat5);
+			cellFormats.Append(cellFormat2);
+			cellFormats.Append(cellFormat3);
+			cellFormats.Append(cellFormat4);
+			cellFormats.Append(cellFormat5);
 
 			var cellStyles = new CellStyles { Count = (UInt32Value)1U };
-			var cellStyle1 = new CellStyle { Name = "Обычный", FormatId = (UInt32Value)0U, BuiltinId = (UInt32Value)0U };
+			var cellStyle = new CellStyle { Name = "Обычный", FormatId = (UInt32Value)0U, BuiltinId = (UInt32Value)0U };
 
-			cellStyles.Append(cellStyle1);
+			cellStyles.Append(cellStyle);
 			var differentialFormats = new DifferentialFormats { Count = (UInt32Value)0U };
 			var tableStyles = new TableStyles { Count = (UInt32Value)0U, DefaultTableStyle = "TableStyleMedium2", DefaultPivotStyle = "PivotStyleLight16" };
 
@@ -316,7 +316,7 @@ namespace Accounting.Reports.OpenXml
 			stylesheet.Append(fills);
 			stylesheet.Append(borders);
 			stylesheet.Append(cellStyleFormats);
-			stylesheet.Append(cellFormats1);
+			stylesheet.Append(cellFormats);
 			stylesheet.Append(cellStyles);
 			stylesheet.Append(differentialFormats);
 			stylesheet.Append(tableStyles);
