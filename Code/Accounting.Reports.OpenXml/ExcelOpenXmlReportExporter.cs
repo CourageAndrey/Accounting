@@ -447,12 +447,12 @@ namespace Accounting.Reports.OpenXml
 
 			var fillStyleList = new DocumentFormat.OpenXml.Drawing.FillStyleList();
 
-			var solidFill1 = new DocumentFormat.OpenXml.Drawing.SolidFill();
+			var solidFill = new DocumentFormat.OpenXml.Drawing.SolidFill();
 			var schemeColor1 = new DocumentFormat.OpenXml.Drawing.SchemeColor { Val = DocumentFormat.OpenXml.Drawing.SchemeColorValues.PhColor };
 
-			solidFill1.Append(schemeColor1);
+			solidFill.Append(schemeColor1);
 
-			var gradientFill1 = new DocumentFormat.OpenXml.Drawing.GradientFill { RotateWithShape = true };
+			var gradientFill = new DocumentFormat.OpenXml.Drawing.GradientFill { RotateWithShape = true };
 
 			var gradientStopList1 = new DocumentFormat.OpenXml.Drawing.GradientStopList();
 
@@ -500,8 +500,8 @@ namespace Accounting.Reports.OpenXml
 			gradientStopList1.Append(gradientStop3);
 			var linearGradientFill1 = new DocumentFormat.OpenXml.Drawing.LinearGradientFill { Angle = 5400000, Scaled = false };
 
-			gradientFill1.Append(gradientStopList1);
-			gradientFill1.Append(linearGradientFill1);
+			gradientFill.Append(gradientStopList1);
+			gradientFill.Append(linearGradientFill1);
 
 			var gradientFill2 = new DocumentFormat.OpenXml.Drawing.GradientFill { RotateWithShape = true };
 
@@ -554,11 +554,11 @@ namespace Accounting.Reports.OpenXml
 			gradientFill2.Append(gradientStopList2);
 			gradientFill2.Append(linearGradientFill2);
 
-			fillStyleList.Append(solidFill1);
-			fillStyleList.Append(gradientFill1);
+			fillStyleList.Append(solidFill);
+			fillStyleList.Append(gradientFill);
 			fillStyleList.Append(gradientFill2);
 
-			var lineStyleList1 = new DocumentFormat.OpenXml.Drawing.LineStyleList();
+			var lineStyleList = new DocumentFormat.OpenXml.Drawing.LineStyleList();
 
 			var outline1 = new DocumentFormat.OpenXml.Drawing.Outline { Width = 6350, CapType = DocumentFormat.OpenXml.Drawing.LineCapValues.Flat, CompoundLineType = DocumentFormat.OpenXml.Drawing.CompoundLineValues.Single, Alignment = DocumentFormat.OpenXml.Drawing.PenAlignmentValues.Center };
 
@@ -599,11 +599,11 @@ namespace Accounting.Reports.OpenXml
 			outline3.Append(presetDash3);
 			outline3.Append(miter3);
 
-			lineStyleList1.Append(outline1);
-			lineStyleList1.Append(outline2);
-			lineStyleList1.Append(outline3);
+			lineStyleList.Append(outline1);
+			lineStyleList.Append(outline2);
+			lineStyleList.Append(outline3);
 
-			var effectStyleList1 = new DocumentFormat.OpenXml.Drawing.EffectStyleList();
+			var effectStyleList = new DocumentFormat.OpenXml.Drawing.EffectStyleList();
 
 			var effectStyle1 = new DocumentFormat.OpenXml.Drawing.EffectStyle();
 			var effectList1 = new DocumentFormat.OpenXml.Drawing.EffectList();
@@ -632,9 +632,9 @@ namespace Accounting.Reports.OpenXml
 
 			effectStyle3.Append(effectList3);
 
-			effectStyleList1.Append(effectStyle1);
-			effectStyleList1.Append(effectStyle2);
-			effectStyleList1.Append(effectStyle3);
+			effectStyleList.Append(effectStyle1);
+			effectStyleList.Append(effectStyle2);
+			effectStyleList.Append(effectStyle3);
 
 			var backgroundFillStyleList1 = new DocumentFormat.OpenXml.Drawing.BackgroundFillStyleList();
 
@@ -712,8 +712,8 @@ namespace Accounting.Reports.OpenXml
 			backgroundFillStyleList1.Append(gradientFill3);
 
 			formatScheme.Append(fillStyleList);
-			formatScheme.Append(lineStyleList1);
-			formatScheme.Append(effectStyleList1);
+			formatScheme.Append(lineStyleList);
+			formatScheme.Append(effectStyleList);
 			formatScheme.Append(backgroundFillStyleList1);
 
 			themeElements.Append(colorScheme);
