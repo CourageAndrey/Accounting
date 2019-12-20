@@ -176,19 +176,19 @@ namespace Accounting.Reports.OpenXml
 
 		private static void GenerateWorkbookStylesPartContent(WorkbookStylesPart workbookStylesPart)
 		{
-			Stylesheet stylesheet1 = new Stylesheet() { MCAttributes = new MarkupCompatibilityAttributes() { Ignorable = "x14ac" } };
+			var stylesheet1 = new Stylesheet() { MCAttributes = new MarkupCompatibilityAttributes() { Ignorable = "x14ac" } };
 			stylesheet1.AddNamespaceDeclaration("mc", "http://schemas.openxmlformats.org/markup-compatibility/2006");
 			stylesheet1.AddNamespaceDeclaration("x14ac", "http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac");
 
-			Fonts fonts1 = new Fonts() { Count = (UInt32Value)2U, KnownFonts = true };
+			var fonts1 = new Fonts() { Count = (UInt32Value)2U, KnownFonts = true };
 
-			Font font1 = new Font();
-			FontSize fontSize1 = new FontSize() { Val = 11D };
-			Color color1 = new Color() { Theme = (UInt32Value)1U };
-			FontName fontName1 = new FontName() { Val = "Calibri" };
-			FontFamilyNumbering fontFamilyNumbering1 = new FontFamilyNumbering() { Val = 2 };
-			FontCharSet fontCharSet1 = new FontCharSet() { Val = 204 };
-			FontScheme fontScheme1 = new FontScheme() { Val = FontSchemeValues.Minor };
+			var font1 = new Font();
+			var fontSize1 = new FontSize() { Val = 11D };
+			var color1 = new Color() { Theme = (UInt32Value)1U };
+			var fontName1 = new FontName() { Val = "Calibri" };
+			var fontFamilyNumbering1 = new FontFamilyNumbering() { Val = 2 };
+			var fontCharSet1 = new FontCharSet() { Val = 204 };
+			var fontScheme1 = new FontScheme() { Val = FontSchemeValues.Minor };
 
 			font1.Append(fontSize1);
 			font1.Append(color1);
@@ -197,14 +197,14 @@ namespace Accounting.Reports.OpenXml
 			font1.Append(fontCharSet1);
 			font1.Append(fontScheme1);
 
-			Font font2 = new Font();
-			Bold bold1 = new Bold();
-			FontSize fontSize2 = new FontSize() { Val = 11D };
-			Color color2 = new Color() { Theme = (UInt32Value)1U };
-			FontName fontName2 = new FontName() { Val = "Calibri" };
-			FontFamilyNumbering fontFamilyNumbering2 = new FontFamilyNumbering() { Val = 2 };
-			FontCharSet fontCharSet2 = new FontCharSet() { Val = 204 };
-			FontScheme fontScheme2 = new FontScheme() { Val = FontSchemeValues.Minor };
+			var font2 = new Font();
+			var bold1 = new Bold();
+			var fontSize2 = new FontSize() { Val = 11D };
+			var color2 = new Color() { Theme = (UInt32Value)1U };
+			var fontName2 = new FontName() { Val = "Calibri" };
+			var fontFamilyNumbering2 = new FontFamilyNumbering() { Val = 2 };
+			var fontCharSet2 = new FontCharSet() { Val = 204 };
+			var fontScheme2 = new FontScheme() { Val = FontSchemeValues.Minor };
 
 			font2.Append(bold1);
 			font2.Append(fontSize2);
@@ -217,29 +217,29 @@ namespace Accounting.Reports.OpenXml
 			fonts1.Append(font1);
 			fonts1.Append(font2);
 
-			Fills fills1 = new Fills() { Count = (UInt32Value)2U };
+			var fills1 = new Fills() { Count = (UInt32Value)2U };
 
-			Fill fill1 = new Fill();
-			PatternFill patternFill1 = new PatternFill() { PatternType = PatternValues.None };
+			var fill1 = new Fill();
+			var patternFill1 = new PatternFill() { PatternType = PatternValues.None };
 
 			fill1.Append(patternFill1);
 
-			Fill fill2 = new Fill();
-			PatternFill patternFill2 = new PatternFill() { PatternType = PatternValues.Gray125 };
+			var fill2 = new Fill();
+			var patternFill2 = new PatternFill() { PatternType = PatternValues.Gray125 };
 
 			fill2.Append(patternFill2);
 
 			fills1.Append(fill1);
 			fills1.Append(fill2);
 
-			Borders borders1 = new Borders() { Count = (UInt32Value)2U };
+			var borders1 = new Borders() { Count = (UInt32Value)2U };
 
-			Border border1 = new Border();
-			LeftBorder leftBorder1 = new LeftBorder();
-			RightBorder rightBorder1 = new RightBorder();
-			TopBorder topBorder1 = new TopBorder();
-			BottomBorder bottomBorder1 = new BottomBorder();
-			DiagonalBorder diagonalBorder1 = new DiagonalBorder();
+			var border1 = new Border();
+			var leftBorder1 = new LeftBorder();
+			var rightBorder1 = new RightBorder();
+			var topBorder1 = new TopBorder();
+			var bottomBorder1 = new BottomBorder();
+			var diagonalBorder1 = new DiagonalBorder();
 
 			border1.Append(leftBorder1);
 			border1.Append(rightBorder1);
@@ -247,28 +247,28 @@ namespace Accounting.Reports.OpenXml
 			border1.Append(bottomBorder1);
 			border1.Append(diagonalBorder1);
 
-			Border border2 = new Border();
+			var border2 = new Border();
 
-			LeftBorder leftBorder2 = new LeftBorder() { Style = BorderStyleValues.Thin };
-			Color color3 = new Color() { Indexed = (UInt32Value)64U };
+			var leftBorder2 = new LeftBorder() { Style = BorderStyleValues.Thin };
+			var color3 = new Color() { Indexed = (UInt32Value)64U };
 
 			leftBorder2.Append(color3);
 
-			RightBorder rightBorder2 = new RightBorder() { Style = BorderStyleValues.Thin };
-			Color color4 = new Color() { Indexed = (UInt32Value)64U };
+			var rightBorder2 = new RightBorder() { Style = BorderStyleValues.Thin };
+			var color4 = new Color() { Indexed = (UInt32Value)64U };
 
 			rightBorder2.Append(color4);
 
-			TopBorder topBorder2 = new TopBorder() { Style = BorderStyleValues.Thin };
-			Color color5 = new Color() { Indexed = (UInt32Value)64U };
+			var topBorder2 = new TopBorder() { Style = BorderStyleValues.Thin };
+			var color5 = new Color() { Indexed = (UInt32Value)64U };
 
 			topBorder2.Append(color5);
 
-			BottomBorder bottomBorder2 = new BottomBorder() { Style = BorderStyleValues.Thin };
-			Color color6 = new Color() { Indexed = (UInt32Value)64U };
+			var bottomBorder2 = new BottomBorder() { Style = BorderStyleValues.Thin };
+			var color6 = new Color() { Indexed = (UInt32Value)64U };
 
 			bottomBorder2.Append(color6);
-			DiagonalBorder diagonalBorder2 = new DiagonalBorder();
+			var diagonalBorder2 = new DiagonalBorder();
 
 			border2.Append(leftBorder2);
 			border2.Append(rightBorder2);
@@ -279,44 +279,44 @@ namespace Accounting.Reports.OpenXml
 			borders1.Append(border1);
 			borders1.Append(border2);
 
-			CellStyleFormats cellStyleFormats1 = new CellStyleFormats() { Count = (UInt32Value)1U };
-			CellFormat cellFormat1 = new CellFormat() { NumberFormatId = (UInt32Value)0U, FontId = (UInt32Value)0U, FillId = (UInt32Value)0U, BorderId = (UInt32Value)0U };
+			var cellStyleFormats1 = new CellStyleFormats() { Count = (UInt32Value)1U };
+			var cellFormat1 = new CellFormat() { NumberFormatId = (UInt32Value)0U, FontId = (UInt32Value)0U, FillId = (UInt32Value)0U, BorderId = (UInt32Value)0U };
 
 			cellStyleFormats1.Append(cellFormat1);
 
-			CellFormats cellFormats1 = new CellFormats() { Count = (UInt32Value)4U };
-			CellFormat cellFormat2 = new CellFormat() { NumberFormatId = (UInt32Value)0U, FontId = (UInt32Value)0U, FillId = (UInt32Value)0U, BorderId = (UInt32Value)0U, FormatId = (UInt32Value)0U };
+			var cellFormats1 = new CellFormats() { Count = (UInt32Value)4U };
+			var cellFormat2 = new CellFormat() { NumberFormatId = (UInt32Value)0U, FontId = (UInt32Value)0U, FillId = (UInt32Value)0U, BorderId = (UInt32Value)0U, FormatId = (UInt32Value)0U };
 
-			CellFormat cellFormat3 = new CellFormat() { NumberFormatId = (UInt32Value)0U, FontId = (UInt32Value)0U, FillId = (UInt32Value)0U, BorderId = (UInt32Value)1U, FormatId = (UInt32Value)0U, ApplyBorder = true, ApplyAlignment = true };
-			Alignment alignment1 = new Alignment() { Vertical = VerticalAlignmentValues.Center, WrapText = true };
+			var cellFormat3 = new CellFormat() { NumberFormatId = (UInt32Value)0U, FontId = (UInt32Value)0U, FillId = (UInt32Value)0U, BorderId = (UInt32Value)1U, FormatId = (UInt32Value)0U, ApplyBorder = true, ApplyAlignment = true };
+			var alignment1 = new Alignment() { Vertical = VerticalAlignmentValues.Center, WrapText = true };
 
 			cellFormat3.Append(alignment1);
-			CellFormat cellFormat4 = new CellFormat() { NumberFormatId = (UInt32Value)0U, FontId = (UInt32Value)1U, FillId = (UInt32Value)0U, BorderId = (UInt32Value)1U, FormatId = (UInt32Value)0U, ApplyFont = true, ApplyBorder = true };
-			CellFormat cellFormat5 = new CellFormat() { NumberFormatId = (UInt32Value)0U, FontId = (UInt32Value)1U, FillId = (UInt32Value)0U, BorderId = (UInt32Value)0U, FormatId = (UInt32Value)0U, ApplyFont = true };
+			var cellFormat4 = new CellFormat() { NumberFormatId = (UInt32Value)0U, FontId = (UInt32Value)1U, FillId = (UInt32Value)0U, BorderId = (UInt32Value)1U, FormatId = (UInt32Value)0U, ApplyFont = true, ApplyBorder = true };
+			var cellFormat5 = new CellFormat() { NumberFormatId = (UInt32Value)0U, FontId = (UInt32Value)1U, FillId = (UInt32Value)0U, BorderId = (UInt32Value)0U, FormatId = (UInt32Value)0U, ApplyFont = true };
 
 			cellFormats1.Append(cellFormat2);
 			cellFormats1.Append(cellFormat3);
 			cellFormats1.Append(cellFormat4);
 			cellFormats1.Append(cellFormat5);
 
-			CellStyles cellStyles1 = new CellStyles() { Count = (UInt32Value)1U };
-			CellStyle cellStyle1 = new CellStyle() { Name = "Обычный", FormatId = (UInt32Value)0U, BuiltinId = (UInt32Value)0U };
+			var cellStyles1 = new CellStyles() { Count = (UInt32Value)1U };
+			var cellStyle1 = new CellStyle() { Name = "Обычный", FormatId = (UInt32Value)0U, BuiltinId = (UInt32Value)0U };
 
 			cellStyles1.Append(cellStyle1);
-			DifferentialFormats differentialFormats1 = new DifferentialFormats() { Count = (UInt32Value)0U };
-			TableStyles tableStyles1 = new TableStyles() { Count = (UInt32Value)0U, DefaultTableStyle = "TableStyleMedium2", DefaultPivotStyle = "PivotStyleLight16" };
+			var differentialFormats1 = new DifferentialFormats() { Count = (UInt32Value)0U };
+			var tableStyles1 = new TableStyles() { Count = (UInt32Value)0U, DefaultTableStyle = "TableStyleMedium2", DefaultPivotStyle = "PivotStyleLight16" };
 
-			StylesheetExtensionList stylesheetExtensionList1 = new StylesheetExtensionList();
+			var stylesheetExtensionList1 = new StylesheetExtensionList();
 
-			StylesheetExtension stylesheetExtension1 = new StylesheetExtension() { Uri = "{EB79DEF2-80B8-43e5-95BD-54CBDDF9020C}" };
+			var stylesheetExtension1 = new StylesheetExtension() { Uri = "{EB79DEF2-80B8-43e5-95BD-54CBDDF9020C}" };
 			stylesheetExtension1.AddNamespaceDeclaration("x14", "http://schemas.microsoft.com/office/spreadsheetml/2009/9/main");
-			X14.SlicerStyles slicerStyles1 = new X14.SlicerStyles() { DefaultSlicerStyle = "SlicerStyleLight1" };
+			var slicerStyles1 = new X14.SlicerStyles() { DefaultSlicerStyle = "SlicerStyleLight1" };
 
 			stylesheetExtension1.Append(slicerStyles1);
 
-			StylesheetExtension stylesheetExtension2 = new StylesheetExtension() { Uri = "{9260A510-F301-46a8-8635-F512D64BE5F5}" };
+			var stylesheetExtension2 = new StylesheetExtension() { Uri = "{9260A510-F301-46a8-8635-F512D64BE5F5}" };
 			stylesheetExtension2.AddNamespaceDeclaration("x15", "http://schemas.microsoft.com/office/spreadsheetml/2010/11/main");
-			X15.TimelineStyles timelineStyles1 = new X15.TimelineStyles() { DefaultTimelineStyle = "TimeSlicerStyleLight1" };
+			var timelineStyles1 = new X15.TimelineStyles() { DefaultTimelineStyle = "TimeSlicerStyleLight1" };
 
 			stylesheetExtension2.Append(timelineStyles1);
 
