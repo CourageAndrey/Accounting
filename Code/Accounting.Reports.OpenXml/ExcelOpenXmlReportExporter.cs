@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -425,146 +426,22 @@ namespace Accounting.Reports.OpenXml
 
 			var fontScheme3 = new DocumentFormat.OpenXml.Drawing.FontScheme { Name = "Стандартная" };
 
-			var majorFont1 = new DocumentFormat.OpenXml.Drawing.MajorFont();
-			var latinFont1 = new DocumentFormat.OpenXml.Drawing.LatinFont { Typeface = "Calibri Light", Panose = "020F0302020204030204" };
-			var eastAsianFont1 = new DocumentFormat.OpenXml.Drawing.EastAsianFont { Typeface = "" };
-			var complexScriptFont1 = new DocumentFormat.OpenXml.Drawing.ComplexScriptFont { Typeface = "" };
-			var supplementalFont1 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Jpan", Typeface = "ＭＳ Ｐゴシック" };
-			var supplementalFont2 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Hang", Typeface = "맑은 고딕" };
-			var supplementalFont3 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Hans", Typeface = "宋体" };
-			var supplementalFont4 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Hant", Typeface = "新細明體" };
-			var supplementalFont5 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Arab", Typeface = "Times New Roman" };
-			var supplementalFont6 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Hebr", Typeface = "Times New Roman" };
-			var supplementalFont7 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Thai", Typeface = "Tahoma" };
-			var supplementalFont8 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Ethi", Typeface = "Nyala" };
-			var supplementalFont9 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Beng", Typeface = "Vrinda" };
-			var supplementalFont10 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Gujr", Typeface = "Shruti" };
-			var supplementalFont11 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Khmr", Typeface = "MoolBoran" };
-			var supplementalFont12 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Knda", Typeface = "Tunga" };
-			var supplementalFont13 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Guru", Typeface = "Raavi" };
-			var supplementalFont14 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Cans", Typeface = "Euphemia" };
-			var supplementalFont15 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Cher", Typeface = "Plantagenet Cherokee" };
-			var supplementalFont16 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Yiii", Typeface = "Microsoft Yi Baiti" };
-			var supplementalFont17 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Tibt", Typeface = "Microsoft Himalaya" };
-			var supplementalFont18 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Thaa", Typeface = "MV Boli" };
-			var supplementalFont19 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Deva", Typeface = "Mangal" };
-			var supplementalFont20 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Telu", Typeface = "Gautami" };
-			var supplementalFont21 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Taml", Typeface = "Latha" };
-			var supplementalFont22 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Syrc", Typeface = "Estrangelo Edessa" };
-			var supplementalFont23 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Orya", Typeface = "Kalinga" };
-			var supplementalFont24 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Mlym", Typeface = "Kartika" };
-			var supplementalFont25 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Laoo", Typeface = "DokChampa" };
-			var supplementalFont26 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Sinh", Typeface = "Iskoola Pota" };
-			var supplementalFont27 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Mong", Typeface = "Mongolian Baiti" };
-			var supplementalFont28 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Viet", Typeface = "Times New Roman" };
-			var supplementalFont29 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Uigh", Typeface = "Microsoft Uighur" };
-			var supplementalFont30 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Geor", Typeface = "Sylfaen" };
+			var majorFont = new DocumentFormat.OpenXml.Drawing.MajorFont();
+			defineFontScripts(
+				majorFont,
+				"Calibri Light",
+				"020F0302020204030204",
+				_majorSupplementalFonts);
 
-			majorFont1.Append(latinFont1);
-			majorFont1.Append(eastAsianFont1);
-			majorFont1.Append(complexScriptFont1);
-			majorFont1.Append(supplementalFont1);
-			majorFont1.Append(supplementalFont2);
-			majorFont1.Append(supplementalFont3);
-			majorFont1.Append(supplementalFont4);
-			majorFont1.Append(supplementalFont5);
-			majorFont1.Append(supplementalFont6);
-			majorFont1.Append(supplementalFont7);
-			majorFont1.Append(supplementalFont8);
-			majorFont1.Append(supplementalFont9);
-			majorFont1.Append(supplementalFont10);
-			majorFont1.Append(supplementalFont11);
-			majorFont1.Append(supplementalFont12);
-			majorFont1.Append(supplementalFont13);
-			majorFont1.Append(supplementalFont14);
-			majorFont1.Append(supplementalFont15);
-			majorFont1.Append(supplementalFont16);
-			majorFont1.Append(supplementalFont17);
-			majorFont1.Append(supplementalFont18);
-			majorFont1.Append(supplementalFont19);
-			majorFont1.Append(supplementalFont20);
-			majorFont1.Append(supplementalFont21);
-			majorFont1.Append(supplementalFont22);
-			majorFont1.Append(supplementalFont23);
-			majorFont1.Append(supplementalFont24);
-			majorFont1.Append(supplementalFont25);
-			majorFont1.Append(supplementalFont26);
-			majorFont1.Append(supplementalFont27);
-			majorFont1.Append(supplementalFont28);
-			majorFont1.Append(supplementalFont29);
-			majorFont1.Append(supplementalFont30);
+			var minorFont = new DocumentFormat.OpenXml.Drawing.MinorFont();
+			defineFontScripts(
+				majorFont,
+				"Calibri",
+				"020F0502020204030204",
+				_minorSupplementalFonts);
 
-			var minorFont1 = new DocumentFormat.OpenXml.Drawing.MinorFont();
-			var latinFont2 = new DocumentFormat.OpenXml.Drawing.LatinFont { Typeface = "Calibri", Panose = "020F0502020204030204" };
-			var eastAsianFont2 = new DocumentFormat.OpenXml.Drawing.EastAsianFont { Typeface = "" };
-			var complexScriptFont2 = new DocumentFormat.OpenXml.Drawing.ComplexScriptFont { Typeface = "" };
-			var supplementalFont31 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Jpan", Typeface = "ＭＳ Ｐゴシック" };
-			var supplementalFont32 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Hang", Typeface = "맑은 고딕" };
-			var supplementalFont33 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Hans", Typeface = "宋体" };
-			var supplementalFont34 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Hant", Typeface = "新細明體" };
-			var supplementalFont35 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Arab", Typeface = "Arial" };
-			var supplementalFont36 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Hebr", Typeface = "Arial" };
-			var supplementalFont37 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Thai", Typeface = "Tahoma" };
-			var supplementalFont38 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Ethi", Typeface = "Nyala" };
-			var supplementalFont39 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Beng", Typeface = "Vrinda" };
-			var supplementalFont40 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Gujr", Typeface = "Shruti" };
-			var supplementalFont41 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Khmr", Typeface = "DaunPenh" };
-			var supplementalFont42 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Knda", Typeface = "Tunga" };
-			var supplementalFont43 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Guru", Typeface = "Raavi" };
-			var supplementalFont44 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Cans", Typeface = "Euphemia" };
-			var supplementalFont45 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Cher", Typeface = "Plantagenet Cherokee" };
-			var supplementalFont46 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Yiii", Typeface = "Microsoft Yi Baiti" };
-			var supplementalFont47 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Tibt", Typeface = "Microsoft Himalaya" };
-			var supplementalFont48 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Thaa", Typeface = "MV Boli" };
-			var supplementalFont49 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Deva", Typeface = "Mangal" };
-			var supplementalFont50 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Telu", Typeface = "Gautami" };
-			var supplementalFont51 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Taml", Typeface = "Latha" };
-			var supplementalFont52 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Syrc", Typeface = "Estrangelo Edessa" };
-			var supplementalFont53 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Orya", Typeface = "Kalinga" };
-			var supplementalFont54 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Mlym", Typeface = "Kartika" };
-			var supplementalFont55 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Laoo", Typeface = "DokChampa" };
-			var supplementalFont56 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Sinh", Typeface = "Iskoola Pota" };
-			var supplementalFont57 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Mong", Typeface = "Mongolian Baiti" };
-			var supplementalFont58 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Viet", Typeface = "Arial" };
-			var supplementalFont59 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Uigh", Typeface = "Microsoft Uighur" };
-			var supplementalFont60 = new DocumentFormat.OpenXml.Drawing.SupplementalFont { Script = "Geor", Typeface = "Sylfaen" };
-
-			minorFont1.Append(latinFont2);
-			minorFont1.Append(eastAsianFont2);
-			minorFont1.Append(complexScriptFont2);
-			minorFont1.Append(supplementalFont31);
-			minorFont1.Append(supplementalFont32);
-			minorFont1.Append(supplementalFont33);
-			minorFont1.Append(supplementalFont34);
-			minorFont1.Append(supplementalFont35);
-			minorFont1.Append(supplementalFont36);
-			minorFont1.Append(supplementalFont37);
-			minorFont1.Append(supplementalFont38);
-			minorFont1.Append(supplementalFont39);
-			minorFont1.Append(supplementalFont40);
-			minorFont1.Append(supplementalFont41);
-			minorFont1.Append(supplementalFont42);
-			minorFont1.Append(supplementalFont43);
-			minorFont1.Append(supplementalFont44);
-			minorFont1.Append(supplementalFont45);
-			minorFont1.Append(supplementalFont46);
-			minorFont1.Append(supplementalFont47);
-			minorFont1.Append(supplementalFont48);
-			minorFont1.Append(supplementalFont49);
-			minorFont1.Append(supplementalFont50);
-			minorFont1.Append(supplementalFont51);
-			minorFont1.Append(supplementalFont52);
-			minorFont1.Append(supplementalFont53);
-			minorFont1.Append(supplementalFont54);
-			minorFont1.Append(supplementalFont55);
-			minorFont1.Append(supplementalFont56);
-			minorFont1.Append(supplementalFont57);
-			minorFont1.Append(supplementalFont58);
-			minorFont1.Append(supplementalFont59);
-			minorFont1.Append(supplementalFont60);
-
-			fontScheme3.Append(majorFont1);
-			fontScheme3.Append(minorFont1);
+			fontScheme3.Append(majorFont);
+			fontScheme3.Append(minorFont);
 
 			var formatScheme = new DocumentFormat.OpenXml.Drawing.FormatScheme { Name = "Стандартная" };
 
@@ -863,6 +740,123 @@ namespace Accounting.Reports.OpenXml
 
 			themePart.Theme = theme;
 		}
+
+		private static void defineFontScripts(
+			DocumentFormat.OpenXml.Drawing.FontCollectionType font,
+			string latinFontTypeface,
+			string latinFontPanose,
+			IDictionary<string, string> additionalSuplementalFonts)
+		{
+			var latinFont = new DocumentFormat.OpenXml.Drawing.LatinFont
+			{
+				Typeface = latinFontTypeface,
+				Panose = latinFontPanose,
+			};
+			font.Append(latinFont);
+
+			var asianFont = new DocumentFormat.OpenXml.Drawing.EastAsianFont { Typeface = "" };
+			font.Append(asianFont);
+
+			var complexScriptFont = new DocumentFormat.OpenXml.Drawing.ComplexScriptFont { Typeface = "" };
+			font.Append(complexScriptFont);
+
+			foreach (string fontScript in allFontScripts)
+			{
+				string fontTypeface;
+				if (!_commonSupplementalFonts.TryGetValue(fontScript, out fontTypeface))
+				{
+					fontTypeface = additionalSuplementalFonts[fontScript];
+				}
+
+				var supplementalFont = new DocumentFormat.OpenXml.Drawing.SupplementalFont
+				{
+					Script = fontScript,
+					Typeface = fontTypeface,
+				};
+
+				font.Append(supplementalFont);
+			}
+		}
+
+		private static readonly IReadOnlyCollection<string> allFontScripts = new[]
+		{
+			"Jpan",
+			"Hang",
+			"Hans",
+			"Hant",
+			"Arab",
+			"Hebr",
+			"Thai",
+			"Ethi",
+			"Beng",
+			"Gujr",
+			"Khmr",
+			"Knda",
+			"Guru",
+			"Cans",
+			"Cher",
+			"Yiii",
+			"Tibt",
+			"Thaa",
+			"Deva",
+			"Telu",
+			"Taml",
+			"Syrc",
+			"Orya",
+			"Mlym",
+			"Laoo",
+			"Sinh",
+			"Mong",
+			"Viet",
+			"Uigh",
+			"Geor",
+		};
+
+		private static readonly IDictionary<string ,string> _commonSupplementalFonts = new Dictionary<string, string>
+		{
+			{ "Jpan", "ＭＳ Ｐゴシック" },
+			{ "Hang", "맑은 고딕" },
+			{ "Hans", "宋体" },
+			{ "Hant", "新細明體" },
+			{ "Thai", "Tahoma" },
+			{ "Ethi", "Nyala" },
+			{ "Beng", "Vrinda" },
+			{ "Gujr", "Shruti" },
+			{ "Knda", "Tunga" },
+			{ "Guru", "Raavi" },
+			{ "Cans", "Euphemia" },
+			{ "Cher", "Plantagenet Cherokee" },
+			{ "Yiii", "Microsoft Yi Baiti" },
+			{ "Tibt", "Microsoft Himalaya" },
+			{ "Thaa", "MV Boli" },
+			{ "Deva", "Mangal" },
+			{ "Telu", "Gautami" },
+			{ "Taml", "Latha" },
+			{ "Syrc", "Estrangelo Edessa" },
+			{ "Orya", "Kalinga" },
+			{ "Mlym", "Kartika" },
+			{ "Laoo", "DokChampa" },
+			{ "Sinh", "Iskoola Pota" },
+			{ "Mong", "Mongolian Baiti" },
+			{ "Uigh", "Microsoft Uighur" },
+			{ "Geor", "Sylfaen" },
+		};
+
+		private static readonly IDictionary<string, string> _majorSupplementalFonts = new Dictionary<string, string>
+		{
+			{ "Arab", "Times New Roman" },
+			{ "Hebr", "Times New Roman" },
+			{ "Khmr", "MoolBoran" },
+			{ "Viet", "Times New Roman" },
+		};
+
+		private static readonly IDictionary<string, string> _minorSupplementalFonts = new Dictionary<string, string>
+		{
+			{ "Arab", "Arial" },
+			{ "Hebr", "Arial" },
+			{ "Khmr", "DaunPenh" },
+			{ "Viet", "Arial" },
+		};
 
 		private static void generateWorksheetPartContent(WorksheetPart worksheetPart, IReport report)
 		{
