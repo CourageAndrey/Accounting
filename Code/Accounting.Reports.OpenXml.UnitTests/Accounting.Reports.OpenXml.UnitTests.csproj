@@ -60,6 +60,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Accounting.Core\Accounting.Core.csproj">
+      <Project>{451e3fd9-f326-4274-a131-ac3eedb38f11}</Project>
+      <Name>Accounting.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Accounting.Reports.OpenXml\Accounting.Reports.OpenXml.csproj">
       <Project>{d41d91e2-b6cc-4d72-8bbb-567b9ee115eb}</Project>
       <Name>Accounting.Reports.OpenXml</Name>
