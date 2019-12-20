@@ -299,21 +299,18 @@ namespace Accounting.Reports.OpenXml
 			var tableStyles = new TableStyles { Count = (UInt32Value)0U, DefaultTableStyle = "TableStyleMedium2", DefaultPivotStyle = "PivotStyleLight16" };
 
 			var stylesheetExtensionList = new StylesheetExtensionList();
-
-			var stylesheetExtension1 = new StylesheetExtension { Uri = "{EB79DEF2-80B8-43e5-95BD-54CBDDF9020C}" };
-			stylesheetExtension1.AddNamespaceDeclaration("x14", "http://schemas.microsoft.com/office/spreadsheetml/2009/9/main");
-			var slicerStyles1 = new DocumentFormat.OpenXml.Office2010.Excel.SlicerStyles { DefaultSlicerStyle = "SlicerStyleLight1" };
-
-			stylesheetExtension1.Append(slicerStyles1);
-
-			var stylesheetExtension2 = new StylesheetExtension { Uri = "{9260A510-F301-46a8-8635-F512D64BE5F5}" };
-			stylesheetExtension2.AddNamespaceDeclaration("x15", "http://schemas.microsoft.com/office/spreadsheetml/2010/11/main");
-			var timelineStyles1 = new DocumentFormat.OpenXml.Office2013.Excel.TimelineStyles { DefaultTimelineStyle = "TimeSlicerStyleLight1" };
-
-			stylesheetExtension2.Append(timelineStyles1);
-
-			stylesheetExtensionList.Append(stylesheetExtension1);
-			stylesheetExtensionList.Append(stylesheetExtension2);
+			defineStylesheetExtension(
+				stylesheetExtensionList,
+				"{EB79DEF2-80B8-43e5-95BD-54CBDDF9020C}",
+				"x14",
+				"http://schemas.microsoft.com/office/spreadsheetml/2009/9/main",
+				"SlicerStyleLight1");
+			defineStylesheetExtension(
+				stylesheetExtensionList,
+				"{9260A510-F301-46a8-8635-F512D64BE5F5}",
+				"x15",
+				"http://schemas.microsoft.com/office/spreadsheetml/2010/11/main",
+				"TimeSlicerStyleLight1");
 
 			stylesheet.Append(fonts);
 			stylesheet.Append(fills);
@@ -326,6 +323,22 @@ namespace Accounting.Reports.OpenXml
 			stylesheet.Append(stylesheetExtensionList);
 
 			workbookStylesPart.Stylesheet = stylesheet;
+		}
+
+		private static void defineStylesheetExtension(
+			StylesheetExtensionList stylesheetExtensions,
+			string guidUri,
+			string namespacePrefix,
+			string namespaceUri,
+			string defaultSlicerStyle)
+		{
+			var stylesheetExtension = new StylesheetExtension { Uri = guidUri };
+			stylesheetExtension.AddNamespaceDeclaration(namespacePrefix, namespaceUri);
+			var styles = new DocumentFormat.OpenXml.Office2010.Excel.SlicerStyles { DefaultSlicerStyle = defaultSlicerStyle };
+
+			stylesheetExtension.Append(styles);
+
+			stylesheetExtensions.Append(stylesheetExtension);
 		}
 
 		private static void generateThemePartContent(ThemePart themePart)
