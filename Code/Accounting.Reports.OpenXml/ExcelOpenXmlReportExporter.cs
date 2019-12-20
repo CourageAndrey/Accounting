@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.IO;
+using System.Linq;
+
 using DocumentFormat.OpenXml.Packaging;
 using Ap = DocumentFormat.OpenXml.ExtendedProperties;
 using Vt = DocumentFormat.OpenXml.VariantTypes;
@@ -953,9 +956,9 @@ namespace Accounting.Reports.OpenXml
 		#region Binary Data
 		private const string spreadsheetPrinterSettingsPartData = "RgBvAHgAaQB0ACAAUgBlAGEAZABlAHIAIABQAEQARgAgAFAAcgBpAG4AdABlAHIAAAAAAAAAAAAAAAAAAAAAAAEEAQTcAAAAX/+BBwEACQCaCzQIZAABAAcAWAICAAEAWAICAAAAQQA0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAACAAAAAQAAAAEAAAABAAAAAAAAAAAAAAAAAAAAAAAAAA==";
 
-		private static System.IO.Stream GetBinaryDataStream(string base64String)
+		private static Stream GetBinaryDataStream(string base64String)
 		{
-			return new System.IO.MemoryStream(System.Convert.FromBase64String(base64String));
+			return new MemoryStream(Convert.FromBase64String(base64String));
 		}
 		#endregion
 	}
