@@ -338,70 +338,70 @@ namespace Accounting.Reports.OpenXml
 
 		private static void GenerateThemePartContent(ThemePart themePart)
 		{
-			A.Theme theme1 = new A.Theme() { Name = "Тема Office" };
+			var theme1 = new A.Theme() { Name = "Тема Office" };
 			theme1.AddNamespaceDeclaration("a", "http://schemas.openxmlformats.org/drawingml/2006/main");
 
-			A.ThemeElements themeElements1 = new A.ThemeElements();
+			var themeElements1 = new A.ThemeElements();
 
-			A.ColorScheme colorScheme1 = new A.ColorScheme() { Name = "Стандартная" };
+			var colorScheme1 = new A.ColorScheme() { Name = "Стандартная" };
 
-			A.Dark1Color dark1Color1 = new A.Dark1Color();
-			A.SystemColor systemColor1 = new A.SystemColor() { Val = A.SystemColorValues.WindowText, LastColor = "000000" };
+			var dark1Color1 = new A.Dark1Color();
+			var systemColor1 = new A.SystemColor() { Val = A.SystemColorValues.WindowText, LastColor = "000000" };
 
 			dark1Color1.Append(systemColor1);
 
-			A.Light1Color light1Color1 = new A.Light1Color();
-			A.SystemColor systemColor2 = new A.SystemColor() { Val = A.SystemColorValues.Window, LastColor = "FFFFFF" };
+			var light1Color1 = new A.Light1Color();
+			var systemColor2 = new A.SystemColor() { Val = A.SystemColorValues.Window, LastColor = "FFFFFF" };
 
 			light1Color1.Append(systemColor2);
 
-			A.Dark2Color dark2Color1 = new A.Dark2Color();
-			A.RgbColorModelHex rgbColorModelHex1 = new A.RgbColorModelHex() { Val = "44546A" };
+			var dark2Color1 = new A.Dark2Color();
+			var rgbColorModelHex1 = new A.RgbColorModelHex() { Val = "44546A" };
 
 			dark2Color1.Append(rgbColorModelHex1);
 
-			A.Light2Color light2Color1 = new A.Light2Color();
-			A.RgbColorModelHex rgbColorModelHex2 = new A.RgbColorModelHex() { Val = "E7E6E6" };
+			var light2Color1 = new A.Light2Color();
+			var rgbColorModelHex2 = new A.RgbColorModelHex() { Val = "E7E6E6" };
 
 			light2Color1.Append(rgbColorModelHex2);
 
-			A.Accent1Color accent1Color1 = new A.Accent1Color();
-			A.RgbColorModelHex rgbColorModelHex3 = new A.RgbColorModelHex() { Val = "5B9BD5" };
+			var accent1Color1 = new A.Accent1Color();
+			var rgbColorModelHex3 = new A.RgbColorModelHex() { Val = "5B9BD5" };
 
 			accent1Color1.Append(rgbColorModelHex3);
 
-			A.Accent2Color accent2Color1 = new A.Accent2Color();
-			A.RgbColorModelHex rgbColorModelHex4 = new A.RgbColorModelHex() { Val = "ED7D31" };
+			var accent2Color1 = new A.Accent2Color();
+			var rgbColorModelHex4 = new A.RgbColorModelHex() { Val = "ED7D31" };
 
 			accent2Color1.Append(rgbColorModelHex4);
 
-			A.Accent3Color accent3Color1 = new A.Accent3Color();
-			A.RgbColorModelHex rgbColorModelHex5 = new A.RgbColorModelHex() { Val = "A5A5A5" };
+			var accent3Color1 = new A.Accent3Color();
+			var rgbColorModelHex5 = new A.RgbColorModelHex() { Val = "A5A5A5" };
 
 			accent3Color1.Append(rgbColorModelHex5);
 
-			A.Accent4Color accent4Color1 = new A.Accent4Color();
-			A.RgbColorModelHex rgbColorModelHex6 = new A.RgbColorModelHex() { Val = "FFC000" };
+			var accent4Color1 = new A.Accent4Color();
+			var rgbColorModelHex6 = new A.RgbColorModelHex() { Val = "FFC000" };
 
 			accent4Color1.Append(rgbColorModelHex6);
 
-			A.Accent5Color accent5Color1 = new A.Accent5Color();
-			A.RgbColorModelHex rgbColorModelHex7 = new A.RgbColorModelHex() { Val = "4472C4" };
+			var accent5Color1 = new A.Accent5Color();
+			var rgbColorModelHex7 = new A.RgbColorModelHex() { Val = "4472C4" };
 
 			accent5Color1.Append(rgbColorModelHex7);
 
-			A.Accent6Color accent6Color1 = new A.Accent6Color();
-			A.RgbColorModelHex rgbColorModelHex8 = new A.RgbColorModelHex() { Val = "70AD47" };
+			var accent6Color1 = new A.Accent6Color();
+			var rgbColorModelHex8 = new A.RgbColorModelHex() { Val = "70AD47" };
 
 			accent6Color1.Append(rgbColorModelHex8);
 
-			A.Hyperlink hyperlink1 = new A.Hyperlink();
-			A.RgbColorModelHex rgbColorModelHex9 = new A.RgbColorModelHex() { Val = "0563C1" };
+			var hyperlink1 = new A.Hyperlink();
+			var rgbColorModelHex9 = new A.RgbColorModelHex() { Val = "0563C1" };
 
 			hyperlink1.Append(rgbColorModelHex9);
 
-			A.FollowedHyperlinkColor followedHyperlinkColor1 = new A.FollowedHyperlinkColor();
-			A.RgbColorModelHex rgbColorModelHex10 = new A.RgbColorModelHex() { Val = "954F72" };
+			var followedHyperlinkColor1 = new A.FollowedHyperlinkColor();
+			var rgbColorModelHex10 = new A.RgbColorModelHex() { Val = "954F72" };
 
 			followedHyperlinkColor1.Append(rgbColorModelHex10);
 
@@ -418,42 +418,42 @@ namespace Accounting.Reports.OpenXml
 			colorScheme1.Append(hyperlink1);
 			colorScheme1.Append(followedHyperlinkColor1);
 
-			A.FontScheme fontScheme3 = new A.FontScheme() { Name = "Стандартная" };
+			var fontScheme3 = new A.FontScheme() { Name = "Стандартная" };
 
-			A.MajorFont majorFont1 = new A.MajorFont();
-			A.LatinFont latinFont1 = new A.LatinFont() { Typeface = "Calibri Light", Panose = "020F0302020204030204" };
-			A.EastAsianFont eastAsianFont1 = new A.EastAsianFont() { Typeface = "" };
-			A.ComplexScriptFont complexScriptFont1 = new A.ComplexScriptFont() { Typeface = "" };
-			A.SupplementalFont supplementalFont1 = new A.SupplementalFont() { Script = "Jpan", Typeface = "ＭＳ Ｐゴシック" };
-			A.SupplementalFont supplementalFont2 = new A.SupplementalFont() { Script = "Hang", Typeface = "맑은 고딕" };
-			A.SupplementalFont supplementalFont3 = new A.SupplementalFont() { Script = "Hans", Typeface = "宋体" };
-			A.SupplementalFont supplementalFont4 = new A.SupplementalFont() { Script = "Hant", Typeface = "新細明體" };
-			A.SupplementalFont supplementalFont5 = new A.SupplementalFont() { Script = "Arab", Typeface = "Times New Roman" };
-			A.SupplementalFont supplementalFont6 = new A.SupplementalFont() { Script = "Hebr", Typeface = "Times New Roman" };
-			A.SupplementalFont supplementalFont7 = new A.SupplementalFont() { Script = "Thai", Typeface = "Tahoma" };
-			A.SupplementalFont supplementalFont8 = new A.SupplementalFont() { Script = "Ethi", Typeface = "Nyala" };
-			A.SupplementalFont supplementalFont9 = new A.SupplementalFont() { Script = "Beng", Typeface = "Vrinda" };
-			A.SupplementalFont supplementalFont10 = new A.SupplementalFont() { Script = "Gujr", Typeface = "Shruti" };
-			A.SupplementalFont supplementalFont11 = new A.SupplementalFont() { Script = "Khmr", Typeface = "MoolBoran" };
-			A.SupplementalFont supplementalFont12 = new A.SupplementalFont() { Script = "Knda", Typeface = "Tunga" };
-			A.SupplementalFont supplementalFont13 = new A.SupplementalFont() { Script = "Guru", Typeface = "Raavi" };
-			A.SupplementalFont supplementalFont14 = new A.SupplementalFont() { Script = "Cans", Typeface = "Euphemia" };
-			A.SupplementalFont supplementalFont15 = new A.SupplementalFont() { Script = "Cher", Typeface = "Plantagenet Cherokee" };
-			A.SupplementalFont supplementalFont16 = new A.SupplementalFont() { Script = "Yiii", Typeface = "Microsoft Yi Baiti" };
-			A.SupplementalFont supplementalFont17 = new A.SupplementalFont() { Script = "Tibt", Typeface = "Microsoft Himalaya" };
-			A.SupplementalFont supplementalFont18 = new A.SupplementalFont() { Script = "Thaa", Typeface = "MV Boli" };
-			A.SupplementalFont supplementalFont19 = new A.SupplementalFont() { Script = "Deva", Typeface = "Mangal" };
-			A.SupplementalFont supplementalFont20 = new A.SupplementalFont() { Script = "Telu", Typeface = "Gautami" };
-			A.SupplementalFont supplementalFont21 = new A.SupplementalFont() { Script = "Taml", Typeface = "Latha" };
-			A.SupplementalFont supplementalFont22 = new A.SupplementalFont() { Script = "Syrc", Typeface = "Estrangelo Edessa" };
-			A.SupplementalFont supplementalFont23 = new A.SupplementalFont() { Script = "Orya", Typeface = "Kalinga" };
-			A.SupplementalFont supplementalFont24 = new A.SupplementalFont() { Script = "Mlym", Typeface = "Kartika" };
-			A.SupplementalFont supplementalFont25 = new A.SupplementalFont() { Script = "Laoo", Typeface = "DokChampa" };
-			A.SupplementalFont supplementalFont26 = new A.SupplementalFont() { Script = "Sinh", Typeface = "Iskoola Pota" };
-			A.SupplementalFont supplementalFont27 = new A.SupplementalFont() { Script = "Mong", Typeface = "Mongolian Baiti" };
-			A.SupplementalFont supplementalFont28 = new A.SupplementalFont() { Script = "Viet", Typeface = "Times New Roman" };
-			A.SupplementalFont supplementalFont29 = new A.SupplementalFont() { Script = "Uigh", Typeface = "Microsoft Uighur" };
-			A.SupplementalFont supplementalFont30 = new A.SupplementalFont() { Script = "Geor", Typeface = "Sylfaen" };
+			var majorFont1 = new A.MajorFont();
+			var latinFont1 = new A.LatinFont() { Typeface = "Calibri Light", Panose = "020F0302020204030204" };
+			var eastAsianFont1 = new A.EastAsianFont() { Typeface = "" };
+			var complexScriptFont1 = new A.ComplexScriptFont() { Typeface = "" };
+			var supplementalFont1 = new A.SupplementalFont() { Script = "Jpan", Typeface = "ＭＳ Ｐゴシック" };
+			var supplementalFont2 = new A.SupplementalFont() { Script = "Hang", Typeface = "맑은 고딕" };
+			var supplementalFont3 = new A.SupplementalFont() { Script = "Hans", Typeface = "宋体" };
+			var supplementalFont4 = new A.SupplementalFont() { Script = "Hant", Typeface = "新細明體" };
+			var supplementalFont5 = new A.SupplementalFont() { Script = "Arab", Typeface = "Times New Roman" };
+			var supplementalFont6 = new A.SupplementalFont() { Script = "Hebr", Typeface = "Times New Roman" };
+			var supplementalFont7 = new A.SupplementalFont() { Script = "Thai", Typeface = "Tahoma" };
+			var supplementalFont8 = new A.SupplementalFont() { Script = "Ethi", Typeface = "Nyala" };
+			var supplementalFont9 = new A.SupplementalFont() { Script = "Beng", Typeface = "Vrinda" };
+			var supplementalFont10 = new A.SupplementalFont() { Script = "Gujr", Typeface = "Shruti" };
+			var supplementalFont11 = new A.SupplementalFont() { Script = "Khmr", Typeface = "MoolBoran" };
+			var supplementalFont12 = new A.SupplementalFont() { Script = "Knda", Typeface = "Tunga" };
+			var supplementalFont13 = new A.SupplementalFont() { Script = "Guru", Typeface = "Raavi" };
+			var supplementalFont14 = new A.SupplementalFont() { Script = "Cans", Typeface = "Euphemia" };
+			var supplementalFont15 = new A.SupplementalFont() { Script = "Cher", Typeface = "Plantagenet Cherokee" };
+			var supplementalFont16 = new A.SupplementalFont() { Script = "Yiii", Typeface = "Microsoft Yi Baiti" };
+			var supplementalFont17 = new A.SupplementalFont() { Script = "Tibt", Typeface = "Microsoft Himalaya" };
+			var supplementalFont18 = new A.SupplementalFont() { Script = "Thaa", Typeface = "MV Boli" };
+			var supplementalFont19 = new A.SupplementalFont() { Script = "Deva", Typeface = "Mangal" };
+			var supplementalFont20 = new A.SupplementalFont() { Script = "Telu", Typeface = "Gautami" };
+			var supplementalFont21 = new A.SupplementalFont() { Script = "Taml", Typeface = "Latha" };
+			var supplementalFont22 = new A.SupplementalFont() { Script = "Syrc", Typeface = "Estrangelo Edessa" };
+			var supplementalFont23 = new A.SupplementalFont() { Script = "Orya", Typeface = "Kalinga" };
+			var supplementalFont24 = new A.SupplementalFont() { Script = "Mlym", Typeface = "Kartika" };
+			var supplementalFont25 = new A.SupplementalFont() { Script = "Laoo", Typeface = "DokChampa" };
+			var supplementalFont26 = new A.SupplementalFont() { Script = "Sinh", Typeface = "Iskoola Pota" };
+			var supplementalFont27 = new A.SupplementalFont() { Script = "Mong", Typeface = "Mongolian Baiti" };
+			var supplementalFont28 = new A.SupplementalFont() { Script = "Viet", Typeface = "Times New Roman" };
+			var supplementalFont29 = new A.SupplementalFont() { Script = "Uigh", Typeface = "Microsoft Uighur" };
+			var supplementalFont30 = new A.SupplementalFont() { Script = "Geor", Typeface = "Sylfaen" };
 
 			majorFont1.Append(latinFont1);
 			majorFont1.Append(eastAsianFont1);
@@ -489,40 +489,40 @@ namespace Accounting.Reports.OpenXml
 			majorFont1.Append(supplementalFont29);
 			majorFont1.Append(supplementalFont30);
 
-			A.MinorFont minorFont1 = new A.MinorFont();
-			A.LatinFont latinFont2 = new A.LatinFont() { Typeface = "Calibri", Panose = "020F0502020204030204" };
-			A.EastAsianFont eastAsianFont2 = new A.EastAsianFont() { Typeface = "" };
-			A.ComplexScriptFont complexScriptFont2 = new A.ComplexScriptFont() { Typeface = "" };
-			A.SupplementalFont supplementalFont31 = new A.SupplementalFont() { Script = "Jpan", Typeface = "ＭＳ Ｐゴシック" };
-			A.SupplementalFont supplementalFont32 = new A.SupplementalFont() { Script = "Hang", Typeface = "맑은 고딕" };
-			A.SupplementalFont supplementalFont33 = new A.SupplementalFont() { Script = "Hans", Typeface = "宋体" };
-			A.SupplementalFont supplementalFont34 = new A.SupplementalFont() { Script = "Hant", Typeface = "新細明體" };
-			A.SupplementalFont supplementalFont35 = new A.SupplementalFont() { Script = "Arab", Typeface = "Arial" };
-			A.SupplementalFont supplementalFont36 = new A.SupplementalFont() { Script = "Hebr", Typeface = "Arial" };
-			A.SupplementalFont supplementalFont37 = new A.SupplementalFont() { Script = "Thai", Typeface = "Tahoma" };
-			A.SupplementalFont supplementalFont38 = new A.SupplementalFont() { Script = "Ethi", Typeface = "Nyala" };
-			A.SupplementalFont supplementalFont39 = new A.SupplementalFont() { Script = "Beng", Typeface = "Vrinda" };
-			A.SupplementalFont supplementalFont40 = new A.SupplementalFont() { Script = "Gujr", Typeface = "Shruti" };
-			A.SupplementalFont supplementalFont41 = new A.SupplementalFont() { Script = "Khmr", Typeface = "DaunPenh" };
-			A.SupplementalFont supplementalFont42 = new A.SupplementalFont() { Script = "Knda", Typeface = "Tunga" };
-			A.SupplementalFont supplementalFont43 = new A.SupplementalFont() { Script = "Guru", Typeface = "Raavi" };
-			A.SupplementalFont supplementalFont44 = new A.SupplementalFont() { Script = "Cans", Typeface = "Euphemia" };
-			A.SupplementalFont supplementalFont45 = new A.SupplementalFont() { Script = "Cher", Typeface = "Plantagenet Cherokee" };
-			A.SupplementalFont supplementalFont46 = new A.SupplementalFont() { Script = "Yiii", Typeface = "Microsoft Yi Baiti" };
-			A.SupplementalFont supplementalFont47 = new A.SupplementalFont() { Script = "Tibt", Typeface = "Microsoft Himalaya" };
-			A.SupplementalFont supplementalFont48 = new A.SupplementalFont() { Script = "Thaa", Typeface = "MV Boli" };
-			A.SupplementalFont supplementalFont49 = new A.SupplementalFont() { Script = "Deva", Typeface = "Mangal" };
-			A.SupplementalFont supplementalFont50 = new A.SupplementalFont() { Script = "Telu", Typeface = "Gautami" };
-			A.SupplementalFont supplementalFont51 = new A.SupplementalFont() { Script = "Taml", Typeface = "Latha" };
-			A.SupplementalFont supplementalFont52 = new A.SupplementalFont() { Script = "Syrc", Typeface = "Estrangelo Edessa" };
-			A.SupplementalFont supplementalFont53 = new A.SupplementalFont() { Script = "Orya", Typeface = "Kalinga" };
-			A.SupplementalFont supplementalFont54 = new A.SupplementalFont() { Script = "Mlym", Typeface = "Kartika" };
-			A.SupplementalFont supplementalFont55 = new A.SupplementalFont() { Script = "Laoo", Typeface = "DokChampa" };
-			A.SupplementalFont supplementalFont56 = new A.SupplementalFont() { Script = "Sinh", Typeface = "Iskoola Pota" };
-			A.SupplementalFont supplementalFont57 = new A.SupplementalFont() { Script = "Mong", Typeface = "Mongolian Baiti" };
-			A.SupplementalFont supplementalFont58 = new A.SupplementalFont() { Script = "Viet", Typeface = "Arial" };
-			A.SupplementalFont supplementalFont59 = new A.SupplementalFont() { Script = "Uigh", Typeface = "Microsoft Uighur" };
-			A.SupplementalFont supplementalFont60 = new A.SupplementalFont() { Script = "Geor", Typeface = "Sylfaen" };
+			var minorFont1 = new A.MinorFont();
+			var latinFont2 = new A.LatinFont() { Typeface = "Calibri", Panose = "020F0502020204030204" };
+			var eastAsianFont2 = new A.EastAsianFont() { Typeface = "" };
+			var complexScriptFont2 = new A.ComplexScriptFont() { Typeface = "" };
+			var supplementalFont31 = new A.SupplementalFont() { Script = "Jpan", Typeface = "ＭＳ Ｐゴシック" };
+			var supplementalFont32 = new A.SupplementalFont() { Script = "Hang", Typeface = "맑은 고딕" };
+			var supplementalFont33 = new A.SupplementalFont() { Script = "Hans", Typeface = "宋体" };
+			var supplementalFont34 = new A.SupplementalFont() { Script = "Hant", Typeface = "新細明體" };
+			var supplementalFont35 = new A.SupplementalFont() { Script = "Arab", Typeface = "Arial" };
+			var supplementalFont36 = new A.SupplementalFont() { Script = "Hebr", Typeface = "Arial" };
+			var supplementalFont37 = new A.SupplementalFont() { Script = "Thai", Typeface = "Tahoma" };
+			var supplementalFont38 = new A.SupplementalFont() { Script = "Ethi", Typeface = "Nyala" };
+			var supplementalFont39 = new A.SupplementalFont() { Script = "Beng", Typeface = "Vrinda" };
+			var supplementalFont40 = new A.SupplementalFont() { Script = "Gujr", Typeface = "Shruti" };
+			var supplementalFont41 = new A.SupplementalFont() { Script = "Khmr", Typeface = "DaunPenh" };
+			var supplementalFont42 = new A.SupplementalFont() { Script = "Knda", Typeface = "Tunga" };
+			var supplementalFont43 = new A.SupplementalFont() { Script = "Guru", Typeface = "Raavi" };
+			var supplementalFont44 = new A.SupplementalFont() { Script = "Cans", Typeface = "Euphemia" };
+			var supplementalFont45 = new A.SupplementalFont() { Script = "Cher", Typeface = "Plantagenet Cherokee" };
+			var supplementalFont46 = new A.SupplementalFont() { Script = "Yiii", Typeface = "Microsoft Yi Baiti" };
+			var supplementalFont47 = new A.SupplementalFont() { Script = "Tibt", Typeface = "Microsoft Himalaya" };
+			var supplementalFont48 = new A.SupplementalFont() { Script = "Thaa", Typeface = "MV Boli" };
+			var supplementalFont49 = new A.SupplementalFont() { Script = "Deva", Typeface = "Mangal" };
+			var supplementalFont50 = new A.SupplementalFont() { Script = "Telu", Typeface = "Gautami" };
+			var supplementalFont51 = new A.SupplementalFont() { Script = "Taml", Typeface = "Latha" };
+			var supplementalFont52 = new A.SupplementalFont() { Script = "Syrc", Typeface = "Estrangelo Edessa" };
+			var supplementalFont53 = new A.SupplementalFont() { Script = "Orya", Typeface = "Kalinga" };
+			var supplementalFont54 = new A.SupplementalFont() { Script = "Mlym", Typeface = "Kartika" };
+			var supplementalFont55 = new A.SupplementalFont() { Script = "Laoo", Typeface = "DokChampa" };
+			var supplementalFont56 = new A.SupplementalFont() { Script = "Sinh", Typeface = "Iskoola Pota" };
+			var supplementalFont57 = new A.SupplementalFont() { Script = "Mong", Typeface = "Mongolian Baiti" };
+			var supplementalFont58 = new A.SupplementalFont() { Script = "Viet", Typeface = "Arial" };
+			var supplementalFont59 = new A.SupplementalFont() { Script = "Uigh", Typeface = "Microsoft Uighur" };
+			var supplementalFont60 = new A.SupplementalFont() { Script = "Geor", Typeface = "Sylfaen" };
 
 			minorFont1.Append(latinFont2);
 			minorFont1.Append(eastAsianFont2);
@@ -561,25 +561,25 @@ namespace Accounting.Reports.OpenXml
 			fontScheme3.Append(majorFont1);
 			fontScheme3.Append(minorFont1);
 
-			A.FormatScheme formatScheme1 = new A.FormatScheme() { Name = "Стандартная" };
+			var formatScheme1 = new A.FormatScheme() { Name = "Стандартная" };
 
-			A.FillStyleList fillStyleList1 = new A.FillStyleList();
+			var fillStyleList1 = new A.FillStyleList();
 
-			A.SolidFill solidFill1 = new A.SolidFill();
-			A.SchemeColor schemeColor1 = new A.SchemeColor() { Val = A.SchemeColorValues.PhColor };
+			var solidFill1 = new A.SolidFill();
+			var schemeColor1 = new A.SchemeColor() { Val = A.SchemeColorValues.PhColor };
 
 			solidFill1.Append(schemeColor1);
 
-			A.GradientFill gradientFill1 = new A.GradientFill() { RotateWithShape = true };
+			var gradientFill1 = new A.GradientFill() { RotateWithShape = true };
 
-			A.GradientStopList gradientStopList1 = new A.GradientStopList();
+			var gradientStopList1 = new A.GradientStopList();
 
-			A.GradientStop gradientStop1 = new A.GradientStop() { Position = 0 };
+			var gradientStop1 = new A.GradientStop() { Position = 0 };
 
-			A.SchemeColor schemeColor2 = new A.SchemeColor() { Val = A.SchemeColorValues.PhColor };
-			A.LuminanceModulation luminanceModulation1 = new A.LuminanceModulation() { Val = 110000 };
-			A.SaturationModulation saturationModulation1 = new A.SaturationModulation() { Val = 105000 };
-			A.Tint tint1 = new A.Tint() { Val = 67000 };
+			var schemeColor2 = new A.SchemeColor() { Val = A.SchemeColorValues.PhColor };
+			var luminanceModulation1 = new A.LuminanceModulation() { Val = 110000 };
+			var saturationModulation1 = new A.SaturationModulation() { Val = 105000 };
+			var tint1 = new A.Tint() { Val = 67000 };
 
 			schemeColor2.Append(luminanceModulation1);
 			schemeColor2.Append(saturationModulation1);
@@ -587,12 +587,12 @@ namespace Accounting.Reports.OpenXml
 
 			gradientStop1.Append(schemeColor2);
 
-			A.GradientStop gradientStop2 = new A.GradientStop() { Position = 50000 };
+			var gradientStop2 = new A.GradientStop() { Position = 50000 };
 
-			A.SchemeColor schemeColor3 = new A.SchemeColor() { Val = A.SchemeColorValues.PhColor };
-			A.LuminanceModulation luminanceModulation2 = new A.LuminanceModulation() { Val = 105000 };
-			A.SaturationModulation saturationModulation2 = new A.SaturationModulation() { Val = 103000 };
-			A.Tint tint2 = new A.Tint() { Val = 73000 };
+			var schemeColor3 = new A.SchemeColor() { Val = A.SchemeColorValues.PhColor };
+			var luminanceModulation2 = new A.LuminanceModulation() { Val = 105000 };
+			var saturationModulation2 = new A.SaturationModulation() { Val = 103000 };
+			var tint2 = new A.Tint() { Val = 73000 };
 
 			schemeColor3.Append(luminanceModulation2);
 			schemeColor3.Append(saturationModulation2);
@@ -600,12 +600,12 @@ namespace Accounting.Reports.OpenXml
 
 			gradientStop2.Append(schemeColor3);
 
-			A.GradientStop gradientStop3 = new A.GradientStop() { Position = 100000 };
+			var gradientStop3 = new A.GradientStop() { Position = 100000 };
 
-			A.SchemeColor schemeColor4 = new A.SchemeColor() { Val = A.SchemeColorValues.PhColor };
-			A.LuminanceModulation luminanceModulation3 = new A.LuminanceModulation() { Val = 105000 };
-			A.SaturationModulation saturationModulation3 = new A.SaturationModulation() { Val = 109000 };
-			A.Tint tint3 = new A.Tint() { Val = 81000 };
+			var schemeColor4 = new A.SchemeColor() { Val = A.SchemeColorValues.PhColor };
+			var luminanceModulation3 = new A.LuminanceModulation() { Val = 105000 };
+			var saturationModulation3 = new A.SaturationModulation() { Val = 109000 };
+			var tint3 = new A.Tint() { Val = 81000 };
 
 			schemeColor4.Append(luminanceModulation3);
 			schemeColor4.Append(saturationModulation3);
@@ -616,21 +616,21 @@ namespace Accounting.Reports.OpenXml
 			gradientStopList1.Append(gradientStop1);
 			gradientStopList1.Append(gradientStop2);
 			gradientStopList1.Append(gradientStop3);
-			A.LinearGradientFill linearGradientFill1 = new A.LinearGradientFill() { Angle = 5400000, Scaled = false };
+			var linearGradientFill1 = new A.LinearGradientFill() { Angle = 5400000, Scaled = false };
 
 			gradientFill1.Append(gradientStopList1);
 			gradientFill1.Append(linearGradientFill1);
 
-			A.GradientFill gradientFill2 = new A.GradientFill() { RotateWithShape = true };
+			var gradientFill2 = new A.GradientFill() { RotateWithShape = true };
 
-			A.GradientStopList gradientStopList2 = new A.GradientStopList();
+			var gradientStopList2 = new A.GradientStopList();
 
-			A.GradientStop gradientStop4 = new A.GradientStop() { Position = 0 };
+			var gradientStop4 = new A.GradientStop() { Position = 0 };
 
-			A.SchemeColor schemeColor5 = new A.SchemeColor() { Val = A.SchemeColorValues.PhColor };
-			A.SaturationModulation saturationModulation4 = new A.SaturationModulation() { Val = 103000 };
-			A.LuminanceModulation luminanceModulation4 = new A.LuminanceModulation() { Val = 102000 };
-			A.Tint tint4 = new A.Tint() { Val = 94000 };
+			var schemeColor5 = new A.SchemeColor() { Val = A.SchemeColorValues.PhColor };
+			var saturationModulation4 = new A.SaturationModulation() { Val = 103000 };
+			var luminanceModulation4 = new A.LuminanceModulation() { Val = 102000 };
+			var tint4 = new A.Tint() { Val = 94000 };
 
 			schemeColor5.Append(saturationModulation4);
 			schemeColor5.Append(luminanceModulation4);
@@ -638,12 +638,12 @@ namespace Accounting.Reports.OpenXml
 
 			gradientStop4.Append(schemeColor5);
 
-			A.GradientStop gradientStop5 = new A.GradientStop() { Position = 50000 };
+			var gradientStop5 = new A.GradientStop() { Position = 50000 };
 
-			A.SchemeColor schemeColor6 = new A.SchemeColor() { Val = A.SchemeColorValues.PhColor };
-			A.SaturationModulation saturationModulation5 = new A.SaturationModulation() { Val = 110000 };
-			A.LuminanceModulation luminanceModulation5 = new A.LuminanceModulation() { Val = 100000 };
-			A.Shade shade1 = new A.Shade() { Val = 100000 };
+			var schemeColor6 = new A.SchemeColor() { Val = A.SchemeColorValues.PhColor };
+			var saturationModulation5 = new A.SaturationModulation() { Val = 110000 };
+			var luminanceModulation5 = new A.LuminanceModulation() { Val = 100000 };
+			var shade1 = new A.Shade() { Val = 100000 };
 
 			schemeColor6.Append(saturationModulation5);
 			schemeColor6.Append(luminanceModulation5);
@@ -651,12 +651,12 @@ namespace Accounting.Reports.OpenXml
 
 			gradientStop5.Append(schemeColor6);
 
-			A.GradientStop gradientStop6 = new A.GradientStop() { Position = 100000 };
+			var gradientStop6 = new A.GradientStop() { Position = 100000 };
 
-			A.SchemeColor schemeColor7 = new A.SchemeColor() { Val = A.SchemeColorValues.PhColor };
-			A.LuminanceModulation luminanceModulation6 = new A.LuminanceModulation() { Val = 99000 };
-			A.SaturationModulation saturationModulation6 = new A.SaturationModulation() { Val = 120000 };
-			A.Shade shade2 = new A.Shade() { Val = 78000 };
+			var schemeColor7 = new A.SchemeColor() { Val = A.SchemeColorValues.PhColor };
+			var luminanceModulation6 = new A.LuminanceModulation() { Val = 99000 };
+			var saturationModulation6 = new A.SaturationModulation() { Val = 120000 };
+			var shade2 = new A.Shade() { Val = 78000 };
 
 			schemeColor7.Append(luminanceModulation6);
 			schemeColor7.Append(saturationModulation6);
@@ -667,7 +667,7 @@ namespace Accounting.Reports.OpenXml
 			gradientStopList2.Append(gradientStop4);
 			gradientStopList2.Append(gradientStop5);
 			gradientStopList2.Append(gradientStop6);
-			A.LinearGradientFill linearGradientFill2 = new A.LinearGradientFill() { Angle = 5400000, Scaled = false };
+			var linearGradientFill2 = new A.LinearGradientFill() { Angle = 5400000, Scaled = false };
 
 			gradientFill2.Append(gradientStopList2);
 			gradientFill2.Append(linearGradientFill2);
@@ -676,42 +676,42 @@ namespace Accounting.Reports.OpenXml
 			fillStyleList1.Append(gradientFill1);
 			fillStyleList1.Append(gradientFill2);
 
-			A.LineStyleList lineStyleList1 = new A.LineStyleList();
+			var lineStyleList1 = new A.LineStyleList();
 
-			A.Outline outline1 = new A.Outline() { Width = 6350, CapType = A.LineCapValues.Flat, CompoundLineType = A.CompoundLineValues.Single, Alignment = A.PenAlignmentValues.Center };
+			var outline1 = new A.Outline() { Width = 6350, CapType = A.LineCapValues.Flat, CompoundLineType = A.CompoundLineValues.Single, Alignment = A.PenAlignmentValues.Center };
 
-			A.SolidFill solidFill2 = new A.SolidFill();
-			A.SchemeColor schemeColor8 = new A.SchemeColor() { Val = A.SchemeColorValues.PhColor };
+			var solidFill2 = new A.SolidFill();
+			var schemeColor8 = new A.SchemeColor() { Val = A.SchemeColorValues.PhColor };
 
 			solidFill2.Append(schemeColor8);
-			A.PresetDash presetDash1 = new A.PresetDash() { Val = A.PresetLineDashValues.Solid };
-			A.Miter miter1 = new A.Miter() { Limit = 800000 };
+			var presetDash1 = new A.PresetDash() { Val = A.PresetLineDashValues.Solid };
+			var miter1 = new A.Miter() { Limit = 800000 };
 
 			outline1.Append(solidFill2);
 			outline1.Append(presetDash1);
 			outline1.Append(miter1);
 
-			A.Outline outline2 = new A.Outline() { Width = 12700, CapType = A.LineCapValues.Flat, CompoundLineType = A.CompoundLineValues.Single, Alignment = A.PenAlignmentValues.Center };
+			var outline2 = new A.Outline() { Width = 12700, CapType = A.LineCapValues.Flat, CompoundLineType = A.CompoundLineValues.Single, Alignment = A.PenAlignmentValues.Center };
 
-			A.SolidFill solidFill3 = new A.SolidFill();
-			A.SchemeColor schemeColor9 = new A.SchemeColor() { Val = A.SchemeColorValues.PhColor };
+			var solidFill3 = new A.SolidFill();
+			var schemeColor9 = new A.SchemeColor() { Val = A.SchemeColorValues.PhColor };
 
 			solidFill3.Append(schemeColor9);
-			A.PresetDash presetDash2 = new A.PresetDash() { Val = A.PresetLineDashValues.Solid };
-			A.Miter miter2 = new A.Miter() { Limit = 800000 };
+			var presetDash2 = new A.PresetDash() { Val = A.PresetLineDashValues.Solid };
+			var miter2 = new A.Miter() { Limit = 800000 };
 
 			outline2.Append(solidFill3);
 			outline2.Append(presetDash2);
 			outline2.Append(miter2);
 
-			A.Outline outline3 = new A.Outline() { Width = 19050, CapType = A.LineCapValues.Flat, CompoundLineType = A.CompoundLineValues.Single, Alignment = A.PenAlignmentValues.Center };
+			var outline3 = new A.Outline() { Width = 19050, CapType = A.LineCapValues.Flat, CompoundLineType = A.CompoundLineValues.Single, Alignment = A.PenAlignmentValues.Center };
 
-			A.SolidFill solidFill4 = new A.SolidFill();
-			A.SchemeColor schemeColor10 = new A.SchemeColor() { Val = A.SchemeColorValues.PhColor };
+			var solidFill4 = new A.SolidFill();
+			var schemeColor10 = new A.SchemeColor() { Val = A.SchemeColorValues.PhColor };
 
 			solidFill4.Append(schemeColor10);
-			A.PresetDash presetDash3 = new A.PresetDash() { Val = A.PresetLineDashValues.Solid };
-			A.Miter miter3 = new A.Miter() { Limit = 800000 };
+			var presetDash3 = new A.PresetDash() { Val = A.PresetLineDashValues.Solid };
+			var miter3 = new A.Miter() { Limit = 800000 };
 
 			outline3.Append(solidFill4);
 			outline3.Append(presetDash3);
@@ -721,26 +721,26 @@ namespace Accounting.Reports.OpenXml
 			lineStyleList1.Append(outline2);
 			lineStyleList1.Append(outline3);
 
-			A.EffectStyleList effectStyleList1 = new A.EffectStyleList();
+			var effectStyleList1 = new A.EffectStyleList();
 
-			A.EffectStyle effectStyle1 = new A.EffectStyle();
-			A.EffectList effectList1 = new A.EffectList();
+			var effectStyle1 = new A.EffectStyle();
+			var effectList1 = new A.EffectList();
 
 			effectStyle1.Append(effectList1);
 
-			A.EffectStyle effectStyle2 = new A.EffectStyle();
-			A.EffectList effectList2 = new A.EffectList();
+			var effectStyle2 = new A.EffectStyle();
+			var effectList2 = new A.EffectList();
 
 			effectStyle2.Append(effectList2);
 
-			A.EffectStyle effectStyle3 = new A.EffectStyle();
+			var effectStyle3 = new A.EffectStyle();
 
-			A.EffectList effectList3 = new A.EffectList();
+			var effectList3 = new A.EffectList();
 
-			A.OuterShadow outerShadow1 = new A.OuterShadow() { BlurRadius = 57150L, Distance = 19050L, Direction = 5400000, Alignment = A.RectangleAlignmentValues.Center, RotateWithShape = false };
+			var outerShadow1 = new A.OuterShadow() { BlurRadius = 57150L, Distance = 19050L, Direction = 5400000, Alignment = A.RectangleAlignmentValues.Center, RotateWithShape = false };
 
-			A.RgbColorModelHex rgbColorModelHex11 = new A.RgbColorModelHex() { Val = "000000" };
-			A.Alpha alpha1 = new A.Alpha() { Val = 63000 };
+			var rgbColorModelHex11 = new A.RgbColorModelHex() { Val = "000000" };
+			var alpha1 = new A.Alpha() { Val = 63000 };
 
 			rgbColorModelHex11.Append(alpha1);
 
@@ -754,35 +754,35 @@ namespace Accounting.Reports.OpenXml
 			effectStyleList1.Append(effectStyle2);
 			effectStyleList1.Append(effectStyle3);
 
-			A.BackgroundFillStyleList backgroundFillStyleList1 = new A.BackgroundFillStyleList();
+			var backgroundFillStyleList1 = new A.BackgroundFillStyleList();
 
-			A.SolidFill solidFill5 = new A.SolidFill();
-			A.SchemeColor schemeColor11 = new A.SchemeColor() { Val = A.SchemeColorValues.PhColor };
+			var solidFill5 = new A.SolidFill();
+			var schemeColor11 = new A.SchemeColor() { Val = A.SchemeColorValues.PhColor };
 
 			solidFill5.Append(schemeColor11);
 
-			A.SolidFill solidFill6 = new A.SolidFill();
+			var solidFill6 = new A.SolidFill();
 
-			A.SchemeColor schemeColor12 = new A.SchemeColor() { Val = A.SchemeColorValues.PhColor };
-			A.Tint tint5 = new A.Tint() { Val = 95000 };
-			A.SaturationModulation saturationModulation7 = new A.SaturationModulation() { Val = 170000 };
+			var schemeColor12 = new A.SchemeColor() { Val = A.SchemeColorValues.PhColor };
+			var tint5 = new A.Tint() { Val = 95000 };
+			var saturationModulation7 = new A.SaturationModulation() { Val = 170000 };
 
 			schemeColor12.Append(tint5);
 			schemeColor12.Append(saturationModulation7);
 
 			solidFill6.Append(schemeColor12);
 
-			A.GradientFill gradientFill3 = new A.GradientFill() { RotateWithShape = true };
+			var gradientFill3 = new A.GradientFill() { RotateWithShape = true };
 
-			A.GradientStopList gradientStopList3 = new A.GradientStopList();
+			var gradientStopList3 = new A.GradientStopList();
 
-			A.GradientStop gradientStop7 = new A.GradientStop() { Position = 0 };
+			var gradientStop7 = new A.GradientStop() { Position = 0 };
 
-			A.SchemeColor schemeColor13 = new A.SchemeColor() { Val = A.SchemeColorValues.PhColor };
-			A.Tint tint6 = new A.Tint() { Val = 93000 };
-			A.SaturationModulation saturationModulation8 = new A.SaturationModulation() { Val = 150000 };
-			A.Shade shade3 = new A.Shade() { Val = 98000 };
-			A.LuminanceModulation luminanceModulation7 = new A.LuminanceModulation() { Val = 102000 };
+			var schemeColor13 = new A.SchemeColor() { Val = A.SchemeColorValues.PhColor };
+			var tint6 = new A.Tint() { Val = 93000 };
+			var saturationModulation8 = new A.SaturationModulation() { Val = 150000 };
+			var shade3 = new A.Shade() { Val = 98000 };
+			var luminanceModulation7 = new A.LuminanceModulation() { Val = 102000 };
 
 			schemeColor13.Append(tint6);
 			schemeColor13.Append(saturationModulation8);
@@ -791,13 +791,13 @@ namespace Accounting.Reports.OpenXml
 
 			gradientStop7.Append(schemeColor13);
 
-			A.GradientStop gradientStop8 = new A.GradientStop() { Position = 50000 };
+			var gradientStop8 = new A.GradientStop() { Position = 50000 };
 
-			A.SchemeColor schemeColor14 = new A.SchemeColor() { Val = A.SchemeColorValues.PhColor };
-			A.Tint tint7 = new A.Tint() { Val = 98000 };
-			A.SaturationModulation saturationModulation9 = new A.SaturationModulation() { Val = 130000 };
-			A.Shade shade4 = new A.Shade() { Val = 90000 };
-			A.LuminanceModulation luminanceModulation8 = new A.LuminanceModulation() { Val = 103000 };
+			var schemeColor14 = new A.SchemeColor() { Val = A.SchemeColorValues.PhColor };
+			var tint7 = new A.Tint() { Val = 98000 };
+			var saturationModulation9 = new A.SaturationModulation() { Val = 130000 };
+			var shade4 = new A.Shade() { Val = 90000 };
+			var luminanceModulation8 = new A.LuminanceModulation() { Val = 103000 };
 
 			schemeColor14.Append(tint7);
 			schemeColor14.Append(saturationModulation9);
@@ -806,11 +806,11 @@ namespace Accounting.Reports.OpenXml
 
 			gradientStop8.Append(schemeColor14);
 
-			A.GradientStop gradientStop9 = new A.GradientStop() { Position = 100000 };
+			var gradientStop9 = new A.GradientStop() { Position = 100000 };
 
-			A.SchemeColor schemeColor15 = new A.SchemeColor() { Val = A.SchemeColorValues.PhColor };
-			A.Shade shade5 = new A.Shade() { Val = 63000 };
-			A.SaturationModulation saturationModulation10 = new A.SaturationModulation() { Val = 120000 };
+			var schemeColor15 = new A.SchemeColor() { Val = A.SchemeColorValues.PhColor };
+			var shade5 = new A.Shade() { Val = 63000 };
+			var saturationModulation10 = new A.SaturationModulation() { Val = 120000 };
 
 			schemeColor15.Append(shade5);
 			schemeColor15.Append(saturationModulation10);
@@ -820,7 +820,7 @@ namespace Accounting.Reports.OpenXml
 			gradientStopList3.Append(gradientStop7);
 			gradientStopList3.Append(gradientStop8);
 			gradientStopList3.Append(gradientStop9);
-			A.LinearGradientFill linearGradientFill3 = new A.LinearGradientFill() { Angle = 5400000, Scaled = false };
+			var linearGradientFill3 = new A.LinearGradientFill() { Angle = 5400000, Scaled = false };
 
 			gradientFill3.Append(gradientStopList3);
 			gradientFill3.Append(linearGradientFill3);
@@ -837,14 +837,14 @@ namespace Accounting.Reports.OpenXml
 			themeElements1.Append(colorScheme1);
 			themeElements1.Append(fontScheme3);
 			themeElements1.Append(formatScheme1);
-			A.ObjectDefaults objectDefaults1 = new A.ObjectDefaults();
-			A.ExtraColorSchemeList extraColorSchemeList1 = new A.ExtraColorSchemeList();
+			var objectDefaults1 = new A.ObjectDefaults();
+			var extraColorSchemeList1 = new A.ExtraColorSchemeList();
 
-			A.OfficeStyleSheetExtensionList officeStyleSheetExtensionList1 = new A.OfficeStyleSheetExtensionList();
+			var officeStyleSheetExtensionList1 = new A.OfficeStyleSheetExtensionList();
 
-			A.OfficeStyleSheetExtension officeStyleSheetExtension1 = new A.OfficeStyleSheetExtension() { Uri = "{05A4C25C-085E-4340-85A3-A5531E510DB2}" };
+			var officeStyleSheetExtension1 = new A.OfficeStyleSheetExtension() { Uri = "{05A4C25C-085E-4340-85A3-A5531E510DB2}" };
 
-			Thm15.ThemeFamily themeFamily1 = new Thm15.ThemeFamily() { Name = "Office Theme", Id = "{62F939B6-93AF-4DB8-9C6B-D6C7DFDC589F}", Vid = "{4A3C46E8-61CC-4603-A589-7422A47A8E4A}" };
+			var themeFamily1 = new Thm15.ThemeFamily() { Name = "Office Theme", Id = "{62F939B6-93AF-4DB8-9C6B-D6C7DFDC589F}", Vid = "{4A3C46E8-61CC-4603-A589-7422A47A8E4A}" };
 			themeFamily1.AddNamespaceDeclaration("thm15", "http://schemas.microsoft.com/office/thememl/2012/main");
 
 			officeStyleSheetExtension1.Append(themeFamily1);
