@@ -123,41 +123,41 @@ namespace Accounting.Reports.OpenXml
 
 		private static void GenerateWorkbookPartContent(WorkbookPart workbookPart)
 		{
-			Workbook workbook1 = new Workbook() { MCAttributes = new MarkupCompatibilityAttributes() { Ignorable = "x15" } };
+			var workbook1 = new Workbook() { MCAttributes = new MarkupCompatibilityAttributes() { Ignorable = "x15" } };
 			workbook1.AddNamespaceDeclaration("r", "http://schemas.openxmlformats.org/officeDocument/2006/relationships");
 			workbook1.AddNamespaceDeclaration("mc", "http://schemas.openxmlformats.org/markup-compatibility/2006");
 			workbook1.AddNamespaceDeclaration("x15", "http://schemas.microsoft.com/office/spreadsheetml/2010/11/main");
-			FileVersion fileVersion1 = new FileVersion() { ApplicationName = "xl", LastEdited = "6", LowestEdited = "6", BuildVersion = "14420" };
-			WorkbookProperties workbookProperties1 = new WorkbookProperties() { DefaultThemeVersion = (UInt32Value)153222U };
+			var fileVersion1 = new FileVersion() { ApplicationName = "xl", LastEdited = "6", LowestEdited = "6", BuildVersion = "14420" };
+			var workbookProperties1 = new WorkbookProperties() { DefaultThemeVersion = (UInt32Value)153222U };
 
-			AlternateContent alternateContent1 = new AlternateContent();
+			var alternateContent1 = new AlternateContent();
 			alternateContent1.AddNamespaceDeclaration("mc", "http://schemas.openxmlformats.org/markup-compatibility/2006");
 
-			AlternateContentChoice alternateContentChoice1 = new AlternateContentChoice() { Requires = "x15" };
+			var alternateContentChoice1 = new AlternateContentChoice() { Requires = "x15" };
 
-			X15ac.AbsolutePath absolutePath1 = new X15ac.AbsolutePath() { Url = "D:\\Current\\" };
+			var absolutePath1 = new X15ac.AbsolutePath() { Url = "D:\\Current\\" };
 			absolutePath1.AddNamespaceDeclaration("x15ac", "http://schemas.microsoft.com/office/spreadsheetml/2010/11/ac");
 
 			alternateContentChoice1.Append(absolutePath1);
 
 			alternateContent1.Append(alternateContentChoice1);
 
-			BookViews bookViews1 = new BookViews();
-			WorkbookView workbookView1 = new WorkbookView() { XWindow = 0, YWindow = 0, WindowWidth = (UInt32Value)28800U, WindowHeight = (UInt32Value)12435U };
+			var bookViews1 = new BookViews();
+			var workbookView1 = new WorkbookView() { XWindow = 0, YWindow = 0, WindowWidth = (UInt32Value)28800U, WindowHeight = (UInt32Value)12435U };
 
 			bookViews1.Append(workbookView1);
 
-			Sheets sheets1 = new Sheets();
-			Sheet sheet1 = new Sheet() { Name = "Лист1", SheetId = (UInt32Value)1U, Id = "rId1" };
+			var sheets1 = new Sheets();
+			var sheet1 = new Sheet() { Name = "Лист1", SheetId = (UInt32Value)1U, Id = "rId1" };
 
 			sheets1.Append(sheet1);
-			CalculationProperties calculationProperties1 = new CalculationProperties() { CalculationId = (UInt32Value)152511U, ReferenceMode = ReferenceModeValues.R1C1 };
+			var calculationProperties1 = new CalculationProperties() { CalculationId = (UInt32Value)152511U, ReferenceMode = ReferenceModeValues.R1C1 };
 
-			WorkbookExtensionList workbookExtensionList1 = new WorkbookExtensionList();
+			var workbookExtensionList1 = new WorkbookExtensionList();
 
-			WorkbookExtension workbookExtension1 = new WorkbookExtension() { Uri = "{140A7094-0E35-4892-8432-C4D2E57EDEB5}" };
+			var workbookExtension1 = new WorkbookExtension() { Uri = "{140A7094-0E35-4892-8432-C4D2E57EDEB5}" };
 			workbookExtension1.AddNamespaceDeclaration("x15", "http://schemas.microsoft.com/office/spreadsheetml/2010/11/main");
-			X15.WorkbookProperties workbookProperties2 = new X15.WorkbookProperties() { ChartTrackingReferenceBase = true };
+			var workbookProperties2 = new X15.WorkbookProperties() { ChartTrackingReferenceBase = true };
 
 			workbookExtension1.Append(workbookProperties2);
 
