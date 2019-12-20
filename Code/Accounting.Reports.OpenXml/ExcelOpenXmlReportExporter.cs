@@ -60,65 +60,65 @@ namespace Accounting.Reports.OpenXml
 
 		private static void generateExtendedFilePropertiesPartContent(ExtendedFilePropertiesPart extendedFilePropertiesPart)
 		{
-			var properties1 = new Ap.Properties();
-			properties1.AddNamespaceDeclaration("vt", "http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes");
-			var application1 = new Ap.Application { Text = "Microsoft Excel" };
-			var documentSecurity1 = new Ap.DocumentSecurity { Text = "0" };
-			var scaleCrop1 = new Ap.ScaleCrop { Text = "false" };
+			var properties = new Ap.Properties();
+			properties.AddNamespaceDeclaration("vt", "http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes");
+			var application = new Ap.Application { Text = "Microsoft Excel" };
+			var documentSecurity = new Ap.DocumentSecurity { Text = "0" };
+			var scaleCrop = new Ap.ScaleCrop { Text = "false" };
 
-			var headingPairs1 = new Ap.HeadingPairs();
+			var headingPairs = new Ap.HeadingPairs();
 
-			var vTVector1 = new Vt.VTVector
+			var vTVector = new Vt.VTVector
 			{
 				BaseType = Vt.VectorBaseValues.Variant,
 				Size = (UInt32Value)2U
 			};
 
+			var variantPages = new Vt.Variant();
+			var vTLPSTRPages = new Vt.VTLPSTR { Text = "Листы" };
+
+			variantPages.Append(vTLPSTRPages);
+
 			var variant1 = new Vt.Variant();
-			var vTLPSTR1 = new Vt.VTLPSTR { Text = "Листы" };
-
-			variant1.Append(vTLPSTR1);
-
-			var variant2 = new Vt.Variant();
 			var vTInt321 = new Vt.VTInt32 { Text = "1" };
 
-			variant2.Append(vTInt321);
+			variant1.Append(vTInt321);
 
-			vTVector1.Append(variant1);
-			vTVector1.Append(variant2);
+			vTVector.Append(variantPages);
+			vTVector.Append(variant1);
 
-			headingPairs1.Append(vTVector1);
+			headingPairs.Append(vTVector);
 
-			var titlesOfParts1 = new Ap.TitlesOfParts();
+			var titlesOfParts = new Ap.TitlesOfParts();
 
-			var vTVector2 = new Vt.VTVector
+			var vTVectorTitlesOfParts = new Vt.VTVector
 			{
 				BaseType = Vt.VectorBaseValues.Lpstr,
 				Size = (UInt32Value)1U
 			};
-			var vTLPSTR2 = new Vt.VTLPSTR { Text = "Лист1" };
+			var vTLPSTRTitlesOfParts = new Vt.VTLPSTR { Text = "Лист1" };
 
-			vTVector2.Append(vTLPSTR2);
+			vTVectorTitlesOfParts.Append(vTLPSTRTitlesOfParts);
 
-			titlesOfParts1.Append(vTVector2);
-			var company1 = new Ap.Company { Text = "" };
-			var linksUpToDate1 = new Ap.LinksUpToDate { Text = "false" };
-			var sharedDocument1 = new Ap.SharedDocument { Text = "false" };
-			var hyperlinksChanged1 = new Ap.HyperlinksChanged { Text = "false" };
-			var applicationVersion1 = new Ap.ApplicationVersion { Text = "15.0300" };
+			titlesOfParts.Append(vTVectorTitlesOfParts);
+			var company = new Ap.Company { Text = "" };
+			var linksUpToDate = new Ap.LinksUpToDate { Text = "false" };
+			var sharedDocument = new Ap.SharedDocument { Text = "false" };
+			var hyperlinksChanged = new Ap.HyperlinksChanged { Text = "false" };
+			var applicationVersion = new Ap.ApplicationVersion { Text = "15.0300" };
 
-			properties1.Append(application1);
-			properties1.Append(documentSecurity1);
-			properties1.Append(scaleCrop1);
-			properties1.Append(headingPairs1);
-			properties1.Append(titlesOfParts1);
-			properties1.Append(company1);
-			properties1.Append(linksUpToDate1);
-			properties1.Append(sharedDocument1);
-			properties1.Append(hyperlinksChanged1);
-			properties1.Append(applicationVersion1);
+			properties.Append(application);
+			properties.Append(documentSecurity);
+			properties.Append(scaleCrop);
+			properties.Append(headingPairs);
+			properties.Append(titlesOfParts);
+			properties.Append(company);
+			properties.Append(linksUpToDate);
+			properties.Append(sharedDocument);
+			properties.Append(hyperlinksChanged);
+			properties.Append(applicationVersion);
 
-			extendedFilePropertiesPart.Properties = properties1;
+			extendedFilePropertiesPart.Properties = properties;
 		}
 
 		private static void generateWorkbookPartContent(WorkbookPart workbookPart)
