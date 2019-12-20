@@ -176,11 +176,11 @@ namespace Accounting.Reports.OpenXml
 
 		private static void generateWorkbookStylesPartContent(WorkbookStylesPart workbookStylesPart)
 		{
-			var stylesheet1 = new Stylesheet() { MCAttributes = new MarkupCompatibilityAttributes() { Ignorable = "x14ac" } };
-			stylesheet1.AddNamespaceDeclaration("mc", "http://schemas.openxmlformats.org/markup-compatibility/2006");
-			stylesheet1.AddNamespaceDeclaration("x14ac", "http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac");
+			var stylesheet = new Stylesheet() { MCAttributes = new MarkupCompatibilityAttributes() { Ignorable = "x14ac" } };
+			stylesheet.AddNamespaceDeclaration("mc", "http://schemas.openxmlformats.org/markup-compatibility/2006");
+			stylesheet.AddNamespaceDeclaration("x14ac", "http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac");
 
-			var fonts1 = new Fonts() { Count = (UInt32Value)2U, KnownFonts = true };
+			var fonts = new Fonts() { Count = (UInt32Value)2U, KnownFonts = true };
 
 			var font1 = new Font();
 			var fontSize1 = new FontSize() { Val = 11D };
@@ -214,10 +214,10 @@ namespace Accounting.Reports.OpenXml
 			font2.Append(fontCharSet2);
 			font2.Append(fontScheme2);
 
-			fonts1.Append(font1);
-			fonts1.Append(font2);
+			fonts.Append(font1);
+			fonts.Append(font2);
 
-			var fills1 = new Fills() { Count = (UInt32Value)2U };
+			var fills = new Fills() { Count = (UInt32Value)2U };
 
 			var fill1 = new Fill();
 			var patternFill1 = new PatternFill() { PatternType = PatternValues.None };
@@ -229,10 +229,10 @@ namespace Accounting.Reports.OpenXml
 
 			fill2.Append(patternFill2);
 
-			fills1.Append(fill1);
-			fills1.Append(fill2);
+			fills.Append(fill1);
+			fills.Append(fill2);
 
-			var borders1 = new Borders() { Count = (UInt32Value)2U };
+			var borders = new Borders() { Count = (UInt32Value)2U };
 
 			var border1 = new Border();
 			var leftBorder1 = new LeftBorder();
@@ -276,13 +276,13 @@ namespace Accounting.Reports.OpenXml
 			border2.Append(bottomBorder2);
 			border2.Append(diagonalBorder2);
 
-			borders1.Append(border1);
-			borders1.Append(border2);
+			borders.Append(border1);
+			borders.Append(border2);
 
-			var cellStyleFormats1 = new CellStyleFormats() { Count = (UInt32Value)1U };
+			var cellStyleFormats = new CellStyleFormats() { Count = (UInt32Value)1U };
 			var cellFormat1 = new CellFormat() { NumberFormatId = (UInt32Value)0U, FontId = (UInt32Value)0U, FillId = (UInt32Value)0U, BorderId = (UInt32Value)0U };
 
-			cellStyleFormats1.Append(cellFormat1);
+			cellStyleFormats.Append(cellFormat1);
 
 			var cellFormats1 = new CellFormats() { Count = (UInt32Value)4U };
 			var cellFormat2 = new CellFormat() { NumberFormatId = (UInt32Value)0U, FontId = (UInt32Value)0U, FillId = (UInt32Value)0U, BorderId = (UInt32Value)0U, FormatId = (UInt32Value)0U };
@@ -299,14 +299,14 @@ namespace Accounting.Reports.OpenXml
 			cellFormats1.Append(cellFormat4);
 			cellFormats1.Append(cellFormat5);
 
-			var cellStyles1 = new CellStyles() { Count = (UInt32Value)1U };
+			var cellStyles = new CellStyles() { Count = (UInt32Value)1U };
 			var cellStyle1 = new CellStyle() { Name = "Обычный", FormatId = (UInt32Value)0U, BuiltinId = (UInt32Value)0U };
 
-			cellStyles1.Append(cellStyle1);
-			var differentialFormats1 = new DifferentialFormats() { Count = (UInt32Value)0U };
-			var tableStyles1 = new TableStyles() { Count = (UInt32Value)0U, DefaultTableStyle = "TableStyleMedium2", DefaultPivotStyle = "PivotStyleLight16" };
+			cellStyles.Append(cellStyle1);
+			var differentialFormats = new DifferentialFormats() { Count = (UInt32Value)0U };
+			var tableStyles = new TableStyles() { Count = (UInt32Value)0U, DefaultTableStyle = "TableStyleMedium2", DefaultPivotStyle = "PivotStyleLight16" };
 
-			var stylesheetExtensionList1 = new StylesheetExtensionList();
+			var stylesheetExtensionList = new StylesheetExtensionList();
 
 			var stylesheetExtension1 = new StylesheetExtension() { Uri = "{EB79DEF2-80B8-43e5-95BD-54CBDDF9020C}" };
 			stylesheetExtension1.AddNamespaceDeclaration("x14", "http://schemas.microsoft.com/office/spreadsheetml/2009/9/main");
@@ -320,20 +320,20 @@ namespace Accounting.Reports.OpenXml
 
 			stylesheetExtension2.Append(timelineStyles1);
 
-			stylesheetExtensionList1.Append(stylesheetExtension1);
-			stylesheetExtensionList1.Append(stylesheetExtension2);
+			stylesheetExtensionList.Append(stylesheetExtension1);
+			stylesheetExtensionList.Append(stylesheetExtension2);
 
-			stylesheet1.Append(fonts1);
-			stylesheet1.Append(fills1);
-			stylesheet1.Append(borders1);
-			stylesheet1.Append(cellStyleFormats1);
-			stylesheet1.Append(cellFormats1);
-			stylesheet1.Append(cellStyles1);
-			stylesheet1.Append(differentialFormats1);
-			stylesheet1.Append(tableStyles1);
-			stylesheet1.Append(stylesheetExtensionList1);
+			stylesheet.Append(fonts);
+			stylesheet.Append(fills);
+			stylesheet.Append(borders);
+			stylesheet.Append(cellStyleFormats);
+			stylesheet.Append(cellFormats1);
+			stylesheet.Append(cellStyles);
+			stylesheet.Append(differentialFormats);
+			stylesheet.Append(tableStyles);
+			stylesheet.Append(stylesheetExtensionList);
 
-			workbookStylesPart.Stylesheet = stylesheet1;
+			workbookStylesPart.Stylesheet = stylesheet;
 		}
 
 		private static void generateThemePartContent(ThemePart themePart)
