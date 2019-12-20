@@ -935,9 +935,10 @@ namespace Accounting.Reports.OpenXml
 
 		private static void generateSpreadsheetPrinterSettingsPartContent(SpreadsheetPrinterSettingsPart spreadsheetPrinterSettingsPart)
 		{
-			var data = GetBinaryDataStream(spreadsheetPrinterSettingsPartData);
-			spreadsheetPrinterSettingsPart.FeedData(data);
-			data.Close();
+			using (var data = GetBinaryDataStream(spreadsheetPrinterSettingsPartData))
+			{
+				spreadsheetPrinterSettingsPart.FeedData(data);
+			}
 		}
 
 		private static void generateSharedStringTablePartContent(SharedStringTablePart sharedStringTablePart)
