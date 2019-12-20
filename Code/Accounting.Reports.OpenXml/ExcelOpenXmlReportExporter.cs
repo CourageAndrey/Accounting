@@ -861,38 +861,38 @@ namespace Accounting.Reports.OpenXml
 
 		private static void generateWorksheetPartContent(WorksheetPart worksheetPart, IReport report)
 		{
-			var worksheet1 = new Worksheet() { MCAttributes = new MarkupCompatibilityAttributes() { Ignorable = "x14ac" } };
-			worksheet1.AddNamespaceDeclaration("r", "http://schemas.openxmlformats.org/officeDocument/2006/relationships");
-			worksheet1.AddNamespaceDeclaration("mc", "http://schemas.openxmlformats.org/markup-compatibility/2006");
-			worksheet1.AddNamespaceDeclaration("x14ac", "http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac");
-			var sheetDimension1 = new SheetDimension() { Reference = "B2:E8" };
+			var worksheet = new Worksheet() { MCAttributes = new MarkupCompatibilityAttributes() { Ignorable = "x14ac" } };
+			worksheet.AddNamespaceDeclaration("r", "http://schemas.openxmlformats.org/officeDocument/2006/relationships");
+			worksheet.AddNamespaceDeclaration("mc", "http://schemas.openxmlformats.org/markup-compatibility/2006");
+			worksheet.AddNamespaceDeclaration("x14ac", "http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac");
+			var sheetDimension = new SheetDimension() { Reference = "B2:E8" };
 
-			var sheetViews1 = new SheetViews();
+			var sheetViews = new SheetViews();
 
-			var sheetView1 = new SheetView() { TabSelected = true, WorkbookViewId = (UInt32Value)0U };
-			var selection1 = new Selection() { ActiveCell = "E9", SequenceOfReferences = new ListValue<StringValue>() { InnerText = "E9" } };
+			var sheetView = new SheetView() { TabSelected = true, WorkbookViewId = (UInt32Value)0U };
+			var selection = new Selection() { ActiveCell = "E9", SequenceOfReferences = new ListValue<StringValue>() { InnerText = "E9" } };
 
-			sheetView1.Append(selection1);
+			sheetView.Append(selection);
 
-			sheetViews1.Append(sheetView1);
-			var sheetFormatProperties1 = new SheetFormatProperties() { DefaultRowHeight = 15D, DyDescent = 0.25D };
+			sheetViews.Append(sheetView);
+			var sheetFormatProperties = new SheetFormatProperties() { DefaultRowHeight = 15D, DyDescent = 0.25D };
 
 			var reportColumns = report.Descriptor.GetColumns().ToList();
 
-			var columns1 = new Columns();
+			var columns = new Columns();
 			for (uint c = 0; c < reportColumns.Count; c++)
 			{
-				columns1.Append(new Column { Min = c + 2U, Max = c + 2U, Width = (uint) reportColumns[(int) c].MinWidth / 5, CustomWidth = true });
+				columns.Append(new Column { Min = c + 2U, Max = c + 2U, Width = (uint) reportColumns[(int) c].MinWidth / 5, CustomWidth = true });
 			}
 
-			var sheetData1 = new SheetData();
+			var sheetData = new SheetData();
 
 			var rowReportHeader = new Row { RowIndex = (UInt32Value)2U, Spans = new ListValue<StringValue>() { InnerText = "2:5" }, DyDescent = 0.25D };
 
 			var cellReportHeader = new Cell { CellReference = "B2", StyleIndex = 3U, DataType = CellValues.String };
 			cellReportHeader.Append(new CellValue { Text = report.Title });
 			rowReportHeader.Append(cellReportHeader);
-			sheetData1.Append(rowReportHeader);
+			sheetData.Append(rowReportHeader);
 
 			var rowTableHeader = new Row { RowIndex = 4U, Spans = new ListValue<StringValue> { InnerText = "2:5" }, DyDescent = 0.25D };
 			for (int c = 0; c < reportColumns.Count; c++)
@@ -901,7 +901,7 @@ namespace Accounting.Reports.OpenXml
 				headerCell.Append(new CellValue { Text = reportColumns[c].Header.ToString() });
 				rowTableHeader.Append(headerCell);
 			}
-			sheetData1.Append(rowTableHeader);
+			sheetData.Append(rowTableHeader);
 
 			for (uint r = 0; r < report.Items.Count; r++)
 			{
@@ -913,21 +913,21 @@ namespace Accounting.Reports.OpenXml
 					cell.Append(new CellValue { Text = cellText });
 					row.Append(cell);
 				}
-				sheetData1.Append(row);
+				sheetData.Append(row);
 			}
 
-			var pageMargins1 = new PageMargins() { Left = 0.7D, Right = 0.7D, Top = 0.75D, Bottom = 0.75D, Header = 0.3D, Footer = 0.3D };
-			var pageSetup1 = new PageSetup() { PaperSize = (UInt32Value)9U, Orientation = OrientationValues.Portrait, Id = "rId1" };
+			var pageMargins = new PageMargins() { Left = 0.7D, Right = 0.7D, Top = 0.75D, Bottom = 0.75D, Header = 0.3D, Footer = 0.3D };
+			var pageSetup = new PageSetup() { PaperSize = (UInt32Value)9U, Orientation = OrientationValues.Portrait, Id = "rId1" };
 
-			worksheet1.Append(sheetDimension1);
-			worksheet1.Append(sheetViews1);
-			worksheet1.Append(sheetFormatProperties1);
-			worksheet1.Append(columns1);
-			worksheet1.Append(sheetData1);
-			worksheet1.Append(pageMargins1);
-			worksheet1.Append(pageSetup1);
+			worksheet.Append(sheetDimension);
+			worksheet.Append(sheetViews);
+			worksheet.Append(sheetFormatProperties);
+			worksheet.Append(columns);
+			worksheet.Append(sheetData);
+			worksheet.Append(pageMargins);
+			worksheet.Append(pageSetup);
 
-			worksheetPart.Worksheet = worksheet1;
+			worksheetPart.Worksheet = worksheet;
 		}
 
 		private static void generateSpreadsheetPrinterSettingsPartContent(SpreadsheetPrinterSettingsPart spreadsheetPrinterSettingsPart)
