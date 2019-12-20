@@ -948,10 +948,8 @@ namespace Accounting.Reports.OpenXml
 
 		private static void setPackageProperties(OpenXmlPackage document)
 		{
-			document.PackageProperties.Creator = "Андрей Бычко";
-			document.PackageProperties.Created = System.Xml.XmlConvert.ToDateTime("2017-12-17T04:45:44Z", System.Xml.XmlDateTimeSerializationMode.RoundtripKind);
-			document.PackageProperties.Modified = System.Xml.XmlConvert.ToDateTime("2017-12-17T04:48:26Z", System.Xml.XmlDateTimeSerializationMode.RoundtripKind);
-			document.PackageProperties.LastModifiedBy = "Андрей Бычко";
+			document.PackageProperties.Creator = document.PackageProperties.LastModifiedBy = "Учётная система";
+			document.PackageProperties.Created = document.PackageProperties.Modified = DateTime.Now;
 		}
 
 		#region Binary Data
