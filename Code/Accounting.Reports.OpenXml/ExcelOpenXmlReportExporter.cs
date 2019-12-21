@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 
@@ -12,6 +13,7 @@ using Accounting.Core.Reports;
 
 namespace Accounting.Reports.OpenXml
 {
+	[SuppressMessage("ReSharper", "PossiblyMistakenUseOfParamsMethod")]
 	public class ExcelOpenXmlReportExporter : IReportExporter
 	{
 		public string SaveFileDialogFilter
