@@ -341,49 +341,9 @@ namespace Accounting.Reports.OpenXml
 			fillStyleList.Append(gradientFill2);
 
 			var lineStyleList = new DocumentFormat.OpenXml.Drawing.LineStyleList();
-
-			var outline1 = new DocumentFormat.OpenXml.Drawing.Outline { Width = 6350, CapType = DocumentFormat.OpenXml.Drawing.LineCapValues.Flat, CompoundLineType = DocumentFormat.OpenXml.Drawing.CompoundLineValues.Single, Alignment = DocumentFormat.OpenXml.Drawing.PenAlignmentValues.Center };
-
-			var solidFill2 = new DocumentFormat.OpenXml.Drawing.SolidFill();
-			var schemeColor8 = new DocumentFormat.OpenXml.Drawing.SchemeColor { Val = DocumentFormat.OpenXml.Drawing.SchemeColorValues.PhColor };
-
-			solidFill2.Append(schemeColor8);
-			var presetDash1 = new DocumentFormat.OpenXml.Drawing.PresetDash { Val = DocumentFormat.OpenXml.Drawing.PresetLineDashValues.Solid };
-			var miter1 = new DocumentFormat.OpenXml.Drawing.Miter { Limit = 800000 };
-
-			outline1.Append(solidFill2);
-			outline1.Append(presetDash1);
-			outline1.Append(miter1);
-
-			var outline2 = new DocumentFormat.OpenXml.Drawing.Outline { Width = 12700, CapType = DocumentFormat.OpenXml.Drawing.LineCapValues.Flat, CompoundLineType = DocumentFormat.OpenXml.Drawing.CompoundLineValues.Single, Alignment = DocumentFormat.OpenXml.Drawing.PenAlignmentValues.Center };
-
-			var solidFill3 = new DocumentFormat.OpenXml.Drawing.SolidFill();
-			var schemeColor9 = new DocumentFormat.OpenXml.Drawing.SchemeColor { Val = DocumentFormat.OpenXml.Drawing.SchemeColorValues.PhColor };
-
-			solidFill3.Append(schemeColor9);
-			var presetDash2 = new DocumentFormat.OpenXml.Drawing.PresetDash { Val = DocumentFormat.OpenXml.Drawing.PresetLineDashValues.Solid };
-			var miter2 = new DocumentFormat.OpenXml.Drawing.Miter { Limit = 800000 };
-
-			outline2.Append(solidFill3);
-			outline2.Append(presetDash2);
-			outline2.Append(miter2);
-
-			var outline3 = new DocumentFormat.OpenXml.Drawing.Outline { Width = 19050, CapType = DocumentFormat.OpenXml.Drawing.LineCapValues.Flat, CompoundLineType = DocumentFormat.OpenXml.Drawing.CompoundLineValues.Single, Alignment = DocumentFormat.OpenXml.Drawing.PenAlignmentValues.Center };
-
-			var solidFill4 = new DocumentFormat.OpenXml.Drawing.SolidFill();
-			var schemeColor10 = new DocumentFormat.OpenXml.Drawing.SchemeColor { Val = DocumentFormat.OpenXml.Drawing.SchemeColorValues.PhColor };
-
-			solidFill4.Append(schemeColor10);
-			var presetDash3 = new DocumentFormat.OpenXml.Drawing.PresetDash { Val = DocumentFormat.OpenXml.Drawing.PresetLineDashValues.Solid };
-			var miter3 = new DocumentFormat.OpenXml.Drawing.Miter { Limit = 800000 };
-
-			outline3.Append(solidFill4);
-			outline3.Append(presetDash3);
-			outline3.Append(miter3);
-
-			lineStyleList.Append(outline1);
-			lineStyleList.Append(outline2);
-			lineStyleList.Append(outline3);
+			lineStyleList.Append(ThemePartHelper.DefineOutline(6350));
+			lineStyleList.Append(ThemePartHelper.DefineOutline(12700));
+			lineStyleList.Append(ThemePartHelper.DefineOutline(19050));
 
 			var effectStyleList = new DocumentFormat.OpenXml.Drawing.EffectStyleList();
 

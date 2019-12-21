@@ -52,6 +52,37 @@ namespace Accounting.Reports.OpenXml.Helpers
 
 			return gradientStop;
 		}
+
+		public static Outline DefineOutline(
+			int width,
+			LineCapValues capType = LineCapValues.Flat,
+			CompoundLineValues compoundLineType = CompoundLineValues.Single,
+			PenAlignmentValues alignment = PenAlignmentValues.Center,
+			SchemeColorValues schemeColorValue = SchemeColorValues.PhColor,
+			PresetLineDashValues presetDashValue = PresetLineDashValues.Solid,
+			int miterLimit = 800000)
+		{
+			var outline = new Outline
+			{
+				Width = width,
+				CapType = capType,
+				CompoundLineType = compoundLineType,
+				Alignment = alignment,
+			};
+
+			var solidFill = new SolidFill();
+			var schemeColor = new SchemeColor { Val = schemeColorValue };
+
+			solidFill.Append(schemeColor);
+			var presetDash = new PresetDash { Val = presetDashValue };
+			var miter = new Miter { Limit = miterLimit };
+
+			outline.Append(solidFill);
+			outline.Append(presetDash);
+			outline.Append(miter);
+
+			return outline;
+		}
 	}
 
 	#region Helper classes
