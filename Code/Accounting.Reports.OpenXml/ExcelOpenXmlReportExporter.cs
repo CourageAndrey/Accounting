@@ -262,79 +262,18 @@ namespace Accounting.Reports.OpenXml
 			var themeElements = new DocumentFormat.OpenXml.Drawing.ThemeElements();
 
 			var colorScheme = new DocumentFormat.OpenXml.Drawing.ColorScheme { Name = "Стандартная" };
-
-			var dark1Color1 = new DocumentFormat.OpenXml.Drawing.Dark1Color();
-			var systemColor1 = new DocumentFormat.OpenXml.Drawing.SystemColor { Val = DocumentFormat.OpenXml.Drawing.SystemColorValues.WindowText, LastColor = "000000" };
-
-			dark1Color1.Append(systemColor1);
-
-			var light1Color1 = new DocumentFormat.OpenXml.Drawing.Light1Color();
-			var systemColor2 = new DocumentFormat.OpenXml.Drawing.SystemColor { Val = DocumentFormat.OpenXml.Drawing.SystemColorValues.Window, LastColor = "FFFFFF" };
-
-			light1Color1.Append(systemColor2);
-
-			var dark2Color1 = new DocumentFormat.OpenXml.Drawing.Dark2Color();
-			var rgbColorModelHex1 = new DocumentFormat.OpenXml.Drawing.RgbColorModelHex { Val = "44546A" };
-
-			dark2Color1.Append(rgbColorModelHex1);
-
-			var light2Color1 = new DocumentFormat.OpenXml.Drawing.Light2Color();
-			var rgbColorModelHex2 = new DocumentFormat.OpenXml.Drawing.RgbColorModelHex { Val = "E7E6E6" };
-
-			light2Color1.Append(rgbColorModelHex2);
-
-			var accent1Color1 = new DocumentFormat.OpenXml.Drawing.Accent1Color();
-			var rgbColorModelHex3 = new DocumentFormat.OpenXml.Drawing.RgbColorModelHex { Val = "5B9BD5" };
-
-			accent1Color1.Append(rgbColorModelHex3);
-
-			var accent2Color1 = new DocumentFormat.OpenXml.Drawing.Accent2Color();
-			var rgbColorModelHex4 = new DocumentFormat.OpenXml.Drawing.RgbColorModelHex { Val = "ED7D31" };
-
-			accent2Color1.Append(rgbColorModelHex4);
-
-			var accent3Color1 = new DocumentFormat.OpenXml.Drawing.Accent3Color();
-			var rgbColorModelHex5 = new DocumentFormat.OpenXml.Drawing.RgbColorModelHex { Val = "A5A5A5" };
-
-			accent3Color1.Append(rgbColorModelHex5);
-
-			var accent4Color1 = new DocumentFormat.OpenXml.Drawing.Accent4Color();
-			var rgbColorModelHex6 = new DocumentFormat.OpenXml.Drawing.RgbColorModelHex { Val = "FFC000" };
-
-			accent4Color1.Append(rgbColorModelHex6);
-
-			var accent5Color1 = new DocumentFormat.OpenXml.Drawing.Accent5Color();
-			var rgbColorModelHex7 = new DocumentFormat.OpenXml.Drawing.RgbColorModelHex { Val = "4472C4" };
-
-			accent5Color1.Append(rgbColorModelHex7);
-
-			var accent6Color1 = new DocumentFormat.OpenXml.Drawing.Accent6Color();
-			var rgbColorModelHex8 = new DocumentFormat.OpenXml.Drawing.RgbColorModelHex { Val = "70AD47" };
-
-			accent6Color1.Append(rgbColorModelHex8);
-
-			var hyperlink = new DocumentFormat.OpenXml.Drawing.Hyperlink();
-			var rgbColorModelHex9 = new DocumentFormat.OpenXml.Drawing.RgbColorModelHex { Val = "0563C1" };
-
-			hyperlink.Append(rgbColorModelHex9);
-
-			var followedHyperlinkColor = new DocumentFormat.OpenXml.Drawing.FollowedHyperlinkColor();
-			var rgbColorModelHex10 = new DocumentFormat.OpenXml.Drawing.RgbColorModelHex { Val = "954F72" };
-
-			followedHyperlinkColor.Append(rgbColorModelHex10);
-
-			colorScheme.Append(dark1Color1);
-			colorScheme.Append(light1Color1);
-			colorScheme.Append(dark2Color1);
-			colorScheme.Append(light2Color1);
-			colorScheme.Append(accent1Color1);
-			colorScheme.Append(accent2Color1);
-			colorScheme.Append(accent3Color1);
-			colorScheme.Append(accent4Color1);
-			colorScheme.Append(accent5Color1);
-			colorScheme.Append(accent6Color1);
-			colorScheme.Append(hyperlink);
-			colorScheme.Append(followedHyperlinkColor);
+			colorScheme.Append(ThemePartHelper.DefineColorAsSystem<DocumentFormat.OpenXml.Drawing.Dark1Color>(DocumentFormat.OpenXml.Drawing.SystemColorValues.WindowText, "000000"));
+			colorScheme.Append(ThemePartHelper.DefineColorAsSystem<DocumentFormat.OpenXml.Drawing.Light1Color>(DocumentFormat.OpenXml.Drawing.SystemColorValues.Window, "FFFFFF"));
+			colorScheme.Append(ThemePartHelper.DefineColorAsRgb<DocumentFormat.OpenXml.Drawing.Dark2Color>("44546A"));
+			colorScheme.Append(ThemePartHelper.DefineColorAsRgb<DocumentFormat.OpenXml.Drawing.Light2Color>("E7E6E6"));
+			colorScheme.Append(ThemePartHelper.DefineColorAsRgb<DocumentFormat.OpenXml.Drawing.Accent1Color>("5B9BD5"));
+			colorScheme.Append(ThemePartHelper.DefineColorAsRgb<DocumentFormat.OpenXml.Drawing.Accent2Color>("ED7D31"));
+			colorScheme.Append(ThemePartHelper.DefineColorAsRgb<DocumentFormat.OpenXml.Drawing.Accent3Color>("A5A5A5"));
+			colorScheme.Append(ThemePartHelper.DefineColorAsRgb<DocumentFormat.OpenXml.Drawing.Accent4Color>("FFC000"));
+			colorScheme.Append(ThemePartHelper.DefineColorAsRgb<DocumentFormat.OpenXml.Drawing.Accent5Color>("4472C4"));
+			colorScheme.Append(ThemePartHelper.DefineColorAsRgb<DocumentFormat.OpenXml.Drawing.Accent6Color>("70AD47"));
+			colorScheme.Append(ThemePartHelper.DefineColorAsRgb<DocumentFormat.OpenXml.Drawing.Hyperlink>("0563C1"));
+			colorScheme.Append(ThemePartHelper.DefineColorAsRgb<DocumentFormat.OpenXml.Drawing.FollowedHyperlinkColor>("954F72"));
 
 			var fontScheme3 = new DocumentFormat.OpenXml.Drawing.FontScheme { Name = "Стандартная" };
 
