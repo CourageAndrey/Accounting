@@ -275,7 +275,7 @@ namespace Accounting.Reports.OpenXml
 			colorScheme.Append(ThemePartHelper.DefineColorAsRgb<DocumentFormat.OpenXml.Drawing.Hyperlink>("0563C1"));
 			colorScheme.Append(ThemePartHelper.DefineColorAsRgb<DocumentFormat.OpenXml.Drawing.FollowedHyperlinkColor>("954F72"));
 
-			var fontScheme3 = new DocumentFormat.OpenXml.Drawing.FontScheme { Name = "Стандартная" };
+			var fontScheme = new DocumentFormat.OpenXml.Drawing.FontScheme { Name = "Стандартная" };
 
 			var majorFont = new DocumentFormat.OpenXml.Drawing.MajorFont();
 			majorFont.DefineFontScripts(
@@ -289,8 +289,8 @@ namespace Accounting.Reports.OpenXml
 				"020F0502020204030204",
 				FontCollectionTypeHelper.MinorSupplementalFonts);
 
-			fontScheme3.Append(majorFont);
-			fontScheme3.Append(minorFont);
+			fontScheme.Append(majorFont);
+			fontScheme.Append(minorFont);
 
 			var formatScheme = new DocumentFormat.OpenXml.Drawing.FormatScheme { Name = "Стандартная" };
 
@@ -566,7 +566,7 @@ namespace Accounting.Reports.OpenXml
 			formatScheme.Append(backgroundFillStyleList1);
 
 			themeElements.Append(colorScheme);
-			themeElements.Append(fontScheme3);
+			themeElements.Append(fontScheme);
 			themeElements.Append(formatScheme);
 			var objectDefaults = new DocumentFormat.OpenXml.Drawing.ObjectDefaults();
 			var extraColorSchemeList = new DocumentFormat.OpenXml.Drawing.ExtraColorSchemeList();
