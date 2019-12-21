@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
@@ -10,6 +9,7 @@ using DocumentFormat.OpenXml.Spreadsheet;
 
 using Accounting.Core.Application;
 using Accounting.Core.Reports;
+using Accounting.Reports.OpenXml.Helpers;
 
 namespace Accounting.Reports.OpenXml
 {
@@ -399,18 +399,16 @@ namespace Accounting.Reports.OpenXml
 			var fontScheme3 = new DocumentFormat.OpenXml.Drawing.FontScheme { Name = "Стандартная" };
 
 			var majorFont = new DocumentFormat.OpenXml.Drawing.MajorFont();
-			defineFontScripts(
-				majorFont,
+			majorFont.DefineFontScripts(
 				"Calibri Light",
 				"020F0302020204030204",
-				_majorSupplementalFonts);
+				FontCollectionTypeHelper.MajorSupplementalFonts);
 
 			var minorFont = new DocumentFormat.OpenXml.Drawing.MinorFont();
-			defineFontScripts(
-				majorFont,
+			minorFont.DefineFontScripts(
 				"Calibri",
 				"020F0502020204030204",
-				_minorSupplementalFonts);
+				FontCollectionTypeHelper.MinorSupplementalFonts);
 
 			fontScheme3.Append(majorFont);
 			fontScheme3.Append(minorFont);
@@ -712,123 +710,6 @@ namespace Accounting.Reports.OpenXml
 
 			themePart.Theme = theme;
 		}
-
-		private static void defineFontScripts(
-			DocumentFormat.OpenXml.Drawing.FontCollectionType fontCollectionType,
-			string latinFontTypeface,
-			string latinFontPanose,
-			IDictionary<string, string> additionalSuplementalFonts)
-		{
-			var latinFont = new DocumentFormat.OpenXml.Drawing.LatinFont
-			{
-				Typeface = latinFontTypeface,
-				Panose = latinFontPanose,
-			};
-			fontCollectionType.Append(latinFont);
-
-			var asianFont = new DocumentFormat.OpenXml.Drawing.EastAsianFont { Typeface = "" };
-			fontCollectionType.Append(asianFont);
-
-			var complexScriptFont = new DocumentFormat.OpenXml.Drawing.ComplexScriptFont { Typeface = "" };
-			fontCollectionType.Append(complexScriptFont);
-
-			foreach (string fontScript in allFontScripts)
-			{
-				string fontTypeface;
-				if (!_commonSupplementalFonts.TryGetValue(fontScript, out fontTypeface))
-				{
-					fontTypeface = additionalSuplementalFonts[fontScript];
-				}
-
-				var supplementalFont = new DocumentFormat.OpenXml.Drawing.SupplementalFont
-				{
-					Script = fontScript,
-					Typeface = fontTypeface,
-				};
-
-				fontCollectionType.Append(supplementalFont);
-			}
-		}
-
-		private static readonly IReadOnlyCollection<string> allFontScripts = new[]
-		{
-			"Jpan",
-			"Hang",
-			"Hans",
-			"Hant",
-			"Arab",
-			"Hebr",
-			"Thai",
-			"Ethi",
-			"Beng",
-			"Gujr",
-			"Khmr",
-			"Knda",
-			"Guru",
-			"Cans",
-			"Cher",
-			"Yiii",
-			"Tibt",
-			"Thaa",
-			"Deva",
-			"Telu",
-			"Taml",
-			"Syrc",
-			"Orya",
-			"Mlym",
-			"Laoo",
-			"Sinh",
-			"Mong",
-			"Viet",
-			"Uigh",
-			"Geor",
-		};
-
-		private static readonly IDictionary<string ,string> _commonSupplementalFonts = new Dictionary<string, string>
-		{
-			{ "Jpan", "ＭＳ Ｐゴシック" },
-			{ "Hang", "맑은 고딕" },
-			{ "Hans", "宋体" },
-			{ "Hant", "新細明體" },
-			{ "Thai", "Tahoma" },
-			{ "Ethi", "Nyala" },
-			{ "Beng", "Vrinda" },
-			{ "Gujr", "Shruti" },
-			{ "Knda", "Tunga" },
-			{ "Guru", "Raavi" },
-			{ "Cans", "Euphemia" },
-			{ "Cher", "Plantagenet Cherokee" },
-			{ "Yiii", "Microsoft Yi Baiti" },
-			{ "Tibt", "Microsoft Himalaya" },
-			{ "Thaa", "MV Boli" },
-			{ "Deva", "Mangal" },
-			{ "Telu", "Gautami" },
-			{ "Taml", "Latha" },
-			{ "Syrc", "Estrangelo Edessa" },
-			{ "Orya", "Kalinga" },
-			{ "Mlym", "Kartika" },
-			{ "Laoo", "DokChampa" },
-			{ "Sinh", "Iskoola Pota" },
-			{ "Mong", "Mongolian Baiti" },
-			{ "Uigh", "Microsoft Uighur" },
-			{ "Geor", "Sylfaen" },
-		};
-
-		private static readonly IDictionary<string, string> _majorSupplementalFonts = new Dictionary<string, string>
-		{
-			{ "Arab", "Times New Roman" },
-			{ "Hebr", "Times New Roman" },
-			{ "Khmr", "MoolBoran" },
-			{ "Viet", "Times New Roman" },
-		};
-
-		private static readonly IDictionary<string, string> _minorSupplementalFonts = new Dictionary<string, string>
-		{
-			{ "Arab", "Arial" },
-			{ "Hebr", "Arial" },
-			{ "Khmr", "DaunPenh" },
-			{ "Viet", "Arial" },
-		};
 
 		private static void generateWorksheetPartContent(WorksheetPart worksheetPart, IReport report)
 		{
