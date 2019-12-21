@@ -173,42 +173,13 @@ namespace Accounting.Reports.OpenXml
 			stylesheet.AddNamespaceDeclaration("mc", "http://schemas.openxmlformats.org/markup-compatibility/2006");
 			stylesheet.AddNamespaceDeclaration("x14ac", "http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac");
 
-			var fonts = new Fonts { Count = (UInt32Value)2U, KnownFonts = true };
-
-			var font1 = new Font();
-			var fontSize1 = new FontSize { Val = 11D };
-			var color1 = new Color { Theme = (UInt32Value)1U };
-			var fontName1 = new FontName { Val = "Calibri" };
-			var fontFamilyNumbering1 = new FontFamilyNumbering { Val = 2 };
-			var fontCharSet1 = new FontCharSet { Val = 204 };
-			var fontScheme1 = new FontScheme { Val = FontSchemeValues.Minor };
-
-			font1.Append(fontSize1);
-			font1.Append(color1);
-			font1.Append(fontName1);
-			font1.Append(fontFamilyNumbering1);
-			font1.Append(fontCharSet1);
-			font1.Append(fontScheme1);
-
-			var font2 = new Font();
-			var bold1 = new Bold();
-			var fontSize2 = new FontSize { Val = 11D };
-			var color2 = new Color { Theme = (UInt32Value)1U };
-			var fontName2 = new FontName { Val = "Calibri" };
-			var fontFamilyNumbering2 = new FontFamilyNumbering { Val = 2 };
-			var fontCharSet2 = new FontCharSet { Val = 204 };
-			var fontScheme2 = new FontScheme { Val = FontSchemeValues.Minor };
-
-			font2.Append(bold1);
-			font2.Append(fontSize2);
-			font2.Append(color2);
-			font2.Append(fontName2);
-			font2.Append(fontFamilyNumbering2);
-			font2.Append(fontCharSet2);
-			font2.Append(fontScheme2);
-
-			fonts.Append(font1);
-			fonts.Append(font2);
+			var fonts = new Fonts
+			{
+				Count = 2U,
+				KnownFonts = true
+			};
+			defineFont(fonts, false);
+			defineFont(fonts, true);
 
 			var fills = new Fills { Count = (UInt32Value)2U };
 
@@ -324,6 +295,24 @@ namespace Accounting.Reports.OpenXml
 			stylesheet.Append(stylesheetExtensionList);
 
 			workbookStylesPart.Stylesheet = stylesheet;
+		}
+
+		private static void defineFont(Fonts fonts, bool isBold)
+		{
+			var font = new Font();
+
+			if (isBold)
+			{
+				font.Append(new Bold());
+			}
+			font.Append(new FontSize { Val = 11D });
+			font.Append(new Color { Theme = 1U });
+			font.Append(new FontName { Val = "Calibri" });
+			font.Append(new FontFamilyNumbering { Val = 2 });
+			font.Append(new FontCharSet { Val = 204 });
+			font.Append(new FontScheme { Val = FontSchemeValues.Minor });
+
+			fonts.Append(font);
 		}
 
 		private static void defineStylesheetExtension(
