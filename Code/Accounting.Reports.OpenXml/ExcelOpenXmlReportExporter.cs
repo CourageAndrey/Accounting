@@ -196,52 +196,9 @@ namespace Accounting.Reports.OpenXml
 			fills.Append(fill1);
 			fills.Append(fill2);
 
-			var borders = new Borders { Count = (UInt32Value)2U };
-
-			var border1 = new Border();
-			var leftBorder1 = new LeftBorder();
-			var rightBorder1 = new RightBorder();
-			var topBorder1 = new TopBorder();
-			var bottomBorder1 = new BottomBorder();
-			var diagonalBorder1 = new DiagonalBorder();
-
-			border1.Append(leftBorder1);
-			border1.Append(rightBorder1);
-			border1.Append(topBorder1);
-			border1.Append(bottomBorder1);
-			border1.Append(diagonalBorder1);
-
-			var border2 = new Border();
-
-			var leftBorder2 = new LeftBorder { Style = BorderStyleValues.Thin };
-			var color3 = new Color { Indexed = (UInt32Value)64U };
-
-			leftBorder2.Append(color3);
-
-			var rightBorder2 = new RightBorder { Style = BorderStyleValues.Thin };
-			var color4 = new Color { Indexed = (UInt32Value)64U };
-
-			rightBorder2.Append(color4);
-
-			var topBorder2 = new TopBorder { Style = BorderStyleValues.Thin };
-			var color5 = new Color { Indexed = (UInt32Value)64U };
-
-			topBorder2.Append(color5);
-
-			var bottomBorder2 = new BottomBorder { Style = BorderStyleValues.Thin };
-			var color6 = new Color { Indexed = (UInt32Value)64U };
-
-			bottomBorder2.Append(color6);
-			var diagonalBorder2 = new DiagonalBorder();
-
-			border2.Append(leftBorder2);
-			border2.Append(rightBorder2);
-			border2.Append(topBorder2);
-			border2.Append(bottomBorder2);
-			border2.Append(diagonalBorder2);
-
-			borders.Append(border1);
-			borders.Append(border2);
+			var borders = new Borders { Count = 2U };
+			defineBorder(borders, false);
+			defineBorder(borders, true);
 
 			var cellStyleFormats = new CellStyleFormats { Count = (UInt32Value)1U };
 			var cellFormat1 = new CellFormat { NumberFormatId = (UInt32Value)0U, FontId = (UInt32Value)0U, FillId = (UInt32Value)0U, BorderId = (UInt32Value)0U };
@@ -295,6 +252,33 @@ namespace Accounting.Reports.OpenXml
 			stylesheet.Append(stylesheetExtensionList);
 
 			workbookStylesPart.Stylesheet = stylesheet;
+		}
+
+		private static void defineBorder(Borders borders, bool isThin)
+		{
+			var border = new Border();
+
+			foreach (var sideBorder in new BorderPropertiesType[]
+			{
+				new LeftBorder(),
+				new RightBorder(),
+				new TopBorder(),
+				new BottomBorder(),
+				new DiagonalBorder(),
+			})
+			{
+				var color = new Color();
+				if (isThin)
+				{
+					sideBorder.Style = BorderStyleValues.Thin;
+					color.Indexed = 64U;
+				}
+				sideBorder.Append(color);
+
+				border.Append(sideBorder);
+			}
+
+			borders.Append(border);
 		}
 
 		private static void defineFont(Fonts fonts, bool isBold)
