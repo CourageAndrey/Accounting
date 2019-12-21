@@ -180,7 +180,7 @@ namespace Accounting.Reports.OpenXml
 				Count = 2U,
 				KnownFonts = true
 			};
-			fonts.Append(StylesPartHelper.DefineFont(false));
+			fonts.Append(StylesPartHelper.DefineFont());
 			fonts.Append(StylesPartHelper.DefineFont(true));
 
 			var fills = new Fills { Count = 2U };
