@@ -49,6 +49,7 @@
     <Compile Include="ExcelOpenXmlPlugin.cs" />
     <Compile Include="ExcelOpenXmlReportExportDriver.cs" />
     <Compile Include="ExcelOpenXmlReportExporter.cs" />
+    <Compile Include="Helpers\StylesPartHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

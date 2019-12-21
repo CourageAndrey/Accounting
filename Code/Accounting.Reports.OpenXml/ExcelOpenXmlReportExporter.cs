@@ -180,8 +180,8 @@ namespace Accounting.Reports.OpenXml
 				Count = 2U,
 				KnownFonts = true
 			};
-			fonts.Append(defineFont(false));
-			fonts.Append(defineFont(true));
+			fonts.Append(StylesPartHelper.DefineFont(false));
+			fonts.Append(StylesPartHelper.DefineFont(true));
 
 			var fills = new Fills { Count = 2U };
 
@@ -199,8 +199,8 @@ namespace Accounting.Reports.OpenXml
 			fills.Append(fill2);
 
 			var borders = new Borders { Count = 2U };
-			borders.Append(defineBorder(false));
-			borders.Append(defineBorder(true));
+			borders.Append(StylesPartHelper.DefineBorder(false));
+			borders.Append(StylesPartHelper.DefineBorder(true));
 
 			var cellStyleFormats = new CellStyleFormats { Count = 1U };
 			var cellFormat1 = new CellFormat { NumberFormatId = 0U, FontId = 0U, FillId = 0U, BorderId = 0U };
@@ -230,12 +230,12 @@ namespace Accounting.Reports.OpenXml
 			var tableStyles = new TableStyles { Count = 0U, DefaultTableStyle = "TableStyleMedium2", DefaultPivotStyle = "PivotStyleLight16" };
 
 			var stylesheetExtensionList = new StylesheetExtensionList();
-			stylesheetExtensionList.Append(defineStylesheetExtension(
+			stylesheetExtensionList.Append(StylesPartHelper.DefineStylesheetExtension(
 				"{EB79DEF2-80B8-43e5-95BD-54CBDDF9020C}",
 				"x14",
 				"http://schemas.microsoft.com/office/spreadsheetml/2009/9/main",
 				"SlicerStyleLight1"));
-			stylesheetExtensionList.Append(defineStylesheetExtension(
+			stylesheetExtensionList.Append(StylesPartHelper.DefineStylesheetExtension(
 				"{9260A510-F301-46a8-8635-F512D64BE5F5}",
 				"x15",
 				"http://schemas.microsoft.com/office/spreadsheetml/2010/11/main",
@@ -252,66 +252,6 @@ namespace Accounting.Reports.OpenXml
 			stylesheet.Append(stylesheetExtensionList);
 
 			workbookStylesPart.Stylesheet = stylesheet;
-		}
-
-		private static Border defineBorder(bool isThin)
-		{
-			var border = new Border();
-
-			foreach (var sideBorder in new BorderPropertiesType[]
-			{
-				new LeftBorder(),
-				new RightBorder(),
-				new TopBorder(),
-				new BottomBorder(),
-				new DiagonalBorder(),
-			})
-			{
-				var color = new Color();
-				if (isThin)
-				{
-					sideBorder.Style = BorderStyleValues.Thin;
-					color.Indexed = 64U;
-				}
-				sideBorder.Append(color);
-
-				border.Append(sideBorder);
-			}
-
-			return border;
-		}
-
-		private static Font defineFont(bool isBold)
-		{
-			var font = new Font();
-
-			if (isBold)
-			{
-				font.Append(new Bold());
-			}
-			font.Append(new FontSize { Val = 11D });
-			font.Append(new Color { Theme = 1U });
-			font.Append(new FontName { Val = "Calibri" });
-			font.Append(new FontFamilyNumbering { Val = 2 });
-			font.Append(new FontCharSet { Val = 204 });
-			font.Append(new FontScheme { Val = FontSchemeValues.Minor });
-
-			return font;
-		}
-
-		private static StylesheetExtension defineStylesheetExtension(
-			string guidUri,
-			string namespacePrefix,
-			string namespaceUri,
-			string defaultSlicerStyle)
-		{
-			var stylesheetExtension = new StylesheetExtension { Uri = guidUri };
-			stylesheetExtension.AddNamespaceDeclaration(namespacePrefix, namespaceUri);
-			var styles = new DocumentFormat.OpenXml.Office2010.Excel.SlicerStyles { DefaultSlicerStyle = defaultSlicerStyle };
-
-			stylesheetExtension.Append(styles);
-
-			return stylesheetExtension;
 		}
 
 		private static void generateThemePartContent(ThemePart themePart)
