@@ -83,6 +83,49 @@ namespace Accounting.Reports.OpenXml.Helpers
 
 			return outline;
 		}
+
+		public static EffectStyle DefineEffectStyle(OuterShadow outerShadow = null)
+		{
+			var effectStyle = new EffectStyle();
+			var effectList = new EffectList();
+
+			if (outerShadow != null)
+			{
+				effectList.Append(outerShadow);
+			}
+
+			effectStyle.Append(effectList);
+
+			return effectStyle;
+		}
+
+		public static OuterShadow DefineOuterShadow(
+			long blurRadius,
+			long distance,
+			int direction,
+			RectangleAlignmentValues alignment,
+			bool rotateWithShape,
+			string rgbColorModelHexValue,
+			int alphaValue)
+		{
+			var outerShadow = new OuterShadow
+			{
+				BlurRadius = blurRadius,
+				Distance = distance,
+				Direction = direction,
+				Alignment = alignment,
+				RotateWithShape = rotateWithShape,
+			};
+
+			var rgbColorModelHex = new RgbColorModelHex { Val = rgbColorModelHexValue };
+			var alpha = new Alpha { Val = alphaValue };
+
+			rgbColorModelHex.Append(alpha);
+
+			outerShadow.Append(rgbColorModelHex);
+
+			return outerShadow;
+		}
 	}
 
 	#region Helper classes

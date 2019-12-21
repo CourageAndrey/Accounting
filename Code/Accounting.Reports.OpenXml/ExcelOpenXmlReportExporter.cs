@@ -346,37 +346,16 @@ namespace Accounting.Reports.OpenXml
 			lineStyleList.Append(ThemePartHelper.DefineOutline(19050));
 
 			var effectStyleList = new DocumentFormat.OpenXml.Drawing.EffectStyleList();
-
-			var effectStyle1 = new DocumentFormat.OpenXml.Drawing.EffectStyle();
-			var effectList1 = new DocumentFormat.OpenXml.Drawing.EffectList();
-
-			effectStyle1.Append(effectList1);
-
-			var effectStyle2 = new DocumentFormat.OpenXml.Drawing.EffectStyle();
-			var effectList2 = new DocumentFormat.OpenXml.Drawing.EffectList();
-
-			effectStyle2.Append(effectList2);
-
-			var effectStyle3 = new DocumentFormat.OpenXml.Drawing.EffectStyle();
-
-			var effectList3 = new DocumentFormat.OpenXml.Drawing.EffectList();
-
-			var outerShadow1 = new DocumentFormat.OpenXml.Drawing.OuterShadow { BlurRadius = 57150L, Distance = 19050L, Direction = 5400000, Alignment = DocumentFormat.OpenXml.Drawing.RectangleAlignmentValues.Center, RotateWithShape = false };
-
-			var rgbColorModelHex11 = new DocumentFormat.OpenXml.Drawing.RgbColorModelHex { Val = "000000" };
-			var alpha1 = new DocumentFormat.OpenXml.Drawing.Alpha { Val = 63000 };
-
-			rgbColorModelHex11.Append(alpha1);
-
-			outerShadow1.Append(rgbColorModelHex11);
-
-			effectList3.Append(outerShadow1);
-
-			effectStyle3.Append(effectList3);
-
-			effectStyleList.Append(effectStyle1);
-			effectStyleList.Append(effectStyle2);
-			effectStyleList.Append(effectStyle3);
+			effectStyleList.Append(ThemePartHelper.DefineEffectStyle());
+			effectStyleList.Append(ThemePartHelper.DefineEffectStyle());
+			effectStyleList.Append(ThemePartHelper.DefineEffectStyle(ThemePartHelper.DefineOuterShadow(
+				57150L,
+				19050L,
+				5400000,
+				DocumentFormat.OpenXml.Drawing.RectangleAlignmentValues.Center,
+				false,
+				"000000",
+				63000)));
 
 			var backgroundFillStyleList1 = new DocumentFormat.OpenXml.Drawing.BackgroundFillStyleList();
 
