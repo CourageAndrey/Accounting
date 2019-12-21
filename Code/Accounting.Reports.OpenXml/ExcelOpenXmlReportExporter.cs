@@ -297,49 +297,19 @@ namespace Accounting.Reports.OpenXml
 			var gradientFill = new DocumentFormat.OpenXml.Drawing.GradientFill { RotateWithShape = true };
 
 			var gradientStopList1 = new DocumentFormat.OpenXml.Drawing.GradientStopList();
+			gradientStopList1.Append(ThemePartHelper.DefineGradientStop(0, new PercentageValue[] {
+				new PercentageValue<DocumentFormat.OpenXml.Drawing.LuminanceModulation>(110000),
+				new PercentageValue<DocumentFormat.OpenXml.Drawing.SaturationModulation>(105000),
+				new PositiveFixedPercentageValue<DocumentFormat.OpenXml.Drawing.Tint>(67000) }));
+			gradientStopList1.Append(ThemePartHelper.DefineGradientStop(50000, new PercentageValue[] {
+				new PercentageValue<DocumentFormat.OpenXml.Drawing.LuminanceModulation>(105000),
+				new PercentageValue<DocumentFormat.OpenXml.Drawing.SaturationModulation>(103000),
+				new PositiveFixedPercentageValue<DocumentFormat.OpenXml.Drawing.Tint>(73000) }));
+			gradientStopList1.Append(ThemePartHelper.DefineGradientStop(100000, new PercentageValue[] {
+				new PercentageValue<DocumentFormat.OpenXml.Drawing.LuminanceModulation>(105000),
+				new PercentageValue<DocumentFormat.OpenXml.Drawing.SaturationModulation>(109000),
+				new PositiveFixedPercentageValue<DocumentFormat.OpenXml.Drawing.Tint>(81000) }));
 
-			var gradientStop1 = new DocumentFormat.OpenXml.Drawing.GradientStop { Position = 0 };
-
-			var schemeColor2 = new DocumentFormat.OpenXml.Drawing.SchemeColor { Val = DocumentFormat.OpenXml.Drawing.SchemeColorValues.PhColor };
-			var luminanceModulation1 = new DocumentFormat.OpenXml.Drawing.LuminanceModulation { Val = 110000 };
-			var saturationModulation1 = new DocumentFormat.OpenXml.Drawing.SaturationModulation { Val = 105000 };
-			var tint1 = new DocumentFormat.OpenXml.Drawing.Tint { Val = 67000 };
-
-			schemeColor2.Append(luminanceModulation1);
-			schemeColor2.Append(saturationModulation1);
-			schemeColor2.Append(tint1);
-
-			gradientStop1.Append(schemeColor2);
-
-			var gradientStop2 = new DocumentFormat.OpenXml.Drawing.GradientStop { Position = 50000 };
-
-			var schemeColor3 = new DocumentFormat.OpenXml.Drawing.SchemeColor { Val = DocumentFormat.OpenXml.Drawing.SchemeColorValues.PhColor };
-			var luminanceModulation2 = new DocumentFormat.OpenXml.Drawing.LuminanceModulation { Val = 105000 };
-			var saturationModulation2 = new DocumentFormat.OpenXml.Drawing.SaturationModulation { Val = 103000 };
-			var tint2 = new DocumentFormat.OpenXml.Drawing.Tint { Val = 73000 };
-
-			schemeColor3.Append(luminanceModulation2);
-			schemeColor3.Append(saturationModulation2);
-			schemeColor3.Append(tint2);
-
-			gradientStop2.Append(schemeColor3);
-
-			var gradientStop3 = new DocumentFormat.OpenXml.Drawing.GradientStop { Position = 100000 };
-
-			var schemeColor4 = new DocumentFormat.OpenXml.Drawing.SchemeColor { Val = DocumentFormat.OpenXml.Drawing.SchemeColorValues.PhColor };
-			var luminanceModulation3 = new DocumentFormat.OpenXml.Drawing.LuminanceModulation { Val = 105000 };
-			var saturationModulation3 = new DocumentFormat.OpenXml.Drawing.SaturationModulation { Val = 109000 };
-			var tint3 = new DocumentFormat.OpenXml.Drawing.Tint { Val = 81000 };
-
-			schemeColor4.Append(luminanceModulation3);
-			schemeColor4.Append(saturationModulation3);
-			schemeColor4.Append(tint3);
-
-			gradientStop3.Append(schemeColor4);
-
-			gradientStopList1.Append(gradientStop1);
-			gradientStopList1.Append(gradientStop2);
-			gradientStopList1.Append(gradientStop3);
 			var linearGradientFill1 = new DocumentFormat.OpenXml.Drawing.LinearGradientFill { Angle = 5400000, Scaled = false };
 
 			gradientFill.Append(gradientStopList1);
@@ -348,49 +318,19 @@ namespace Accounting.Reports.OpenXml
 			var gradientFill2 = new DocumentFormat.OpenXml.Drawing.GradientFill { RotateWithShape = true };
 
 			var gradientStopList2 = new DocumentFormat.OpenXml.Drawing.GradientStopList();
+			gradientStopList2.Append(ThemePartHelper.DefineGradientStop(0, new PercentageValue[] {
+				new PercentageValue<DocumentFormat.OpenXml.Drawing.SaturationModulation>(103000),
+				new PercentageValue<DocumentFormat.OpenXml.Drawing.LuminanceModulation>(102000),
+				new PositiveFixedPercentageValue<DocumentFormat.OpenXml.Drawing.Tint>(94000) }));
+			gradientStopList2.Append(ThemePartHelper.DefineGradientStop(50000, new PercentageValue[] {
+				new PercentageValue<DocumentFormat.OpenXml.Drawing.SaturationModulation>(110000),
+				new PercentageValue<DocumentFormat.OpenXml.Drawing.LuminanceModulation>(100000),
+				new PositiveFixedPercentageValue<DocumentFormat.OpenXml.Drawing.Shade>(100000) }));
+			gradientStopList2.Append(ThemePartHelper.DefineGradientStop(100000, new PercentageValue[] {
+				new PercentageValue<DocumentFormat.OpenXml.Drawing.LuminanceModulation>(99000),
+				new PercentageValue<DocumentFormat.OpenXml.Drawing.SaturationModulation>(120000),
+				new PositiveFixedPercentageValue<DocumentFormat.OpenXml.Drawing.Shade>(78000) }));
 
-			var gradientStop4 = new DocumentFormat.OpenXml.Drawing.GradientStop { Position = 0 };
-
-			var schemeColor5 = new DocumentFormat.OpenXml.Drawing.SchemeColor { Val = DocumentFormat.OpenXml.Drawing.SchemeColorValues.PhColor };
-			var saturationModulation4 = new DocumentFormat.OpenXml.Drawing.SaturationModulation { Val = 103000 };
-			var luminanceModulation4 = new DocumentFormat.OpenXml.Drawing.LuminanceModulation { Val = 102000 };
-			var tint4 = new DocumentFormat.OpenXml.Drawing.Tint { Val = 94000 };
-
-			schemeColor5.Append(saturationModulation4);
-			schemeColor5.Append(luminanceModulation4);
-			schemeColor5.Append(tint4);
-
-			gradientStop4.Append(schemeColor5);
-
-			var gradientStop5 = new DocumentFormat.OpenXml.Drawing.GradientStop { Position = 50000 };
-
-			var schemeColor6 = new DocumentFormat.OpenXml.Drawing.SchemeColor { Val = DocumentFormat.OpenXml.Drawing.SchemeColorValues.PhColor };
-			var saturationModulation5 = new DocumentFormat.OpenXml.Drawing.SaturationModulation { Val = 110000 };
-			var luminanceModulation5 = new DocumentFormat.OpenXml.Drawing.LuminanceModulation { Val = 100000 };
-			var shade1 = new DocumentFormat.OpenXml.Drawing.Shade { Val = 100000 };
-
-			schemeColor6.Append(saturationModulation5);
-			schemeColor6.Append(luminanceModulation5);
-			schemeColor6.Append(shade1);
-
-			gradientStop5.Append(schemeColor6);
-
-			var gradientStop6 = new DocumentFormat.OpenXml.Drawing.GradientStop { Position = 100000 };
-
-			var schemeColor7 = new DocumentFormat.OpenXml.Drawing.SchemeColor { Val = DocumentFormat.OpenXml.Drawing.SchemeColorValues.PhColor };
-			var luminanceModulation6 = new DocumentFormat.OpenXml.Drawing.LuminanceModulation { Val = 99000 };
-			var saturationModulation6 = new DocumentFormat.OpenXml.Drawing.SaturationModulation { Val = 120000 };
-			var shade2 = new DocumentFormat.OpenXml.Drawing.Shade { Val = 78000 };
-
-			schemeColor7.Append(luminanceModulation6);
-			schemeColor7.Append(saturationModulation6);
-			schemeColor7.Append(shade2);
-
-			gradientStop6.Append(schemeColor7);
-
-			gradientStopList2.Append(gradientStop4);
-			gradientStopList2.Append(gradientStop5);
-			gradientStopList2.Append(gradientStop6);
 			var linearGradientFill2 = new DocumentFormat.OpenXml.Drawing.LinearGradientFill { Angle = 5400000, Scaled = false };
 
 			gradientFill2.Append(gradientStopList2);
@@ -499,51 +439,20 @@ namespace Accounting.Reports.OpenXml
 			var gradientFill3 = new DocumentFormat.OpenXml.Drawing.GradientFill { RotateWithShape = true };
 
 			var gradientStopList3 = new DocumentFormat.OpenXml.Drawing.GradientStopList();
+			gradientStopList3.Append(ThemePartHelper.DefineGradientStop(0, new PercentageValue[] {
+				new PositiveFixedPercentageValue<DocumentFormat.OpenXml.Drawing.Tint>(93000),
+				new PercentageValue<DocumentFormat.OpenXml.Drawing.SaturationModulation>(150000),
+				new PositiveFixedPercentageValue<DocumentFormat.OpenXml.Drawing.Shade>(98000),
+				new PercentageValue<DocumentFormat.OpenXml.Drawing.LuminanceModulation>(102000) }));
+			gradientStopList3.Append(ThemePartHelper.DefineGradientStop(50000, new PercentageValue[] {
+				new PositiveFixedPercentageValue<DocumentFormat.OpenXml.Drawing.Tint>(98000),
+				new PercentageValue<DocumentFormat.OpenXml.Drawing.SaturationModulation>(130000),
+				new PositiveFixedPercentageValue<DocumentFormat.OpenXml.Drawing.Shade>(90000),
+				new PercentageValue<DocumentFormat.OpenXml.Drawing.LuminanceModulation>(103000) }));
+			gradientStopList3.Append(ThemePartHelper.DefineGradientStop(100000, new PercentageValue[] {
+				new PositiveFixedPercentageValue<DocumentFormat.OpenXml.Drawing.Shade>(63000),
+				new PercentageValue<DocumentFormat.OpenXml.Drawing.SaturationModulation>(120000) }));
 
-			var gradientStop7 = new DocumentFormat.OpenXml.Drawing.GradientStop { Position = 0 };
-
-			var schemeColor13 = new DocumentFormat.OpenXml.Drawing.SchemeColor { Val = DocumentFormat.OpenXml.Drawing.SchemeColorValues.PhColor };
-			var tint6 = new DocumentFormat.OpenXml.Drawing.Tint { Val = 93000 };
-			var saturationModulation8 = new DocumentFormat.OpenXml.Drawing.SaturationModulation { Val = 150000 };
-			var shade3 = new DocumentFormat.OpenXml.Drawing.Shade { Val = 98000 };
-			var luminanceModulation7 = new DocumentFormat.OpenXml.Drawing.LuminanceModulation { Val = 102000 };
-
-			schemeColor13.Append(tint6);
-			schemeColor13.Append(saturationModulation8);
-			schemeColor13.Append(shade3);
-			schemeColor13.Append(luminanceModulation7);
-
-			gradientStop7.Append(schemeColor13);
-
-			var gradientStop8 = new DocumentFormat.OpenXml.Drawing.GradientStop { Position = 50000 };
-
-			var schemeColor14 = new DocumentFormat.OpenXml.Drawing.SchemeColor { Val = DocumentFormat.OpenXml.Drawing.SchemeColorValues.PhColor };
-			var tint7 = new DocumentFormat.OpenXml.Drawing.Tint { Val = 98000 };
-			var saturationModulation9 = new DocumentFormat.OpenXml.Drawing.SaturationModulation { Val = 130000 };
-			var shade4 = new DocumentFormat.OpenXml.Drawing.Shade { Val = 90000 };
-			var luminanceModulation8 = new DocumentFormat.OpenXml.Drawing.LuminanceModulation { Val = 103000 };
-
-			schemeColor14.Append(tint7);
-			schemeColor14.Append(saturationModulation9);
-			schemeColor14.Append(shade4);
-			schemeColor14.Append(luminanceModulation8);
-
-			gradientStop8.Append(schemeColor14);
-
-			var gradientStop9 = new DocumentFormat.OpenXml.Drawing.GradientStop { Position = 100000 };
-
-			var schemeColor15 = new DocumentFormat.OpenXml.Drawing.SchemeColor { Val = DocumentFormat.OpenXml.Drawing.SchemeColorValues.PhColor };
-			var shade5 = new DocumentFormat.OpenXml.Drawing.Shade { Val = 63000 };
-			var saturationModulation10 = new DocumentFormat.OpenXml.Drawing.SaturationModulation { Val = 120000 };
-
-			schemeColor15.Append(shade5);
-			schemeColor15.Append(saturationModulation10);
-
-			gradientStop9.Append(schemeColor15);
-
-			gradientStopList3.Append(gradientStop7);
-			gradientStopList3.Append(gradientStop8);
-			gradientStopList3.Append(gradientStop9);
 			var linearGradientFill3 = new DocumentFormat.OpenXml.Drawing.LinearGradientFill { Angle = 5400000, Scaled = false };
 
 			gradientFill3.Append(gradientStopList3);
