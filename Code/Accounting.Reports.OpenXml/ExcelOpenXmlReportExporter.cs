@@ -64,7 +64,7 @@ namespace Accounting.Reports.OpenXml
 			var vTVector = new DocumentFormat.OpenXml.VariantTypes.VTVector
 			{
 				BaseType = DocumentFormat.OpenXml.VariantTypes.VectorBaseValues.Variant,
-				Size = (UInt32Value)2U
+				Size = 2U
 			};
 
 			var variantPages = new DocumentFormat.OpenXml.VariantTypes.Variant();
@@ -87,7 +87,7 @@ namespace Accounting.Reports.OpenXml
 			var vTVectorTitlesOfParts = new DocumentFormat.OpenXml.VariantTypes.VTVector
 			{
 				BaseType = DocumentFormat.OpenXml.VariantTypes.VectorBaseValues.Lpstr,
-				Size = (UInt32Value)1U
+				Size = 1U
 			};
 			var vTLPSTRTitlesOfParts = new DocumentFormat.OpenXml.VariantTypes.VTLPSTR { Text = "Лист1" };
 
@@ -121,7 +121,7 @@ namespace Accounting.Reports.OpenXml
 			workbook.AddNamespaceDeclaration("mc", "http://schemas.openxmlformats.org/markup-compatibility/2006");
 			workbook.AddNamespaceDeclaration("x15", "http://schemas.microsoft.com/office/spreadsheetml/2010/11/main");
 			var fileVersion = new FileVersion { ApplicationName = "xl", LastEdited = "6", LowestEdited = "6", BuildVersion = "14420" };
-			var workbookProperties1 = new WorkbookProperties { DefaultThemeVersion = (UInt32Value)153222U };
+			var workbookProperties1 = new WorkbookProperties { DefaultThemeVersion = 153222U };
 
 			var alternateContent = new AlternateContent();
 			alternateContent.AddNamespaceDeclaration("mc", "http://schemas.openxmlformats.org/markup-compatibility/2006");
@@ -136,15 +136,15 @@ namespace Accounting.Reports.OpenXml
 			alternateContent.Append(alternateContentChoice);
 
 			var bookViews = new BookViews();
-			var workbookView = new WorkbookView { XWindow = 0, YWindow = 0, WindowWidth = (UInt32Value)28800U, WindowHeight = (UInt32Value)12435U };
+			var workbookView = new WorkbookView { XWindow = 0, YWindow = 0, WindowWidth = 28800U, WindowHeight = 12435U };
 
 			bookViews.Append(workbookView);
 
 			var sheets = new Sheets();
-			var sheet = new Sheet { Name = "Лист1", SheetId = (UInt32Value)1U, Id = "rId1" };
+			var sheet = new Sheet { Name = "Лист1", SheetId = 1U, Id = "rId1" };
 
 			sheets.Append(sheet);
-			var calculationProperties = new CalculationProperties { CalculationId = (UInt32Value)152511U, ReferenceMode = ReferenceModeValues.R1C1 };
+			var calculationProperties = new CalculationProperties { CalculationId = 152511U, ReferenceMode = ReferenceModeValues.R1C1 };
 
 			var workbookExtensionList = new WorkbookExtensionList();
 
@@ -181,7 +181,7 @@ namespace Accounting.Reports.OpenXml
 			defineFont(fonts, false);
 			defineFont(fonts, true);
 
-			var fills = new Fills { Count = (UInt32Value)2U };
+			var fills = new Fills { Count = 2U };
 
 			var fill1 = new Fill();
 			var patternFill1 = new PatternFill { PatternType = PatternValues.None };
@@ -200,32 +200,32 @@ namespace Accounting.Reports.OpenXml
 			defineBorder(borders, false);
 			defineBorder(borders, true);
 
-			var cellStyleFormats = new CellStyleFormats { Count = (UInt32Value)1U };
-			var cellFormat1 = new CellFormat { NumberFormatId = (UInt32Value)0U, FontId = (UInt32Value)0U, FillId = (UInt32Value)0U, BorderId = (UInt32Value)0U };
+			var cellStyleFormats = new CellStyleFormats { Count = 1U };
+			var cellFormat1 = new CellFormat { NumberFormatId = 0U, FontId = 0U, FillId = 0U, BorderId = 0U };
 
 			cellStyleFormats.Append(cellFormat1);
 
-			var cellFormats = new CellFormats { Count = (UInt32Value)4U };
-			var cellFormat2 = new CellFormat { NumberFormatId = (UInt32Value)0U, FontId = (UInt32Value)0U, FillId = (UInt32Value)0U, BorderId = (UInt32Value)0U, FormatId = (UInt32Value)0U };
+			var cellFormats = new CellFormats { Count = 4U };
+			var cellFormat2 = new CellFormat { NumberFormatId = 0U, FontId = 0U, FillId = 0U, BorderId = 0U, FormatId = 0U };
 
-			var cellFormat3 = new CellFormat { NumberFormatId = (UInt32Value)0U, FontId = (UInt32Value)0U, FillId = (UInt32Value)0U, BorderId = (UInt32Value)1U, FormatId = (UInt32Value)0U, ApplyBorder = true, ApplyAlignment = true };
+			var cellFormat3 = new CellFormat { NumberFormatId = 0U, FontId = 0U, FillId = 0U, BorderId = 1U, FormatId = 0U, ApplyBorder = true, ApplyAlignment = true };
 			var alignment1 = new Alignment { Vertical = VerticalAlignmentValues.Center, WrapText = true };
 
 			cellFormat3.Append(alignment1);
-			var cellFormat4 = new CellFormat { NumberFormatId = (UInt32Value)0U, FontId = (UInt32Value)1U, FillId = (UInt32Value)0U, BorderId = (UInt32Value)1U, FormatId = (UInt32Value)0U, ApplyFont = true, ApplyBorder = true };
-			var cellFormat5 = new CellFormat { NumberFormatId = (UInt32Value)0U, FontId = (UInt32Value)1U, FillId = (UInt32Value)0U, BorderId = (UInt32Value)0U, FormatId = (UInt32Value)0U, ApplyFont = true };
+			var cellFormat4 = new CellFormat { NumberFormatId = 0U, FontId = 1U, FillId = 0U, BorderId = 1U, FormatId = 0U, ApplyFont = true, ApplyBorder = true };
+			var cellFormat5 = new CellFormat { NumberFormatId = 0U, FontId = 1U, FillId = 0U, BorderId = 0U, FormatId = 0U, ApplyFont = true };
 
 			cellFormats.Append(cellFormat2);
 			cellFormats.Append(cellFormat3);
 			cellFormats.Append(cellFormat4);
 			cellFormats.Append(cellFormat5);
 
-			var cellStyles = new CellStyles { Count = (UInt32Value)1U };
-			var cellStyle = new CellStyle { Name = "Обычный", FormatId = (UInt32Value)0U, BuiltinId = (UInt32Value)0U };
+			var cellStyles = new CellStyles { Count = 1U };
+			var cellStyle = new CellStyle { Name = "Обычный", FormatId = 0U, BuiltinId = 0U };
 
 			cellStyles.Append(cellStyle);
-			var differentialFormats = new DifferentialFormats { Count = (UInt32Value)0U };
-			var tableStyles = new TableStyles { Count = (UInt32Value)0U, DefaultTableStyle = "TableStyleMedium2", DefaultPivotStyle = "PivotStyleLight16" };
+			var differentialFormats = new DifferentialFormats { Count = 0U };
+			var tableStyles = new TableStyles { Count = 0U, DefaultTableStyle = "TableStyleMedium2", DefaultPivotStyle = "PivotStyleLight16" };
 
 			var stylesheetExtensionList = new StylesheetExtensionList();
 			defineStylesheetExtension(
@@ -841,7 +841,7 @@ namespace Accounting.Reports.OpenXml
 
 			var sheetViews = new SheetViews();
 
-			var sheetView = new SheetView { TabSelected = true, WorkbookViewId = (UInt32Value)0U };
+			var sheetView = new SheetView { TabSelected = true, WorkbookViewId = 0U };
 			var selection = new Selection { ActiveCell = "E9", SequenceOfReferences = new ListValue<StringValue> { InnerText = "E9" } };
 
 			sheetView.Append(selection);
@@ -859,7 +859,7 @@ namespace Accounting.Reports.OpenXml
 
 			var sheetData = new SheetData();
 
-			var rowReportHeader = new Row { RowIndex = (UInt32Value)2U, Spans = new ListValue<StringValue> { InnerText = "2:5" }, DyDescent = 0.25D };
+			var rowReportHeader = new Row { RowIndex = 2U, Spans = new ListValue<StringValue> { InnerText = "2:5" }, DyDescent = 0.25D };
 
 			var cellReportHeader = new Cell { CellReference = "B2", StyleIndex = 3U, DataType = CellValues.String };
 			cellReportHeader.Append(new CellValue { Text = report.Title });
@@ -889,7 +889,7 @@ namespace Accounting.Reports.OpenXml
 			}
 
 			var pageMargins = new PageMargins { Left = 0.7D, Right = 0.7D, Top = 0.75D, Bottom = 0.75D, Header = 0.3D, Footer = 0.3D };
-			var pageSetup = new PageSetup { PaperSize = (UInt32Value)9U, Orientation = OrientationValues.Portrait, Id = "rId1" };
+			var pageSetup = new PageSetup { PaperSize = 9U, Orientation = OrientationValues.Portrait, Id = "rId1" };
 
 			worksheet.Append(sheetDimension);
 			worksheet.Append(sheetViews);
