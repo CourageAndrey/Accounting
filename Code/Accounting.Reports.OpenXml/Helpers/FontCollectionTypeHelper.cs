@@ -8,12 +8,14 @@ namespace Accounting.Reports.OpenXml.Helpers
 	[SuppressMessage("ReSharper", "PossiblyMistakenUseOfParamsMethod")]
 	public static class FontCollectionTypeHelper
 	{
-		public static void DefineFontScripts(
-			this FontCollectionType fontCollectionType,
+		public static TFontCollection DefineFontCollectionType<TFontCollection>(
 			string latinFontTypeface,
 			string latinFontPanose,
 			IDictionary<string, string> additionalSuplementalFonts)
+			where TFontCollection : FontCollectionType, new()
 		{
+			var fontCollectionType = new TFontCollection();
+
 			var latinFont = new LatinFont
 			{
 				Typeface = latinFontTypeface,
@@ -43,6 +45,8 @@ namespace Accounting.Reports.OpenXml.Helpers
 
 				fontCollectionType.Append(supplementalFont);
 			}
+
+			return fontCollectionType;
 		}
 
 		private static readonly IReadOnlyCollection<string> AllFontScripts = new[]

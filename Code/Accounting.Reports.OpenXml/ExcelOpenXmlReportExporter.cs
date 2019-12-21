@@ -276,21 +276,14 @@ namespace Accounting.Reports.OpenXml
 			colorScheme.Append(ThemePartHelper.DefineColorAsRgb<DocumentFormat.OpenXml.Drawing.FollowedHyperlinkColor>("954F72"));
 
 			var fontScheme = new DocumentFormat.OpenXml.Drawing.FontScheme { Name = "Стандартная" };
-
-			var majorFont = new DocumentFormat.OpenXml.Drawing.MajorFont();
-			majorFont.DefineFontScripts(
+			fontScheme.Append(FontCollectionTypeHelper.DefineFontCollectionType<DocumentFormat.OpenXml.Drawing.MajorFont>(
 				"Calibri Light",
 				"020F0302020204030204",
-				FontCollectionTypeHelper.MajorSupplementalFonts);
-
-			var minorFont = new DocumentFormat.OpenXml.Drawing.MinorFont();
-			minorFont.DefineFontScripts(
+				FontCollectionTypeHelper.MajorSupplementalFonts));
+			fontScheme.Append(FontCollectionTypeHelper.DefineFontCollectionType<DocumentFormat.OpenXml.Drawing.MinorFont>(
 				"Calibri",
 				"020F0502020204030204",
-				FontCollectionTypeHelper.MinorSupplementalFonts);
-
-			fontScheme.Append(majorFont);
-			fontScheme.Append(minorFont);
+				FontCollectionTypeHelper.MinorSupplementalFonts));
 
 			var formatScheme = new DocumentFormat.OpenXml.Drawing.FormatScheme { Name = "Стандартная" };
 
