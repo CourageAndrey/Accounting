@@ -872,7 +872,7 @@ namespace Accounting.Reports.OpenXml
 			for (int c = 0; c < reportColumns.Count; c++)
 			{
 				var headerCell = new Cell { CellReference = (char)('B' + c) + "4", StyleIndex = 2U, DataType = CellValues.String };
-				headerCell.Append(new CellValue { Text = reportColumns[c].Header.ToString() });
+				headerCell.Append(new CellValue { Text = reportColumns[c].Header });
 				rowTableHeader.Append(headerCell);
 			}
 			sheetData.Append(rowTableHeader);
