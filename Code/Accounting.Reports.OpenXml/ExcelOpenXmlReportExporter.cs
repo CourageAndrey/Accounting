@@ -180,8 +180,8 @@ namespace Accounting.Reports.OpenXml
 				Count = 2U,
 				KnownFonts = true
 			};
-			defineFont(fonts, false);
-			defineFont(fonts, true);
+			fonts.Append(defineFont(false));
+			fonts.Append(defineFont(true));
 
 			var fills = new Fills { Count = 2U };
 
@@ -199,8 +199,8 @@ namespace Accounting.Reports.OpenXml
 			fills.Append(fill2);
 
 			var borders = new Borders { Count = 2U };
-			defineBorder(borders, false);
-			defineBorder(borders, true);
+			borders.Append(defineBorder(false));
+			borders.Append(defineBorder(true));
 
 			var cellStyleFormats = new CellStyleFormats { Count = 1U };
 			var cellFormat1 = new CellFormat { NumberFormatId = 0U, FontId = 0U, FillId = 0U, BorderId = 0U };
@@ -230,18 +230,16 @@ namespace Accounting.Reports.OpenXml
 			var tableStyles = new TableStyles { Count = 0U, DefaultTableStyle = "TableStyleMedium2", DefaultPivotStyle = "PivotStyleLight16" };
 
 			var stylesheetExtensionList = new StylesheetExtensionList();
-			defineStylesheetExtension(
-				stylesheetExtensionList,
+			stylesheetExtensionList.Append(defineStylesheetExtension(
 				"{EB79DEF2-80B8-43e5-95BD-54CBDDF9020C}",
 				"x14",
 				"http://schemas.microsoft.com/office/spreadsheetml/2009/9/main",
-				"SlicerStyleLight1");
-			defineStylesheetExtension(
-				stylesheetExtensionList,
+				"SlicerStyleLight1"));
+			stylesheetExtensionList.Append(defineStylesheetExtension(
 				"{9260A510-F301-46a8-8635-F512D64BE5F5}",
 				"x15",
 				"http://schemas.microsoft.com/office/spreadsheetml/2010/11/main",
-				"TimeSlicerStyleLight1");
+				"TimeSlicerStyleLight1"));
 
 			stylesheet.Append(fonts);
 			stylesheet.Append(fills);
@@ -256,7 +254,7 @@ namespace Accounting.Reports.OpenXml
 			workbookStylesPart.Stylesheet = stylesheet;
 		}
 
-		private static void defineBorder(Borders borders, bool isThin)
+		private static Border defineBorder(bool isThin)
 		{
 			var border = new Border();
 
@@ -280,10 +278,10 @@ namespace Accounting.Reports.OpenXml
 				border.Append(sideBorder);
 			}
 
-			borders.Append(border);
+			return border;
 		}
 
-		private static void defineFont(Fonts fonts, bool isBold)
+		private static Font defineFont(bool isBold)
 		{
 			var font = new Font();
 
@@ -298,11 +296,10 @@ namespace Accounting.Reports.OpenXml
 			font.Append(new FontCharSet { Val = 204 });
 			font.Append(new FontScheme { Val = FontSchemeValues.Minor });
 
-			fonts.Append(font);
+			return font;
 		}
 
-		private static void defineStylesheetExtension(
-			StylesheetExtensionList stylesheetExtensions,
+		private static StylesheetExtension defineStylesheetExtension(
 			string guidUri,
 			string namespacePrefix,
 			string namespaceUri,
@@ -314,7 +311,7 @@ namespace Accounting.Reports.OpenXml
 
 			stylesheetExtension.Append(styles);
 
-			stylesheetExtensions.Append(stylesheetExtension);
+			return stylesheetExtension;
 		}
 
 		private static void generateThemePartContent(ThemePart themePart)
@@ -717,7 +714,7 @@ namespace Accounting.Reports.OpenXml
 		}
 
 		private static void defineFontScripts(
-			DocumentFormat.OpenXml.Drawing.FontCollectionType font,
+			DocumentFormat.OpenXml.Drawing.FontCollectionType fontCollectionType,
 			string latinFontTypeface,
 			string latinFontPanose,
 			IDictionary<string, string> additionalSuplementalFonts)
@@ -727,13 +724,13 @@ namespace Accounting.Reports.OpenXml
 				Typeface = latinFontTypeface,
 				Panose = latinFontPanose,
 			};
-			font.Append(latinFont);
+			fontCollectionType.Append(latinFont);
 
 			var asianFont = new DocumentFormat.OpenXml.Drawing.EastAsianFont { Typeface = "" };
-			font.Append(asianFont);
+			fontCollectionType.Append(asianFont);
 
 			var complexScriptFont = new DocumentFormat.OpenXml.Drawing.ComplexScriptFont { Typeface = "" };
-			font.Append(complexScriptFont);
+			fontCollectionType.Append(complexScriptFont);
 
 			foreach (string fontScript in allFontScripts)
 			{
@@ -749,7 +746,7 @@ namespace Accounting.Reports.OpenXml
 					Typeface = fontTypeface,
 				};
 
-				font.Append(supplementalFont);
+				fontCollectionType.Append(supplementalFont);
 			}
 		}
 
