@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
@@ -14,6 +13,7 @@ using Accounting.Core.BusinessLogic;
 using Accounting.Core.Helpers;
 using Accounting.Core.Reports;
 using Accounting.UI.WPF.Dialogs;
+using Accounting.UI.WPF.Helpers;
 
 namespace Accounting.UI.WPF
 {
@@ -54,13 +54,13 @@ namespace Accounting.UI.WPF
 			reportControl.Report = null;
 
 			// справочники
-			refreshGrid(productsGrid);
+			productsGrid.RefreshGrid();
 			reloadComplexProducts();
-			refreshGrid(unitsGrid);
+			unitsGrid.RefreshGrid();
 			documentTypesGrid.ItemsSource = DocumentType.All;
 
-			updateButtonsAvailability(productsGrid, buttonEditProduct, buttonDeleteProduct);
-			updateButtonsAvailability(unitsGrid, buttonEditUnit, buttonDeleteUnit);
+			productsGrid.UpdateButtonsAvailability(buttonEditProduct, buttonDeleteProduct);
+			unitsGrid.UpdateButtonsAvailability(buttonEditUnit, buttonDeleteUnit);
 		}
 
 		#endregion
@@ -316,7 +316,7 @@ namespace Accounting.UI.WPF
 				{
 					var instance = viewModel.ConvertToBusinessLogic(_application.Database);
 					_application.DatabaseDriver.Save(_application.Database);
-					refreshGrid(productsGrid, instance);
+					productsGrid.RefreshGrid(instance);
 				}
 				catch (Exception error)
 				{
@@ -351,7 +351,7 @@ namespace Accounting.UI.WPF
 					{
 						instance = viewModel.ConvertToBusinessLogic(_application.Database);
 						_application.DatabaseDriver.Save(_application.Database);
-						refreshGrid(productsGrid, instance);
+						productsGrid.RefreshGrid(instance);
 						reloadComplexProducts();
 					}
 					catch (Exception error)
@@ -383,13 +383,13 @@ namespace Accounting.UI.WPF
 				_application.Database.Products.Remove(item.ID);
 			}
 			_application.DatabaseDriver.Save(_application.Database);
-			refreshGrid(productsGrid);
+			productsGrid.RefreshGrid();
 			reloadComplexProducts();
 		}
 
 		private void selectedProductsChanged(object sender, SelectionChangedEventArgs e)
 		{
-			updateButtonsAvailability(productsGrid, buttonEditProduct, buttonDeleteProduct);
+			productsGrid.UpdateButtonsAvailability(buttonEditProduct, buttonDeleteProduct);
 		}
 
 		#endregion
@@ -408,7 +408,7 @@ namespace Accounting.UI.WPF
 				{
 					var instance = viewModel.ConvertToBusinessLogic(_application.Database);
 					_application.DatabaseDriver.Save(_application.Database);
-					refreshGrid(unitsGrid, instance);
+					unitsGrid.RefreshGrid(instance);
 				}
 				catch (Exception error)
 				{
@@ -442,7 +442,7 @@ namespace Accounting.UI.WPF
 					{
 						instance = viewModel.ConvertToBusinessLogic(_application.Database);
 						_application.DatabaseDriver.Save(_application.Database);
-						refreshGrid(unitsGrid, instance);
+						unitsGrid.RefreshGrid(instance);
 					}
 					catch (Exception error)
 					{
@@ -473,33 +473,17 @@ namespace Accounting.UI.WPF
 				_application.Database.Units.Remove(item.ID);
 			}
 			_application.DatabaseDriver.Save(_application.Database);
-			refreshGrid(unitsGrid);
+			unitsGrid.RefreshGrid();
 		}
 
 		private void selectedUnitsChanged(object sender, SelectionChangedEventArgs e)
 		{
-			updateButtonsAvailability(unitsGrid, buttonEditUnit, buttonDeleteUnit);
+			unitsGrid.UpdateButtonsAvailability(buttonEditUnit, buttonDeleteUnit);
 		}
 
 		#endregion
 
 		#endregion
-
-		private void refreshGrid(DataGrid grid, object selectedItem = null)
-		{
-			grid.ItemsSource = null;
-			grid.ItemsSource = (IEnumerable) grid.Tag;
-			if (selectedItem != null)
-			{
-				grid.SelectedItem = selectedItem;
-			}
-		}
-
-		private void updateButtonsAvailability(DataGrid grid, Button editButton, Button deleteButton)
-		{
-			editButton.IsEnabled = grid.SelectedItems.Count == 1;
-			deleteButton.IsEnabled = grid.SelectedItems.Count > 0;
-		}
 
 		private void newReportClick(object sender, MouseButtonEventArgs e)
 		{

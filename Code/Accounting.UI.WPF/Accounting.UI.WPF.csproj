@@ -53,6 +53,7 @@
     <Compile Include="Dialogs\LongTextDialog.xaml.cs">
       <DependentUpon>LongTextDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\GridHelper.cs" />
     <Compile Include="WpfAccountingApplication.cs" />
     <Compile Include="Controls\ReportControl.xaml.cs">
       <DependentUpon>ReportControl.xaml</DependentUpon>
