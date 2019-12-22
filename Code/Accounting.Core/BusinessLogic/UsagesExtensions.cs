@@ -30,6 +30,7 @@ namespace Accounting.Core.BusinessLogic
 		{
 			{ typeof(Unit), findUsagesOfUnit },
 			{ typeof(Product), findUsagesOfProduct },
+			{ typeof(Document), findUsagesOfDocument },
 		};
 
 		private static StringBuilder findUsagesOfUnit(IEntity entity, Database database)
@@ -88,5 +89,9 @@ namespace Accounting.Core.BusinessLogic
 			return message;
 		}
 
+		private static StringBuilder findUsagesOfDocument(IEntity entity, Database database)
+		{
+			return new StringBuilder();
+		}
 	}
 }
