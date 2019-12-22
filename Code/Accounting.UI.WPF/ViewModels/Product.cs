@@ -76,23 +76,18 @@ namespace Accounting.UI.WPF.ViewModels
 
 		#endregion
 
-		public override Accounting.Core.BusinessLogic.Product ConvertToBusinessLogic(Accounting.Core.BusinessLogic.Database database)
+		public override Accounting.Core.BusinessLogic.Product CreateNewEntity()
 		{
-			Accounting.Core.BusinessLogic.Product instance;
-			if (ID.HasValue)
-			{
-				instance = database.Products[ID.Value];
-			}
-			else
-			{
-				database.Products.Add(instance = new Accounting.Core.BusinessLogic.Product());
-			}
-			instance.Name = Name;
-			instance.Unit = Unit;
-			instance.Children = Children.ToDictionary(
+			return new Accounting.Core.BusinessLogic.Product();
+		}
+
+		public override void UpdateProperties(Accounting.Core.BusinessLogic.Product entity, Accounting.Core.BusinessLogic.Database database)
+		{
+			entity.Name = Name;
+			entity.Unit = Unit;
+			entity.Children = Children.ToDictionary(
 				child => database.Products[child.ID],
 				child => child.Count);
-			return instance;
 		}
 	}
 }

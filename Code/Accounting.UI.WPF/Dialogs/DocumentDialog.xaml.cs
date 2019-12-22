@@ -8,6 +8,9 @@ using System.Windows.Input;
 using Accounting.Core.Application;
 using Accounting.Core.BusinessLogic;
 using Accounting.UI.WPF.Helpers;
+using Accounting.UI.WPF.ViewModels;
+using Document = Accounting.Core.BusinessLogic.Document;
+using Product = Accounting.Core.BusinessLogic.Product;
 
 namespace Accounting.UI.WPF.Dialogs
 {
@@ -58,7 +61,7 @@ namespace Accounting.UI.WPF.Dialogs
 				if (isValid)
 				{
 					var documentStub = new Document(EditValue.ID, EditValue.Type, DocumentState.Active);
-					EditValue.ApplyChanges(documentStub, _application.Database.Products);
+					(EditValue as ViewModelBase<Document>).UpdateProperties(documentStub, _application.Database);
 					isValid &= (!EditValue.ID.HasValue || _application.Database.Documents[EditValue.ID.Value].State != DocumentState.Active)
 						? _application.Settings.BusinessLogic.BalanceValidationStrategy.VerifyCreate(_application.Database, documentStub, errors)
 						: _application.Settings.BusinessLogic.BalanceValidationStrategy.VerifyEdit(_application.Database, documentStub, errors);

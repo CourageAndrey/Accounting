@@ -50,29 +50,34 @@ namespace Accounting.UI.WPF.ViewModels
 
 		public override Accounting.Core.BusinessLogic.Document ConvertToBusinessLogic(Accounting.Core.BusinessLogic.Database database)
 		{
-			Accounting.Core.BusinessLogic.Document instance;
+			Accounting.Core.BusinessLogic.Document entity;
 			if (ID.HasValue)
 			{
 				var previousVersion = database.Documents[ID.Value];
-				instance = new Accounting.Core.BusinessLogic.Document(previousVersion.ID, previousVersion.Type, Accounting.Core.BusinessLogic.DocumentState.Active);
+				entity = new Accounting.Core.BusinessLogic.Document(previousVersion.ID, previousVersion.Type, Accounting.Core.BusinessLogic.DocumentState.Active);
 				previousVersion.MakeObsolete(database.Balance, Accounting.Core.BusinessLogic.DocumentState.Edited);
 			}
 			else
 			{
-				instance = new Accounting.Core.BusinessLogic.Document(Type);
+				entity = CreateNewEntity();
 			}
-			database.Documents.Add(instance);
-			ApplyChanges(instance, database.Products);
-			instance.ApplyBalanceChanges(database.Balance);
-			return instance;
+			database.Documents.Add(entity);
+			UpdateProperties(entity, database);
+			entity.ApplyBalanceChanges(database.Balance);
+			return entity;
 		}
 
-		internal void ApplyChanges(Accounting.Core.BusinessLogic.Document document, Accounting.Core.BusinessLogic.Registry<Accounting.Core.BusinessLogic.Product> products)
+		public override Accounting.Core.BusinessLogic.Document CreateNewEntity()
 		{
-			document.Number = Number;
-			document.Date = Date;
-			document.Positions = Positions.ToDictionary(
-				position => products[position.ID],
+			return new Accounting.Core.BusinessLogic.Document(Type);
+		}
+
+		public override void UpdateProperties(Accounting.Core.BusinessLogic.Document entity, Accounting.Core.BusinessLogic.Database database)
+		{
+			entity.Number = Number;
+			entity.Date = Date;
+			entity.Positions = Positions.ToDictionary(
+				position => database.Products[position.ID],
 				position => position.Count);
 		}
 	}
