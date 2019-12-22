@@ -54,6 +54,7 @@
       <DependentUpon>LongTextDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\GridHelper.cs" />
+    <Compile Include="UiFactory.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="WpfAccountingApplication.cs" />
     <Compile Include="Controls\ReportControl.xaml.cs">

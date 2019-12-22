@@ -30,12 +30,12 @@ namespace Accounting.UI.WPF
 
 		public void ConnectTo(IAccountingApplication application)
 		{
-			_application = application;
+			_application = (WpfAccountingApplication) application;
 			reportControl.ConnectTo(application);
 			FontSize = application.Settings.UserInterface.FontSize;
 		}
 
-		private IAccountingApplication _application;
+		private WpfAccountingApplication _application;
 
 		private void formLoaded(object sender, RoutedEventArgs e)
 		{
@@ -306,15 +306,13 @@ namespace Accounting.UI.WPF
 
 		private void productAddClick(object sender, RoutedEventArgs e)
 		{
-			var viewModel = new Accounting.UI.WPF.ViewModels.Product();
-			var dialog = new ProductDialog { Owner = this };
-			dialog.ConnectTo(_application);
-			dialog.EditValue = viewModel;
-			if (dialog.ShowDialog() == true)
+			var viewModel = _application.UiFactory.CreateViewModel(typeof(Product));
+			var dialog = _application.UiFactory.CreateEditDialog(viewModel, _application);
+			if (((Window) dialog).ShowDialog() == true)
 			{
 				try
 				{
-					var instance = viewModel.ConvertToBusinessLogic(_application.Database);
+					var instance = viewModel.ConvertToEntity(_application.Database);
 					_application.DatabaseDriver.Save(_application.Database);
 					productsGrid.RefreshGrid(instance);
 				}
@@ -328,7 +326,7 @@ namespace Accounting.UI.WPF
 
 		private void productEditClick(object sender, RoutedEventArgs e)
 		{
-			var selectedItems = productsGrid.SelectedItems.OfType<Product>().ToList();
+			var selectedItems = productsGrid.SelectedItems.OfType<IEntity>().ToList();
 			if (selectedItems.Count > 0)
 			{
 				var instance = selectedItems[0];
@@ -341,15 +339,13 @@ namespace Accounting.UI.WPF
 					return;
 				}
 
-				var viewModel = new Accounting.UI.WPF.ViewModels.Product(instance);
-				var dialog = new ProductDialog { Owner = this };
-				dialog.ConnectTo(_application);
-				dialog.EditValue = viewModel;
-				if (dialog.ShowDialog() == true)
+				var viewModel = _application.UiFactory.CreateViewModel(instance);
+				var dialog = _application.UiFactory.CreateEditDialog(viewModel, _application);
+				if (((Window) dialog).ShowDialog() == true)
 				{
 					try
 					{
-						instance = viewModel.ConvertToBusinessLogic(_application.Database);
+						instance = viewModel.ConvertToEntity(_application.Database);
 						_application.DatabaseDriver.Save(_application.Database);
 						productsGrid.RefreshGrid(instance);
 						reloadComplexProducts();
@@ -364,7 +360,7 @@ namespace Accounting.UI.WPF
 
 		private void productDeleteClick(object sender, RoutedEventArgs e)
 		{
-			var selectedItems = productsGrid.SelectedItems.OfType<Product>().ToList();
+			var selectedItems = productsGrid.SelectedItems.OfType<IEntity>().ToList();
 			if (selectedItems.Count < 1) return;
 			var message = new StringBuilder();
 			foreach (var item in selectedItems)
@@ -380,7 +376,7 @@ namespace Accounting.UI.WPF
 			}
 			foreach (var item in selectedItems)
 			{
-				_application.Database.Products.Remove(item.ID);
+				_application.Database.GetRegistry(item.GetType()).Remove(item.ID);
 			}
 			_application.DatabaseDriver.Save(_application.Database);
 			productsGrid.RefreshGrid();
@@ -398,15 +394,13 @@ namespace Accounting.UI.WPF
 
 		private void unitAddClick(object sender, RoutedEventArgs e)
 		{
-			var viewModel = new Accounting.UI.WPF.ViewModels.Unit();
-			var dialog = new UnitDialog { Owner = this };
-			dialog.ConnectTo(_application);
-			dialog.EditValue = viewModel;
-			if (dialog.ShowDialog() == true)
+			var viewModel = _application.UiFactory.CreateViewModel(typeof(Unit));
+			var dialog = _application.UiFactory.CreateEditDialog(viewModel, _application);
+			if (((Window) dialog).ShowDialog() == true)
 			{
 				try
 				{
-					var instance = viewModel.ConvertToBusinessLogic(_application.Database);
+					var instance = viewModel.ConvertToEntity(_application.Database);
 					_application.DatabaseDriver.Save(_application.Database);
 					unitsGrid.RefreshGrid(instance);
 				}
@@ -419,7 +413,7 @@ namespace Accounting.UI.WPF
 
 		private void unitEditClick(object sender, RoutedEventArgs e)
 		{
-			var selectedItems = unitsGrid.SelectedItems.OfType<Unit>().ToList();
+			var selectedItems = unitsGrid.SelectedItems.OfType<IEntity>().ToList();
 			if (selectedItems.Count > 0)
 			{
 				var instance = selectedItems[0];
@@ -432,15 +426,13 @@ namespace Accounting.UI.WPF
 					return;
 				}
 
-				var viewModel = new Accounting.UI.WPF.ViewModels.Unit(instance);
-				var dialog = new UnitDialog { Owner = this };
-				dialog.ConnectTo(_application);
-				dialog.EditValue = viewModel;
-				if (dialog.ShowDialog() == true)
+				var viewModel = _application.UiFactory.CreateViewModel(instance);
+				var dialog = _application.UiFactory.CreateEditDialog(viewModel, _application);
+				if (((Window) dialog).ShowDialog() == true)
 				{
 					try
 					{
-						instance = viewModel.ConvertToBusinessLogic(_application.Database);
+						instance = viewModel.ConvertToEntity(_application.Database);
 						_application.DatabaseDriver.Save(_application.Database);
 						unitsGrid.RefreshGrid(instance);
 					}
@@ -454,7 +446,7 @@ namespace Accounting.UI.WPF
 
 		private void unitDeleteClick(object sender, RoutedEventArgs e)
 		{
-			var selectedItems = unitsGrid.SelectedItems.OfType<Unit>().ToList();
+			var selectedItems = unitsGrid.SelectedItems.OfType<IEntity>().ToList();
 			if (selectedItems.Count < 1) return;
 			var message = new StringBuilder();
 			foreach (var item in selectedItems)
@@ -470,7 +462,7 @@ namespace Accounting.UI.WPF
 			}
 			foreach (var item in selectedItems)
 			{
-				_application.Database.Units.Remove(item.ID);
+				_application.Database.GetRegistry(item.GetType()).Remove(item.ID);
 			}
 			_application.DatabaseDriver.Save(_application.Database);
 			unitsGrid.RefreshGrid();

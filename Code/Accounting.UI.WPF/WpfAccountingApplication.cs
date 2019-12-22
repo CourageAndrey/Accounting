@@ -31,12 +31,17 @@ namespace Accounting.UI.WPF
 		public Database Database
 		{ get; }
 
+		public virtual IUiFactory UiFactory
+		{ get; }
+
 		#endregion
 
 		public WpfAccountingApplication()
 		{
 			var appDomain = AppDomain.CurrentDomain;
 			setupExceptionHandling(appDomain);
+
+			UiFactory = new UiFactory();
 
 			StartupPath = appDomain.BaseDirectory;
 			this.LoadPlugins(new DirectoryInfo(Path.Combine(StartupPath, "Plugins")));
