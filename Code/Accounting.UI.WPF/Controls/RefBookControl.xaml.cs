@@ -65,54 +65,17 @@ namespace Accounting.UI.WPF.Controls
 		private void buttonAddClick(object sender, RoutedEventArgs e)
 		{
 			var viewModel = _application.UiFactory.CreateViewModel(_entityType);
-			var dialog = _application.UiFactory.CreateEditDialog(viewModel, _application);
-			if (((Window) dialog).ShowDialog() == true)
+			if (grid.AddNewEntity(viewModel, _application, _entityType))
 			{
-				try
-				{
-					var instance = viewModel.ConvertToEntity(_application.Database);
-					_application.DatabaseDriver.Save(_application.Database);
-					grid.RefreshGrid(instance);
-					raiseChanged();
-				}
-				catch (Exception error)
-				{
-					MessageBox.Show(error.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-				}
+				raiseChanged();
 			}
 		}
 
 		private void buttonEditClick(object sender, RoutedEventArgs e)
 		{
-			var selectedItems = grid.SelectedItems.OfType<IEntity>().ToList();
-			if (selectedItems.Count > 0)
+			if (grid.EditEntity(_application, _entityType))
 			{
-				var instance = selectedItems[0];
-
-				var message = instance.FindUsages(_application.Database);
-				if (message.Length > 0 && !LongTextDialog.Ask(
-					message.ToString(),
-					"Редактирование приведёт к дополнительным изменениям. Продолжить?"))
-				{
-					return;
-				}
-
-				var viewModel = _application.UiFactory.CreateViewModel(instance);
-				var dialog = _application.UiFactory.CreateEditDialog(viewModel, _application);
-				if (((Window) dialog).ShowDialog() == true)
-				{
-					try
-					{
-						instance = viewModel.ConvertToEntity(_application.Database);
-						_application.DatabaseDriver.Save(_application.Database);
-						grid.RefreshGrid(instance);
-						raiseChanged();
-					}
-					catch (Exception error)
-					{
-						MessageBox.Show(error.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-					}
-				}
+				raiseChanged();
 			}
 		}
 
