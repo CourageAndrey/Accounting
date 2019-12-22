@@ -50,6 +50,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\RefBookControl.xaml.cs">
+      <DependentUpon>RefBookControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\LongTextDialog.xaml.cs">
       <DependentUpon>LongTextDialog.xaml</DependentUpon>
     </Compile>
@@ -86,6 +89,10 @@
     <Compile Include="WpfUiPlugin.cs" />
     <Compile Include="WpfUserInterfaceDriver.cs" />
     <Compile Include="WpfUserInterface.cs" />
+    <Page Include="Controls\RefBookControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\ReportControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

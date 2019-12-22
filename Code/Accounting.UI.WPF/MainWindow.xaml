@@ -100,19 +100,7 @@
 		<TabItem Header="Справочники">
 			<TabControl TabStripPlacement="Left">
 				<TabItem Header="Товары">
-					<DockPanel LastChildFill="True">
-						<StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
-							<Button Content="Добавить" Name="buttonAddProduct" Margin="5" Padding="5,2,5,2" Click="productAddClick" />
-							<Button Content="Редактировать" Name="buttonEditProduct" Margin="5" Padding="5,2,5,2" Click="productEditClick" />
-							<Button Content="Удалить" Name="buttonDeleteProduct" Margin="5" Padding="5,2,5,2" Click="productDeleteClick" />
-						</StackPanel>
-						<DataGrid Name="productsGrid" IsReadOnly="True" AutoGenerateColumns="False" SelectionChanged="selectedProductsChanged">
-							<DataGrid.Columns>
-								<DataGridTextColumn Header="Наименование" Binding="{Binding Path=Name, Mode=OneTime}" MinWidth="300"/>
-								<DataGridTextColumn Header="Ед/изм" Binding="{Binding Path=Unit.Name, Mode=OneTime}" MinWidth="50"/>
-							</DataGrid.Columns>
-						</DataGrid>
-					</DockPanel>
+					<controls:RefBookControl x:Name="refBookControlProducts" Changed="refBookChanged" />
 				</TabItem>
 				<TabItem Header="Производимая продукция">
 					<TreeView Name="treeViewComplexProducts">
@@ -124,19 +112,7 @@
 					</TreeView>
 				</TabItem>
 				<TabItem Header="Единицы измерения">
-					<DockPanel LastChildFill="True">
-						<StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
-							<Button Content="Добавить" Name="buttonAddUnit" Margin="5" Padding="5,2,5,2" Click="unitAddClick" />
-							<Button Content="Редактировать" Name="buttonEditUnit" Margin="5" Padding="5,2,5,2" Click="unitEditClick" />
-							<Button Content="Удалить" Name="buttonDeleteUnit" Margin="5" Padding="5,2,5,2" Click="unitDeleteClick" />
-						</StackPanel>
-						<DataGrid Name="unitsGrid" IsReadOnly="True" AutoGenerateColumns="False" SelectionChanged="selectedUnitsChanged">
-							<DataGrid.Columns>
-								<DataGridTextColumn Header="Название" Binding="{Binding Path=Name, Mode=OneTime}" MinWidth="200"/>
-								<DataGridTextColumn Header="Сокращение" Binding="{Binding Path=ShortName, Mode=OneTime}" MinWidth="100"/>
-							</DataGrid.Columns>
-						</DataGrid>
-					</DockPanel>
+					<controls:RefBookControl x:Name="refBookControlUnits" Changed="refBookChanged" />
 				</TabItem>
 				<TabItem Header="Типы документов">
 					<DataGrid Name="documentTypesGrid" IsReadOnly="True" AutoGenerateColumns="False">

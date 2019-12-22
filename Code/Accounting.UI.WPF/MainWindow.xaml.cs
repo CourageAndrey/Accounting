@@ -13,7 +13,6 @@ using Accounting.Core.BusinessLogic;
 using Accounting.Core.Helpers;
 using Accounting.Core.Reports;
 using Accounting.UI.WPF.Dialogs;
-using Accounting.UI.WPF.Helpers;
 
 namespace Accounting.UI.WPF
 {
@@ -31,7 +30,43 @@ namespace Accounting.UI.WPF
 		public void ConnectTo(IAccountingApplication application)
 		{
 			_application = (WpfAccountingApplication) application;
+
 			reportControl.ConnectTo(application);
+
+			refBookControlUnits.ConnectTo(application);
+			refBookControlUnits.Initialize(typeof(Unit), new DataGridColumn[]
+			{
+				new DataGridTextColumn
+				{
+					Header = "Название",
+					Binding = new Binding("Name") { Mode = BindingMode.OneTime },
+					MinWidth = 200,
+				},
+				new DataGridTextColumn
+				{
+					Header = "Сокращение",
+					Binding = new Binding("ShortName") { Mode = BindingMode.OneTime },
+					MinWidth = 100,
+				},
+			});
+
+			refBookControlProducts.ConnectTo(application);
+			refBookControlProducts.Initialize(typeof(Product), new DataGridColumn[]
+			{
+				new DataGridTextColumn
+				{
+					Header = "Наименование",
+					Binding = new Binding("Name") { Mode = BindingMode.OneTime },
+					MinWidth = 300,
+				},
+				new DataGridTextColumn
+				{
+					Header = "Ед/изм",
+					Binding = new Binding("Unit.Name") { Mode = BindingMode.OneTime },
+					MinWidth = 50,
+				},
+			});
+
 			FontSize = application.Settings.UserInterface.FontSize;
 		}
 
@@ -39,10 +74,6 @@ namespace Accounting.UI.WPF
 
 		private void formLoaded(object sender, RoutedEventArgs e)
 		{
-			// подготовка таблиц к заполнению
-			unitsGrid.Tag = _application.Database.Units;
-			productsGrid.Tag = _application.Database.Products;
-
 			// документы
 			stateColumn.Visibility = checkBoxShowObsoleteDocuments.IsChecked == true ? Visibility.Visible : Visibility.Collapsed;
 			_documentsViewSource.Source = _application.Database.Documents;
@@ -54,13 +85,8 @@ namespace Accounting.UI.WPF
 			reportControl.Report = null;
 
 			// справочники
-			productsGrid.RefreshGrid();
 			reloadComplexProducts();
-			unitsGrid.RefreshGrid();
 			documentTypesGrid.ItemsSource = DocumentType.All;
-
-			productsGrid.UpdateButtonsAvailability(buttonEditProduct, buttonDeleteProduct);
-			unitsGrid.UpdateButtonsAvailability(buttonEditUnit, buttonDeleteUnit);
 		}
 
 		#endregion
@@ -297,183 +323,15 @@ namespace Accounting.UI.WPF
 
 		#region Работа со справочниками
 
-		#region Товары
-
 		private void reloadComplexProducts()
 		{
 			treeViewComplexProducts.ItemsSource = _application.Database.Products.Where(p => p.Children.Count > 0).ToList();
 		}
 
-		private void productAddClick(object sender, RoutedEventArgs e)
+		private void refBookChanged(object sender, EventArgs e)
 		{
-			var viewModel = _application.UiFactory.CreateViewModel(typeof(Product));
-			var dialog = _application.UiFactory.CreateEditDialog(viewModel, _application);
-			if (((Window) dialog).ShowDialog() == true)
-			{
-				try
-				{
-					var instance = viewModel.ConvertToEntity(_application.Database);
-					_application.DatabaseDriver.Save(_application.Database);
-					productsGrid.RefreshGrid(instance);
-				}
-				catch (Exception error)
-				{
-					MessageBox.Show(error.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-				}
-				reloadComplexProducts();
-			}
-		}
-
-		private void productEditClick(object sender, RoutedEventArgs e)
-		{
-			var selectedItems = productsGrid.SelectedItems.OfType<IEntity>().ToList();
-			if (selectedItems.Count > 0)
-			{
-				var instance = selectedItems[0];
-
-				var message = instance.FindUsages(_application.Database);
-				if (message.Length > 0 && !LongTextDialog.Ask(
-					message.ToString(),
-					"Редактирование приведёт к дополнительным изменениям. Продолжить?"))
-				{
-					return;
-				}
-
-				var viewModel = _application.UiFactory.CreateViewModel(instance);
-				var dialog = _application.UiFactory.CreateEditDialog(viewModel, _application);
-				if (((Window) dialog).ShowDialog() == true)
-				{
-					try
-					{
-						instance = viewModel.ConvertToEntity(_application.Database);
-						_application.DatabaseDriver.Save(_application.Database);
-						productsGrid.RefreshGrid(instance);
-						reloadComplexProducts();
-					}
-					catch (Exception error)
-					{
-						MessageBox.Show(error.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-					}
-				}
-			}
-		}
-
-		private void productDeleteClick(object sender, RoutedEventArgs e)
-		{
-			var selectedItems = productsGrid.SelectedItems.OfType<IEntity>().ToList();
-			if (selectedItems.Count < 1) return;
-			var message = new StringBuilder();
-			foreach (var item in selectedItems)
-			{
-				message.Append(item.FindUsages(_application.Database));
-			}
-			if (message.Length > 0)
-			{
-				LongTextDialog.Warn(
-					message.ToString(),
-					"Невозможно удалить выбранные сущности, так как они используются");
-				return;
-			}
-			foreach (var item in selectedItems)
-			{
-				_application.Database.GetRegistry(item.GetType()).Remove(item.ID);
-			}
-			_application.DatabaseDriver.Save(_application.Database);
-			productsGrid.RefreshGrid();
 			reloadComplexProducts();
 		}
-
-		private void selectedProductsChanged(object sender, SelectionChangedEventArgs e)
-		{
-			productsGrid.UpdateButtonsAvailability(buttonEditProduct, buttonDeleteProduct);
-		}
-
-		#endregion
-
-		#region Единицы измерения
-
-		private void unitAddClick(object sender, RoutedEventArgs e)
-		{
-			var viewModel = _application.UiFactory.CreateViewModel(typeof(Unit));
-			var dialog = _application.UiFactory.CreateEditDialog(viewModel, _application);
-			if (((Window) dialog).ShowDialog() == true)
-			{
-				try
-				{
-					var instance = viewModel.ConvertToEntity(_application.Database);
-					_application.DatabaseDriver.Save(_application.Database);
-					unitsGrid.RefreshGrid(instance);
-				}
-				catch (Exception error)
-				{
-					MessageBox.Show(error.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-				}
-			}
-		}
-
-		private void unitEditClick(object sender, RoutedEventArgs e)
-		{
-			var selectedItems = unitsGrid.SelectedItems.OfType<IEntity>().ToList();
-			if (selectedItems.Count > 0)
-			{
-				var instance = selectedItems[0];
-
-				var message = instance.FindUsages(_application.Database);
-				if (message.Length > 0 && !LongTextDialog.Ask(
-					message.ToString(),
-					"Редактирование приведёт к дополнительным изменениям. Продолжить?"))
-				{
-					return;
-				}
-
-				var viewModel = _application.UiFactory.CreateViewModel(instance);
-				var dialog = _application.UiFactory.CreateEditDialog(viewModel, _application);
-				if (((Window) dialog).ShowDialog() == true)
-				{
-					try
-					{
-						instance = viewModel.ConvertToEntity(_application.Database);
-						_application.DatabaseDriver.Save(_application.Database);
-						unitsGrid.RefreshGrid(instance);
-					}
-					catch (Exception error)
-					{
-						MessageBox.Show(error.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-					}
-				}
-			}
-		}
-
-		private void unitDeleteClick(object sender, RoutedEventArgs e)
-		{
-			var selectedItems = unitsGrid.SelectedItems.OfType<IEntity>().ToList();
-			if (selectedItems.Count < 1) return;
-			var message = new StringBuilder();
-			foreach (var item in selectedItems)
-			{
-				message.Append(item.FindUsages(_application.Database));
-			}
-			if (message.Length > 0)
-			{
-				LongTextDialog.Warn(
-					message.ToString(),
-					"Невозможно удалить выбранные сущности, так как они используются");
-				return;
-			}
-			foreach (var item in selectedItems)
-			{
-				_application.Database.GetRegistry(item.GetType()).Remove(item.ID);
-			}
-			_application.DatabaseDriver.Save(_application.Database);
-			unitsGrid.RefreshGrid();
-		}
-
-		private void selectedUnitsChanged(object sender, SelectionChangedEventArgs e)
-		{
-			unitsGrid.UpdateButtonsAvailability(buttonEditUnit, buttonDeleteUnit);
-		}
-
-		#endregion
 
 		#endregion
 
