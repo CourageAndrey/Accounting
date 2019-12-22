@@ -63,6 +63,7 @@
     <Compile Include="BusinessLogic\BalanceValidation\NoVerifyTest.cs" />
     <Compile Include="BusinessLogic\BalanceValidation\PerDayTest.cs" />
     <Compile Include="BusinessLogic\BalanceValidation\PerDocumentTest.cs" />
+    <Compile Include="BusinessLogic\DatabaseRegistriesTest.cs" />
     <Compile Include="BusinessLogic\ProductBalanceTest.cs" />
     <Compile Include="BusinessLogic\WorkflowTest.cs" />
     <Compile Include="Helpers\DateTimeRepresentationTest.cs" />

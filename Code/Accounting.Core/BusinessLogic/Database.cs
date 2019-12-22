@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Accounting.Core.BusinessLogic
 {
@@ -43,6 +44,32 @@ namespace Accounting.Core.BusinessLogic
 				new Product[0],
 				new Dictionary<long, decimal>(),
 				new Document[0]);
+		}
+
+		public virtual Registry<EntityT> GetRegistry<EntityT>()
+			where EntityT : IEntity
+		{
+			return (Registry<EntityT>) GetRegistry(typeof(EntityT));
+		}
+
+		public virtual IRegistry GetRegistry(Type entityType)
+		{
+			if (typeof(Unit).IsAssignableFrom(entityType))
+			{
+				return Units;
+			}
+			else if (typeof(Product).IsAssignableFrom(entityType))
+			{
+				return Products;
+			}
+			else if (typeof(Document).IsAssignableFrom(entityType))
+			{
+				return Documents;
+			}
+			else
+			{
+				throw new NotSupportedException("Unsupported entity type " + entityType.FullName);
+			}
 		}
 	}
 }
