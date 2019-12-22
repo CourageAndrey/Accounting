@@ -4,7 +4,7 @@ using Accounting.Core.Application;
 
 namespace Accounting.UI.WPF.Dialogs
 {
-	public partial class UnitDialog : IEditDialog<ViewModels.Unit>
+	public partial class UnitDialog : IViewModelEditDialog<ViewModels.Unit>
 	{
 		public UnitDialog()
 		{
@@ -18,6 +18,12 @@ namespace Accounting.UI.WPF.Dialogs
 		}
 
 		private IAccountingApplication _application;
+
+		public IViewModel EditValueObject
+		{
+			get { return EditValue; }
+			set { EditValue = (ViewModels.Unit) value; }
+		}
 
 		public ViewModels.Unit EditValue
 		{

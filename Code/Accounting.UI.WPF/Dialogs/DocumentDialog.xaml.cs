@@ -14,7 +14,7 @@ using Product = Accounting.Core.BusinessLogic.Product;
 
 namespace Accounting.UI.WPF.Dialogs
 {
-	public partial class DocumentDialog : IEditDialog<ViewModels.Document>
+	public partial class DocumentDialog : IViewModelEditDialog<ViewModels.Document>
 	{
 		public DocumentDialog()
 		{
@@ -31,6 +31,12 @@ namespace Accounting.UI.WPF.Dialogs
 		}
 
 		private IAccountingApplication _application;
+
+		public IViewModel EditValueObject
+		{
+			get { return EditValue; }
+			set { EditValue = (ViewModels.Document) value; }
+		}
 
 		public ViewModels.Document EditValue
 		{

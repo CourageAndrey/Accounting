@@ -10,7 +10,7 @@ using Accounting.UI.WPF.Helpers;
 
 namespace Accounting.UI.WPF.Dialogs
 {
-	public partial class ProductDialog : IEditDialog<ViewModels.Product>
+	public partial class ProductDialog : IViewModelEditDialog<ViewModels.Product>
 	{
 		public ProductDialog()
 		{
@@ -26,6 +26,12 @@ namespace Accounting.UI.WPF.Dialogs
 		}
 
 		private IAccountingApplication _application;
+
+		public IViewModel EditValueObject
+		{
+			get { return EditValue; }
+			set { EditValue = (ViewModels.Product) value; }
+		}
 
 		public ViewModels.Product EditValue
 		{

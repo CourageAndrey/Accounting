@@ -6,4 +6,15 @@ namespace Accounting.UI.WPF
 	{
 		T EditValue { get; set; }
 	}
+
+	public interface IViewModelEditDialog : IAccountingApplicationClient
+	{
+		IViewModel EditValueObject { get; set; }
+	}
+
+	public interface IViewModelEditDialog<ViewModelT> : IViewModelEditDialog
+		where ViewModelT : IViewModel
+	{
+		ViewModelT EditValue { get; set; }
+	}
 }
