@@ -4,12 +4,9 @@ using System.Linq;
 
 namespace Accounting.UI.WPF.ViewModels
 {
-	public class Document : NotifyDataErrorInfo, IViewModel<Accounting.Core.BusinessLogic.Document>
+	public class Document : ViewModelBase<Accounting.Core.BusinessLogic.Document>
 	{
 		#region Properties
-
-		public long? ID
-		{ get; }
 
 		public Accounting.Core.BusinessLogic.DocumentType Type
 		{ get; }
@@ -51,7 +48,7 @@ namespace Accounting.UI.WPF.ViewModels
 
 		#endregion
 
-		public Accounting.Core.BusinessLogic.Document ConvertToBusinessLogic(Accounting.Core.BusinessLogic.Database database)
+		public override Accounting.Core.BusinessLogic.Document ConvertToBusinessLogic(Accounting.Core.BusinessLogic.Database database)
 		{
 			Accounting.Core.BusinessLogic.Document instance;
 			if (ID.HasValue)

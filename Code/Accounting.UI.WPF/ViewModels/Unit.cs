@@ -2,12 +2,9 @@
 
 namespace Accounting.UI.WPF.ViewModels
 {
-	public class Unit : NotifyDataErrorInfo, IViewModel<Accounting.Core.BusinessLogic.Unit>
+	public class Unit : ViewModelBase<Accounting.Core.BusinessLogic.Unit>
 	{
 		#region Properties
-
-		public long? ID
-		{ get; }
 
 		public string Name
 		{
@@ -68,7 +65,7 @@ namespace Accounting.UI.WPF.ViewModels
 
 		#endregion
 
-		public Accounting.Core.BusinessLogic.Unit ConvertToBusinessLogic(Accounting.Core.BusinessLogic.Database database)
+		public override Accounting.Core.BusinessLogic.Unit ConvertToBusinessLogic(Accounting.Core.BusinessLogic.Database database)
 		{
 			Accounting.Core.BusinessLogic.Unit instance;
 			if (ID.HasValue)

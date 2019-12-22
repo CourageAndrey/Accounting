@@ -4,12 +4,9 @@ using System.Text;
 
 namespace Accounting.UI.WPF.ViewModels
 {
-	public class Product : NotifyDataErrorInfo, IViewModel<Accounting.Core.BusinessLogic.Product>
+	public class Product : ViewModelBase<Accounting.Core.BusinessLogic.Product>
 	{
 		#region Properties
-
-		public long? ID
-		{ get; }
 
 		public string Name
 		{
@@ -79,7 +76,7 @@ namespace Accounting.UI.WPF.ViewModels
 
 		#endregion
 
-		public Accounting.Core.BusinessLogic.Product ConvertToBusinessLogic(Accounting.Core.BusinessLogic.Database database)
+		public override Accounting.Core.BusinessLogic.Product ConvertToBusinessLogic(Accounting.Core.BusinessLogic.Database database)
 		{
 			Accounting.Core.BusinessLogic.Product instance;
 			if (ID.HasValue)

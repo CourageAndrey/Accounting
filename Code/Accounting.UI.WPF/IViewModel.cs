@@ -2,11 +2,17 @@
 
 namespace Accounting.UI.WPF
 {
-	public interface IViewModel<out T>
+	public interface IViewModel
 	{
 		long? ID
 		{ get; }
 
-		T ConvertToBusinessLogic(Database database);
+		IEntity ConvertToEntity(Database database);
+	}
+
+	public interface IViewModel<out TEntity> : IViewModel
+		where TEntity : IEntity
+	{
+		TEntity ConvertToBusinessLogic(Database database);
 	}
 }
