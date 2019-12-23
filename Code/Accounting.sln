@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.960
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External", "External", "{7140F880-8B2B-4A67-B6A1-9528AACB4AAE}"
 	ProjectSection(SolutionItems) = preProject
@@ -29,6 +29,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accounting.UI.WPF.UnitTests", "Accounting.UI.WPF.UnitTests\Accounting.UI.WPF.UnitTests.csproj", "{D2682D8F-2AF0-4463-8D07-B49BE4B0DCCE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accounting.Reports.OpenXml.UnitTests", "Accounting.Reports.OpenXml.UnitTests\Accounting.Reports.OpenXml.UnitTests.csproj", "{8633DD2F-F148-4549-AE6B-F613616FC292}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accounting.DAL.EntityFramework", "Accounting.DAL.EntityFramework\Accounting.DAL.EntityFramework.csproj", "{7DA4080B-F541-4CA7-9AAB-33E4C33DC12D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accounting.DAL.EntityFramework.UnitTests", "Accounting.DAL.EntityFramework.UnitTests\Accounting.DAL.EntityFramework.UnitTests.csproj", "{FFCD6101-FB35-4B5D-8AE8-85A95AC3C462}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -68,6 +72,14 @@ Global
 		{8633DD2F-F148-4549-AE6B-F613616FC292}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8633DD2F-F148-4549-AE6B-F613616FC292}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8633DD2F-F148-4549-AE6B-F613616FC292}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DA4080B-F541-4CA7-9AAB-33E4C33DC12D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DA4080B-F541-4CA7-9AAB-33E4C33DC12D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DA4080B-F541-4CA7-9AAB-33E4C33DC12D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DA4080B-F541-4CA7-9AAB-33E4C33DC12D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFCD6101-FB35-4B5D-8AE8-85A95AC3C462}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFCD6101-FB35-4B5D-8AE8-85A95AC3C462}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFCD6101-FB35-4B5D-8AE8-85A95AC3C462}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFCD6101-FB35-4B5D-8AE8-85A95AC3C462}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -79,5 +91,10 @@ Global
 		{E7E2085C-1E44-4381-84FB-0922DD6D8319} = {A7196D9D-CA8F-44F7-A44F-5BB8249980C9}
 		{D2682D8F-2AF0-4463-8D07-B49BE4B0DCCE} = {9001C26D-5E56-4909-B211-94A2F9772371}
 		{8633DD2F-F148-4549-AE6B-F613616FC292} = {BFD3FCD0-F7EF-44EF-870D-406A8EFC5B4A}
+		{7DA4080B-F541-4CA7-9AAB-33E4C33DC12D} = {A7196D9D-CA8F-44F7-A44F-5BB8249980C9}
+		{FFCD6101-FB35-4B5D-8AE8-85A95AC3C462} = {A7196D9D-CA8F-44F7-A44F-5BB8249980C9}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {68CAF57F-BF74-4B4C-BA28-D1A6E71A1F2F}
 	EndGlobalSection
 EndGlobal
