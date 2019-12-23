@@ -1,0 +1,451 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ComfortIslandModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Balance">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="bigint" Nullable="false" />
+          <Property Name="Count" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Document">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" />
+          <Property Name="Number" Type="nvarchar" MaxLength="64" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="TypeID" Type="smallint" Nullable="false" />
+          <Property Name="StateID" Type="smallint" Nullable="false" />
+          <Property Name="PreviousVersionID" Type="bigint" />
+        </EntityType>
+        <EntityType Name="IsPartOf">
+          <Key>
+            <PropertyRef Name="ParentID" />
+            <PropertyRef Name="ChildID" />
+          </Key>
+          <Property Name="ParentID" Type="bigint" Nullable="false" />
+          <Property Name="ChildID" Type="bigint" Nullable="false" />
+          <Property Name="Count" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="DocumentID" />
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="DocumentID" Type="bigint" Nullable="false" />
+          <Property Name="ProductID" Type="bigint" Nullable="false" />
+          <Property Name="Count" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="512" Nullable="false" />
+          <Property Name="UnitID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Unit">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="32" Nullable="false" />
+          <Property Name="ShortName" Type="nvarchar" MaxLength="8" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Balance_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="Balance" Type="Self.Balance" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Balance">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Document_Document">
+          <End Role="Document" Type="Self.Document" Multiplicity="0..1" />
+          <End Role="Document1" Type="Self.Document" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Document">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Document1">
+              <PropertyRef Name="PreviousVersionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IsPartOf_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="IsPartOf" Type="Self.IsPartOf" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="IsPartOf">
+              <PropertyRef Name="ParentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IsPartOf_Product1">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="IsPartOf" Type="Self.IsPartOf" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="IsPartOf">
+              <PropertyRef Name="ChildID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Position_Document">
+          <End Role="Document" Type="Self.Document" Multiplicity="1" />
+          <End Role="Position" Type="Self.Position" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Document">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Position">
+              <PropertyRef Name="DocumentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Position_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="Position" Type="Self.Position" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Position">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Unit">
+          <End Role="Unit" Type="Self.Unit" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Unit">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="UnitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ComfortIslandModelStoreContainer">
+          <EntitySet Name="Balance" EntityType="Self.Balance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Document" EntityType="Self.Document" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IsPartOf" EntityType="Self.IsPartOf" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Position" EntityType="Self.Position" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Unit" EntityType="Self.Unit" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Balance_Product" Association="Self.FK_Balance_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Balance" EntitySet="Balance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Document_Document" Association="Self.FK_Document_Document">
+            <End Role="Document" EntitySet="Document" />
+            <End Role="Document1" EntitySet="Document" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IsPartOf_Product" Association="Self.FK_IsPartOf_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="IsPartOf" EntitySet="IsPartOf" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IsPartOf_Product1" Association="Self.FK_IsPartOf_Product1">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="IsPartOf" EntitySet="IsPartOf" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Position_Document" Association="Self.FK_Position_Document">
+            <End Role="Document" EntitySet="Document" />
+            <End Role="Position" EntitySet="Position" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Position_Product" Association="Self.FK_Position_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Position" EntitySet="Position" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Unit" Association="Self.FK_Product_Unit">
+            <End Role="Unit" EntitySet="Unit" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AccountingDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="AccountingEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Balances" EntityType="AccountingDataModel.Balance" />
+          <EntitySet Name="Documents" EntityType="AccountingDataModel.Document" />
+          <EntitySet Name="IsPartOfs" EntityType="AccountingDataModel.IsPartOf" />
+          <EntitySet Name="Positions" EntityType="AccountingDataModel.Position" />
+          <EntitySet Name="Products" EntityType="AccountingDataModel.Product" />
+          <EntitySet Name="Units" EntityType="AccountingDataModel.Unit" />
+          <AssociationSet Name="FK_Balance_Product" Association="AccountingDataModel.FK_Balance_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Balance" EntitySet="Balances" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Position_Document" Association="AccountingDataModel.FK_Position_Document">
+            <End Role="Document" EntitySet="Documents" />
+            <End Role="Position" EntitySet="Positions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IsPartOf_Product" Association="AccountingDataModel.FK_IsPartOf_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="IsPartOf" EntitySet="IsPartOfs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IsPartOf_Product1" Association="AccountingDataModel.FK_IsPartOf_Product1">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="IsPartOf" EntitySet="IsPartOfs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Position_Product" Association="AccountingDataModel.FK_Position_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Position" EntitySet="Positions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Unit" Association="AccountingDataModel.FK_Product_Unit">
+            <End Role="Unit" EntitySet="Units" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Document_Document" Association="AccountingDataModel.FK_Document_Document">
+            <End Role="Document" EntitySet="Documents" />
+            <End Role="Document1" EntitySet="Documents" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Balance">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="Int64" Nullable="false" />
+          <Property Name="Count" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <NavigationProperty Name="Product" Relationship="AccountingDataModel.FK_Balance_Product" FromRole="Balance" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Document">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="Number" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TypeID" Type="Int16" Nullable="false" />
+          <Property Name="StateID" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="Positions" Relationship="AccountingDataModel.FK_Position_Document" FromRole="Document" ToRole="Position" />
+          <Property Name="PreviousVersionID" Type="Int64" />
+        </EntityType>
+        <EntityType Name="IsPartOf">
+          <Key>
+            <PropertyRef Name="ParentID" />
+            <PropertyRef Name="ChildID" />
+          </Key>
+          <Property Name="ParentID" Type="Int64" Nullable="false" />
+          <Property Name="ChildID" Type="Int64" Nullable="false" />
+          <Property Name="Count" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <NavigationProperty Name="ParentProduct" Relationship="AccountingDataModel.FK_IsPartOf_Product" FromRole="IsPartOf" ToRole="Product" />
+          <NavigationProperty Name="ChildProduct" Relationship="AccountingDataModel.FK_IsPartOf_Product1" FromRole="IsPartOf" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="DocumentID" />
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="DocumentID" Type="Int64" Nullable="false" />
+          <Property Name="ProductID" Type="Int64" Nullable="false" />
+          <Property Name="Count" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <NavigationProperty Name="Document" Relationship="AccountingDataModel.FK_Position_Document" FromRole="Position" ToRole="Document" />
+          <NavigationProperty Name="Product" Relationship="AccountingDataModel.FK_Position_Product" FromRole="Position" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="UnitID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="ChildProducts" Relationship="AccountingDataModel.FK_IsPartOf_Product" FromRole="Product" ToRole="IsPartOf" />
+          <NavigationProperty Name="ParentProducts" Relationship="AccountingDataModel.FK_IsPartOf_Product1" FromRole="Product" ToRole="IsPartOf" />
+          <NavigationProperty Name="Positions" Relationship="AccountingDataModel.FK_Position_Product" FromRole="Product" ToRole="Position" />
+          <NavigationProperty Name="Unit" Relationship="AccountingDataModel.FK_Product_Unit" FromRole="Product" ToRole="Unit" />
+        </EntityType>
+        <EntityType Name="Unit">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="ShortName" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_Balance_Product">
+          <End Type="AccountingDataModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="AccountingDataModel.Balance" Role="Balance" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Balance">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Position_Document">
+          <End Type="AccountingDataModel.Document" Role="Document" Multiplicity="1" />
+          <End Type="AccountingDataModel.Position" Role="Position" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Document">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Position">
+              <PropertyRef Name="DocumentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IsPartOf_Product">
+          <End Type="AccountingDataModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="AccountingDataModel.IsPartOf" Role="IsPartOf" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="IsPartOf">
+              <PropertyRef Name="ParentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IsPartOf_Product1">
+          <End Type="AccountingDataModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="AccountingDataModel.IsPartOf" Role="IsPartOf" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="IsPartOf">
+              <PropertyRef Name="ChildID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Position_Product">
+          <End Type="AccountingDataModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="AccountingDataModel.Position" Role="Position" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Position">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Unit">
+          <End Type="AccountingDataModel.Unit" Role="Unit" Multiplicity="1" />
+          <End Type="AccountingDataModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Unit">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="UnitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Document_Document">
+          <End Type="AccountingDataModel.Document" Role="Document" Multiplicity="0..1" />
+          <End Type="AccountingDataModel.Document" Role="Document1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Document">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Document1">
+              <PropertyRef Name="PreviousVersionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ComfortIslandModelStoreContainer" CdmEntityContainer="AccountingEntities">
+          <EntitySetMapping Name="Balances">
+            <EntityTypeMapping TypeName="AccountingDataModel.Balance">
+              <MappingFragment StoreEntitySet="Balance">
+                <ScalarProperty Name="Count" ColumnName="Count" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Documents">
+            <EntityTypeMapping TypeName="AccountingDataModel.Document">
+              <MappingFragment StoreEntitySet="Document">
+                <ScalarProperty Name="PreviousVersionID" ColumnName="PreviousVersionID" />
+                <ScalarProperty Name="StateID" ColumnName="StateID" />
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IsPartOfs">
+            <EntityTypeMapping TypeName="AccountingDataModel.IsPartOf">
+              <MappingFragment StoreEntitySet="IsPartOf">
+                <ScalarProperty Name="Count" ColumnName="Count" />
+                <ScalarProperty Name="ChildID" ColumnName="ChildID" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Positions">
+            <EntityTypeMapping TypeName="AccountingDataModel.Position">
+              <MappingFragment StoreEntitySet="Position">
+                <ScalarProperty Name="Count" ColumnName="Count" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="DocumentID" ColumnName="DocumentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="AccountingDataModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="UnitID" ColumnName="UnitID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Units">
+            <EntityTypeMapping TypeName="AccountingDataModel.Unit">
+              <MappingFragment StoreEntitySet="Unit">
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
