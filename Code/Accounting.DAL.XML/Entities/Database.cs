@@ -13,8 +13,8 @@ namespace Accounting.DAL.XML.Entities
 		public List<Document> Documents
 		{ get; set; }
 
-		[XmlArray("Balance"), XmlArrayItem("Item")]
-		public List<Balance> Balance
+		[XmlArray("Balance"), XmlArrayItem("Product")]
+		public List<Position> Balance
 		{ get; set; }
 
 		[XmlArray("Products"), XmlArrayItem("Product")]
@@ -32,7 +32,7 @@ namespace Accounting.DAL.XML.Entities
 		public Database()
 		{
 			Documents = new List<Document>();
-			Balance = new List<Balance>();
+			Balance = new List<Position>();
 			Products = new List<Product>();
 			Units = new List<Unit>();
 		}
@@ -40,7 +40,7 @@ namespace Accounting.DAL.XML.Entities
 		public Database(Accounting.Core.BusinessLogic.Database database)
 		{
 			Documents = database.Documents.Select(document => new Document(document)).ToList();
-			Balance = database.Balance.ToPositions().Select(position => new Balance(position.ID, position.Count)).ToList();
+			Balance = database.Balance.ToPositions().Select(position => new Position(position)).ToList();
 			Products = database.Products.Select(product => new Product(product)).ToList();
 			Units = database.Units.Select(unit => new Unit(unit)).ToList();
 		}
@@ -53,7 +53,7 @@ namespace Accounting.DAL.XML.Entities
 				Units.Select(unit => unit.ConvertToBusinessLogic()),
 				Products.Select(product => product.ConvertToBusinessLogic()),
 				Balance.ToDictionary(
-					balance => balance.Product,
+					balance => balance.ID,
 					balance => balance.Count),
 				Documents.Select(document => document.ConvertToBusinessLogic()));
 

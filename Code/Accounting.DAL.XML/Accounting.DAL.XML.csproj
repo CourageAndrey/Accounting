@@ -41,7 +41,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatabaseDriver.cs" />
-    <Compile Include="Entities\Balance.cs" />
     <Compile Include="Entities\Database.cs" />
     <Compile Include="Entities\Document.cs" />
     <Compile Include="Entities\Position.cs" />
