@@ -45,13 +45,27 @@
 					<RowDefinition Height="*" MinHeight="100" />
 				</Grid.RowDefinitions>
 				<StackPanel Orientation="Horizontal" Grid.Row="0" Grid.ColumnSpan="2">
-					<Button Content="Приход на склад" Margin="5" Padding="5,2,5,2" Click="incomeClick" />
-					<Button Content="Продажа со склада" Margin="5" Padding="5,2,5,2" Click="outcomeClick" />
-					<Button Content="Производство" Margin="5" Padding="5,2,5,2" Click="produceClick" />
-					<Button Content="Перемещение на склад" Margin="5" Padding="5,2,5,2" Click="toWarehouseClick" />
-					<Button Content="Проверить наличие товара" Margin="5" Padding="5,2,5,2" Click="checkBalanceClick" />
-					<Button Content="Удалить" Margin="5" Padding="5,2,5,2" Click="deleteDocumentsClick" Name="deleteDocumentsButton" />
-					<Button Content="Редактировать" Margin="5" Padding="5,2,5,2" Click="editDocumentClick" Name="editDocumentButton" />
+					<Button ToolTip="Оформить новый приход на склад" Margin="5" Padding="5,2,5,2" Click="incomeClick">
+						<Image Width="48" Height="48" Source="Resources/DocumentIncome.png" />
+					</Button>
+					<Button ToolTip="Оформить новую продажу со склада" Margin="5" Padding="5,2,5,2" Click="outcomeClick">
+						<Image Width="48" Height="48" Source="Resources/DocumentOutcome.png" />
+					</Button>
+					<Button ToolTip="Выполнить производство продукции" Margin="5" Padding="5,2,5,2" Click="produceClick">
+						<Image Width="48" Height="48" Source="Resources/DocumentProduce.png" />
+					</Button>
+					<Button ToolTip="Оформить перемещение на другой склад" Margin="5" Padding="5,2,5,2" Click="toWarehouseClick">
+						<Image Width="48" Height="48" Source="Resources/DocumentToWarehouse.png" />
+					</Button>
+					<Button ToolTip="Проверить наличие товара" Margin="5" Padding="5,2,5,2" Click="checkBalanceClick">
+						<Image Width="48" Height="48" Source="Resources/DocumentCheck.png" />
+					</Button>
+					<Button ToolTip="Удалить все выбранные документы" Margin="5" Padding="5,2,5,2" Click="deleteDocumentsClick" Name="deleteDocumentsButton">
+						<Image Width="48" Height="48" Source="Resources/DocumentDelete.png" />
+					</Button>
+					<Button ToolTip="Редактировать выбранный документ" Margin="5" Padding="5,2,5,2" Click="editDocumentClick" Name="editDocumentButton">
+						<Image Width="48" Height="48" Source="Resources/DocumentEdit.png" />
+					</Button>
 				</StackPanel>
 				<Expander Grid.Row="1" Header="Фильтр документов" Grid.ColumnSpan="2">
 					<StackPanel Orientation="Vertical">
