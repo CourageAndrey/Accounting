@@ -8,13 +8,13 @@ namespace Accounting.Core.Reports.Existing
 		#region Properties
 
 		public long ProductId
-		{ get; private set; }
+		{ get; }
 
 		public string ProductName
-		{ get; private set; }
+		{ get; }
 
 		public string ProductUnit
-		{ get; private set; }
+		{ get; }
 
 		public decimal InitialBalance
 		{ get; internal set; }

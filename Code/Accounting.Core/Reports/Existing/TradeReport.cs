@@ -21,13 +21,13 @@ namespace Accounting.Core.Reports.Existing
 		{ get { return ReportDescriptor.Trade; } }
 
 		public IReadOnlyList<IReportItem> Items
-		{ get; private set; }
+		{ get; }
 
 		public DateTime FromDate
-		{ get; private set; }
+		{ get; }
 
 		public DateTime ToDate
-		{ get; private set; }
+		{ get; }
 
 		#endregion
 

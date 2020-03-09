@@ -20,10 +20,10 @@ namespace Accounting.Core.Reports.Existing
 		{ get { return ReportDescriptor.Balance; } }
 
 		public IReadOnlyList<IReportItem> Items
-		{ get; private set; }
+		{ get; }
 
 		public DateTime Date
-		{ get; private set; }
+		{ get; }
 
 		#endregion
 
