@@ -96,6 +96,7 @@
 					<DataGrid.Columns>
 						<DataGridTextColumn Header="Дата" Binding="{Binding Path=Date, Mode=OneTime, Converter={StaticResource dateConverter}}" MinWidth="100"/>
 						<DataGridTextColumn Header="Номер" Binding="{Binding Path=Number, Mode=OneTime}" MinWidth="150" />
+						<DataGridTextColumn Header="Сумма" Binding="{Binding Path=Summ, Mode=OneTime}" MinWidth="150" />
 						<DataGridTextColumn Header="Тип" Binding="{Binding Path=Type.Name, Mode=OneTime}" MinWidth="100"/>
 						<DataGridTextColumn Header="Состояние" Binding="{Binding Path=State.Name, Mode=OneTime}" MinWidth="100" x:Name="stateColumn" />
 					</DataGrid.Columns>

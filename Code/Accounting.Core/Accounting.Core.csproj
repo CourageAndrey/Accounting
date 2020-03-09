@@ -88,8 +88,11 @@
     <Compile Include="BusinessLogic\IListItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reports\Descriptors\BalanceReportDescriptor.cs" />
+    <Compile Include="Reports\Descriptors\FinanceReportDescriptor.cs" />
     <Compile Include="Reports\Descriptors\TradeReportDescriptor.cs" />
     <Compile Include="Reports\Existing\BalanceReport.cs" />
+    <Compile Include="Reports\Existing\FinanceReport.cs" />
+    <Compile Include="Reports\Existing\FinanceItem.cs" />
     <Compile Include="Reports\Existing\TradeItem.cs" />
     <Compile Include="Reports\Existing\TradeReport.cs" />
     <Compile Include="Reports\IReport.cs" />

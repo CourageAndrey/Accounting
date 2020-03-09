@@ -21,10 +21,13 @@ namespace Accounting.Core.Reports
 
 		public static readonly ReportDescriptor Trade = new TradeReportDescriptor();
 
+		public static readonly ReportDescriptor Finance = new FinanceReportDescriptor();
+
 		public static readonly IEnumerable<ReportDescriptor> All = new ReadOnlyCollection<ReportDescriptor>(new List<ReportDescriptor>
 		{
 			Balance,
 			Trade,
+			Finance,
 		});
 
 		#endregion

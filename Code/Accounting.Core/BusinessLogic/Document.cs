@@ -27,6 +27,23 @@ namespace Accounting.Core.BusinessLogic
 		public DocumentState State
 		{ get; private set; }
 
+		public decimal Summ
+		{
+			get { return _summ; }
+			set
+			{
+				var errors = new StringBuilder();
+				if (SummHasToBeNonNegative(value, errors))
+				{
+					_summ = value;
+				}
+				else
+				{
+					throw new ArgumentException(errors.ToString());
+				}
+			}
+		}
+
 		public Dictionary<Product, decimal> Positions
 		{
 			get { return _positions; }
@@ -51,6 +68,7 @@ namespace Accounting.Core.BusinessLogic
 			}
 		}
 
+		private decimal _summ;
 		private Dictionary<Product, decimal> _positions;
 
 		#endregion
@@ -82,6 +100,19 @@ namespace Accounting.Core.BusinessLogic
 			if (positions.Count <= 0)
 			{
 				errors.AppendLine("В документе не выбрано ни одного продукта.");
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		}
+
+		public static bool SummHasToBeNonNegative(decimal summ, StringBuilder errors)
+		{
+			if (summ < 0)
+			{
+				errors.AppendLine("Сумма не может быть меньше нуля.");
 				return false;
 			}
 			else

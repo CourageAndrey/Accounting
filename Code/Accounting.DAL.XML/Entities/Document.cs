@@ -29,6 +29,10 @@ namespace Accounting.DAL.XML.Entities
 		{ get; set; }
 
 		[XmlAttribute]
+		public decimal Summ
+		{ get; set; }
+
+		[XmlAttribute]
 		public DocumentType Type
 		{ get; set; }
 
@@ -55,6 +59,7 @@ namespace Accounting.DAL.XML.Entities
 			PreviousVersionId = document.PreviousVersionId.ToString();
 			Number = document.Number;
 			Date = document.Date;
+			Summ = document.Summ;
 			Type = document.Type.ToEnum();
 			State = document.State.ToEnum();
 			Positions = document.Positions.Select(position => new Position(new Accounting.Core.BusinessLogic.Position(position.Key.ID, position.Value))).ToList();
@@ -72,6 +77,7 @@ namespace Accounting.DAL.XML.Entities
 				ID = ID,
 				Number = Number,
 				Date = Date,
+				Summ = Summ,
 			};
 		}
 	}

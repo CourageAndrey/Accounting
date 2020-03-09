@@ -57,7 +57,8 @@ namespace Accounting.UI.WPF.Dialogs
 			if (!EditValue.HasErrors)
 			{
 				StringBuilder errors = new StringBuilder();
-				bool isValid =	Position.PositionsDoNotDuplicate(EditValue.Positions, "товарные позиции", errors) &
+				bool isValid =	Document.SummHasToBeNonNegative(EditValue.Summ, errors) &
+								Position.PositionsDoNotDuplicate(EditValue.Positions, "товарные позиции", errors) &
 								Document.PositionsCountHasToBePositive(EditValue.Positions, errors);
 				for (int line = 0; line < EditValue.Positions.Count; line++)
 				{

@@ -73,6 +73,7 @@
     <Compile Include="Helpers\IdGeneratorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reports\BalanceReportTest.cs" />
+    <Compile Include="Reports\FinanceReportTest.cs" />
     <Compile Include="Reports\TradeReportTest.cs" />
   </ItemGroup>
   <ItemGroup>

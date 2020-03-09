@@ -17,6 +17,9 @@ namespace Accounting.UI.WPF.ViewModels
 		public DateTime Date
 		{ get; set; }
 
+		public decimal Summ
+		{ get; set; }
+
 		public List<Accounting.Core.BusinessLogic.Position> Positions
 		{ get; }
 
@@ -24,17 +27,18 @@ namespace Accounting.UI.WPF.ViewModels
 
 		#region Constructors
 
-		private Document(long? id, Accounting.Core.BusinessLogic.DocumentType type, string number, DateTime date, List<Accounting.Core.BusinessLogic.Position> positions)
+		private Document(long? id, Accounting.Core.BusinessLogic.DocumentType type, string number, DateTime date, decimal summ, List<Accounting.Core.BusinessLogic.Position> positions)
 		{
 			ID = id;
 			Type = type;
 			Number = number;
 			Date = date;
+			Summ = summ;
 			Positions = positions;
 		}
 
 		public Document(Accounting.Core.BusinessLogic.DocumentType type)
-			: this(null, type, string.Empty, DateTime.Now, new List<Accounting.Core.BusinessLogic.Position>())
+			: this(null, type, string.Empty, DateTime.Now, 0, new List<Accounting.Core.BusinessLogic.Position>())
 		{ }
 
 		public Document(Accounting.Core.BusinessLogic.Document instance)
@@ -43,6 +47,7 @@ namespace Accounting.UI.WPF.ViewModels
 				instance.Type,
 				instance.Number,
 				instance.Date,
+				instance.Summ,
 				instance.Positions.Select(child => new Accounting.Core.BusinessLogic.Position(child.Key.ID, child.Value)).ToList())
 		{ }
 
@@ -76,6 +81,7 @@ namespace Accounting.UI.WPF.ViewModels
 		{
 			entity.Number = Number;
 			entity.Date = Date;
+			entity.Summ = Summ;
 			entity.Positions = Positions.ToDictionary(
 				position => database.Products[position.ID],
 				position => position.Count);
