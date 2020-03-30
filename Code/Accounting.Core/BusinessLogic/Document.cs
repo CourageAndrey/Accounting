@@ -125,7 +125,7 @@ namespace Accounting.Core.BusinessLogic
 
 		#region Workflow
 
-		public IDictionary<long, decimal> ApplyBalanceChanges(Warehouse balance)
+		public IDictionary<long, decimal> ApplyBalanceChanges(IWarehouse balance)
 		{
 			var delta = Type.GetBalanceDelta(Positions);
 			foreach (var position in delta)
@@ -135,7 +135,7 @@ namespace Accounting.Core.BusinessLogic
 			return delta;
 		}
 
-		public IDictionary<long, decimal> RollbackBalanceChanges(Warehouse balance)
+		public IDictionary<long, decimal> RollbackBalanceChanges(IWarehouse balance)
 		{
 			var delta = Type.GetBalanceDelta(Positions);
 			foreach (var position in delta)
@@ -145,7 +145,7 @@ namespace Accounting.Core.BusinessLogic
 			return delta;
 		}
 
-		public void MakeObsolete(Warehouse balance, DocumentState newState)
+		public void MakeObsolete(IWarehouse balance, DocumentState newState)
 		{
 			if (State == DocumentState.Active)
 			{

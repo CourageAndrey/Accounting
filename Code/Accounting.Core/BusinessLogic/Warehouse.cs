@@ -7,7 +7,7 @@ using Accounting.Core.Helpers;
 
 namespace Accounting.Core.BusinessLogic
 {
-	public class Warehouse : IEnumerable<KeyValuePair<long, decimal>>
+	public class Warehouse : IWarehouse
 	{
 		private readonly IDictionary<long, decimal> _data;
 
@@ -75,7 +75,7 @@ namespace Accounting.Core.BusinessLogic
 			_data = data;
 		}
 
-		public Warehouse Clone()
+		public IWarehouse Clone()
 		{
 			return new Warehouse(new Dictionary<long, decimal>(_data));
 		}
