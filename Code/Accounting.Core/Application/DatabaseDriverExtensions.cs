@@ -4,9 +4,9 @@ namespace Accounting.Core.Application
 {
 	public static class DatabaseDriverExtensions
 	{
-		public static Database TryLoad(this IDatabaseDriver databaseDriver)
+		public static IDatabase TryLoad(this IDatabaseDriver databaseDriver)
 		{
-			Database database;
+			IDatabase database;
 			if (databaseDriver.CanLoad)
 			{
 				database = databaseDriver.Load();

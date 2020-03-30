@@ -30,7 +30,7 @@ namespace Accounting.Core.Reports.Existing
 
 		#endregion
 
-		public FinanceReport(Database database, PeriodParams parameters)
+		public FinanceReport(IDatabase database, PeriodParams parameters)
 		{
 			FromDate = parameters.Period.From.Date;
 			ToDate = parameters.Period.To.EndOfDay();

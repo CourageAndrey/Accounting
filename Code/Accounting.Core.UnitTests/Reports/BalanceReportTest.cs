@@ -113,7 +113,7 @@ namespace Accounting.Core.UnitTests.Reports
 			Assert.AreEqual(0, database.Balance.ToList().Count());
 		}
 
-		private static Database createTestBase(DateTime date, out Product product)
+		private static IDatabase createTestBase(DateTime date, out Product product)
 		{
 			var unit = new Unit
 			{

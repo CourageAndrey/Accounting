@@ -56,7 +56,7 @@ namespace Accounting.Core.UnitTests.BusinessLogic
 			Assert.AreEqual(5, reportChild2.ParentsCount);
 		}
 
-		private Database createTestBase(out Product productChild1, out Product productChild2, out Product productParent)
+		private IDatabase createTestBase(out Product productChild1, out Product productChild2, out Product productParent)
 		{
 			var unit = new Unit
 			{

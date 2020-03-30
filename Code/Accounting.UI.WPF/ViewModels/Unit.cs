@@ -70,7 +70,7 @@ namespace Accounting.UI.WPF.ViewModels
 			return new Accounting.Core.BusinessLogic.Unit();
 		}
 
-		public override void UpdateProperties(Accounting.Core.BusinessLogic.Unit entity, Accounting.Core.BusinessLogic.Database database)
+		public override void UpdateProperties(Accounting.Core.BusinessLogic.Unit entity, Accounting.Core.BusinessLogic.IDatabase database)
 		{
 			entity.Name = Name;
 			entity.ShortName = ShortName;

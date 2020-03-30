@@ -36,7 +36,7 @@ namespace Accounting.Reports.OpenXml.UnitTests
 			smokeTestReportExport(report);
 		}
 
-		private static Database createTestBase()
+		private static IDatabase createTestBase()
 		{
 			var date = DateTime.Now;
 			var unit = new Unit

@@ -28,7 +28,7 @@ namespace Accounting.UI.WPF
 		public IReportExporter ReportExporter
 		{ get { return Settings.Reporting.Exporter; } }
 
-		public Database Database
+		public IDatabase Database
 		{ get; }
 
 		public virtual IUiFactory UiFactory

@@ -11,7 +11,7 @@ namespace Accounting.Core.UnitTests.BusinessLogic.BalanceValidation
 {
 	internal static class BalanceCheckWorkflowHelper
 	{
-		public static Database CreateComplexDatabase()
+		public static IDatabase CreateComplexDatabase()
 		{
 			var unit = new Unit
 			{
@@ -73,8 +73,8 @@ namespace Accounting.Core.UnitTests.BusinessLogic.BalanceValidation
 
 		#region Test cases
 
-		public delegate bool AddChecker(Database database, decimal delta, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document document);
-		public delegate bool EditChecker(Database database, Func<Document, Tuple<decimal, int>> deltaGetter, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document edited);
+		public delegate bool AddChecker(IDatabase database, decimal delta, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document document);
+		public delegate bool EditChecker(IDatabase database, Func<Document, Tuple<decimal, int>> deltaGetter, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document edited);
 
 		public static readonly IReadOnlyCollection<AddChecker> AddCheckers = new AddChecker[]
 		{
@@ -93,7 +93,7 @@ namespace Accounting.Core.UnitTests.BusinessLogic.BalanceValidation
 			TryToEditFourth,
 		};
 
-		public static bool TryToAddBeforeAll(Database database, decimal delta, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document document)
+		public static bool TryToAddBeforeAll(IDatabase database, decimal delta, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document document)
 		{
 			document = new Document(delta > 0 ? DocumentType.Income : DocumentType.Outcome)
 			{
@@ -104,7 +104,7 @@ namespace Accounting.Core.UnitTests.BusinessLogic.BalanceValidation
 			return validationStrategy.VerifyCreate(database, document, errors);
 		}
 
-		public static bool TryToAddAfterFirst(Database database, decimal delta, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document document)
+		public static bool TryToAddAfterFirst(IDatabase database, decimal delta, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document document)
 		{
 			document = new Document(delta > 0 ? DocumentType.Income : DocumentType.Outcome)
 			{
@@ -115,7 +115,7 @@ namespace Accounting.Core.UnitTests.BusinessLogic.BalanceValidation
 			return validationStrategy.VerifyCreate(database, document, errors);
 		}
 
-		public static bool TryToAddAfterSecond(Database database, decimal delta, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document document)
+		public static bool TryToAddAfterSecond(IDatabase database, decimal delta, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document document)
 		{
 			document = new Document(delta > 0 ? DocumentType.Income : DocumentType.Outcome)
 			{
@@ -126,7 +126,7 @@ namespace Accounting.Core.UnitTests.BusinessLogic.BalanceValidation
 			return validationStrategy.VerifyCreate(database, document, errors);
 		}
 
-		public static bool TryToAddAfterThird(Database database, decimal delta, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document document)
+		public static bool TryToAddAfterThird(IDatabase database, decimal delta, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document document)
 		{
 			document = new Document(delta > 0 ? DocumentType.Income : DocumentType.Outcome)
 			{
@@ -137,7 +137,7 @@ namespace Accounting.Core.UnitTests.BusinessLogic.BalanceValidation
 			return validationStrategy.VerifyCreate(database, document, errors);
 		}
 
-		public static bool TryToAddAfterAll(Database database, decimal delta, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document document)
+		public static bool TryToAddAfterAll(IDatabase database, decimal delta, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document document)
 		{
 			document = new Document(delta > 0 ? DocumentType.Income : DocumentType.Outcome)
 			{
@@ -148,7 +148,7 @@ namespace Accounting.Core.UnitTests.BusinessLogic.BalanceValidation
 			return validationStrategy.VerifyCreate(database, document, errors);
 		}
 
-		public static bool TryToEditFirst(Database database, Func<Document, Tuple<decimal, int>> deltaGetter, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document edited)
+		public static bool TryToEditFirst(IDatabase database, Func<Document, Tuple<decimal, int>> deltaGetter, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document edited)
 		{
 			var original = database.Documents.Skip(0).First();
 			var deltas = deltaGetter(original);
@@ -169,7 +169,7 @@ namespace Accounting.Core.UnitTests.BusinessLogic.BalanceValidation
 			return validationStrategy.VerifyEdit(database, edited, errors);
 		}
 
-		public static bool TryToEditSecond(Database database, Func<Document, Tuple<decimal, int>> deltaGetter, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document edited)
+		public static bool TryToEditSecond(IDatabase database, Func<Document, Tuple<decimal, int>> deltaGetter, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document edited)
 		{
 			var original = database.Documents.Skip(1).First();
 			var deltas = deltaGetter(original);
@@ -190,7 +190,7 @@ namespace Accounting.Core.UnitTests.BusinessLogic.BalanceValidation
 			return validationStrategy.VerifyEdit(database, edited, errors);
 		}
 
-		public static bool TryToEditThird(Database database, Func<Document, Tuple<decimal, int>> deltaGetter, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document edited)
+		public static bool TryToEditThird(IDatabase database, Func<Document, Tuple<decimal, int>> deltaGetter, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document edited)
 		{
 			var original = database.Documents.Skip(2).First();
 			var deltas = deltaGetter(original);
@@ -211,7 +211,7 @@ namespace Accounting.Core.UnitTests.BusinessLogic.BalanceValidation
 			return validationStrategy.VerifyEdit(database, edited, errors);
 		}
 
-		public static bool TryToEditFourth(Database database, Func<Document, Tuple<decimal, int>> deltaGetter, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document edited)
+		public static bool TryToEditFourth(IDatabase database, Func<Document, Tuple<decimal, int>> deltaGetter, BalanceValidationStrategy validationStrategy, StringBuilder errors, out Document edited)
 		{
 			var original = database.Documents.Skip(3).First();
 			var deltas = deltaGetter(original);
@@ -232,7 +232,7 @@ namespace Accounting.Core.UnitTests.BusinessLogic.BalanceValidation
 			return validationStrategy.VerifyEdit(database, edited, errors);
 		}
 
-		public static bool TryToDelete(Database database, IReadOnlyCollection<Document> documents, BalanceValidationStrategy validationStrategy, StringBuilder errors)
+		public static bool TryToDelete(IDatabase database, IReadOnlyCollection<Document> documents, BalanceValidationStrategy validationStrategy, StringBuilder errors)
 		{
 			return validationStrategy.VerifyDelete(database, documents, errors);
 		}

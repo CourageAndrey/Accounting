@@ -279,7 +279,7 @@ namespace Accounting.Core.UnitTests.BusinessLogic
 			}));
 		}
 
-		private static Database createTestBase(out Product productChild1, out Product productChild2, out Product productParent)
+		private static IDatabase createTestBase(out Product productChild1, out Product productChild2, out Product productParent)
 		{
 			var unit = new Unit
 			{

@@ -31,11 +31,11 @@ namespace Accounting.Core.BusinessLogic
 
 		#region Public API
 
-		public abstract bool VerifyCreate(Database database, Document document, StringBuilder errors);
+		public abstract bool VerifyCreate(IDatabase database, Document document, StringBuilder errors);
 
-		public abstract bool VerifyEdit(Database database, Document document, StringBuilder errors);
+		public abstract bool VerifyEdit(IDatabase database, Document document, StringBuilder errors);
 
-		public abstract bool VerifyDelete(Database database, IReadOnlyCollection<Document> documents, StringBuilder errors);
+		public abstract bool VerifyDelete(IDatabase database, IReadOnlyCollection<Document> documents, StringBuilder errors);
 
 		#endregion
 	}

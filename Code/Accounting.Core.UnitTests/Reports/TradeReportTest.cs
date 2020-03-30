@@ -292,7 +292,7 @@ namespace Accounting.Core.UnitTests.Reports
 			}
 		}
 
-		private static Database createTestBase(DateTime date, out Product childProduct1, out Product childProduct2, out Product parentProduct)
+		private static IDatabase createTestBase(DateTime date, out Product childProduct1, out Product childProduct2, out Product parentProduct)
 		{
 			var unit = new Unit
 			{

@@ -49,7 +49,7 @@ namespace Accounting.UI.WPF.Dialogs
 			}
 		}
 
-		public Func<Database, IEnumerable<Product>> ProductsGetter
+		public Func<IDatabase, IEnumerable<Product>> ProductsGetter
 		{ get; set; }
 
 		private void okClick(object sender, RoutedEventArgs e)

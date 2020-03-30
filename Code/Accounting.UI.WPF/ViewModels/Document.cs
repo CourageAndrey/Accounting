@@ -53,7 +53,7 @@ namespace Accounting.UI.WPF.ViewModels
 
 		#endregion
 
-		public override Accounting.Core.BusinessLogic.Document ConvertToBusinessLogic(Accounting.Core.BusinessLogic.Database database)
+		public override Accounting.Core.BusinessLogic.Document ConvertToBusinessLogic(Accounting.Core.BusinessLogic.IDatabase database)
 		{
 			Accounting.Core.BusinessLogic.Document entity;
 			if (ID.HasValue)
@@ -77,7 +77,7 @@ namespace Accounting.UI.WPF.ViewModels
 			return new Accounting.Core.BusinessLogic.Document(Type);
 		}
 
-		public override void UpdateProperties(Accounting.Core.BusinessLogic.Document entity, Accounting.Core.BusinessLogic.Database database)
+		public override void UpdateProperties(Accounting.Core.BusinessLogic.Document entity, Accounting.Core.BusinessLogic.IDatabase database)
 		{
 			entity.Number = Number;
 			entity.Date = Date;

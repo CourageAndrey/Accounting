@@ -8,7 +8,7 @@ namespace Accounting.Core.BusinessLogic.BalanceValidationStrategies
 	{
 		#region Overrides
 
-		public override bool VerifyCreate(Database database, Document document, StringBuilder errors)
+		public override bool VerifyCreate(IDatabase database, Document document, StringBuilder errors)
 		{
 			ICollection<long> productsToCheck;
 
@@ -44,7 +44,7 @@ namespace Accounting.Core.BusinessLogic.BalanceValidationStrategies
 			return true;
 		}
 
-		public override bool VerifyEdit(Database database, Document document, StringBuilder errors)
+		public override bool VerifyEdit(IDatabase database, Document document, StringBuilder errors)
 		{
 			ICollection<long> productsToCheck;
 			var original = database.Documents[document.PreviousVersionId.Value];
@@ -107,7 +107,7 @@ namespace Accounting.Core.BusinessLogic.BalanceValidationStrategies
 			return true;
 		}
 
-		public override bool VerifyDelete(Database database, IReadOnlyCollection<Document> documents, StringBuilder errors)
+		public override bool VerifyDelete(IDatabase database, IReadOnlyCollection<Document> documents, StringBuilder errors)
 		{
 			ICollection<long> productsToCheck;
 

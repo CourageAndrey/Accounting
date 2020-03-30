@@ -100,7 +100,7 @@ namespace Accounting.DAL.XML.UnitTests
 			// act
 			string fileName = Path.ChangeExtension(Path.GetTempFileName(), "xml");
 			var xmlDriver = new DatabaseDriver(fileName);
-			Database deserialized = null;
+			IDatabase deserialized = null;
 			try
 			{
 				xmlDriver.Save(originalDatabase);

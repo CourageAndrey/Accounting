@@ -31,7 +31,7 @@ namespace Accounting.Core.Reports.Existing
 
 		#endregion
 
-		public TradeReport(Database database, PeriodParams parameters)
+		public TradeReport(IDatabase database, PeriodParams parameters)
 		{
 			FromDate = parameters.Period.From.Date;
 			ToDate = parameters.Period.To.EndOfDay();

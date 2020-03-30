@@ -81,7 +81,7 @@ namespace Accounting.UI.WPF.ViewModels
 			return new Accounting.Core.BusinessLogic.Product();
 		}
 
-		public override void UpdateProperties(Accounting.Core.BusinessLogic.Product entity, Accounting.Core.BusinessLogic.Database database)
+		public override void UpdateProperties(Accounting.Core.BusinessLogic.Product entity, Accounting.Core.BusinessLogic.IDatabase database)
 		{
 			entity.Name = Name;
 			entity.Unit = Unit;

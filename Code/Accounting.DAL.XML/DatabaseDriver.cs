@@ -19,7 +19,7 @@ namespace Accounting.DAL.XML
 		public bool CanLoad
 		{ get { return File.Exists(_filePath); } }
 
-		public Core.BusinessLogic.Database Load()
+		public Core.BusinessLogic.IDatabase Load()
 		{
 			using (var xmlReader = XmlReader.Create(_filePath))
 			{
@@ -27,9 +27,9 @@ namespace Accounting.DAL.XML
 			}
 		}
 
-		public void Save(Core.BusinessLogic.Database database)
+		public void Save(Core.BusinessLogic.IDatabase database)
 		{
-			var snapshot = new Entities.Database(database);
+			var snapshot = new Entities.Database(database as Core.BusinessLogic.Database);
 			var xmlDocument = new XmlDocument();
 			using (var writer = new StringWriter())
 			{

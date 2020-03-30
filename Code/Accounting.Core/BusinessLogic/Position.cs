@@ -35,7 +35,7 @@ namespace Accounting.Core.BusinessLogic
 
 		#endregion
 
-		internal void SetProduct(Database database)
+		internal void SetProduct(IDatabase database)
 		{
 			BoundProduct = database.Products[ID];
 		}

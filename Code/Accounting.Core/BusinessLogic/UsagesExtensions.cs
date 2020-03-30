@@ -8,7 +8,7 @@ namespace Accounting.Core.BusinessLogic
 {
 	public static class UsagesExtensions
 	{
-		public static StringBuilder FindUsages(this IEntity entity, Database database)
+		public static StringBuilder FindUsages(this IEntity entity, IDatabase database)
 		{
 			FindUsagesDelegate usagesFinder;
 			if (possibleUsages.TryGetValue(entity.GetType(), out usagesFinder))
@@ -24,7 +24,7 @@ namespace Accounting.Core.BusinessLogic
 			}
 		}
 
-		private delegate StringBuilder FindUsagesDelegate(IEntity entity, Database database);
+		private delegate StringBuilder FindUsagesDelegate(IEntity entity, IDatabase database);
 
 		private static IDictionary<Type, FindUsagesDelegate> possibleUsages = new Dictionary<Type, FindUsagesDelegate>
 		{
@@ -33,7 +33,7 @@ namespace Accounting.Core.BusinessLogic
 			{ typeof(Document), findUsagesOfDocument },
 		};
 
-		private static StringBuilder findUsagesOfUnit(IEntity entity, Database database)
+		private static StringBuilder findUsagesOfUnit(IEntity entity, IDatabase database)
 		{
 			var unit = entity as Unit;
 			if (unit == null) throw new ArgumentException("\"entity\" не передано или не является Единицей измерения.");
@@ -52,7 +52,7 @@ namespace Accounting.Core.BusinessLogic
 			return message;
 		}
 
-		private static StringBuilder findUsagesOfProduct(IEntity entity, Database database)
+		private static StringBuilder findUsagesOfProduct(IEntity entity, IDatabase database)
 		{
 			var product = entity as Product;
 			if (product == null) throw new ArgumentException("\"entity\" не передано или не является Товаром.");
@@ -89,7 +89,7 @@ namespace Accounting.Core.BusinessLogic
 			return message;
 		}
 
-		private static StringBuilder findUsagesOfDocument(IEntity entity, Database database)
+		private static StringBuilder findUsagesOfDocument(IEntity entity, IDatabase database)
 		{
 			return new StringBuilder();
 		}

@@ -6,8 +6,8 @@ namespace Accounting.Core.Application
 	{
 		bool CanLoad { get; }
 
-		Database Load();
+		IDatabase Load();
 
-		void Save(Database database);
+		void Save(IDatabase database);
 	}
 }

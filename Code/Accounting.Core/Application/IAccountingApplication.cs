@@ -15,6 +15,6 @@ namespace Accounting.Core.Application
 
 		IReportExporter ReportExporter { get; }
 
-		Database Database { get; }
+		IDatabase Database { get; }
 	}
 }

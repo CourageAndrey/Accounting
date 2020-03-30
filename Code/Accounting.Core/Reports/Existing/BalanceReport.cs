@@ -27,7 +27,7 @@ namespace Accounting.Core.Reports.Existing
 
 		#endregion
 
-		public BalanceReport(Database database, BalanceReportParams parameters)
+		public BalanceReport(IDatabase database, BalanceReportParams parameters)
 		{
 			Date = parameters.Date.EndOfDay();
 

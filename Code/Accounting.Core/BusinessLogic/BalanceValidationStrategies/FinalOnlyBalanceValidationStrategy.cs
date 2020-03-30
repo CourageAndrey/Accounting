@@ -7,7 +7,7 @@ namespace Accounting.Core.BusinessLogic.BalanceValidationStrategies
 	{
 		#region Overrides
 
-		public override bool VerifyCreate(Database database, Document document, StringBuilder errors)
+		public override bool VerifyCreate(IDatabase database, Document document, StringBuilder errors)
 		{
 			// создание временной копии таблицы баланса
 			var balance = database.Balance.Clone();
@@ -19,7 +19,7 @@ namespace Accounting.Core.BusinessLogic.BalanceValidationStrategies
 			return balance.Check(database.Products, errors, productsToCheck);
 		}
 
-		public override bool VerifyEdit(Database database, Document document, StringBuilder errors)
+		public override bool VerifyEdit(IDatabase database, Document document, StringBuilder errors)
 		{
 			// создание временной копии таблицы баланса
 			var balance = database.Balance.Clone();
@@ -37,7 +37,7 @@ namespace Accounting.Core.BusinessLogic.BalanceValidationStrategies
 			return balance.Check(database.Products, errors, productsToCheck);
 		}
 
-		public override bool VerifyDelete(Database database, IReadOnlyCollection<Document> documents, StringBuilder errors)
+		public override bool VerifyDelete(IDatabase database, IReadOnlyCollection<Document> documents, StringBuilder errors)
 		{
 			// создание временной копии таблицы баланса
 			var balance = database.Balance.Clone();

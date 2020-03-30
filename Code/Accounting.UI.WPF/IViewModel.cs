@@ -7,12 +7,12 @@ namespace Accounting.UI.WPF
 		long? ID
 		{ get; }
 
-		IEntity ConvertToEntity(Database database);
+		IEntity ConvertToEntity(IDatabase database);
 	}
 
 	public interface IViewModel<out TEntity> : IViewModel
 		where TEntity : IEntity
 	{
-		TEntity ConvertToBusinessLogic(Database database);
+		TEntity ConvertToBusinessLogic(IDatabase database);
 	}
 }

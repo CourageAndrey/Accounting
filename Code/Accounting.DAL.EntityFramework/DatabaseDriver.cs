@@ -20,7 +20,7 @@ namespace Accounting.DAL.EntityFramework
 		public bool CanLoad
 		{ get { throw new NotImplementedException(); } }
 
-		public Database Load()
+		public IDatabase Load()
 		{
 			using (var database = new AccountingEntities())
 			{
@@ -92,7 +92,7 @@ namespace Accounting.DAL.EntityFramework
 			}
 		}
 
-		public void Save(Database database)
+		public void Save(IDatabase database)
 		{
 			throw new NotImplementedException();
 		}

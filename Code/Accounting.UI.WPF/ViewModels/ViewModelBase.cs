@@ -8,12 +8,12 @@ namespace Accounting.UI.WPF.ViewModels
 		public long? ID
 		{ get; protected set; }
 
-		public IEntity ConvertToEntity(Database database)
+		public IEntity ConvertToEntity(IDatabase database)
 		{
 			return ConvertToBusinessLogic(database);
 		}
 
-		public virtual TEntity ConvertToBusinessLogic(Database database)
+		public virtual TEntity ConvertToBusinessLogic(IDatabase database)
 		{
 			TEntity entity;
 			var registry = database.GetRegistry<TEntity>();
@@ -33,6 +33,6 @@ namespace Accounting.UI.WPF.ViewModels
 
 		public abstract TEntity CreateNewEntity();
 
-		public abstract void UpdateProperties(TEntity entity, Database database);
+		public abstract void UpdateProperties(TEntity entity, IDatabase database);
 	}
 }

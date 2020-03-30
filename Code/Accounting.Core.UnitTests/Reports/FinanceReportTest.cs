@@ -65,7 +65,7 @@ namespace Accounting.Core.UnitTests.Reports
 			Assert.AreEqual(8, outcome.Value);
 		}
 
-		private static Database createTestBase(DateTime date)
+		private static IDatabase createTestBase(DateTime date)
 		{
 			var database = new Database
 			(
