@@ -52,6 +52,7 @@
     <Compile Include="BusinessLogic\Document.cs" />
     <Compile Include="BusinessLogic\DocumentState.cs" />
     <Compile Include="BusinessLogic\DocumentType.cs" />
+    <Compile Include="BusinessLogic\IRegistry.cs" />
     <Compile Include="BusinessLogic\Position.cs" />
     <Compile Include="BusinessLogic\Product.cs" />
     <Compile Include="BusinessLogic\ProductBalance.cs" />

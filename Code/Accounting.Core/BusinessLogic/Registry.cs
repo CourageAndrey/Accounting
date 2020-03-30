@@ -5,20 +5,7 @@ using Accounting.Core.Helpers;
 
 namespace Accounting.Core.BusinessLogic
 {
-	public interface IRegistry : System.Collections.IEnumerable
-	{
-		int Count
-		{ get; }
-
-		long Add(object item);
-
-		bool Remove(long id);
-
-		object this[long id]
-		{ get; }
-	}
-
-	public class Registry<T> : IRegistry, IEnumerable<T>
+	public class Registry<T> : IRegistry<T>
 		where T : IEntity
 	{
 		private readonly IDictionary<long, T> _storage;
