@@ -23,7 +23,7 @@ namespace Accounting.Core.BusinessLogic
 
 		#endregion
 
-		public ProductBalance(Product product, Warehouse balance)
+		public ProductBalance(Product product, IWarehouse balance)
 		{
 			Product = product;
 
@@ -87,7 +87,7 @@ namespace Accounting.Core.BusinessLogic
 
 		#endregion
 
-		public ChildProductBalance(Product parent, Product child, Warehouse balance)
+		public ChildProductBalance(Product parent, Product child, IWarehouse balance)
 		{
 			Parent = parent;
 			Child = child;

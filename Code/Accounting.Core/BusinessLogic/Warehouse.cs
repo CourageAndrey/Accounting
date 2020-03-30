@@ -39,7 +39,7 @@ namespace Accounting.Core.BusinessLogic
 			return _data.Select(b => new Position(b.Key, b.Value)).ToList();
 		}
 
-		public bool Check(Registry<Product> products, StringBuilder errors, ICollection<long> productsFilter = null)
+		public bool Check(IRegistry<Product> products, StringBuilder errors, ICollection<long> productsFilter = null)
 		{
 			IEnumerable<KeyValuePair<long, decimal>> wrongPositions = _data.Where(position => position.Value < 0);
 			if (productsFilter != null)

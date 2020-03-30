@@ -13,7 +13,7 @@ namespace Accounting.Core.BusinessLogic
 
 		List<Position> ToPositions();
 
-		bool Check(Registry<Product> products, StringBuilder errors, ICollection<long> productsFilter = null);
+		bool Check(IRegistry<Product> products, StringBuilder errors, ICollection<long> productsFilter = null);
 
 		IWarehouse Clone();
 	}

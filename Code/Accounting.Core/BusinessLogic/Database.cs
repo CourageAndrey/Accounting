@@ -3,20 +3,20 @@ using System.Collections.Generic;
 
 namespace Accounting.Core.BusinessLogic
 {
-	public class Database
+	public class Database : IDatabase
 	{
 		#region Properties
 
-		public Registry<Unit> Units
+		public IRegistry<Unit> Units
 		{ get; }
 
-		public Registry<Product> Products
+		public IRegistry<Product> Products
 		{ get; }
 
-		public Warehouse Balance
+		public IWarehouse Balance
 		{ get; }
 
-		public Registry<Document> Documents
+		public IRegistry<Document> Documents
 		{ get; }
 
 		#endregion
