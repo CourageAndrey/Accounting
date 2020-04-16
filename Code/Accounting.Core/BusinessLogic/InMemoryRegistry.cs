@@ -5,7 +5,7 @@ using Accounting.Core.Helpers;
 
 namespace Accounting.Core.BusinessLogic
 {
-	public class Registry<T> : IRegistry<T>
+	public class InMemoryRegistry<T> : IRegistry<T>
 		where T : IEntity
 	{
 		private readonly IDictionary<long, T> _storage;
@@ -59,12 +59,12 @@ namespace Accounting.Core.BusinessLogic
 
 		#region Constructors
 
-		private Registry(IDictionary<long, T> storage)
+		private InMemoryRegistry(IDictionary<long, T> storage)
 		{
 			_storage = storage;
 		}
 
-		public Registry(IEnumerable<T> items)
+		public InMemoryRegistry(IEnumerable<T> items)
 			: this(items.ToDictionary(item => item.ID, item => item))
 		{ }
 

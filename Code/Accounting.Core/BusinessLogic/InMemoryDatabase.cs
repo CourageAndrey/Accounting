@@ -26,10 +26,10 @@ namespace Accounting.Core.BusinessLogic
 			IDictionary<long, decimal> balance,
 			IEnumerable<Document> documents)
 		{
-			Units = new Registry<Unit>(units);
-			Products = new Registry<Product>(products);
+			Units = new InMemoryRegistry<Unit>(units);
+			Products = new InMemoryRegistry<Product>(products);
 			Balance = new Warehouse(balance);
-			Documents = new Registry<Document>(documents);
+			Documents = new InMemoryRegistry<Document>(documents);
 		}
 
 		public static IDatabase CreateDefault()

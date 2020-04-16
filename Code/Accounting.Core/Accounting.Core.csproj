@@ -58,7 +58,7 @@
     <Compile Include="BusinessLogic\Position.cs" />
     <Compile Include="BusinessLogic\Product.cs" />
     <Compile Include="BusinessLogic\ProductBalance.cs" />
-    <Compile Include="BusinessLogic\Registry.cs" />
+    <Compile Include="BusinessLogic\InMemoryRegistry.cs" />
     <Compile Include="BusinessLogic\Unit.cs" />
     <Compile Include="BusinessLogic\UsagesExtensions.cs" />
     <Compile Include="BusinessLogic\Warehouse.cs" />
