@@ -64,7 +64,7 @@ namespace Accounting.UI.WPF.UnitTests.ViewModels
 				Children = new Dictionary<Accounting.Core.BusinessLogic.Product, decimal>(),
 			};
 			var documentDate = DateTime.Now;
-			var database = new Accounting.Core.BusinessLogic.Database(
+			var database = new Accounting.Core.BusinessLogic.InMemoryDatabase(
 				new[] { unit },
 				new[] { product },
 				new Dictionary<long, decimal>(),
@@ -122,7 +122,7 @@ namespace Accounting.UI.WPF.UnitTests.ViewModels
 				Number = "1-bis",
 				Positions = new Dictionary<Accounting.Core.BusinessLogic.Product, decimal> { { oldProduct, 5 } },
 			};
-			var database = new Accounting.Core.BusinessLogic.Database(
+			var database = new Accounting.Core.BusinessLogic.InMemoryDatabase(
 				new[] { unit },
 				new[] { oldProduct, newProduct },
 				new Dictionary<long, decimal> { { oldProduct.ID, 6 } },

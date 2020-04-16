@@ -47,7 +47,7 @@
     <Compile Include="BusinessLogic\BalanceValidationStrategies\PerDayBalanceValidationStrategy.cs" />
     <Compile Include="BusinessLogic\BalanceValidationStrategies\PerDocumentBalanceValidationStrategy.cs" />
     <Compile Include="BusinessLogic\BalanceValidationStrategy.cs" />
-    <Compile Include="BusinessLogic\Database.cs" />
+    <Compile Include="BusinessLogic\InMemoryDatabase.cs" />
     <Compile Include="BusinessLogic\DatabaseExtension.cs" />
     <Compile Include="BusinessLogic\Document.cs" />
     <Compile Include="BusinessLogic\DocumentState.cs" />

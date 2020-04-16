@@ -29,7 +29,7 @@ namespace Accounting.DAL.XML
 
 		public void Save(Core.BusinessLogic.IDatabase database)
 		{
-			var snapshot = new Entities.Database(database as Core.BusinessLogic.Database);
+			var snapshot = new Entities.Database(database as Core.BusinessLogic.InMemoryDatabase);
 			var xmlDocument = new XmlDocument();
 			using (var writer = new StringWriter())
 			{

@@ -127,7 +127,7 @@ namespace Accounting.Core.UnitTests.Reports
 				Name = "1",
 				Unit = unit,
 			};
-			var database = new Database
+			var database = new InMemoryDatabase
 			(
 				new[] { unit },
 				new[] { product },

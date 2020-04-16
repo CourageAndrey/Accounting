@@ -48,7 +48,7 @@ namespace Accounting.DAL.XML.UnitTests
 				},
 			};
 			Document originalIncome, originalOutcome, originalProduce, originalMovement;
-			var originalDatabase = new Database
+			var originalDatabase = new InMemoryDatabase
 			(
 				new[] { unit },
 				new[] { childProduct1, childProduct2, parentProduct },

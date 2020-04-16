@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Accounting.Core.BusinessLogic
 {
-	public class Database : IDatabase
+	public class InMemoryDatabase : IDatabase
 	{
 		#region Properties
 
@@ -21,7 +20,7 @@ namespace Accounting.Core.BusinessLogic
 
 		#endregion
 
-		public Database(
+		public InMemoryDatabase(
 			IEnumerable<Unit> units,
 			IEnumerable<Product> products,
 			IDictionary<long, decimal> balance,
@@ -35,7 +34,7 @@ namespace Accounting.Core.BusinessLogic
 
 		public static IDatabase CreateDefault()
 		{
-			return new Database(
+			return new InMemoryDatabase(
 				new[]
 				{
 					new Unit { ID = 1, Name = "штука", ShortName = "шт" },

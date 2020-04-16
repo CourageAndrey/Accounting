@@ -60,7 +60,7 @@ namespace Accounting.UI.WPF.UnitTests.ViewModels
 				Unit = unit,
 				Children = new Dictionary<Accounting.Core.BusinessLogic.Product, decimal>(),
 			};
-			var database = new Accounting.Core.BusinessLogic.Database(
+			var database = new Accounting.Core.BusinessLogic.InMemoryDatabase(
 				new[] { unit },
 				new[] { child },
 				new Dictionary<long, decimal>(),
@@ -121,7 +121,7 @@ namespace Accounting.UI.WPF.UnitTests.ViewModels
 				Unit = unitOld,
 				Children = new Dictionary<Accounting.Core.BusinessLogic.Product, decimal> { { childOld, 6 } },
 			};
-			var database = new Accounting.Core.BusinessLogic.Database(
+			var database = new Accounting.Core.BusinessLogic.InMemoryDatabase(
 				new[] { unitOld, unitNew },
 				new[] { childOld, childNew, initialBusinessObject },
 				new Dictionary<long, decimal>(),

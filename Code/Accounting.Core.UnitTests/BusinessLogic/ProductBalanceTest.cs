@@ -87,7 +87,7 @@ namespace Accounting.Core.UnitTests.BusinessLogic
 				Name = "P",
 				Unit = unit,
 			};
-			var database = new Database
+			var database = new InMemoryDatabase
 			(
 				new[] { unit },
 				new[]

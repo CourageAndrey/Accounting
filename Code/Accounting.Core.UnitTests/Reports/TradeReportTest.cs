@@ -323,7 +323,7 @@ namespace Accounting.Core.UnitTests.Reports
 					{ childProduct2, 2 },
 				},
 			};
-			var database = new Database
+			var database = new InMemoryDatabase
 			(
 				new[] { unit },
 				new[] { childProduct1, childProduct2, parentProduct },

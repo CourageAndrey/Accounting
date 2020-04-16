@@ -27,7 +27,7 @@ namespace Accounting.Core.UnitTests.BusinessLogic.BalanceValidation
 			};
 			Document document;
 
-			var database = new Database(
+			var database = new InMemoryDatabase(
 				new[] { unit },
 				new[] { product },
 				new Dictionary<long, decimal> { { product.ID, 10 } },

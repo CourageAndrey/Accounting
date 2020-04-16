@@ -13,7 +13,7 @@ namespace Accounting.Core.Application
 			}
 			else
 			{
-				database = Database.CreateDefault();
+				database = InMemoryDatabase.CreateDefault();
 				databaseDriver.Save(database);
 			}
 			return database;

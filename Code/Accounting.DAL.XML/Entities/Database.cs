@@ -37,7 +37,7 @@ namespace Accounting.DAL.XML.Entities
 			Units = new List<Unit>();
 		}
 
-		public Database(Accounting.Core.BusinessLogic.Database database)
+		public Database(Accounting.Core.BusinessLogic.InMemoryDatabase database)
 		{
 			Documents = database.Documents.Select(document => new Document(document)).ToList();
 			Balance = database.Balance.ToPositions().Select(position => new Position(position)).ToList();
@@ -47,9 +47,9 @@ namespace Accounting.DAL.XML.Entities
 
 		#endregion
 
-		public Accounting.Core.BusinessLogic.Database ConvertToBusinessLogic()
+		public Accounting.Core.BusinessLogic.InMemoryDatabase ConvertToBusinessLogic()
 		{
-			var database = new Accounting.Core.BusinessLogic.Database(
+			var database = new Accounting.Core.BusinessLogic.InMemoryDatabase(
 				Units.Select(unit => unit.ConvertToBusinessLogic()),
 				Products.Select(product => product.ConvertToBusinessLogic()),
 				Balance.ToDictionary(

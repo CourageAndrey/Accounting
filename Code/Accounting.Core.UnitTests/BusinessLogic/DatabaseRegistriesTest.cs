@@ -13,7 +13,7 @@ namespace Accounting.Core.UnitTests.BusinessLogic
 		public void RegistriesOfAllKnownTypesWorksCorrect()
 		{
 			// arrange
-			var database = new Database(
+			var database = new InMemoryDatabase(
 				new Unit[0],
 				new Product[0],
 				new Dictionary<long, decimal>(),
@@ -29,7 +29,7 @@ namespace Accounting.Core.UnitTests.BusinessLogic
 		public void ImpossibleToGetRegistryOfUnkownType()
 		{
 			// arrange
-			var database = new Database(
+			var database = new InMemoryDatabase(
 				new Unit[0],
 				new Product[0],
 				new Dictionary<long, decimal>(),

@@ -67,7 +67,7 @@ namespace Accounting.Core.UnitTests.Reports
 
 		private static IDatabase createTestBase(DateTime date)
 		{
-			var database = new Database
+			var database = new InMemoryDatabase
 			(
 				new Unit[0],
 				new Product[0],

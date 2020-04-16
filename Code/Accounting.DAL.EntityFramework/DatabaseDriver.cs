@@ -84,7 +84,7 @@ namespace Accounting.DAL.EntityFramework
 					});
 
 
-				return new Database(
+				return new InMemoryDatabase(
 					units.Values,
 					products.Values,
 					balance,

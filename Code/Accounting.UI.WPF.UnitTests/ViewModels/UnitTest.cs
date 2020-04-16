@@ -31,7 +31,7 @@ namespace Accounting.UI.WPF.UnitTests.ViewModels
 		public void CreateNew()
 		{
 			// arrange
-			var database = new Accounting.Core.BusinessLogic.Database(
+			var database = new Accounting.Core.BusinessLogic.InMemoryDatabase(
 				new Accounting.Core.BusinessLogic.Unit[0],
 				new Accounting.Core.BusinessLogic.Product[0],
 				new Dictionary<long, decimal>(),
@@ -62,7 +62,7 @@ namespace Accounting.UI.WPF.UnitTests.ViewModels
 				Name = "unit",
 				ShortName = "u",
 			};
-			var database = new Accounting.Core.BusinessLogic.Database(
+			var database = new Accounting.Core.BusinessLogic.InMemoryDatabase(
 				new[] { initialBusinessObject },
 				new Accounting.Core.BusinessLogic.Product[0],
 				new Dictionary<long, decimal>(),

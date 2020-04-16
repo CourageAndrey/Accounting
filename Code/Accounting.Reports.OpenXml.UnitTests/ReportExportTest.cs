@@ -51,7 +51,7 @@ namespace Accounting.Reports.OpenXml.UnitTests
 				Name = "1",
 				Unit = unit,
 			};
-			var database = new Database
+			var database = new InMemoryDatabase
 			(
 				new[] { unit },
 				new[] { product },
