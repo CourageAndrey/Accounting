@@ -81,17 +81,34 @@ namespace Accounting.UI.WPF
 			text.AppendLine("================================");
 			text.AppendLine(source);
 			text.AppendLine(DateTime.Now.ToString("F"));
-
-			do
-			{
-				text.AppendLine();
-				text.AppendLine(error.GetType().FullName);
-				text.AppendLine(error.Message);
-				text.AppendLine(error.StackTrace);
-				error = error.InnerException;
-			} while (error != null);
+			LogSingleError(error, text);
 
 			File.AppendAllText("Exception.txt", text.ToString());
+		}
+
+		private static void LogSingleError(Exception error, StringBuilder text)
+		{
+			text.AppendLine();
+			text.AppendLine(error.GetType().FullName);
+			text.AppendLine(error.Message);
+			text.AppendLine(error.StackTrace);
+			var typeLoadException = error as System.Reflection.ReflectionTypeLoadException;
+			if (typeLoadException != null)
+			{
+				foreach (var type in typeLoadException.Types)
+				{
+					text.AppendLine("Involved type: " + type);
+				}
+				text.AppendLine("Loader exceptions:");
+				foreach (var loaderException in typeLoadException.LoaderExceptions)
+				{
+					LogSingleError(loaderException, text);
+				}
+			}
+			if (error.InnerException != null)
+			{
+				LogSingleError(error.InnerException, text);
+			}
 		}
 
 		#endregion
