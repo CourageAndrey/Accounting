@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatabaseDriver.cs" />
+    <Compile Include="EntitiesRegistry.cs" />
     <Compile Include="Entities\AccountingDataModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
