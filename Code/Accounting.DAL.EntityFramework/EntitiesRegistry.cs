@@ -40,7 +40,8 @@ namespace Accounting.DAL.EntityFramework
 				var table = _getTable(database);
 				var entity = _convertToEntity(database, item);
 				table.Add(entity);
-				return WHAT;
+				database.SaveChanges();
+				return entity.ID;
 			}
 		}
 
@@ -50,7 +51,17 @@ namespace Accounting.DAL.EntityFramework
 			using (var database = _createContext())
 			{
 				var table = _getTable(database);
-				return table.Remove(WHAT);
+				var entity = table.FirstOrDefault(entiry => entiry.ID == id);
+				if (entity != null)
+				{
+					table.Remove(entity);
+					database.SaveChanges();
+					return true;
+				}
+				else
+				{
+					return false;
+				}
 			}
 		}
 
