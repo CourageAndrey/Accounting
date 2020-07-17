@@ -18,7 +18,22 @@ namespace Accounting.DAL.EntityFramework
 		}
 
 		public bool CanLoad
-		{ get { throw new NotImplementedException(); } }
+		{
+			get
+			{
+				try
+				{
+					using (var database = new AccountingEntities())
+					{
+						return true;
+					}
+				}
+				catch
+				{
+					return false;
+				}
+			}
+		}
 
 		public IDatabase Load()
 		{
