@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
@@ -331,6 +332,25 @@ namespace Accounting.UI.WPF
 		private void refBookChanged(object sender, EventArgs e)
 		{
 			reloadComplexProducts();
+		}
+
+		private void showProductionClick(object sender, RoutedEventArgs e)
+		{
+			var producedText = new StringBuilder();
+
+			foreach (var product in (IEnumerable<Product>) treeViewComplexProducts.ItemsSource)
+			{
+				producedText.AppendLine(product.DisplayMember);
+				foreach (var child in product.Children)
+				{
+					producedText.AppendLine(string.Format($"\t{child.Value} {child.Key.Unit.ShortName} {child.Key.Name}"));
+				}
+				producedText.AppendLine();
+			}
+
+			LongTextDialog.Info(
+				producedText.ToString(),
+				"Вся производимая продукция");
 		}
 
 		#endregion

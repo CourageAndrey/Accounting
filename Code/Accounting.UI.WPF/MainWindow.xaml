@@ -118,13 +118,22 @@
 					<controls:RefBookControl x:Name="refBookControlProducts" Changed="refBookChanged" />
 				</TabItem>
 				<TabItem Header="Производимая продукция">
-					<TreeView Name="treeViewComplexProducts">
-						<TreeView.ItemContainerStyle>
-							<Style TargetType="{x:Type TreeViewItem}">
-								<Setter Property="IsExpanded" Value="True" />
-							</Style>
-						</TreeView.ItemContainerStyle>
-					</TreeView>
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="*" />
+						</Grid.RowDefinitions>
+						<Button Margin="5" Padding="2" ToolTip="Список для печати" Click="showProductionClick" HorizontalAlignment="Left">
+							<Image Width="48" Height="48" Source="Resources/Print.png" Margin="2" />
+						</Button>
+						<TreeView Grid.Row="1" Name="treeViewComplexProducts">
+							<TreeView.ItemContainerStyle>
+								<Style TargetType="{x:Type TreeViewItem}">
+									<Setter Property="IsExpanded" Value="True" />
+								</Style>
+							</TreeView.ItemContainerStyle>
+						</TreeView>
+					</Grid>
 				</TabItem>
 				<TabItem Header="Единицы измерения">
 					<controls:RefBookControl x:Name="refBookControlUnits" Changed="refBookChanged" />
