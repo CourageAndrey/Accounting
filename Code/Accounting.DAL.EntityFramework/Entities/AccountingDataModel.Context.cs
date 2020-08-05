@@ -15,8 +15,8 @@ namespace Accounting.DAL.EntityFramework.Entities
     
     public partial class AccountingEntities : DbContext
     {
-        public AccountingEntities()
-            : base("name=AccountingEntities")
+        public AccountingEntities(string connectionString)
+            : base(connectionString)
         {
         }
     

@@ -23,7 +23,7 @@ namespace Accounting.DAL.EntityFramework
 			{
 				try
 				{
-					using (var database = new AccountingEntities())
+					using (var database = new AccountingEntities(_connectionString))
 					{
 						return true;
 					}
@@ -37,7 +37,7 @@ namespace Accounting.DAL.EntityFramework
 
 		public IDatabase Load()
 		{
-			using (var database = new AccountingEntities())
+			using (var database = new AccountingEntities(_connectionString))
 			{
 				var units = database.Units.ToDictionary(
 					u => u.ID,
