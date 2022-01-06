@@ -13,7 +13,9 @@ namespace Accounting.DAL.XML.Entities
 		public List<Document> Documents
 		{ get; set; }
 
-		[XmlArray("Balance"), XmlArrayItem("Product")]
+		[XmlArray("Balance")]
+		[XmlArrayItem("Product", typeof(Position))]
+		[XmlArrayItem("Item", typeof(PositionObsolete))]
 		public List<Position> Balance
 		{ get; set; }
 

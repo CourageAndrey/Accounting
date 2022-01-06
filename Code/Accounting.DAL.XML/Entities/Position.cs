@@ -8,7 +8,7 @@ namespace Accounting.DAL.XML.Entities
 		#region Properties
 
 		[XmlAttribute]
-		public long ID
+		public virtual long ID
 		{ get; set; }
 
 		[XmlAttribute]
@@ -29,5 +29,27 @@ namespace Accounting.DAL.XML.Entities
 		}
 
 		#endregion
+	}
+
+	[XmlType]
+	public class PositionObsolete : Position
+	{
+		#region Properties
+
+		[XmlAttribute]
+		public long Product
+		{ get; set; }
+
+		[XmlAttribute]
+		public override long ID
+		{
+			get { return Product; }
+			set { }
+		}
+
+		#endregion
+
+		public PositionObsolete()
+		{ }
 	}
 }
